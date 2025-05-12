@@ -7,10 +7,14 @@ const postFields = /* groq */ `
   "status": select(_originalId in path("drafts.**") => "draft", "published"),
   "title": coalesce(title, "Untitled"),
   "slug": slug.current,
-  excerpt,
+  description,
+  category,
+  tags,
+  content,
+  readTime,
   coverImage,
   "date": coalesce(date, _updatedAt),
-  "author": author->{firstName, lastName, picture},
+  "author": author->{name, specialization, picture},
 `;
 
 const linkReference = /* groq */ `
@@ -63,6 +67,12 @@ export const sitemapData = defineQuery(`
 
 export const allPostsQuery = defineQuery(`
   *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {
+    ${postFields}
+  }
+`);
+
+export const firstPostQuery = defineQuery(`
+  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {
     ${postFields}
   }
 `);

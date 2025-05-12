@@ -13,14 +13,14 @@ export const person = defineType({
   type: 'document',
   fields: [
     defineField({
-      name: 'firstName',
-      title: 'First Name',
+      name: 'name',
+      title: 'Name',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'lastName',
-      title: 'Last Name',
+      name: 'specialization',
+      title: 'Specialization',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
@@ -57,13 +57,12 @@ export const person = defineType({
   // List preview configuration. https://www.sanity.io/docs/previews-list-views
   preview: {
     select: {
-      firstName: 'firstName',
-      lastName: 'lastName',
+      name: 'name',
       picture: 'picture',
     },
     prepare(selection) {
       return {
-        title: `${selection.firstName} ${selection.lastName}`,
+        title: `${selection.name} `,
         subtitle: 'Person',
         media: selection.picture,
       }

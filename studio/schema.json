@@ -1203,6 +1203,64 @@
         },
         "optional": false
       },
+      "description": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": false
+      },
+      "category": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "Zdraví"
+            },
+            {
+              "type": "string",
+              "value": "Duševní zdraví"
+            },
+            {
+              "type": "string",
+              "value": "Fyzické zdraví"
+            },
+            {
+              "type": "string",
+              "value": "Zdravotní péče"
+            },
+            {
+              "type": "string",
+              "value": "Zdravotní služby"
+            },
+            {
+              "type": "string",
+              "value": "Psychoterapie"
+            },
+            {
+              "type": "string",
+              "value": "Psychologie"
+            },
+            {
+              "type": "string",
+              "value": "Psychiatrie"
+            }
+          ]
+        },
+        "optional": false
+      },
+      "tags": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "string"
+          }
+        },
+        "optional": false
+      },
       "content": {
         "type": "objectAttribute",
         "value": {
@@ -1211,10 +1269,10 @@
         },
         "optional": true
       },
-      "excerpt": {
+      "readTime": {
         "type": "objectAttribute",
         "value": {
-          "type": "string"
+          "type": "number"
         },
         "optional": true
       },
@@ -1361,14 +1419,14 @@
           "type": "string"
         }
       },
-      "firstName": {
+      "name": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
         "optional": false
       },
-      "lastName": {
+      "specialization": {
         "type": "objectAttribute",
         "value": {
           "type": "string"

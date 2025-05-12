@@ -32,14 +32,70 @@ export const post = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+      description: 'A short description of the post',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      description: 'The category of the post',
+      options: {
+        list: [
+          {title: 'Zdraví', value: 'Zdraví'},
+          {title: 'Duševní zdraví', value: 'Duševní zdraví'},
+          {title: 'Fyzické zdraví', value: 'Fyzické zdraví'},
+          {title: 'Zdravotní péče', value: 'Zdravotní péče'},
+          {title: 'Zdravotní služby', value: 'Zdravotní služby'},
+          {title: 'Psychoterapie', value: 'Psychoterapie'},
+          {title: 'Psychologie', value: 'Psychologie'},
+          {title: 'Psychiatrie', value: 'Psychiatrie'},
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{type: 'string'}],
+      description: 'A list of tags for SEO purposes',
+      options: {
+        list: [
+          'Zdraví',
+          'Duševní zdraví',
+          'Fyzické zdraví',
+          'Zdravotní péče',
+          'Zdravotní služby',
+          'Psychoterapie',
+          'Psychologie',
+          'Psychiatrie',
+          'Životní styl',
+          'Úzkost',
+          'Deprese',
+          'Stres',
+        ],
+        layout: 'list',
+      },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: 'content',
       title: 'Content',
       type: 'blockContent',
     }),
     defineField({
-      name: 'excerpt',
-      title: 'Excerpt',
-      type: 'text',
+      name: 'readTime',
+      title: 'Read Time',
+      type: 'number',
+      description: 'Estimated read time in minutes',
+      validation: (rule) => rule.min(1).max(60),
+      initialValue: 5,
     }),
     defineField({
       name: 'coverImage',
@@ -87,14 +143,13 @@ export const post = defineType({
   preview: {
     select: {
       title: 'title',
-      authorFirstName: 'author.firstName',
-      authorLastName: 'author.lastName',
+      authorName: 'author.name',
       date: 'date',
       media: 'coverImage',
     },
-    prepare({title, media, authorFirstName, authorLastName, date}) {
+    prepare({title, media, authorName, date}) {
       const subtitles = [
-        authorFirstName && authorLastName && `by ${authorFirstName} ${authorLastName}`,
+        authorName && `by ${authorName}`,
         date && `on ${format(parseISO(date), 'LLL d, yyyy')}`,
       ].filter(Boolean)
 
