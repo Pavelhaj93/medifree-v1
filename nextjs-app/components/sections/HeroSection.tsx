@@ -20,10 +20,10 @@ export default function HeroSection() {
         </div>
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-black/60 z-10" />
+        <div className="absolute inset-0 bg-black/60" />
 
         {/* Content */}
-        <div className="relative grid grid-cols-2 items-center z-20 text-left px-4 md:px-10">
+        <div className="relative grid grid-cols-2 items-center  text-left px-4 md:px-10">
           <div className="max-w-3xl">
             <Badge variant="primary" className="mb-4 inline-block">
               Medifree
