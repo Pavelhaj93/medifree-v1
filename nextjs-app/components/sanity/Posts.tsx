@@ -2,12 +2,12 @@ import Link from "next/link";
 
 import { sanityFetch } from "@/sanity/lib/live";
 import { morePostsQuery, allPostsQuery } from "@/sanity/lib/queries";
-import { Post as PostType } from "@/sanity.types";
+import type { Post as PostType } from "@/sanity.types";
 import DateComponent from "@/components/sanity/Date";
 import OnBoarding from "@/components/sanity/Onboarding";
 
 const Post = ({ post }: { post: PostType }) => {
-  const { _id, title, slug, excerpt, date } = post;
+  const { _id, title, slug, description, date } = post;
 
   return (
     <article
@@ -27,7 +27,7 @@ const Post = ({ post }: { post: PostType }) => {
         </Link>
       </h3>
       <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
-        {excerpt}
+        {description}
       </p>
     </article>
   );

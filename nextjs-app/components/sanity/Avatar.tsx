@@ -3,7 +3,7 @@ import { urlForImage } from "@/sanity/lib/utils";
 import type { Person } from "@/sanity.types";
 
 type Props = {
-  person: Person;
+  person: Pick<Person, "name" | "specialization" | "picture">;
 };
 
 export default function Avatar({ person }: Props) {

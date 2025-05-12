@@ -22,9 +22,9 @@ export default function TestimonialsSection() {
               <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400" />
             </div>
             <p className="text-gray-600 mb-4">
-              "E-book Hledání rovnováhy úplně změnil můj přístup ke zvládání
-              stresu. Techniky jsou praktické a snadno použitelné v každodenním
-              životě."
+              &quot;E-book Hledání rovnováhy úplně změnil můj přístup ke
+              zvládání stresu. Techniky jsou praktické a snadno použitelné v
+              každodenním životě.&quot;
             </p>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-gray-200" />
@@ -46,9 +46,9 @@ export default function TestimonialsSection() {
               <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400" />
             </div>
             <p className="text-gray-600 mb-4">
-              "Balíček meditací byl zlomovým bodem pro mé úzkosti. Každé ráno si
-              pustím jednu nahrávku a zaznamenal jsem výrazné zlepšení hladiny
-              stresu."
+              &quot;Balíček meditací byl zlomovým bodem pro mé úzkosti. Každé
+              ráno si pustím jednu nahrávku a zaznamenal jsem výrazné zlepšení
+              hladiny stresu.&quot;
             </p>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-gray-200" />
@@ -70,9 +70,9 @@ export default function TestimonialsSection() {
               <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400" />
             </div>
             <p className="text-gray-600 mb-4">
-              "Cvičení v pracovním sešitu mi pomohla vytvořit si pravidelnou
-              praxi mindfulness. Denní formát mi usnadňuje udržet si
-              disciplínu."
+              &quot;Cvičení v pracovním sešitu mi pomohla vytvořit si
+              pravidelnou praxi mindfulness. Denní formát mi usnadňuje udržet si
+              disciplínu.&quot;
             </p>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-gray-200" />

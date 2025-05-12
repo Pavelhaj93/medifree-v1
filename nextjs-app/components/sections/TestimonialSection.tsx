@@ -15,7 +15,7 @@ export default function TestimonialSection() {
         <div className="space-y-8">
           {testimonials.map((t) => (
             <div key={t.name} className="bg-gray-100 p-6 rounded-lg">
-              <p className="italic mb-4">“{t.text}”</p>
+              <p className="italic mb-4">&quot{t.text}&quot</p>
               <div className="text-right font-semibold">— {t.name}</div>
             </div>
           ))}

@@ -17,17 +17,17 @@ import AboutTheAuthor from "@/components/sections/blogItem/AboutTheAuthor";
 import RelatedArticles from "@/components/sections/blogItem/RelatedArticlesGrid";
 import { sanityFetch } from "@/sanity/lib/live";
 import { postQuery } from "@/sanity/lib/queries";
-import type { PostQueryResult } from "@/sanity.types";
+import type { Person, PostQueryResult } from "@/sanity.types";
 import Avatar from "@/components/sanity/Avatar";
 import { PortableText } from "next-sanity";
 
 export default async function BlogPostPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
   // This would normally fetch the specific blog post based on the slug
-  const slug = params.slug;
+  const { slug } = await params;
 
   const { data: article } = await sanityFetch({
     query: postQuery,
@@ -76,7 +76,7 @@ export default async function BlogPostPage({
               </h1>
 
               <div className="flex items-center justify-between mb-8">
-                <Avatar person={post?.author} />
+                <Avatar person={post?.author as Person} />
 
                 <div className="flex items-center gap-3">
                   <Button
