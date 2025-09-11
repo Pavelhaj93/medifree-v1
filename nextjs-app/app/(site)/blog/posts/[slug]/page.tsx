@@ -36,8 +36,6 @@ export default async function BlogPostPage({
 
   const post = article as PostQueryResult;
 
-  console.log("ttt article", article);
-
   return (
     <>
       <section className="bg-gray-50">

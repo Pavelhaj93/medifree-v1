@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Instagram } from "lucide-react";
 import { Input } from "../ui/Input";
 import {
   Select,
@@ -11,6 +11,7 @@ import { Textarea } from "../ui/Textarea";
 import { Button } from "../ui/Button";
 import { Badge } from "../ui/Badge";
 import { BookButton } from "../others/BookButton";
+import Link from "next/link";
 
 export default function ContactSection({ first }: { first?: boolean }) {
   return (
@@ -28,9 +29,7 @@ export default function ContactSection({ first }: { first?: boolean }) {
             Kontaktujte nás
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto mb-8 text-center">
-            Máte otázky ohledně konzultací nebo jste připraveni si domluvit
-            první schůzku? Jsem tu, abychom vám pomohli. Kontaktujte nás
-            jakýmikoli z níže uvedených způsobů a my se vám co nejdříve ozveme.
+            Máte jakékoli otázky? Napiště nám a my se Vám co nejdříve ozveme.
           </p>
 
           <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
@@ -67,7 +66,7 @@ export default function ContactSection({ first }: { first?: boolean }) {
                   />
                 </div>
 
-                <div>
+                {/* <div>
                   <label
                     htmlFor="inquiry"
                     className="block text-sm font-medium text-gray-700 mb-1"
@@ -90,7 +89,7 @@ export default function ContactSection({ first }: { first?: boolean }) {
                       <SelectItem value="other">Jiné</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
+                </div> */}
 
                 <div>
                   <label
@@ -136,7 +135,7 @@ export default function ContactSection({ first }: { first?: boolean }) {
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4">
+                  {/* <div className="flex items-start gap-4">
                     <div className="bg-gray-100 p-3 rounded-full">
                       <Phone className="h-5 w-5 text-primary" />
                     </div>
@@ -144,18 +143,28 @@ export default function ContactSection({ first }: { first?: boolean }) {
                       <h4 className="font-medium">Telefon</h4>
                       <p className="text-gray-600">+1 (555) 123-4567</p>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="flex items-start gap-4">
                     <div className="bg-gray-100 p-3 rounded-full">
-                      <MapPin className="h-5 w-5 text-primary" />
+                      <Instagram className="h-5 w-5 text-primary" />
                     </div>
                     <div>
-                      <h4 className="font-medium">Lorem</h4>
-                      <p className="text-gray-600">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Sed
-                      </p>
+                      <h4 className="font-medium">Instagram</h4>
+                      <div className="text-gray-600 space-x-4 flex flex-col">
+                        <Link
+                          href="https://www.instagram.com/medifreecz"
+                          className="text-primary hover:underline"
+                        >
+                          @medifree.cz
+                        </Link>
+                        <Link
+                          href="https://www.instagram.com/michaela_medifree"
+                          className="text-primary hover:underline"
+                        >
+                          @michaela_medifree
+                        </Link>
+                      </div>
                     </div>
                   </div>
 
@@ -165,10 +174,7 @@ export default function ContactSection({ first }: { first?: boolean }) {
                     </div>
                     <div>
                       <h4 className="font-medium">Pracovní doba</h4>
-                      <p className="text-gray-600">
-                        Pondělí - Pátek: 9:00 - 18:00
-                      </p>
-                      <p className="text-gray-600">Sobota: 10:00 - 14:00</p>
+                      <p className="text-gray-600">Dle domluvy</p>
                     </div>
                   </div>
                 </div>

@@ -225,6 +225,8 @@ export type Person = {
   _rev: string;
   name: string;
   specialization: string;
+  topics: Array<string>;
+  description: string;
   picture: {
     asset?: {
       _ref: string;
@@ -748,6 +750,38 @@ export type PostPagesSlugsResult = Array<{
 export type PagesSlugsResult = Array<{
   slug: string;
 }>;
+// Variable: personQuery
+// Query: *[_type == "person" && slug.current == $slug][0] {    _id,    name,    specialization,    description,    picture {      asset->{        _id,        url      },      alt    }  }
+export type PersonQueryResult = {
+  _id: string;
+  name: string;
+  specialization: string;
+  description: string;
+  picture: {
+    asset: {
+      _id: string;
+      url: string | null;
+    } | null;
+    alt: string | null;
+  };
+} | null;
+// Variable: allPersonsQuery
+// Query: *[_type == "person"] | order(name asc) {    _id,    name,    specialization,    description,    topics,    picture {      asset->{        _id,        url      },      alt    },    "slug": slug.current  }
+export type AllPersonsQueryResult = Array<{
+  _id: string;
+  name: string;
+  specialization: string;
+  description: string;
+  topics: Array<string>;
+  picture: {
+    asset: {
+      _id: string;
+      url: string | null;
+    } | null;
+    alt: string | null;
+  };
+  slug: null;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -762,5 +796,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"post\" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n    }\n  },\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture},\n\n  }\n": PostQueryResult;
     "\n  *[_type == \"post\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PostPagesSlugsResult;
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
+    "\n  *[_type == \"person\" && slug.current == $slug][0] {\n    _id,\n    name,\n    specialization,\n    description,\n    picture {\n      asset->{\n        _id,\n        url\n      },\n      alt\n    }\n  }\n": PersonQueryResult;
+    "\n  *[_type == \"person\"] | order(name asc) {\n    _id,\n    name,\n    specialization,\n    description,\n    topics,\n    picture {\n      asset->{\n        _id,\n        url\n      },\n      alt\n    },\n    \"slug\": slug.current\n  }\n": AllPersonsQueryResult;
   }
 }

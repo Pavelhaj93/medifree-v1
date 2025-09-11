@@ -39,10 +39,9 @@ export default function ServicesHeroSection() {
             Co nabízíme
           </h1>
           <p className="text-gray-600 text-center max-w-3xl mx-auto mb-12">
-            Naše terapeutické přístupy kombinují psychologii, fyzioterapii a
-            výživu. Pomáháme lidem najít cestu k sobě a zlepšit kvalitu jejich
-            života. Naše služby zahrnují individuální terapie, skupinové sezení
-            a online konzultace.
+            Naším cílem je edukace o individuálních potřebách Vašeho organismu.
+            Zjistíte, co potřevbujete právě Vy, jaké parametry sledovat a jakým
+            způsobem je udržovat v optimálním rozmezí.
           </p>
 
           <div className="grid md:grid-cols-4 gap-6">

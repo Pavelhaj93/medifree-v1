@@ -14,9 +14,8 @@ export default function EshopHeroSection() {
             Naše produkty
           </h1>
           <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-            Objevte naši širokou nabídku digitálních produktů zaměřených na
-            duševní zdraví. Od e-knih po vedené meditace, najděte nástroje,
-            které vám pomohou na vaší cestě k duševní pohodě.
+            Objevte naši nabídku doporučení jak si zlepšit zdraví, vitalitu,
+            energii a duševní pohodu. Vše z pohodlí domova v online formě.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

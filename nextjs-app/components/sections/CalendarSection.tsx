@@ -14,12 +14,12 @@ export function CalendarSection() {
           Rezervujte si sezení
         </h2>
         <p className="text-gray-600 mb-8 text-center">
-          Vyberte si termín, který vám vyhovuje, a rezervujte si sezení s naším
-          doktorem. První konzultace na 15min je zdarma a bez závazků.
+          Vyberte si termín, který vám vyhovuje, a rezervujte si úvodní
+          konzulaci zdarma a bez závazků.
         </p>
         <div className="flex justify-center w-full">
           <Cal
-            calLink="pavel-hajduch-jix4cv"
+            calLink="medifree"
             config={{ theme: "light" }}
             style={{ width: "100%" }}
           />

@@ -25,6 +25,19 @@ export const person = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'topics',
+      title: 'Topics',
+      type: 'array',
+      of: [{type: 'string'}],
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: 'picture',
       title: 'Picture',
       type: 'image',

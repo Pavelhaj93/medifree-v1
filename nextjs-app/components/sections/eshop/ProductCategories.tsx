@@ -52,7 +52,7 @@ export default function ProductCategories() {
             <p className="text-sm text-gray-600 mt-1">12 položek</p>
           </Link>
 
-          <Link
+          {/* <Link
             href="#"
             className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center"
           >
@@ -61,9 +61,9 @@ export default function ProductCategories() {
             </div>
             <h3 className="font-medium">Cvičení</h3>
             <p className="text-sm text-gray-600 mt-1">8 položek</p>
-          </Link>
+          </Link> */}
 
-          <Link
+          {/* <Link
             href="#"
             className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center"
           >
@@ -72,7 +72,7 @@ export default function ProductCategories() {
             </div>
             <h3 className="font-medium">Meditace</h3>
             <p className="text-sm text-gray-600 mt-1">15 položek</p>
-          </Link>
+          </Link> */}
 
           <Link
             href="#"
@@ -91,7 +91,7 @@ export default function ProductCategories() {
                 strokeLinejoin="round"
                 className="lucide lucide-video text-primary"
               >
-                <title>Video</title>
+                <title>Videokurzy</title>
                 <path d="m22 8-6 4 6 4V8Z" />
                 <rect width="14" height="12" x="2" y="6" rx="2" ry="2" />
               </svg>

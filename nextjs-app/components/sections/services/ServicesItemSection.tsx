@@ -9,7 +9,7 @@ export type ServiceItemProps = {
   tag: string;
   title: string;
   description: string;
-  features: { id: number; label: string }[];
+  features: { id: number; label: string; subServices?: string[] }[];
   idealFor: string;
   imageSrc: string;
   price: string;

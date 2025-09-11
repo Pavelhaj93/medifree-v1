@@ -12,7 +12,7 @@ const steps = [
     id: 2,
     title: "Individuální plán",
     description:
-      "Na základě úvodní konzultace vytvoříme individuální plán, který zahrnuje diagnostiku, psychologické poradenství, fyzioterapii a výživové poradenství.",
+      "Na základě úvodní konzultace vytvoříme individuální plán, který zahrnuje laboratorní vyšetření a úpravu životního stylu na míru",
   },
   {
     id: 3,

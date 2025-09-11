@@ -1,6 +1,10 @@
 import Image from "next/image";
 import { Badge } from "../ui/Badge";
-import { Facebook, Instagram, Linkedin } from "lucide-react";
+import { ArrowRight, Facebook, Instagram, Linkedin } from "lucide-react";
+import { allPersonsQuery } from "@/sanity/lib/queries";
+import { sanityFetch } from "@/sanity/lib/live";
+import { GetPageQueryResult, Person } from "@/sanity.types";
+import { Button } from "../ui/Button";
 
 const socialIcons = {
   radim: [
@@ -39,45 +43,11 @@ const socialIcons = {
   ],
 };
 
-const badges = {
-  radim: [
-    { id: "lifestyle", label: "Úprava životního stylu" },
-    { id: "energy", label: "Navýšení hlading energie" },
-    { id: "glucose", label: "Monitorace tělesných funkcí" },
-    { id: "addiction", label: "Práce se závislostmi" },
-    { id: "sleep", label: "Spánek" },
-  ],
-  michaela: [
-    { id: "prevention", label: "Zdravotní prevence" },
-    { id: "musculoskeletal", label: "Onemocnění pohybového aparátu" },
-    { id: "chronic", label: "Chronické obtíže" },
-    { id: "cyclicity", label: "Ženská cykličnost" },
-    { id: "mental-health", label: "Dueševní zdraví" },
-  ],
-};
-
-const topics = {
-  radim: [
-    { id: 1, label: "Přirozená cesta ke zdraví a volnosti" },
-    {
-      id: 2,
-      label: "Propojení moderních technologií a alternativních přístupů",
-    },
-    { id: 3, label: "Telemedicína z pohodlí vašeho domova" },
-  ],
-  michaela: [
-    { id: 1, label: "Komplexní přístup ke zdraví" },
-    { id: 2, label: "Osobní konzultace" },
-    { id: 3, label: "Přednášky a vzdělávání" },
-  ],
-};
-
 type TherapistProps = {
   name: string;
   title: string;
-  topics: { id: number; label: string }[];
+  topics: string[];
   description: string;
-  badgeList: { id: string; label: string }[];
   imageUrl: string;
   reverse?: boolean;
   pink?: boolean;
@@ -88,7 +58,6 @@ function Therapist({
   title,
   topics,
   description,
-  badgeList,
   imageUrl,
   reverse = false,
   pink,
@@ -132,14 +101,15 @@ function Therapist({
           <div className="mb-4 hidden md:block">
             <Badge variant={pink ? "tertiary" : "primary"}>O nás</Badge>
           </div>
-          <h3 className="text-5xl mb-4">{title}</h3>
-
           <p className="text-gray-600 mb-4 leading-7">{description}</p>
-
+          <Button variant="link" className="mb-4 self-start px-0">
+            Více o mně zde
+            <ArrowRight size={16} className="ml-2" />
+          </Button>
           <div className="flex flex-wrap max-md:justify-center gap-4 mb-4">
-            {badgeList.map((item) => (
+            {topics.map((item) => (
               <Badge
-                key={item.id}
+                key={item}
                 variant={pink ? "tertiary" : "primary"}
                 className="uppercase"
               >
@@ -148,7 +118,7 @@ function Therapist({
                     pink ? "bg-tertiary" : "bg-primary"
                   } rounded-full inline-block mr-2`}
                 />
-                {item.label}
+                {item}
               </Badge>
             ))}
           </div>
@@ -158,27 +128,25 @@ function Therapist({
   );
 }
 
-export function TherapistSection() {
+export async function TherapistSection() {
+  const { data: persons } = await sanityFetch({
+    query: allPersonsQuery,
+  });
+
   return (
     <>
-      <Therapist
-        name="MUDr. Radim Svoboda"
-        title="Přirozená cesta ke zdraví a volnosti"
-        topics={topics.radim}
-        description="Spojuji moderní technologie s alternativními přístupy založenými na nejnovějších vědeckých důkazech. Věřím, že cesta k optimálnímu zdraví vede přes hlubší pochopení vlastního těla – a právě to svým klientům umožňuji."
-        badgeList={badges.radim}
-        imageUrl="/images/placeholder.png"
-      />
-      <Therapist
-        name="MUDr. Michaela Hnyková"
-        title="Komplexní přístup ke zdraví"
-        topics={topics.michaela}
-        description="Jsem atestovaná rehabilitační lékařka, která se zaměřuje převážně na onemocnění pohybového aparátu a civilizační nemoci cestou komplexního přístupu. Propojuji postupy západní medicíny s postupy celostními, které jsou pro fyzické i psychické zdraví dlouhodobě udržitelné, bez nežádoucích účinků a s minimálními finančními náklady."
-        badgeList={badges.michaela}
-        imageUrl="/images/placeholder.png"
-        reverse
-        pink
-      />
+      {persons.reverse().map((person, index) => (
+        <Therapist
+          key={person._id}
+          name={person.name}
+          title={person.specialization}
+          topics={person.topics}
+          description={person.description}
+          imageUrl="/images/placeholder.png"
+          pink={index % 2 === 1}
+          reverse={index % 2 !== 0}
+        />
+      ))}
     </>
   );
 }

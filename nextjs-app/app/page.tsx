@@ -5,15 +5,20 @@ import HeroSection from "@/components/sections/HeroSection";
 import HowItWorksSection from "@/components/sections/HowItWorksSection";
 import MiddleSection from "@/components/sections/MiddleSection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
-import { StatisticsSection } from "@/components/sections/StatisticsSection";
 import { TherapistSection } from "@/components/sections/TherapistSection";
-import { getPageQuery, pagesSlugs } from "@/sanity/lib/queries";
+import {
+  allPersonsQuery,
+  getPageQuery,
+  pagesSlugs,
+} from "@/sanity/lib/queries";
 import type { Metadata } from "next";
 import type { GetPageQueryResult } from "@/sanity.types";
 import PageBuilderPage from "@/components/sanity/PageBuilder";
 import { PageOnboarding } from "@/components/sanity/Onboarding";
 import SocialConnect from "@/components/sections/SocialConnectSection";
 import SocialConnectSection from "@/components/sections/SocialConnectSection";
+import { Suspense } from "react";
+import { ServicesCarouselSection } from "@/components/sections/SevicesCarouselSection";
 
 // type Props = {
 //   params: Promise<{ slug: string }>;
@@ -58,7 +63,7 @@ export default async function Page() {
       <HeroSection />
       <MiddleSection />
       <TherapistSection />
-      <StatisticsSection />
+      <ServicesCarouselSection />
       <ServicesSection />
       <HowItWorksSection />
       <CalendarSection />

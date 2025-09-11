@@ -105,3 +105,37 @@ export const pagesSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)]
   {"slug": slug.current}
 `);
+
+export const personQuery = defineQuery(`
+  *[_type == "person" && slug.current == $slug][0] {
+    _id,
+    name,
+    specialization,
+    description,
+    picture {
+      asset->{
+        _id,
+        url
+      },
+      alt
+    }
+  }
+`);
+
+export const allPersonsQuery = defineQuery(`
+  *[_type == "person"] | order(name asc) {
+    _id,
+    name,
+    specialization,
+    description,
+    topics,
+    picture {
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
+    "slug": slug.current
+  }
+`);

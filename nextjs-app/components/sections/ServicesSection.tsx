@@ -14,9 +14,8 @@ type Service = {
 const services: Service[] = [
   {
     id: 1,
-    title: "Telemedicína",
-    description:
-      "Získejte přístup k odborné péči odkudkoli. Naše telemedicínské služby vám umožňují konzultace s našimi specialisty z pohodlí vašeho domova.",
+    title: "Konzultace online",
+    description: "Získejte přístup k odborné péči z pohodlí vašeho domova.",
     image: "/images/services/telemedicine.png",
   },
   {
@@ -81,7 +80,7 @@ export function ServicesSection() {
           </Badge>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
             <h2 className="text-4xl md:text-5xl mb-4 md:mb-0">
-              S čím Vám můžeme pomoci?
+              Co pro vás můžeme udělat?
             </h2>
             <BookButton />
           </div>

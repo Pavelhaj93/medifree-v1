@@ -35,20 +35,31 @@ export const services: ServiceItemProps[] = [
     features: [
       {
         id: 1,
-        label: "Osobní plán zdravého životního stylu",
+        label:
+          "Zhodnocení stavu metabolismu a navržení cesty k jeho optimalizaci.",
       },
       {
         id: 2,
-        label: "Poradenství v oblasti výživy a pohybu",
+        label: "Využíváme",
+        subServices: [
+          "laboratorní vyšetření",
+          "kontinuální monitoraci glykemie",
+          "chytrá zařízení monitorující spánek a pohybový režim",
+        ],
       },
       {
         id: 3,
         label: "Podpora při změně návyků",
       },
+      {
+        id: 4,
+        label:
+          "Přístup k našim návodům, tipům, receptům, videím a dalším materiálům k podpoření a usnadnění Vaší cesty.",
+      },
     ],
     idealFor: "Každého, kdo chce zlepšit své zdraví a pohodu.",
     imageSrc: "/images/services/lifestyle.png",
-    price: "od 800 Kč/sezení",
+    price: "od 1500 Kč/sezení",
   },
   {
     id: "service3",
@@ -102,5 +113,56 @@ export const services: ServiceItemProps[] = [
       "Osoby trpící chronickými onemocněními nebo potřebující prevenci.",
     imageSrc: "/images/services/lab.png",
     price: "od 1 000 Kč/konzultace",
+  },
+  {
+    id: "service5",
+    tag: "Plán na míru",
+    title: "Přednášky a workshopy",
+    description:
+      "Naše přednášky a workshopy jsou navrženy tak, aby vzdělávaly a inspirovaly účastníky k dosažení jejich zdravotních cílů.",
+    features: [
+      {
+        id: 1,
+        label: "Interaktivní vzdělávací sezení",
+      },
+      {
+        id: 2,
+        label: "Praktické tipy a strategie",
+      },
+
+      {
+        id: 3,
+        label: "Podpora zdravého životního stylu",
+      },
+    ],
+    idealFor:
+      "Skupiny nebo jednotlivce hledající vzdělání a motivaci ke zdravějšímu životu.",
+    imageSrc: "/images/services/workshop.png",
+    price: "od 5 000 Kč/akce",
+  },
+  {
+    id: "service6",
+    tag: "Tematické pobyty",
+    title: "Tematické pobyty",
+    description:
+      "Naše tematické pobyty jsou navrženy tak, aby poskytovaly intenzivní zážitky zaměřené na zlepšení vašeho zdraví a pohody.",
+    features: [
+      {
+        id: 1,
+        label: "Intenzivní programy na míru",
+      },
+      {
+        id: 2,
+        label: "Profesionální vedení a podpora",
+      },
+      {
+        id: 3,
+        label: "Relaxace a regenerace",
+      },
+    ],
+    idealFor:
+      "Jednotlivce nebo skupiny hledající hlubší zážitek a transformaci zdraví.",
+    imageSrc: "/images/services/retreat.png",
+    price: "od 10 000 Kč/pobyt",
   },
 ];

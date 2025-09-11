@@ -23,13 +23,11 @@ export default function SocialConnectSection() {
             </Badge>
             <h2 className="text-3xl md:text-4xl font-medium mb-4">Podcasty</h2>
             <p className="text-gray-600 mb-6">
-              Připojte se kažsý týden při rozhovorech o duševní pohodě, vztazích
-              a osobním růstu. Dostupně na všech hlavních podcastových
-              platformách.
+              Sledujte nás na sociálních sítích a buďte součástí naší komunity!
             </p>
 
             <div className="flex flex-wrap gap-3 mb-6">
-              <Link
+              {/* <Link
                 href="#"
                 className="bg-black text-white rounded-full px-4 py-2 flex items-center hover:bg-gray-800"
               >
@@ -41,7 +39,7 @@ export default function SocialConnectSection() {
                   <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm1 14.5v-9l6 4.5-6 4.5z" />
                 </svg>
                 Apple Podcasts
-              </Link>
+              </Link> */}
 
               <Link
                 href="#"
@@ -51,18 +49,18 @@ export default function SocialConnectSection() {
                 HeroHero
               </Link>
 
-              <Link
+              {/* <Link
                 href="#"
                 className="bg-green-500 text-white rounded-full px-4 py-2 flex items-center hover:opacity-90"
               >
                 <Headphones className="w-5 h-5 mr-2" />
                 Google Podcasts
-              </Link>
+              </Link> */}
             </div>
 
-            <Button variant="primary">
+            {/* <Button variant="primary">
               Poslední epizoda <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            </Button> */}
           </div>
 
           {/* Right side - Podcast artwork and social links */}
