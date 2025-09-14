@@ -1,4 +1,3 @@
-import { mockArticles } from "@/app/lib/data/articles";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,7 +32,7 @@ const RelatedArticleItem = ({
   );
 };
 
-export default function RelatedArticles() {
+export default async function RelatedArticles() {
   return (
     <>
       <h2 className="text-2xl font-medium mb-8">
@@ -43,14 +42,14 @@ export default function RelatedArticles() {
       <div className="grid md:grid-cols-3 gap-8 mb-12">
         {/* Related Article 1 */}
         {/* TODO: replace with some real articles of similar category for example */}
-        {mockArticles.slice(0, 3).map((article) => (
+        {/* {mockArticles.slice(0, 3).map((article) => (
           <RelatedArticleItem
             key={article.id}
             imageSrc={article.imageSrc}
             imageAlt={article.imageAlt}
             title={article.title}
           />
-        ))}
+        ))} */}
       </div>
     </>
   );
