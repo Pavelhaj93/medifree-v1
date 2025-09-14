@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/Button";
+import Link from "next/link";
 
 export default function ServicesCtaSection() {
   return (
@@ -13,8 +14,10 @@ export default function ServicesCtaSection() {
             konzultaci. Probereme vaše potřeby a zjistíme, zda je náš přístup
             pro vás ten pravý.
           </p>
-          <Button variant="secondary">
-            Rezervujte si bezplatnou konzultaci
+          <Button variant="secondary" asChild>
+            <Link href="https://cal.com/medifree">
+              Rezervujte si bezplatnou konzultaci
+            </Link>
           </Button>
         </div>
       </div>

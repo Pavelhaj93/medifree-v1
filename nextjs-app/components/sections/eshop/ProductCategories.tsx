@@ -1,6 +1,4 @@
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { BookOpen, FileText, Filter, Headphones } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import Link from "next/link";
 
 export default function ProductCategories() {
@@ -11,7 +9,8 @@ export default function ProductCategories() {
           <h2 className="text-2xl font-medium mb-4 md:mb-0">
             Objevte naše kategorie produktů
           </h2>
-          <div className="flex items-center gap-2">
+          {/* TODO: add tags to products and finish filtering logic */}
+          {/* <div className="flex items-center gap-2">
             <Button variant="primary" size="sm" className="rounded-full">
               <Filter className="mr-2 h-4 w-4" /> Filtrovat
             </Button>
@@ -37,7 +36,7 @@ export default function ProductCategories() {
                 />
               </svg>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">

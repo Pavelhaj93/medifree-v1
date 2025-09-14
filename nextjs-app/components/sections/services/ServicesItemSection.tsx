@@ -1,37 +1,26 @@
 import Image from "next/image";
-import { Check, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { services } from "@/app/lib/data/services";
-
-export type ServiceItemProps = {
-  id: string;
-  tag: string;
-  title: string;
-  description: string;
-  features: { id: number; label: string; subServices?: string[] }[];
-  idealFor: string;
-  imageSrc: string;
-  price: string;
-  buttonText?: string;
-  reverse?: boolean;
-};
+import { Service } from "@/sanity.types";
+import { urlForImage } from "@/sanity/lib/utils";
+import { PortableText } from "next-sanity";
 
 export function ServiceItemSection({
-  id,
+  _id,
   tag,
   title,
   description,
-  features,
-  idealFor,
-  imageSrc,
+  content,
   price,
-  buttonText = "Book a Session",
+  priceType,
+  image,
   reverse = false,
-}: ServiceItemProps) {
+}: Service & { reverse?: boolean }) {
+  console.log("image", image);
   return (
     <section
-      id={id}
+      id={_id}
       className={`py-12 md:py-16 ${reverse ? "bg-gray-50" : "bg-white"}`}
     >
       <div className="container mx-auto px-4">
@@ -41,7 +30,18 @@ export function ServiceItemSection({
               reverse ? "md:order-2" : ""
             }`}
           >
-            <Image src={imageSrc} alt={title} fill className="object-cover" />
+            <Image
+              src={
+                urlForImage(image)
+                  ?.width(800)
+                  .height(600)
+                  .fit("crop")
+                  .url() as string
+              }
+              alt={image?.alt || title}
+              fill
+              className="object-cover"
+            />
           </div>
           <div>
             <Badge variant="primary" className="inline-block mb-4">
@@ -52,32 +52,30 @@ export function ServiceItemSection({
 
             <div className="space-y-4 mb-8">
               <h3 className="font-medium text-lg">Co služba zahrnuje:</h3>
-              <ul className="space-y-2">
-                {features.map((feature) => (
-                  <li key={feature.id} className="flex items-start">
-                    <Check className="h-5 w-5 text-priamry mr-2 shrink-0" />
-                    <span>{feature.label}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div
-              className={`${
-                reverse ? "bg-white" : "bg-gray-50"
-              } p-6 rounded-2xl shadow mb-8 `}
-            >
-              <h3 className="font-medium text-lg mb-2">Ideální pro:</h3>
-              <p className="text-gray-600">{idealFor}</p>
+              {/* rich text */}
+              <div className="prose prose-lg max-w-none">
+                <PortableText value={content ?? []} />
+              </div>
             </div>
 
             <div className="flex items-end justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Cena:</p>
-                <p className="text-2xl font-medium">{price}</p>
-              </div>
+              {(price || priceType) && (
+                <div>
+                  <p className="text-sm text-gray-500">Cena:</p>
+                  <p className="text-2xl font-medium">
+                    {/* Dont display the unit behind. */}
+                    {price?.toLocaleString("cs-CZ", {
+                      style: "currency",
+                      currency: "CZK",
+                      maximumFractionDigits: 0,
+                    })}
+                    {priceType}
+                  </p>
+                </div>
+              )}
               <Button variant="secondary" className="flex items-center">
-                {buttonText} <ArrowRight className="ml-2 h-4 w-4" />
+                Objednat službu
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </div>
@@ -87,21 +85,17 @@ export function ServiceItemSection({
   );
 }
 
-export default function ServicesItemSection() {
+export default function ServicesItemSection({
+  services,
+}: {
+  services: Service[];
+}) {
   return (
     <>
       {services.map((service, index) => (
         <ServiceItemSection
-          key={service.id}
-          id={service.id}
-          tag={service.tag}
-          title={service.title}
-          description={service.description}
-          features={service.features}
-          idealFor={service.idealFor}
-          imageSrc={service.imageSrc}
-          price={service.price}
-          buttonText={service.buttonText ?? "Objednat službu"}
+          key={service._id}
+          {...service}
           reverse={index % 2 === 1} // Reverse the order for every second service
         />
       ))}

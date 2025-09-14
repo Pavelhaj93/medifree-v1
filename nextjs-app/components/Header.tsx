@@ -11,9 +11,11 @@ import { Button } from "./ui/Button";
 
 const links = [
   { href: "/", label: "Domů" },
+  { href: "/o-nas", label: "O nás" },
   { href: "/nase-sluzby", label: "Služby" },
   { href: "/e-shop", label: "E-shop" },
   { href: "/blog", label: "Blog" },
+  { href: "/casto-kladene-otazky", label: "FAQ" },
   { href: "/kontakt", label: "Kontakt" },
 ];
 
@@ -44,7 +46,7 @@ export default function Header() {
       : "text-gray-700 hover:text-secondary transition-colors";
 
   return (
-    <header className="bg-gray-50/80 h-24 sticky top-0 z-10">
+    <header className="bg-gray-50 h-24 sticky top-0 z-10">
       <div className="container mx-auto py-4 px-4 md:px-10 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="flex items-center">

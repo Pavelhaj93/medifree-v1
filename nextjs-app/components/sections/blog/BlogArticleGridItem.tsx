@@ -1,40 +1,42 @@
 import { Badge } from "@/components/ui/Badge";
+import { urlForImage } from "@/sanity/lib/utils";
 import { CalendarDays, ChevronRight, Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 type BlogArticleGridItemProps = {
-  imageSrc: string;
-  imageAlt: string;
   title: string;
   date: string;
-  readTime: string;
+  readTime: number;
   description: string;
   category: string;
+  slug: string;
+  // TODO: find correct type for image prop in Sanity schema
+  image: any;
+  imageAlt: string;
 };
 
-function slugify(title: string) {
-  return title
-    .toLowerCase()
-    .replace(/ /g, "-")
-    .replace(/[^\w-]+/g, "")
-    .replace(/--+/g, "-");
-}
-
 export default function BlogArticleGridItem({
-  imageSrc,
+  image,
   imageAlt,
   title,
   date,
   readTime,
   description,
   category,
+  slug,
 }: BlogArticleGridItemProps) {
   return (
     <div className="bg-white rounded-xl shadow-sm overflow-hidden">
       <div className="relative h-[200px]">
         <Image
-          src={imageSrc ?? "/images/blog/depression.png"}
+          src={
+            urlForImage(image)
+              ?.height(200)
+              .width(400)
+              .fit("crop")
+              .url() as string
+          }
           alt={imageAlt}
           fill
           className="object-cover"
@@ -53,14 +55,11 @@ export default function BlogArticleGridItem({
           </div>
           <div className="flex items-center">
             <Clock className="h-4 w-4 mr-1" />
-            {readTime} min čtení
+            {readTime.toString()} min čtení
           </div>
         </div>
         <h3 className="font-medium text-lg mb-3">
-          <Link
-            href={`/blog/posts/${slugify(title)}`}
-            className="hover:underline"
-          >
+          <Link href={`/blog/posts/${slug}`} className="hover:underline">
             {title}
           </Link>
         </h3>

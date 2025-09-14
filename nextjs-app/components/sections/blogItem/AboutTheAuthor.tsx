@@ -1,16 +1,18 @@
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { urlForImage } from "@/sanity/lib/utils";
 
 import Image from "next/image";
 
 export default function AboutTheAuthor({
   name,
   description,
-  imageSrc,
+  image,
 }: {
   name: string;
   description: string;
-  imageSrc: string;
+  // TODO: find correct type for image prop in Sanity schema
+  image: any;
 }) {
   return (
     <div className="my-12">
@@ -21,7 +23,18 @@ export default function AboutTheAuthor({
       <div className="bg-gray-50 rounded-2xl p-8">
         <div className="flex flex-col md:flex-row gap-6 items-center">
           <div className="w-24 h-24 rounded-full overflow-hidden relative shrink-0">
-            <Image src={imageSrc} alt={name} fill className="object-cover" />
+            <Image
+              src={
+                urlForImage(image)
+                  ?.height(256)
+                  .width(256)
+                  .fit("crop")
+                  .url() as string
+              }
+              alt={name}
+              fill
+              className="object-cover"
+            />
           </div>
           <div>
             {/* <h3 className="text-xl font-medium mb-2">O autorovi</h3> */}

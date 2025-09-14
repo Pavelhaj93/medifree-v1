@@ -1,11 +1,4 @@
 import { sanityFetch } from "@/sanity/lib/live";
-import { CalendarSection } from "@/components/sections/CalendarSection";
-import ContactSection from "@/components/sections/ContactSection";
-import HeroSection from "@/components/sections/HeroSection";
-import HowItWorksSection from "@/components/sections/HowItWorksSection";
-import MiddleSection from "@/components/sections/MiddleSection";
-import { ServicesSection } from "@/components/sections/ServicesSection";
-import { TherapistSection } from "@/components/sections/TherapistSection";
 import {
   allPersonsQuery,
   getPageQuery,
@@ -15,10 +8,18 @@ import type { Metadata } from "next";
 import type { GetPageQueryResult } from "@/sanity.types";
 import PageBuilderPage from "@/components/sanity/PageBuilder";
 import { PageOnboarding } from "@/components/sanity/Onboarding";
-import SocialConnect from "@/components/sections/SocialConnectSection";
-import SocialConnectSection from "@/components/sections/SocialConnectSection";
+
 import { Suspense } from "react";
-import { ServicesCarouselSection } from "@/components/sections/SevicesCarouselSection";
+import MiddleSection from "@/components/sections/homepage/MiddleSection";
+import { TherapistSection } from "@/components/sections/homepage/TherapistSection";
+import { ServicesCarouselSection } from "@/components/sections/homepage/SevicesCarouselSection";
+import { ServicesSection } from "@/components/sections/homepage/ServicesSection";
+import HowItWorksSection from "@/components/sections/homepage/HowItWorksSection";
+import { CalendarSection } from "@/components/sections/homepage/CalendarSection";
+import SocialConnectSection from "@/components/sections/homepage/SocialConnectSection";
+import ContactSection from "@/components/sections/homepage/ContactSection";
+import HeroSection from "@/components/sections/homepage/HeroSection";
+import { HomepageVideoSection } from "@/components/sections/homepage/HomepageVideoSection";
 
 // type Props = {
 //   params: Promise<{ slug: string }>;
@@ -63,9 +64,10 @@ export default async function Page() {
       <HeroSection />
       <MiddleSection />
       <TherapistSection />
-      <ServicesCarouselSection />
+      <HomepageVideoSection />
       <ServicesSection />
       <HowItWorksSection />
+      <ServicesCarouselSection />
       <CalendarSection />
       <SocialConnectSection />
       <ContactSection />

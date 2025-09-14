@@ -1,9 +1,17 @@
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { sanityFetch } from "@/sanity/lib/live";
+import { featuredProductQuery } from "@/sanity/lib/queries";
 import { Download, ShoppingCart, Star } from "lucide-react";
 import Image from "next/image";
 
-export default function FeaturedProductSection() {
+export default async function FeaturedProductSection() {
+  const { data: featuredProduct } = await sanityFetch({
+    query: featuredProductQuery,
+  });
+
+  if (!featuredProduct) return null;
+
   return (
     <section className="py-16">
       <div className="container mx-auto px-4">
@@ -15,9 +23,9 @@ export default function FeaturedProductSection() {
                   Doporučené
                 </Badge>
                 <h2 className="text-3xl font-medium mb-4">
-                  Finding balance: Průvodce duševní pohodou
+                  {featuredProduct?.title}
                 </h2>
-                <div className="flex items-center gap-1 mb-4">
+                {/* <div className="flex items-center gap-1 mb-4">
                   <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400" />
                   <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400" />
                   <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400" />
@@ -26,20 +34,30 @@ export default function FeaturedProductSection() {
                   <span className="ml-2 text-sm text-gray-600">
                     (42 hodnocení)
                   </span>
-                </div>
+                </div> */}
                 <p className="text-gray-600 mb-6">
-                  Komplexní průvodce hledáním duševní rovnováhy v dnešním
-                  hektickém světě. Naučte se praktické techniky pro zvládání
-                  stresu, mindfulness a emocionální odolnost.
+                  {featuredProduct.description}
                 </p>
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="text-3xl font-bold">600 Kč</div>
-                  <div className="text-lg text-gray-500 line-through">
-                    200 Kč
+                  <div className="text-3xl font-bold">
+                    {featuredProduct.price.toLocaleString("CZ")} Kč
                   </div>
-                  <div className="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded">
-                    33% sleva
-                  </div>
+                  {featuredProduct.originalPrice && (
+                    <div className="text-lg text-gray-500 line-through">
+                      {featuredProduct?.originalPrice?.toLocaleString("CZ")} Kč
+                    </div>
+                  )}
+                  {featuredProduct.originalPrice && (
+                    <div className="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded">
+                      {featuredProduct.originalPrice &&
+                        Math.round(
+                          ((featuredProduct.originalPrice -
+                            featuredProduct.price) /
+                            featuredProduct.originalPrice) *
+                            100
+                        ) + "% sleva"}
+                    </div>
+                  )}
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button variant="primary" className="">

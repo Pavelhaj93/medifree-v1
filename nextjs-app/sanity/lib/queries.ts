@@ -107,11 +107,14 @@ export const pagesSlugs = defineQuery(`
 `);
 
 export const personQuery = defineQuery(`
-  *[_type == "person" && slug.current == $slug][0] {
+    *[_type == "person" && slug.current == $slug][0]{
     _id,
     name,
+    slug,
     specialization,
     description,
+    topics,
+    mainImage,
     picture {
       asset->{
         _id,
@@ -126,9 +129,11 @@ export const allPersonsQuery = defineQuery(`
   *[_type == "person"] | order(name asc) {
     _id,
     name,
+    slug,
     specialization,
     description,
     topics,
+    mainImage,
     picture {
       asset->{
         _id,
@@ -136,6 +141,92 @@ export const allPersonsQuery = defineQuery(`
       },
       alt
     },
+  }
+`);
+
+export const productQuery = defineQuery(`
+  *[_type == "product" && slug.current == $slug][0] {
+    _id,
+    title,
+    price,
+    originalPrice,
+    image,
+    rating,
+    reviews,
+    description,
+    featured,
+    category,
+    _createdAt, 
+    _updatedAt,
+    _rev,
+    _type,
+  }
+`);
+
+export const featuredProductQuery = defineQuery(`
+  *[_type == "product" && featured == true][0] {
+    _id,
+    title,
+    price,
+    originalPrice,
+    mainImage,
+    rating,
+    reviews,
+    description,
+    featured,
+    category,
+    _createdAt, 
+    _updatedAt,
+    _rev,
+    _type,
+  }
+`);
+
+export const allProductsQuery = defineQuery(`
+  *[_type == "product"] | order(name asc) {
+    _id,
+    title,
+    price,
+    originalPrice,
+    mainImage,
+    rating,
+    reviews,
+    description,
+    featured,
+    category,
+    _createdAt, 
+    _updatedAt,
+    _rev,
+    _type,
     "slug": slug.current
+  }
+`);
+
+export const allFaqsQuery = defineQuery(`
+  *[_type == "faq"] | order(order asc, question asc) {
+    _id,
+    question,
+    answer,
+    category,
+    order,
+    _createdAt,
+    _updatedAt
+  }
+`);
+
+export const allServicesQuery = defineQuery(`
+  *[_type == "service"] | order(title asc) {
+    _id,
+    title,
+    tag,
+    description,
+    content,
+    price,
+    priceType,
+    image,
+    _createdAt,
+    _updatedAt,
+    _type,
+    _rev
   }
 `);

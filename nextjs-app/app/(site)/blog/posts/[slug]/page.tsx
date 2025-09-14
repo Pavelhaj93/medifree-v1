@@ -1,18 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  CalendarDays,
-  Clock,
-  ChevronLeft,
-  Share2,
-  Bookmark,
-  Facebook,
-  Twitter,
-  Linkedin,
-} from "lucide-react";
+import { CalendarDays, Clock, ChevronLeft } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { doctors } from "@/app/lib/data/doctors";
 import AboutTheAuthor from "@/components/sections/blogItem/AboutTheAuthor";
 import RelatedArticles from "@/components/sections/blogItem/RelatedArticlesGrid";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -20,6 +9,8 @@ import { postQuery } from "@/sanity/lib/queries";
 import type { Person, PostQueryResult } from "@/sanity.types";
 import Avatar from "@/components/sanity/Avatar";
 import { PortableText } from "next-sanity";
+import { urlForImage } from "@/sanity/lib/utils";
+import SocialSitesShareButtons from "@/components/sections/blog/SocialSitesShareButtons";
 
 export default async function BlogPostPage({
   params,
@@ -74,31 +65,45 @@ export default async function BlogPostPage({
               </h1>
 
               <div className="flex items-center justify-between mb-8">
-                <Avatar person={post?.author as Person} />
+                <Avatar
+                  person={
+                    post?.author as Pick<
+                      Person,
+                      "name" | "specialization" | "picture"
+                    >
+                  }
+                />
 
                 <div className="flex items-center gap-3">
-                  <Button
+                  {/* <Button
                     variant="primary"
                     size="icon"
                     className="rounded-full w-9 h-9"
                   >
                     <Bookmark className="h-4 w-4" />
-                  </Button>
-                  <Button
+                  </Button> */}
+                  {/* TODO: finish share modal functionality if possible */}
+                  {/* <Button
                     variant="primary"
                     size="icon"
                     className="rounded-full w-9 h-9"
                   >
                     <Share2 className="h-4 w-4" />
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </div>
 
             <div className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden mb-12">
               <Image
-                src="/images/blog/depression.png"
-                alt="Hlavní článek"
+                src={
+                  urlForImage(post?.coverImage)
+                    ?.height(500)
+                    .width(1000)
+                    .fit("crop")
+                    .url() as string
+                }
+                alt={post?.coverImage?.alt || "Cover image"}
                 fill
                 className="object-cover"
               />
@@ -109,55 +114,12 @@ export default async function BlogPostPage({
                 <PortableText value={post?.content ?? []} />
               </div>
 
-              <div className="border-t border-b border-gray-200 py-6 my-8">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium mb-2">Sdílet</p>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="primary"
-                        size="icon"
-                        className="rounded-full w-9 h-9"
-                      >
-                        <Facebook className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="primary"
-                        size="icon"
-                        className="rounded-full w-9 h-9"
-                      >
-                        <Twitter className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="primary"
-                        size="icon"
-                        className="rounded-full w-9 h-9"
-                      >
-                        <Linkedin className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="font-medium mb-2">Tagy</p>
-                    <div className="flex gap-2">
-                      <Badge size="sm" variant="primary">
-                        Úzkost
-                      </Badge>
-                      <Badge size="sm" variant="primary">
-                        Duševní zdraví
-                      </Badge>
-                      <Badge size="sm" variant="primary">
-                        Životní styl
-                      </Badge>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <SocialSitesShareButtons />
 
               <AboutTheAuthor
-                name={doctors.radim.name}
-                description={doctors.radim.description}
-                imageSrc="/images/blog/avatar.png"
+                name={post?.author?.name ?? ""}
+                description={post?.author?.specialization ?? ""}
+                image={post?.author?.picture}
               />
 
               {/* Pass related articles of same category */}

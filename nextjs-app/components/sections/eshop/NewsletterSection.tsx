@@ -7,7 +7,7 @@ export default function NewsletterSection() {
       <div className="container mx-auto px-4">
         <div className="bg-primary rounded-2xl p-8 md:p-12 text-white text-center">
           <h2 className="text-3xl md:text-4xl font-medium mb-4">
-            Získejte 15% slevu na první nákup
+            Získejte 10% slevu na první nákup
           </h2>
           <p className="max-w-2xl mx-auto mb-8 opacity-90">
             Přihlaste se k odběru novinek a získejte exkluzivní nabídky,

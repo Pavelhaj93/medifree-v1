@@ -7,8 +7,10 @@ type Props = {
 };
 
 export default function Avatar({ person }: Props) {
+  console.log("ttt person", person);
   const { name, specialization, picture } = person;
 
+  console.log("ttt picture", picture);
   return (
     <div className="flex items-center gap-4">
       {picture?.asset?._ref ? (

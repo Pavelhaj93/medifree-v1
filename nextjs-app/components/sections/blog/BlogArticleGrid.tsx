@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/Button";
 import BlogArticleGridItem from "./BlogArticleGridItem";
-import { mockArticles } from "@/app/lib/data/articles";
 import { sanityFetch } from "@/sanity/lib/live";
 import { allPostsQuery } from "@/sanity/lib/queries";
 
@@ -29,16 +28,17 @@ export default async function BlogArticleGrid() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {mockArticles.map((article) => (
+          {posts.map((article) => (
             <BlogArticleGridItem
+              key={article._id}
               title={article.title}
               date={article.date}
-              readTime={article.readTime}
+              readTime={article.readTime ?? 3}
               category={article.category}
               description={article.description}
-              key={article.id}
-              imageSrc="/images/blog/depression.png"
-              imageAlt="Deprese"
+              image={article.coverImage}
+              imageAlt={article.coverImage.alt || "Cover image"}
+              slug={article.slug}
             />
           ))}
         </div>

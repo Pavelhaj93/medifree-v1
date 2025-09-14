@@ -13,7 +13,7 @@ export default function EshopHeroSection() {
           <h1 className="text-4xl md:text-5xl font-medium mb-6">
             Naše produkty
           </h1>
-          <p className="text-gray-600 max-w-2xl mx-auto mb-8">
+          <p className="text-gray-600 text-xl md:text-2xl mx-auto mb-8">
             Objevte naši nabídku doporučení jak si zlepšit zdraví, vitalitu,
             energii a duševní pohodu. Vše z pohodlí domova v online formě.
           </p>

@@ -1,20 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { ServiceItemProps } from "./ServicesItemSection";
-
-import { services } from "@/app/lib/data/services";
 import { Badge } from "@/components/ui/Badge";
+import { Service } from "@/sanity.types";
+import { urlForImage } from "@/sanity/lib/utils";
 
-const ServiceCard = (service: ServiceItemProps) => {
+const ServiceCard = (service: Service & { reverse?: boolean }) => {
   return (
     <Link
-      href={`#${service.id}`}
+      href={`#${service._id}`}
       className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center"
     >
-      <div className="w-16 h-16 rounded-full bg-[#8D3F38]/10 flex items-center justify-center mb-4 overflow-hidden">
+      <div className="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center mb-4 overflow-hidden">
         <Image
-          src={service.imageSrc}
-          alt={service.title}
+          src={
+            urlForImage(service.image)
+              ?.width(120)
+              .height(120)
+              .fit("crop")
+              .url() as string
+          }
+          alt={service.image?.alt || service.title}
           width={120}
           height={120}
         />
@@ -25,7 +30,11 @@ const ServiceCard = (service: ServiceItemProps) => {
   );
 };
 
-export default function ServicesHeroSection() {
+export default function ServicesHeroSection({
+  services,
+}: {
+  services: Service[];
+}) {
   return (
     <section className="bg-gray-50">
       <div className="container mx-auto ">
@@ -45,19 +54,11 @@ export default function ServicesHeroSection() {
           </p>
 
           <div className="grid md:grid-cols-4 gap-6">
-            {services.map((service) => (
+            {services.map((service, index) => (
               <ServiceCard
-                key={service.id}
-                id={service.id}
-                tag={service.tag}
-                title={service.title}
-                description={service.description}
-                imageSrc={service.imageSrc}
-                features={service.features}
-                idealFor={service.idealFor}
-                price={service.price}
-                buttonText={service.buttonText}
-                reverse={service.reverse}
+                key={service._id}
+                {...service}
+                reverse={index % 2 === 1}
               />
             ))}
           </div>
