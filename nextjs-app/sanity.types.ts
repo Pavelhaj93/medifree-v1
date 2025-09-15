@@ -291,7 +291,7 @@ export type Person = {
     alt?: string;
     _type: "image";
   };
-  video?: {
+  video: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -837,7 +837,7 @@ export type PagesSlugsResult = Array<{
   slug: string;
 }>;
 // Variable: personQuery
-// Query: *[_type == "person" && slug.current == $slug][0]{    _id,    name,    slug,    specialization,    description,    topics,    mainImage,    picture {      asset->{        _id,        url      },      alt    }  }
+// Query: *[_type == "person" && slug.current == $slug][0]{    _id,    name,    slug,    specialization,    description,    topics,    mainImage,    picture {      asset->{        _id,        url      },      alt    },    video  }
 export type PersonQueryResult = {
   _id: string;
   name: string;
@@ -863,6 +863,18 @@ export type PersonQueryResult = {
       url: string | null;
     } | null;
     alt: string | null;
+  };
+  video: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    thumbnailUrl?: string;
+    caption?: string;
+    description?: string;
+    _type: "file";
   };
 } | null;
 // Variable: allPersonsQuery
@@ -1023,7 +1035,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"post\" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n    }\n  },\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture},\n\n  }\n": PostQueryResult;
     "\n  *[_type == \"post\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PostPagesSlugsResult;
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
-    "\n    *[_type == \"person\" && slug.current == $slug][0]{\n    _id,\n    name,\n    slug,\n    specialization,\n    description,\n    topics,\n    mainImage,\n    picture {\n      asset->{\n        _id,\n        url\n      },\n      alt\n    }\n  }\n": PersonQueryResult;
+    "\n    *[_type == \"person\" && slug.current == $slug][0]{\n    _id,\n    name,\n    slug,\n    specialization,\n    description,\n    topics,\n    mainImage,\n    picture {\n      asset->{\n        _id,\n        url\n      },\n      alt\n    },\n    video\n  }\n": PersonQueryResult;
     "\n  *[_type == \"person\"] | order(name asc) {\n    _id,\n    name,\n    slug,\n    specialization,\n    description,\n    topics,\n    mainImage,\n    picture {\n      asset->{\n        _id,\n        url\n      },\n      alt\n    },\n  }\n": AllPersonsQueryResult;
     "\n  *[_type == \"product\" && slug.current == $slug][0] {\n    _id,\n    title,\n    price,\n    originalPrice,\n    image,\n    rating,\n    reviews,\n    description,\n    featured,\n    category,\n    _createdAt, \n    _updatedAt,\n    _rev,\n    _type,\n  }\n": ProductQueryResult;
     "\n  *[_type == \"product\" && featured == true][0] {\n    _id,\n    title,\n    price,\n    originalPrice,\n    mainImage,\n    rating,\n    reviews,\n    description,\n    featured,\n    category,\n    _createdAt, \n    _updatedAt,\n    _rev,\n    _type,\n  }\n": FeaturedProductQueryResult;

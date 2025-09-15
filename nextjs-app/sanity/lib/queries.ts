@@ -121,7 +121,8 @@ export const personQuery = defineQuery(`
         url
       },
       alt
-    }
+    },
+    video
   }
 `);
 

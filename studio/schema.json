@@ -1884,7 +1884,7 @@
             }
           }
         },
-        "optional": true
+        "optional": false
       }
     }
   },

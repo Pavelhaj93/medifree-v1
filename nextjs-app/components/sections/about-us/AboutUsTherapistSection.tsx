@@ -27,7 +27,7 @@ export default async function AboutUsTherapistSection() {
     params: { slug: "mudr-michaela-hnykova" },
   });
 
-  console.log("ttt michaela", michaela);
+  console.log("ttt radim", radim);
 
   return (
     <>
@@ -235,7 +235,7 @@ export default async function AboutUsTherapistSection() {
           </div> */}
 
           {/* Video Introduction Section */}
-          {/* {radim?.video && (
+          {radim?.video && (
             <div className="mt-16 pt-16 border-t border-gray-200">
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-medium mb-4">
@@ -255,15 +255,18 @@ export default async function AboutUsTherapistSection() {
                     className="w-full h-full object-cover"
                     preload="metadata"
                   >
-                    <source src={radim.video.videoUrl} type="video/mp4" />
+                    <source
+                      src="https://cdn.sanity.io/files/rmirl1zi/test/43f5dba90201186204d50e906b03dba8b5cbb2d8.mp4"
+                      type="video/mp4"
+                    />
                     Your browser does not support the video tag.
-                  </video> */}
+                  </video>
 
-          {/* Video overlay info */}
-          {/* <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+                  {/* Video overlay info */}
+                  {/* <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
                     {radim.video.duration}
                   </div> */}
-          {/* </div>
+                </div>
 
                 <div className="text-center mt-6">
                   <h4 className="font-medium text-lg mb-2">
@@ -276,7 +279,7 @@ export default async function AboutUsTherapistSection() {
                 </div>
               </div>
             </div>
-          )} */}
+          )}
         </div>
       </section>
       {/* Second Therapist - Dr. Michael Chen */}
@@ -352,7 +355,7 @@ export default async function AboutUsTherapistSection() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button variant="tertiary" className="rounded-full">
-                  Domluvit konzultaci s Michaelou
+                  Domluvit konzultaci s Míšou
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
                 {/* <Button
@@ -483,11 +486,11 @@ export default async function AboutUsTherapistSection() {
             </div>
           </div> */}
 
-          {/* {michaela?.video && (
+          {michaela?.video && (
             <div className="mt-16 pt-16 border-t border-gray-200">
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-medium mb-4">
-                  Osobní message od Michaely
+                  Osobní message od Míšy
                 </h3>
                 <p className="text-gray-600 max-w-2xl mx-auto">
                   Poznejte mě osobně a zjistěte, jak mohu pomoci na vaší cestě
@@ -503,28 +506,31 @@ export default async function AboutUsTherapistSection() {
                     className="w-full h-full object-cover"
                     preload="metadata"
                   >
-                    <source src={michaela?.video.videoUrl} type="video/mp4" />
+                    <source
+                      src="https://cdn.sanity.io/files/rmirl1zi/test/589d304a65f995b79ce40c7fcaa90198b1736322.mp4"
+                      type="video/mp4"
+                    />
                     Your browser does not support the video tag.
-                  </video> */}
+                  </video>
 
-          {/* Video overlay info */}
-          {/* <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+                  {/* Video overlay info */}
+                  {/* <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
                     {michaela?.video.duration}
                   </div> */}
-          {/* </div>
+                </div>
 
                 <div className="text-center mt-6">
                   <h4 className="font-medium text-lg mb-2">
                     Vítejte v Medifree
                   </h4>
                   <p className="text-sm text-gray-500">
-                    Podívejte se na krátké video, kde se s vámi Michaela podělí
-                    o svou vizi a přístup k péči o vaše zdraví.
+                    Podívejte se na krátké video, kde se s vámi Míša podělí o
+                    svou vizi a přístup k péči o vaše zdraví.
                   </p>
                 </div>
               </div>
             </div>
-          )} */}
+          )}
         </div>
       </section>
 

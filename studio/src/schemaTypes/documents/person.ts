@@ -117,14 +117,7 @@ export const person = defineType({
       options: {
         accept: 'video/*',
       },
-      validation: (rule) =>
-        rule.custom((file) => {
-          if (file && file.asset && file.asset._ref) {
-            const isValidType = /\.(mp4|mov|avi|wmv|flv|mkv)$/i.test(file.asset._ref)
-            return isValidType ? true : 'Unsupported file type. Please upload a video file.'
-          }
-          return true
-        }),
+      validation: (Rule) => Rule.required(),
       fields: [
         defineField({
           name: 'thumbnailUrl',
