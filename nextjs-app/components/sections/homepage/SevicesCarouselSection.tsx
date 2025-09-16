@@ -1,122 +1,143 @@
 "use client";
 
-import { useState } from "react";
+import { useRef } from "react";
+import { Card, CardContent } from "@/components/ui/Card";
 import {
   Carousel,
-  CarouselApi,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/Carousel";
 import Autoplay from "embla-carousel-autoplay";
 
 const carouselItems = [
   {
     id: 1,
-    text: "Zjištění hladiny a doplnění vitamínů a minerálů.",
-    author: "Dr. Sarah Johnson",
-    category: "On Healing",
+    text: "Zjištění hladiny a doplnění vitamínů a minerálů",
   },
   {
     id: 2,
-    text: "Diagnostika stavu metabolismu a jeho optimalizace.",
-    author: "Mental Health Advocate",
-    category: "On Strength",
+    text: "Diagnostika stavu metabolismu a jeho optimalizace",
   },
   {
     id: 3,
-    text: "Stabilizace glykemické křivky a zlepšení energetické hladiny.",
-    author: "Mindify Team",
-    category: "On Self-Care",
+    text: "Stabilizace glykemické křivky a zlepšení energetické hladiny",
   },
   {
     id: 4,
-    text: "Zlepšení funkce mitochondrií a buněčné energie.",
-    author: "Dr. Sarah Johnson",
-    category: "On Progress",
+    text: "Zlepšení funkce mitochondrií a buněčné energie",
   },
   {
     id: 5,
-    text: "Snížení chronického zánětu a podpora imunitního systému.",
-    author: "Mental Health Community",
-    category: "On Acceptance",
+    text: "Snížení chronického zánětu a podpora imunitního systému",
   },
   {
     id: 6,
-    text: "Redukce tuku a navýšení svalové hmoty.",
-    author: "Therapy Insights",
-    category: "On Vulnerability",
+    text: "Redukce tuku a navýšení svalové hmoty",
   },
   {
     id: 7,
-    text: "Snížení rizika civilizačních onemocnění.",
-    author: "Carl Rogers",
-    category: "On Self-Acceptance",
+    text: "Snížení rizika civilizačních onemocnění",
   },
   {
     id: 8,
-    text: "Plán na míru dle Vašeho denního režimu a preferencí.",
-    author: "Mindful Living",
-    category: "On Journey",
+    text: "Plán na míru dle Vašeho denního režimu a preferencí",
   },
   {
     id: 9,
     text: "Snížení expozice toxinům z prostředí",
-    author: "Environmental Health Expert",
-    category: "On Awareness",
   },
   {
     id: 10,
     text: "Hormonální rovnováha a optimalizace",
-    author: "Hormonal Health Expert",
-    category: "On Balance",
   },
   {
     id: 11,
     text: "Konzultace laboratorních výsledků",
-    author: "Laboratory Expert",
-    category: "On Testing",
   },
   {
     id: 12,
     text: "Doporučení pohybového režimu",
-    author: "Fitness Expert",
-    category: "On Movement",
   },
   {
     id: 13,
     text: "Regulace nervového systému",
-    author: "Neurobiology Expert",
-    category: "On Regulation",
   },
   {
     id: 14,
     text: "Optimalizace spánku a regenerace",
-    author: "Sleep Expert",
-    category: "On Recovery",
   },
   {
     id: 15,
     text: "Kultivace pozornosti",
-    author: "Mindfulness Expert",
-    category: "On Awareness",
   },
 ];
 
 export function ServicesCarouselSection() {
-  const [api, setApi] = useState<CarouselApi>();
+  const plugin = useRef(Autoplay({ delay: 3500, stopOnInteraction: true }));
 
   return (
-    <section className="bg-gray-50">
-      <div className="container mx-auto px-4 md:px-10 py-16 md:py-32">
-        <Carousel setApi={setApi} plugins={[Autoplay({})]}>
-          <CarouselContent>
-            {carouselItems.map((item) => (
-              <CarouselItem className="basis-1/3" key={item.id}>
-                {item.text}
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+    <section className="py-16 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <div className="inline-block rounded-full bg-white px-6 py-2 mb-6 shadow-sm">
+            <span className="text-primary font-medium text-sm">
+              NAŠE SLUŽBY
+            </span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-medium mb-4">
+            Co pro vás můžeme udělat
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Komplexní péče zaměřená na optimalizaci vašeho zdraví a životního
+            stylu
+          </p>
+        </div>
+
+        <div className="max-w-7xl mx-auto">
+          <Carousel
+            plugins={[plugin.current]}
+            className="w-full"
+            onMouseEnter={plugin.current.stop}
+            onMouseLeave={plugin.current.reset}
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+          >
+            <CarouselContent className="-ml-3 md:-ml-4">
+              {carouselItems.map((item) => (
+                <CarouselItem
+                  key={item.id}
+                  className="pl-3 md:pl-4 md:basis-1/2 lg:basis-1/3"
+                >
+                  <Card className="h-full bg-primary shadow-sm hover:shadow-md transition-all duration-300 border-0 group">
+                    <CardContent className="p-8 flex items-center justify-center h-full min-h-[140px]">
+                      <p className="text-white text-center leading-relaxed font-medium text-lg group-hover:text-secondary transition-colors duration-300">
+                        {item.text}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex -left-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-md transition-all duration-300" />
+            <CarouselNext className="hidden md:flex -right-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-md transition-all duration-300" />
+          </Carousel>
+        </div>
+
+        {/* Optional: Simple dots indicator */}
+        {/* <div className="flex justify-center mt-8 space-x-2">
+          {Array.from({ length: Math.ceil(carouselItems.length / 3) }).map(
+            (_, index) => (
+              <div
+                key={index}
+                className="w-2 h-2 rounded-full bg-gray-300 hover:bg-primary transition-colors duration-300 cursor-pointer"
+              />
+            )
+          )}
+        </div> */}
       </div>
     </section>
   );

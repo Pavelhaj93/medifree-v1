@@ -1,8 +1,10 @@
 // generate full screen video section
 "use client";
+
+import { Video } from "@/sanity.types";
 import { useEffect, useRef, useState } from "react";
 
-export const HomepageVideoSection = () => {
+export const HomepageVideoSection = ({ video }: { video: Video }) => {
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
   const mobileVideoRef = useRef<HTMLVideoElement>(null);
   const [isInView, setIsInView] = useState(false);
@@ -57,8 +59,7 @@ export const HomepageVideoSection = () => {
       <div className="hidden md:block w-full h-full">
         <video
           ref={desktopVideoRef}
-          // src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/video/upload/f_auto:video,q_auto/eu8vo1at2ksf46nszokq`}
-
+          src="https://cdn.sanity.io/files/rmirl1zi/test/2cc4c85392c4ff6c1ab4e99f6d8da00c2a1a06e3.mp4"
           className="w-full h-full max-h-screen pointer-events-none bg-black"
           autoPlay
           loop

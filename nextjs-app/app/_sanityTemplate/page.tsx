@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Head from "next/head";
-
 import { sanityFetch } from "@/sanity/lib/live";
 import { getPageQuery, pagesSlugs } from "@/sanity/lib/queries";
 import type { GetPageQueryResult } from "@/sanity.types";

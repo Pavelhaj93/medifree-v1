@@ -148,21 +148,21 @@ export default async function AboutUsTherapistSection() {
                   zátěže. Zároveň se chci zaměřit na principy, kterým se u nás
                   nevěnuje příliš pozornosti.
                 </p>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-gray-600 leading-relaxed mb-4">
                   Věnuji se tématům výživy, pohybu, vnitřní práce - kontroly
                   pozornosti vč. problematiky návyků (dopaminu) a optimalizaci
                   hladiny testosteronu u mužů.
                 </p>
-              </div>
-
-              <div className="bg-primary/5 rounded-xl p-6">
-                <h3 className="text-xl font-medium mb-3">Moje mise</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
                   Aktuálně se také soustředím na účinky přírody na organismus a
                   jak je co nejlépe využít i v rámci městského života ke
                   zlepšení soustředění, kreativity a celkové pohody.
                 </p>
-                <p className="text-gray-600 leading-relaxed">
+              </div>
+
+              <div className="bg-primary/5 rounded-xl p-6">
+                <h3 className="text-xl font-medium mb-3">Můj cíl</h3>
+                <p className="text-gray-600 eading-relaxed">
                   Rád bych nabídl alternativu lidem, u kterých lékař zvažuje
                   nasazení léků (vysoký krevní tlak, cukrovka II.typu, obezita,
                   antidepresiva,..) ve smyslu řešení změnou životního stylu dle

@@ -231,3 +231,24 @@ export const allServicesQuery = defineQuery(`
     _rev
   }
 `);
+
+export const videoQuery = defineQuery(`
+  *[_type == "video" && _id == $id][0]{
+    _id,
+    title,
+    description,
+    videoFile
+}`);
+
+export const allVideosQuery = defineQuery(`
+  *[_type == "video"] | order(title asc) {
+    _id,
+    title,
+    description,
+    videoFile,
+    _createdAt,
+    _updatedAt,
+    _type,
+    _rev
+  }
+`);

@@ -1,6 +1,7 @@
 import { sanityFetch } from "@/sanity/lib/live";
 import {
   allPersonsQuery,
+  allVideosQuery,
   getPageQuery,
   pagesSlugs,
 } from "@/sanity/lib/queries";
@@ -59,12 +60,18 @@ import { HomepageVideoSection } from "@/components/sections/homepage/HomepageVid
 // }
 
 export default async function Page() {
+  const { data: allVideos } = await sanityFetch({
+    query: allVideosQuery,
+  });
+
+  console.log("ttt allVideos", allVideos);
+
   return (
     <>
       <HeroSection />
       <MiddleSection />
       <TherapistSection />
-      <HomepageVideoSection />
+      <HomepageVideoSection video={allVideos[0]} />
       <ServicesSection />
       <HowItWorksSection />
       <ServicesCarouselSection />

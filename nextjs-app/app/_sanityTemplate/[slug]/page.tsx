@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Head from "next/head";
-
 import PageBuilderPage from "@/components/sanity/PageBuilder";
 import { sanityFetch } from "@/sanity/lib/live";
 import { getPageQuery, pagesSlugs } from "@/sanity/lib/queries";

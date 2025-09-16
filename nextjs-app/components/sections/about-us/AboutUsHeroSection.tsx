@@ -10,7 +10,7 @@ export function AboutUsHeroSection() {
             O nás
           </Badge>
           <h1 className="text-4xl md:text-5xl font-medium mb-6">
-            Naše mise a hodnoty
+            Naše cíle a hodnoty
           </h1>
           <p className="text-gray-600 max-w-2xl mx-auto mb-8">
             Naším cílem je poskytovat komplexní a personalizovanou péči, která

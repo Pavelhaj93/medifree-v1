@@ -20,12 +20,10 @@ export default async function BlogPostPage({
   // This would normally fetch the specific blog post based on the slug
   const { slug } = await params;
 
-  const { data: article } = await sanityFetch({
+  const { data: post } = await sanityFetch({
     query: postQuery,
     params: { slug },
   });
-
-  const post = article as PostQueryResult;
 
   return (
     <>

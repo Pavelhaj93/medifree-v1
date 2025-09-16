@@ -22,14 +22,14 @@ export default function Footer() {
                   href="/ochrana-osobnich-udaju"
                   className="text-gray-700 hover:text-secondary transition-colors mb-2 cursor-pointer"
                 >
-                  Ochrana osobních údajů
+                  Pravidla a podmínky ochrany osobních údajů
                 </Link>
-                <Link
+                {/* <Link
                   href="/podminky-uzivani-sluzeb"
                   className="text-gray-700 hover:text-secondary transition-colors cursor-pointer"
                 >
                   Obchodní podmínky
-                </Link>
+                </Link> */}
               </nav>
             </div>
           </div>
