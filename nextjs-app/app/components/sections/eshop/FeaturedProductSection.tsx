@@ -15,7 +15,7 @@ export default async function FeaturedProductSection() {
   return (
     <section className="py-16">
       <div className="container mx-auto px-4">
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-xs overflow-hidden">
           <div className="grid md:grid-cols-2 gap-8">
             <div className="p-8 md:p-12 flex items-center">
               <div>
@@ -48,7 +48,7 @@ export default async function FeaturedProductSection() {
                     </div>
                   )}
                   {featuredProduct.originalPrice && (
-                    <div className="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded">
+                    <div className="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded-sm">
                       {featuredProduct.originalPrice &&
                         Math.round(
                           ((featuredProduct.originalPrice -

@@ -27,7 +27,7 @@ export default function BlogArticleGridItem({
   slug,
 }: BlogArticleGridItemProps) {
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+    <div className="bg-white rounded-xl shadow-xs overflow-hidden">
       <div className="relative h-[200px]">
         <Image
           src={
@@ -42,7 +42,7 @@ export default function BlogArticleGridItem({
           className="object-cover"
         />
         <div className="absolute top-4 left-4">
-          <Badge variant="primary" className="bg-white/80 backdrop-blur-sm">
+          <Badge variant="primary" className="bg-white/80 backdrop-blur-xs">
             {category}
           </Badge>
         </div>

@@ -112,7 +112,7 @@ export function ServicesCarouselSection() {
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <div className="inline-block rounded-full bg-white px-6 py-2 mb-6 shadow-sm">
+          <div className="inline-block rounded-full bg-white px-6 py-2 mb-6 shadow-xs">
             <span className="text-primary font-medium text-sm">
               NAŠE SLUŽBY
             </span>
@@ -154,7 +154,7 @@ export function ServicesCarouselSection() {
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                         {/* Gradient overlay dark on bottom, and light on top */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
                       </div>
 
                       {/* Content */}
@@ -168,7 +168,7 @@ export function ServicesCarouselSection() {
                       </div>
 
                       {/* Hover effect overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-linear-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </CardContent>
                   </Card>
                 </CarouselItem>

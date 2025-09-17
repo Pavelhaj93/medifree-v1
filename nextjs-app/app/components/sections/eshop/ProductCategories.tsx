@@ -42,7 +42,7 @@ export default function ProductCategories() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
           <Link
             href="#"
-            className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center"
+            className="bg-white p-6 rounded-xl shadow-xs hover:shadow-md transition-shadow flex flex-col items-center text-center"
           >
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <BookOpen className="h-6 w-6 text-primary" />
@@ -53,7 +53,7 @@ export default function ProductCategories() {
 
           {/* <Link
             href="#"
-            className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center"
+            className="bg-white p-6 rounded-xl shadow-xs hover:shadow-md transition-shadow flex flex-col items-center text-center"
           >
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <FileText className="h-6 w-6 text-primary" />
@@ -64,7 +64,7 @@ export default function ProductCategories() {
 
           {/* <Link
             href="#"
-            className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center"
+            className="bg-white p-6 rounded-xl shadow-xs hover:shadow-md transition-shadow flex flex-col items-center text-center"
           >
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <Headphones className="h-6 w-6 text-primary" />
@@ -75,7 +75,7 @@ export default function ProductCategories() {
 
           <Link
             href="#"
-            className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center"
+            className="bg-white p-6 rounded-xl shadow-xs hover:shadow-md transition-shadow flex flex-col items-center text-center"
           >
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <svg

@@ -70,7 +70,7 @@ const ArrowSvg = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       color="primary"
-      className="rotate-[34deg] text-primary"
+      className="rotate-34 text-primary"
     >
       <title>Arrow</title>
       <path

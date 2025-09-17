@@ -48,7 +48,7 @@ export default async function AboutUsTherapistSection() {
                   className="object-cover"
                 />
                 <div className="absolute bottom-6 left-6 right-6">
-                  <div className="bg-white/90 backdrop-blur-sm rounded-xl p-4">
+                  <div className="bg-white/90 backdrop-blur-xs rounded-xl p-4">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
                         <GraduationCap className="h-6 w-6 text-secondary" />
@@ -327,7 +327,7 @@ export default async function AboutUsTherapistSection() {
                 </p>
               </div> */}
 
-              <div className="bg-white rounded-xl p-6 shadow-sm">
+              <div className="bg-white rounded-xl p-6 shadow-xs">
                 <h3 className="text-xl font-medium mb-3">Další zaměření</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
                   Další téma, které je pro mě velice zajímavé a aktuální je
@@ -381,7 +381,7 @@ export default async function AboutUsTherapistSection() {
                   className="object-cover"
                 />
                 <div className="absolute bottom-6 left-6 right-6">
-                  <div className="bg-white/90 backdrop-blur-sm rounded-xl p-4">
+                  <div className="bg-white/90 backdrop-blur-xs rounded-xl p-4">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 bg-tertiary rounded-full flex items-center justify-center">
                         <GraduationCap className="h-6 w-6 text-white" />
@@ -401,7 +401,7 @@ export default async function AboutUsTherapistSection() {
               </div>
 
               {/* Credentials and certifications */}
-              <div className="bg-white rounded-xl p-6 shadow-sm">
+              <div className="bg-white rounded-xl p-6 shadow-xs">
                 <h3 className="font-medium text-lg mb-4">
                   Odborné kvalifikace a certifikace
                 </h3>
@@ -442,7 +442,7 @@ export default async function AboutUsTherapistSection() {
               Dr. Chen's Specializations
             </h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="text-center p-6 bg-white rounded-xl shadow-sm">
+              <div className="text-center p-6 bg-white rounded-xl shadow-xs">
                 <div className="w-12 h-12 bg-tertiary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Calendar className="h-6 w-6 text-tertiary" />
                 </div>
@@ -452,7 +452,7 @@ export default async function AboutUsTherapistSection() {
                 </p>
               </div>
 
-              <div className="text-center p-6 bg-white rounded-xl shadow-sm">
+              <div className="text-center p-6 bg-white rounded-xl shadow-xs">
                 <div className="w-12 h-12 bg-tertiary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Brain className="h-6 w-6 text-tertiary" />
                 </div>
@@ -462,7 +462,7 @@ export default async function AboutUsTherapistSection() {
                 </p>
               </div>
 
-              <div className="text-center p-6 bg-white rounded-xl shadow-sm">
+              <div className="text-center p-6 bg-white rounded-xl shadow-xs">
                 <div className="w-12 h-12 bg-tertiary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Heart className="h-6 w-6 text-tertiary" />
                 </div>
@@ -472,7 +472,7 @@ export default async function AboutUsTherapistSection() {
                 </p>
               </div>
 
-              <div className="text-center p-6 bg-white rounded-xl shadow-sm">
+              <div className="text-center p-6 bg-white rounded-xl shadow-xs">
                 <div className="w-12 h-12 bg-tertiary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Users className="h-6 w-6 text-tertiary" />
                 </div>

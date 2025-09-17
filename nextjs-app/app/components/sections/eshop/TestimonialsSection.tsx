@@ -13,7 +13,7 @@ export default function TestimonialsSection() {
         </h2>
 
         <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-white p-6 rounded-xl shadow-sm">
+          <div className="bg-white p-6 rounded-xl shadow-xs">
             <div className="flex items-center gap-1 mb-4">
               <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400" />
               <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400" />
@@ -37,7 +37,7 @@ export default function TestimonialsSection() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-sm">
+          <div className="bg-white p-6 rounded-xl shadow-xs">
             <div className="flex items-center gap-1 mb-4">
               <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400" />
               <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400" />
@@ -61,7 +61,7 @@ export default function TestimonialsSection() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-sm">
+          <div className="bg-white p-6 rounded-xl shadow-xs">
             <div className="flex items-center gap-1 mb-4">
               <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400" />
               <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400" />

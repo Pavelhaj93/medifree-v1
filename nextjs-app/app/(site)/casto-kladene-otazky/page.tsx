@@ -27,7 +27,7 @@ export default async function ContactFAQSection() {
             {faqItems.map((item) => (
               <div
                 key={item._id}
-                className="bg-white p-6 rounded-2xl shadow-sm"
+                className="bg-white p-6 rounded-2xl shadow-xs"
               >
                 <h3 className="text-xl font-medium mb-4">{item.question}</h3>
                 <p className="text-gray-600">{item.answer}</p>

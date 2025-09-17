@@ -28,7 +28,7 @@ export default function ContactSection({ first }: { first?: boolean }) {
 
           <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
             {/* Contact Form */}
-            <div className="bg-white p-8 rounded-2xl shadow-sm">
+            <div className="bg-white p-8 rounded-2xl shadow-xs">
               <h3 className="text-2xl font-medium mb-6">Napište nám</h3>
               <form className="space-y-5">
                 <div>
