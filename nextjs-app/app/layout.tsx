@@ -1,8 +1,4 @@
 import type { Metadata } from "next";
-import { Nunito } from "next/font/google";
-import "./globals.css";
-
-import localFont from "next/font/local";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Toaster } from "sonner";
@@ -50,33 +46,6 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-const satoshi = localFont({
-  src: [
-    {
-      path: "../public/fonts/Satoshi-Variable.ttf",
-      style: "normal",
-    },
-    // {
-    //   path: "../public/fonts/Satoshi-Italic-Variable.ttf",
-    //   style: "italic",
-    // }
-  ],
-  display: "swap",
-  preload: true,
-  variable: "--font-satoshi",
-});
-
-// const nunito = Nunito({
-//   variable: "--font-nunito",
-//   subsets: ["latin"],
-//   weight: ["300", "400", "500", "600", "700"],
-// });
-
-// export const metadata: Metadata = {
-//   title: "Medifree",
-//   description: "Přirozená cesta ke zdraví a volnosti",
-// };
-
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -86,9 +55,7 @@ export default async function RootLayout({
 
   return (
     <html lang="cs">
-      <body
-        className={`${satoshi.className} antialiased min-h-screen bg-white`}
-      >
+      <body>
         {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
         <Toaster />
         {isDraftMode && (
