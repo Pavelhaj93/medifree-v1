@@ -1,5 +1,5 @@
-import ContactFAQSection from "@/components/sections/contact/ContactFAQSection";
-import ContactSection from "@/components/sections/homepage/ContactSection";
+import ContactFAQSection from "@/app/components/sections/contact/ContactFAQSection";
+import ContactSection from "@/app/components/sections/homepage/ContactSection";
 
 export default function ContactPage() {
   return (

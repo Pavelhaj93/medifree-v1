@@ -1,5 +1,5 @@
-import { AboutUsHeroSection } from "@/components/sections/about-us/AboutUsHeroSection";
-import AboutUsTherapistSection from "@/components/sections/about-us/AboutUsTherapistSection";
+import { AboutUsHeroSection } from "@/app/components/sections/about-us/AboutUsHeroSection";
+import AboutUsTherapistSection from "@/app/components/sections/about-us/AboutUsTherapistSection";
 
 export default function TherapistPage() {
   return (

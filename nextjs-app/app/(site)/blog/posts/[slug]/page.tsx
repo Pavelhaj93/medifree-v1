@@ -1,16 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CalendarDays, Clock, ChevronLeft } from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
-import AboutTheAuthor from "@/components/sections/blogItem/AboutTheAuthor";
-import RelatedArticles from "@/components/sections/blogItem/RelatedArticlesGrid";
+import { Badge } from "@/app/components/ui/Badge";
+import AboutTheAuthor from "@/app/components/sections/blogItem/AboutTheAuthor";
+import RelatedArticles from "@/app/components/sections/blogItem/RelatedArticlesGrid";
 import { sanityFetch } from "@/sanity/lib/live";
 import { postQuery } from "@/sanity/lib/queries";
 import type { Person, PostQueryResult } from "@/sanity.types";
-import Avatar from "@/components/sanity/Avatar";
+import Avatar from "@/app/components/sanity/Avatar";
 import { PortableText } from "next-sanity";
 import { urlForImage } from "@/sanity/lib/utils";
-import SocialSitesShareButtons from "@/components/sections/blog/SocialSitesShareButtons";
+import SocialSitesShareButtons from "@/app/components/sections/blog/SocialSitesShareButtons";
 
 export default async function BlogPostPage({
   params,

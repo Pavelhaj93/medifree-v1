@@ -7,20 +7,20 @@ import {
 } from "@/sanity/lib/queries";
 import type { Metadata } from "next";
 import type { GetPageQueryResult } from "@/sanity.types";
-import PageBuilderPage from "@/components/sanity/PageBuilder";
-import { PageOnboarding } from "@/components/sanity/Onboarding";
+import PageBuilderPage from "@/app/components/sanity/PageBuilder";
+import { PageOnboarding } from "@/app/components/sanity/Onboarding";
 
 import { Suspense } from "react";
-import MiddleSection from "@/components/sections/homepage/MiddleSection";
-import { TherapistSection } from "@/components/sections/homepage/TherapistSection";
-import { ServicesCarouselSection } from "@/components/sections/homepage/SevicesCarouselSection";
-import { ServicesSection } from "@/components/sections/homepage/ServicesSection";
-import HowItWorksSection from "@/components/sections/homepage/HowItWorksSection";
-import { CalendarSection } from "@/components/sections/homepage/CalendarSection";
-import SocialConnectSection from "@/components/sections/homepage/SocialConnectSection";
-import ContactSection from "@/components/sections/homepage/ContactSection";
-import HeroSection from "@/components/sections/homepage/HeroSection";
-import { HomepageVideoSection } from "@/components/sections/homepage/HomepageVideoSection";
+import MiddleSection from "@/app/components/sections/homepage/MiddleSection";
+import { TherapistSection } from "@/app/components/sections/homepage/TherapistSection";
+import { ServicesCarouselSection } from "@/app/components/sections/homepage/SevicesCarouselSection";
+import { ServicesSection } from "@/app/components/sections/homepage/ServicesSection";
+import HowItWorksSection from "@/app/components/sections/homepage/HowItWorksSection";
+import { CalendarSection } from "@/app/components/sections/homepage/CalendarSection";
+import SocialConnectSection from "@/app/components/sections/homepage/SocialConnectSection";
+import ContactSection from "@/app/components/sections/homepage/ContactSection";
+import HeroSection from "@/app/components/sections/homepage/HeroSection";
+import { HomepageVideoSection } from "@/app/components/sections/homepage/HomepageVideoSection";
 
 // type Props = {
 //   params: Promise<{ slug: string }>;

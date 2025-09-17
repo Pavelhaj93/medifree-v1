@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
 import { Toaster } from "sonner";
-import DraftModeToast from "@/components/sanity/DraftModeToast";
+import DraftModeToast from "@/app/components/sanity/DraftModeToast";
 import { toPlainText, VisualEditing } from "next-sanity";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { draftMode } from "next/headers";
@@ -10,17 +10,21 @@ import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { settingsQuery } from "@/sanity/lib/queries";
 import * as demo from "@/sanity/lib/demo";
 import { handleError } from "./client-utils";
+import localFont from "next/font/local";
 
 /**
  * Generate metadata for the page.
  * Learn more: https://nextjs.org/docs/app/api-reference/functions/generate-metadata#generatemetadata-function
  */
+
 export async function generateMetadata(): Promise<Metadata> {
   const { data: settings } = await sanityFetch({
     query: settingsQuery,
     // Metadata should never contain stega
     stega: false,
   });
+
+  console.log("ttt settings", settings);
   const title = settings?.title || demo.title;
   const description = settings?.description || demo.description;
 
@@ -33,18 +37,36 @@ export async function generateMetadata(): Promise<Metadata> {
   } catch {
     // ignore
   }
+
+  console.log("tttoplainText(description)", toPlainText(description));
   return {
     metadataBase,
     title: {
       template: `%s | ${title}`,
       default: title,
     },
-    description: toPlainText(description),
+    description: "test",
     openGraph: {
       images: ogImage ? [ogImage] : [],
     },
   };
 }
+
+const satoshi = localFont({
+  src: [
+    {
+      path: "../public/fonts/Satoshi-Variable.ttf",
+      style: "normal",
+    },
+    // {
+    //   path: "../public/fonts/Satoshi-Italic-Variable.ttf",
+    //   style: "italic",
+    // }
+  ],
+  display: "swap",
+  preload: true,
+  variable: "--font-satoshi",
+});
 
 export default async function RootLayout({
   children,
@@ -55,7 +77,7 @@ export default async function RootLayout({
 
   return (
     <html lang="cs">
-      <body>
+      <body className={`${satoshi.className}`}>
         {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
         <Toaster />
         {isDraftMode && (

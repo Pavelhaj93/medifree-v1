@@ -1,4 +1,4 @@
-import { Badge } from "@/components/ui/Badge";
+import { Badge } from "@/app/components/ui/Badge";
 import { sanityFetch } from "@/sanity/lib/live";
 import { allFaqsQuery } from "@/sanity/lib/queries";
 

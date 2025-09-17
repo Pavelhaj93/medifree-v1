@@ -1,6 +1,6 @@
-import BlogArticleGrid from "@/components/sections/blog/BlogArticleGrid";
-import BlogFeaturedArticle from "@/components/sections/blog/BlogFeaturedArticle";
-import { BlogHeroSection } from "@/components/sections/blog/BlogHeroSection";
+import BlogArticleGrid from "@/app/components/sections/blog/BlogArticleGrid";
+import BlogFeaturedArticle from "@/app/components/sections/blog/BlogFeaturedArticle";
+import { BlogHeroSection } from "@/app/components/sections/blog/BlogHeroSection";
 
 export default function BlogPage() {
   return (

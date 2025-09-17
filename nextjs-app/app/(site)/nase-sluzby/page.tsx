@@ -1,6 +1,6 @@
-import ServicesCtaSection from "@/components/sections/services/ServicesCtaSection";
-import ServicesHeroSection from "@/components/sections/services/ServicesHeroSection";
-import ServicesItemSection from "@/components/sections/services/ServicesItemSection";
+import ServicesCtaSection from "@/app/components/sections/services/ServicesCtaSection";
+import ServicesHeroSection from "@/app/components/sections/services/ServicesHeroSection";
+import ServicesItemSection from "@/app/components/sections/services/ServicesItemSection";
 import { sanityFetch } from "@/sanity/lib/live";
 import { allServicesQuery } from "@/sanity/lib/queries";
 

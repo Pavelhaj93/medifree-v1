@@ -1,8 +1,8 @@
-import EshopHeroSection from "@/components/sections/eshop/EshopHeroSection";
-import FeaturedProductSection from "@/components/sections/eshop/FeaturedProductSection";
-import NewsletterSection from "@/components/sections/eshop/NewsletterSection";
-import ProductCategories from "@/components/sections/eshop/ProductCategories";
-import ProductGridSection from "@/components/sections/eshop/ProductGrid";
+import EshopHeroSection from "@/app/components/sections/eshop/EshopHeroSection";
+import FeaturedProductSection from "@/app/components/sections/eshop/FeaturedProductSection";
+import NewsletterSection from "@/app/components/sections/eshop/NewsletterSection";
+import ProductCategories from "@/app/components/sections/eshop/ProductCategories";
+import ProductGridSection from "@/app/components/sections/eshop/ProductGrid";
 
 export default function EshopPage() {
   return (

@@ -8,9 +8,9 @@ import {
   CreditCard,
   ArrowLeft,
 } from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import { Badge } from "@/app/components/ui/Badge";
+import { Button } from "@/app/components/ui/Button";
+import { Input } from "@/app/components/ui/Input";
 
 // Mock cart data - in a real app, this would come from a state management solution
 const cartItems = [
