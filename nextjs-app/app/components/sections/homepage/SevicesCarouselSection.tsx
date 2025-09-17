@@ -10,72 +10,18 @@ import {
   CarouselPrevious,
 } from "@/app/components/ui/Carousel";
 import Autoplay from "embla-carousel-autoplay";
+import Image from "next/image";
+import { sanityFetch } from "@/sanity/lib/live";
+import { allHomepageServicesQuery } from "@/sanity/lib/queries";
+import { HomepageService } from "@/sanity.types";
+import { urlForImage } from "@/sanity/lib/utils";
 
-const carouselItems = [
-  {
-    id: 1,
-    text: "Zjištění hladiny a doplnění vitamínů a minerálů",
-  },
-  {
-    id: 2,
-    text: "Diagnostika stavu metabolismu a jeho optimalizace",
-  },
-  {
-    id: 3,
-    text: "Stabilizace glykemické křivky a zlepšení energetické hladiny",
-  },
-  {
-    id: 4,
-    text: "Zlepšení funkce mitochondrií a buněčné energie",
-  },
-  {
-    id: 5,
-    text: "Snížení chronického zánětu a podpora imunitního systému",
-  },
-  {
-    id: 6,
-    text: "Redukce tuku a navýšení svalové hmoty",
-  },
-  {
-    id: 7,
-    text: "Snížení rizika civilizačních onemocnění",
-  },
-  {
-    id: 8,
-    text: "Plán na míru dle Vašeho denního režimu a preferencí",
-  },
-  {
-    id: 9,
-    text: "Snížení expozice toxinům z prostředí",
-  },
-  {
-    id: 10,
-    text: "Hormonální rovnováha a optimalizace",
-  },
-  {
-    id: 11,
-    text: "Konzultace laboratorních výsledků",
-  },
-  {
-    id: 12,
-    text: "Doporučení pohybového režimu",
-  },
-  {
-    id: 13,
-    text: "Regulace nervového systému",
-  },
-  {
-    id: 14,
-    text: "Optimalizace spánku a regenerace",
-  },
-  {
-    id: 15,
-    text: "Kultivace pozornosti",
-  },
-];
-
-export function ServicesCarouselSection() {
-  const plugin = useRef(Autoplay({ delay: 3500, stopOnInteraction: true }));
+export function ServicesCarouselSection({
+  services,
+}: {
+  services: HomepageService[];
+}) {
+  const plugin = useRef(Autoplay({ delay: 4000, stopOnInteraction: true }));
 
   return (
     <section className="py-16 bg-gray-50">
@@ -107,36 +53,73 @@ export function ServicesCarouselSection() {
             }}
           >
             <CarouselContent className="-ml-3 md:-ml-4">
-              {carouselItems.map((item) => (
+              {services.map((item) => (
                 <CarouselItem
-                  key={item.id}
-                  className="pl-3 md:pl-4 md:basis-1/2 lg:basis-1/3"
+                  key={item._id}
+                  className="pl-3 md:pl-4 md:basis-1/2 lg:basis-1/4"
                 >
-                  <Card className="h-full bg-primary shadow-xs hover:shadow-md transition-all duration-300 border-0 group">
-                    <CardContent className="p-8 flex items-center justify-center h-full min-h-[140px]">
-                      <p className="text-white text-center leading-relaxed font-medium text-lg group-hover:text-secondary transition-colors duration-300">
-                        {item.text}
-                      </p>
+                  <Card className="h-full bg-white shadow-lg hover:shadow-xl transition-all duration-300 border-0 group overflow-hidden p-0">
+                    <CardContent className="p-0 relative h-[450px]">
+                      {/* Background Image */}
+                      <div className="absolute inset-0">
+                        <Image
+                          src={
+                            urlForImage(item.image)
+                              ?.width(600)
+                              .height(450)
+                              .fit("crop")
+                              .url() as string
+                          }
+                          alt={item.image?.alt || item.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        {/* Gradient overlay dark on bottom, and light on top */}
+                        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
+                      </div>
+
+                      {/* Content */}
+                      <div className="relative z-10 p-6 h-full flex flex-col justify-end text-white">
+                        <h3 className="text-2xl font-semibold mb-3 group-hover:text-white transition-colors duration-300">
+                          {item.title}
+                        </h3>
+                        <p className="text-white/90  text-lg group-hover:text-white transition-colors duration-300">
+                          {item.description}
+                        </p>
+                      </div>
+
+                      {/* Hover effect overlay */}
+                      <div className="absolute inset-0 bg-linear-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </CardContent>
                   </Card>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden md:flex -left-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-md transition-all duration-300" />
-            <CarouselNext className="hidden md:flex -right-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-md transition-all duration-300" />
+            <CarouselPrevious className="hidden md:flex -left-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-lg transition-all duration-300" />
+            <CarouselNext className="hidden md:flex -right-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-lg transition-all duration-300" />
           </Carousel>
         </div>
 
-        {/* Optional: Simple dots indicator */}
-        {/* <div className="flex justify-center mt-8 space-x-2">
-          {Array.from({ length: Math.ceil(carouselItems.length / 3) }).map(
-            (_, index) => (
-              <div
-                key={index}
-                className="w-2 h-2 rounded-full bg-gray-300 hover:bg-primary transition-colors duration-300 cursor-pointer"
-              />
-            )
-          )}
+        {/* Statistics below carousel */}
+        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto">
+          <div className="text-center">
+            <div className="text-4xl md:text-5xl font-medium text-primary mb-2">
+              15+
+            </div>
+            <p className="text-gray-600">Specializovaných služeb</p>
+          </div>
+          <div className="text-center">
+            <div className="text-4xl md:text-5xl font-medium text-primary mb-2">
+              500+
+            </div>
+            <p className="text-gray-600">Spokojených klientů</p>
+          </div>
+          <div className="text-center">
+            <div className="text-4xl md:text-5xl font-medium text-primary mb-2">
+              98%
+            </div>
+            <p className="text-gray-600">Úspěšnost léčby</p>
+          </div>
         </div> */}
       </div>
     </section>
