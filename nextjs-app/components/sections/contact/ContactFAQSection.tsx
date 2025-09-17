@@ -8,7 +8,6 @@ export default async function ContactFAQSection() {
     query: allFaqsQuery,
   });
 
-  console.log("ttt faqItems in ContactFAQSection", faqItems);
   return (
     <section className="container mx-auto px-4 py-16">
       <div className="flex justify-center mb-8">

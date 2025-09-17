@@ -13,22 +13,6 @@
  */
 
 // Source: schema.json
-export type VideoBlock = {
-  _type: "videoBlock";
-  title?: string;
-  description?: string;
-  video?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-    };
-    media?: unknown;
-    _type: "file";
-  };
-};
-
 export type CallToAction = {
   _type: "callToAction";
   heading: string;
@@ -224,9 +208,7 @@ export type Page = {
     _key: string;
   } & CallToAction | {
     _key: string;
-  } & InfoSection | {
-    _key: string;
-  } & VideoBlock>;
+  } & InfoSection>;
 };
 
 export type Post = {
@@ -475,7 +457,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = VideoBlock | CallToAction | Link | InfoSection | BlockContent | Video | Service | Faq | Product | Page | Post | Person | Settings | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = CallToAction | Link | InfoSection | BlockContent | Video | Service | Faq | Product | Page | Post | Person | Settings | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -570,21 +552,6 @@ export type GetPageQueryResult = {
       _type: "block";
       _key: string;
     }> | null;
-  } | {
-    _key: string;
-    _type: "videoBlock";
-    title?: string;
-    description?: string;
-    video?: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-      };
-      media?: unknown;
-      _type: "file";
-    };
   }> | null;
 } | null;
 // Variable: sitemapData

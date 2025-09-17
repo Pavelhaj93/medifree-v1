@@ -6,7 +6,7 @@ export default async function ContactFAQSection() {
   const { data: faqItems } = await sanityFetch({
     query: allFaqsQuery,
   });
-  console.log("ttt faqitems in faq section", faqItems);
+
   return (
     <section className="bg-gray-50">
       <div className="container mx-auto ">

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/app/globals.css";
 import localFont from "next/font/local";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -51,7 +51,7 @@ export async function generateMetadata(): Promise<Metadata> {
 const satoshi = localFont({
   src: [
     {
-      path: "../public/fonts/Satoshi-Variable.ttf",
+      path: "../../public/fonts/Satoshi-Variable.ttf",
       style: "normal",
     },
     // {

@@ -64,8 +64,6 @@ export default async function Page() {
     query: allVideosQuery,
   });
 
-  console.log("ttt allVideos", allVideos);
-
   return (
     <>
       <HeroSection />

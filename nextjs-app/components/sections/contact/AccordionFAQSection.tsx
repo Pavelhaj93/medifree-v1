@@ -11,7 +11,6 @@ const AccordionFAQSection = ({
 }: {
   faqItems: AllFaqsQueryResult;
 }) => {
-  console.log("ttt faqItems", faqItems);
   return (
     <Accordion type="single" collapsible className="w-full">
       {faqItems.map((item) => (

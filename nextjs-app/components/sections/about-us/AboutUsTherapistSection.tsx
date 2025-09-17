@@ -27,8 +27,6 @@ export default async function AboutUsTherapistSection() {
     params: { slug: "mudr-michaela-hnykova" },
   });
 
-  console.log("ttt radim", radim);
-
   return (
     <>
       <section id={radim?.slug as unknown as string} className="py-20">
