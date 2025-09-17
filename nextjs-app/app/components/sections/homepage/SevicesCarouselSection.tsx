@@ -13,13 +13,16 @@ import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import { sanityFetch } from "@/sanity/lib/live";
 import { allHomepageServicesQuery } from "@/sanity/lib/queries";
-import { HomepageService } from "@/sanity.types";
+import {
+  AllHomepageServicesQueryResult,
+  HomepageService,
+} from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
 
 export function ServicesCarouselSection({
   services,
 }: {
-  services: HomepageService[];
+  services: AllHomepageServicesQueryResult;
 }) {
   const plugin = useRef(Autoplay({ delay: 4000, stopOnInteraction: true }));
 
