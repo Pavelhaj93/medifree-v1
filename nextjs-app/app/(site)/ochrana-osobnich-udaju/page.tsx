@@ -142,7 +142,7 @@ export default function LegalDocumentsPage() {
         </p>
 
         {/* Company Info */}
-        <div className="border-l-4 border-primary bg-white rounded-r-xl p-6 mb-12 shadow-sm">
+        <div className="border-l-4 border-primary bg-white rounded-r-xl p-6 mb-12 shadow-xs">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <h2 className="text-lg font-medium text-primary mb-1">
@@ -179,7 +179,7 @@ export default function LegalDocumentsPage() {
                   return (
                     <div
                       key={document.id}
-                      className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow"
+                      className="bg-white rounded-xl shadow-xs border border-gray-100 p-6 hover:shadow-md transition-shadow"
                     >
                       <div className="flex items-start gap-4">
                         <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center shrink-0">

@@ -93,7 +93,7 @@ export default function CartPage() {
               <div className="grid lg:grid-cols-3 gap-8">
                 {/* Cart Items */}
                 <div className="lg:col-span-2">
-                  <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+                  <div className="bg-white rounded-xl shadow-xs overflow-hidden">
                     <div className="p-6 border-b">
                       <h2 className="text-xl font-medium">
                         Položek v košíku (
@@ -108,7 +108,7 @@ export default function CartPage() {
                     <ul className="divide-y">
                       {cartItems.map((item) => (
                         <li key={item.id} className="p-6 flex gap-6">
-                          <div className="relative h-40 w-40 rounded-md overflow-hidden flex-shrink-0">
+                          <div className="relative h-40 w-40 rounded-md overflow-hidden shrink-0">
                             <Image
                               src={
                                 // item.image ||
@@ -194,7 +194,7 @@ export default function CartPage() {
 
                 {/* Order Summary */}
                 <div className="lg:col-span-1">
-                  <div className="bg-white rounded-xl shadow-sm overflow-hidden sticky top-28">
+                  <div className="bg-white rounded-xl shadow-xs overflow-hidden sticky top-28">
                     <div className="p-6 border-b">
                       <h2 className="text-xl font-medium">
                         Shrnutí objednávky
@@ -239,14 +239,14 @@ export default function CartPage() {
                   </div>
 
                   {/* Product Recommendations */}
-                  {/* <div className="mt-8 bg-white rounded-xl shadow-sm overflow-hidden">
+                  {/* <div className="mt-8 bg-white rounded-xl shadow-xs overflow-hidden">
                     <div className="p-6 border-b">
                       <h2 className="text-lg font-medium">Doporučené produkty</h2>
                     </div>
           
                     <div className="p-6 space-y-6">
                       <div className="flex gap-4">
-                        <div className="relative h-16 w-12 rounded-md overflow-hidden flex-shrink-0">
+                        <div className="relative h-16 w-12 rounded-md overflow-hidden shrink-0">
                           <Image
                             src="/placeholder.svg?height=64&width=48"
                             alt="Daily Mindfulness Workbook"
@@ -270,7 +270,7 @@ export default function CartPage() {
                       </div>
           
                       <div className="flex gap-4">
-                        <div className="relative h-16 w-12 rounded-md overflow-hidden flex-shrink-0">
+                        <div className="relative h-16 w-12 rounded-md overflow-hidden shrink-0">
                           <Image
                             src="/placeholder.svg?height=64&width=48"
                             alt="Relationship Communication Guide"

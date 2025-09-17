@@ -7,7 +7,7 @@ import Image from "next/image";
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+    <div className="bg-white rounded-xl shadow-xs overflow-hidden">
       <div className="relative h-[200px]">
         <Image
           src={

@@ -1,11 +1,8 @@
-@import "tailwindcss";
-@plugin "@tailwindcss/typography";
+@import 'tailwindcss';
+
 @config "../tailwind.config.ts";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@plugin "@tailwindcss/typography";
 
 @theme inline {
   --color-background: var(--background);
@@ -22,7 +19,7 @@
 
   @keyframes accordion-down {
     from {
-      height: "0";
+      height: '0';
     }
     to {
       height: var(--radix--accordion-content-height);
@@ -34,8 +31,26 @@
       height: var(--radix--accordion-content-height);
     }
     to {
-      height: "0";
+      height: '0';
     }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
   }
 }
 
@@ -48,4 +63,9 @@
 
 @utility container {
   max-width: 1280px;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
 }

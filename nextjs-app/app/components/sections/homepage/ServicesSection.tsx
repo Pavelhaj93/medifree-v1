@@ -52,7 +52,7 @@ const Service = ({ title, description, image }: ServiceProps) => {
     <div className="flex-col md:flex-row flex gap-4 rounded-2xl bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
       <div className="md:w-24 w-full md:h-full h-24 relative rounded-t-2xl md:rounded-l-2xl shrink-0 overflow-hidden">
         {/* gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-l from-white to-black opacity-40" />
+        <div className="absolute inset-0 bg-linear-to-l from-white to-black opacity-40" />
         {/* image */}
         <Image
           src={image}
