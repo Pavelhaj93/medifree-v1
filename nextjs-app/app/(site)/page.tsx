@@ -1,5 +1,6 @@
 import { sanityFetch } from "@/sanity/lib/live";
 import {
+  allHomepageServicesQuery,
   allPersonsQuery,
   allVideosQuery,
   getPageQuery,
@@ -13,7 +14,7 @@ import { PageOnboarding } from "@/app/components/sanity/Onboarding";
 import { Suspense } from "react";
 import MiddleSection from "@/app/components/sections/homepage/MiddleSection";
 import { TherapistSection } from "@/app/components/sections/homepage/TherapistSection";
-import { ServicesCarouselSection } from "@/app/components/sections/homepage/SevicesCarouselSection";
+
 import { ServicesSection } from "@/app/components/sections/homepage/ServicesSection";
 import HowItWorksSection from "@/app/components/sections/homepage/HowItWorksSection";
 import { CalendarSection } from "@/app/components/sections/homepage/CalendarSection";
@@ -21,6 +22,7 @@ import SocialConnectSection from "@/app/components/sections/homepage/SocialConne
 import ContactSection from "@/app/components/sections/homepage/ContactSection";
 import HeroSection from "@/app/components/sections/homepage/HeroSection";
 import { HomepageVideoSection } from "@/app/components/sections/homepage/HomepageVideoSection";
+import { ServicesCarouselSection } from "../components/sections/homepage/SevicesCarouselSection";
 
 // type Props = {
 //   params: Promise<{ slug: string }>;
@@ -64,15 +66,18 @@ export default async function Page() {
     query: allVideosQuery,
   });
 
+  const { data: homepageServices } = await sanityFetch({
+    query: allHomepageServicesQuery,
+  });
+
   return (
     <>
       <HeroSection />
       <MiddleSection />
       <TherapistSection />
       <HomepageVideoSection video={allVideos[0]} />
-      <ServicesSection />
+      <ServicesCarouselSection services={homepageServices} />
       <HowItWorksSection />
-      <ServicesCarouselSection />
       <CalendarSection />
       <SocialConnectSection />
       <ContactSection />

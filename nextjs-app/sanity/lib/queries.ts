@@ -252,3 +252,16 @@ export const allVideosQuery = defineQuery(`
     _rev
   }
 `);
+
+export const allHomepageServicesQuery = defineQuery(`
+  *[_type == "homepageService"] | order(title asc) {
+    _id,
+    title,
+    description,
+    image,
+    _createdAt,
+    _updatedAt,
+    _type,
+    _rev
+  }
+`);

@@ -111,6 +111,29 @@ export type BlockContent = Array<{
   _key: string;
 }>;
 
+export type HomepageService = {
+  _id: string;
+  _type: "homepageService";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  description: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: "image";
+  };
+};
+
 export type Video = {
   _id: string;
   _type: "video";
@@ -457,7 +480,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = CallToAction | Link | InfoSection | BlockContent | Video | Service | Faq | Product | Page | Post | Person | Settings | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = CallToAction | Link | InfoSection | BlockContent | HomepageService | Video | Service | Faq | Product | Page | Post | Person | Settings | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -980,6 +1003,30 @@ export type AllVideosQueryResult = Array<{
   _type: "video";
   _rev: string;
 }>;
+// Variable: allHomepageServicesQuery
+// Query: *[_type == "homepageService"] | order(title asc) {    _id,    title,    description,    image,    _createdAt,    _updatedAt,    _type,    _rev  }
+export type AllHomepageServicesQueryResult = Array<{
+  _id: string;
+  title: string;
+  description: string;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: "image";
+  } | null;
+  _createdAt: string;
+  _updatedAt: string;
+  _type: "homepageService";
+  _rev: string;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -1003,5 +1050,6 @@ declare module "@sanity/client" {
     "\n  *[_type == \"service\"] | order(title asc) {\n    _id,\n    title,\n    tag,\n    description,\n    content,\n    price,\n    priceType,\n    image,\n    _createdAt,\n    _updatedAt,\n    _type,\n    _rev\n  }\n": AllServicesQueryResult;
     "\n  *[_type == \"video\" && _id == $id][0]{\n    _id,\n    title,\n    description,\n    videoFile\n}": VideoQueryResult;
     "\n  *[_type == \"video\"] | order(title asc) {\n    _id,\n    title,\n    description,\n    videoFile,\n    _createdAt,\n    _updatedAt,\n    _type,\n    _rev\n  }\n": AllVideosQueryResult;
+    "\n  *[_type == \"homepageService\"] | order(title asc) {\n    _id,\n    title,\n    description,\n    image,\n    _createdAt,\n    _updatedAt,\n    _type,\n    _rev\n  }\n": AllHomepageServicesQueryResult;
   }
 }

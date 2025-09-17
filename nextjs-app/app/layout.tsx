@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Header from "@/app/components/Header";
-import Footer from "@/app/components/Footer";
 import { Toaster } from "sonner";
 import DraftModeToast from "@/app/components/sanity/DraftModeToast";
 import { toPlainText, VisualEditing } from "next-sanity";
