@@ -122,7 +122,26 @@ export const personQuery = defineQuery(`
       },
       alt
     },
-    video
+    video {
+      asset->{
+        _id,
+        url,
+        assetId,
+        originalFilename,
+        extension,
+        size  
+        },
+        thumbnailImage {
+          asset->{
+            _id,
+            url
+          }
+        }
+    },
+    _createdAt,
+    _updatedAt,
+    _type,
+    _rev, 
   }
 `);
 
@@ -233,11 +252,24 @@ export const allServicesQuery = defineQuery(`
 `);
 
 export const videoQuery = defineQuery(`
-  *[_type == "video" && _id == $id][0]{
+  *[_type == "video"][0]{
     _id,
     title,
     description,
-    videoFile
+    videoFile {
+      asset->{
+        _id,
+        url,
+        assetId,
+        originalFilename,
+        extension,
+        size  
+        }
+    },
+    _createdAt,
+    _updatedAt,
+    _type,
+    _rev
 }`);
 
 export const allVideosQuery = defineQuery(`
@@ -245,7 +277,16 @@ export const allVideosQuery = defineQuery(`
     _id,
     title,
     description,
-    videoFile,
+    videoFile {
+      asset->{
+        _id,
+        url,
+        assetId,
+        originalFilename,
+        extension,
+        size
+        }
+    },
     _createdAt,
     _updatedAt,
     _type,
@@ -265,3 +306,47 @@ export const allHomepageServicesQuery = defineQuery(`
     _rev
   }
 `);
+
+export const allLegalDocumentsQuery = defineQuery(`
+  *[_type == "legalDocument"] | order(title asc) {
+    _id,
+    title,
+    description,
+    category,
+    file {
+      asset->{
+        _id,
+        url,
+        assetId,
+        originalFilename,
+        extension,
+        size
+        }
+    },
+    _createdAt,
+    _updatedAt,
+    _rev
+  }
+`);
+
+export const gdprQuery = defineQuery(`
+  *[_type == "legalDocument" && tag == "gdpr-consent"][0]{
+    _id,
+    title,
+    description,
+    category,
+    file {
+      asset-> {
+        _id,
+        url,
+        assetId,
+        originalFilename,
+        extension,
+        size
+      }
+    },
+    _createdAt,
+    _updatedAt,
+    _type,
+    _rev
+}`);

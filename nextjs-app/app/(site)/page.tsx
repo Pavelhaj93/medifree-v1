@@ -3,8 +3,10 @@ import {
   allHomepageServicesQuery,
   allPersonsQuery,
   allVideosQuery,
+  gdprQuery,
   getPageQuery,
   pagesSlugs,
+  videoQuery,
 } from "@/sanity/lib/queries";
 import type { Metadata } from "next";
 import type { GetPageQueryResult } from "@/sanity.types";
@@ -15,7 +17,6 @@ import { Suspense } from "react";
 import MiddleSection from "@/app/components/sections/homepage/MiddleSection";
 import { TherapistSection } from "@/app/components/sections/homepage/TherapistSection";
 
-import { ServicesSection } from "@/app/components/sections/homepage/ServicesSection";
 import HowItWorksSection from "@/app/components/sections/homepage/HowItWorksSection";
 import { CalendarSection } from "@/app/components/sections/homepage/CalendarSection";
 import SocialConnectSection from "@/app/components/sections/homepage/SocialConnectSection";
@@ -62,12 +63,16 @@ import { ServicesCarouselSection } from "../components/sections/homepage/Sevices
 // }
 
 export default async function Page() {
-  const { data: allVideos } = await sanityFetch({
-    query: allVideosQuery,
+  const { data: video } = await sanityFetch({
+    query: videoQuery,
   });
 
   const { data: homepageServices } = await sanityFetch({
     query: allHomepageServicesQuery,
+  });
+
+  const { data: gdpr } = await sanityFetch({
+    query: gdprQuery,
   });
 
   return (
@@ -75,12 +80,12 @@ export default async function Page() {
       <HeroSection />
       <MiddleSection />
       <TherapistSection />
-      <HomepageVideoSection video={allVideos[0]} />
+      <HomepageVideoSection video={video} />
       <ServicesCarouselSection services={homepageServices} />
       <HowItWorksSection />
       <CalendarSection />
       <SocialConnectSection />
-      <ContactSection />
+      <ContactSection gdpr={gdpr} />
       {/* <PageBuilderPage page={page as GetPageQueryResult} /> */}
     </>
   );

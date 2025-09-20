@@ -5,6 +5,7 @@ import { Button } from "@/app/components/ui/Button";
 import { Service } from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
 import { PortableText } from "next-sanity";
+import Link from "next/link";
 
 export function ServiceItemSection({
   _id,
@@ -17,7 +18,6 @@ export function ServiceItemSection({
   image,
   reverse = false,
 }: Service & { reverse?: boolean }) {
-  console.log("image", image);
   return (
     <section
       id={_id}
@@ -73,9 +73,11 @@ export function ServiceItemSection({
                   </p>
                 </div>
               )}
-              <Button variant="secondary" className="flex items-center">
-                Objednat službu
-                <ArrowRight className="ml-2 h-4 w-4" />
+              <Button variant="secondary" className="flex items-center" asChild>
+                <Link href="https://cal.com/medifree">
+                  Objednat službu
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </Button>
             </div>
           </div>

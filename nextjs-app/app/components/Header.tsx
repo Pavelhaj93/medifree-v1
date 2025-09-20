@@ -46,64 +46,68 @@ export default function Header() {
       : "text-gray-700 hover:text-secondary transition-colors";
 
   return (
-    <header className="bg-gray-50 h-24 sticky top-0 z-10">
-      <div className="container mx-auto py-4 px-4 md:px-10 flex justify-between items-center">
-        {/* Logo */}
-        <Link href="/" className="flex items-center">
-          <Image
-            className="text-xl font-bold h-18 w-18"
-            src="/logo/Logotyp_Medifree_black.png"
-            alt="Domovská stránka"
-            width={100}
-            height={50}
-          />
-        </Link>
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn("text-lg", linkClass(link.href))}
-            >
-              {link.label}
+    <header className="bg-gray-50 sticky top-0 z-10">
+      <div className="container mx-auto">
+        <div className="flex justify-between items-center px-4 md:px-10 h-24">
+          {/* Logo */}
+          <Link href="/" className="flex items-center">
+            <Image
+              className="text-xl font-bold h-18 w-18"
+              src="/logo/Logotyp_Medifree_black.png"
+              alt="Domovská stránka"
+              width={100}
+              height={50}
+            />
+          </Link>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn("text-lg", linkClass(link.href))}
+              >
+                {link.label}
+              </Link>
+            ))}
+            {/* Book a session link */}
+            <BookButton />
+          </nav>
+
+          {/* Desktop Cart Link */}
+          <div className="hidden md:flex items-center gap-4">
+            <Link href="/kosik" className="relative">
+              <ShoppingCart className="h-5 w-5" />
+              <span className="absolute -top-2 -right-3 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                2
+              </span>
             </Link>
-          ))}
-          {/* Book a session link */}
-          <BookButton />
-        </nav>
+          </div>
 
-        {/* Desktop Cart Link */}
-        <div className="hidden md:flex items-center gap-4">
-          <Link href="/kosik" className="relative">
-            <ShoppingCart className="h-5 w-5" />
-            <span className="absolute -top-2 -right-3 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-              2
-            </span>
-          </Link>
+          {/* Mobile Menu Button */}
+          <div className="flex items-center gap-4 md:hidden z-20">
+            <Link href="/kosik" className="relative mr-2">
+              <ShoppingCart className="h-5 w-5" />
+              <span className="absolute -top-2 -right-3 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                2
+              </span>
+            </Link>
+            <button
+              type="button"
+              onClick={toggleMenu}
+              aria-label="Toggle menu"
+              className="p-1"
+            >
+              {isMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
         </div>
-
-        {/* Mobile Menu Button */}
-        <div className="flex items-center gap-4 md:hidden z-20">
-          <Link href="/kosik" className="relative mr-2">
-            <ShoppingCart className="h-5 w-5" />
-            <span className="absolute -top-2 -right-3 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-              2
-            </span>
-          </Link>
-          <button
-            type="button"
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-            className="p-1"
-          >
-            {isMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
-        </div>
+        <div className="border-t-8 border-secondary" />
+        <div className="border-t-8 border-primary w-2/5" />
       </div>
       {/* Mobile Navigation Overlay */}
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: not needed */}

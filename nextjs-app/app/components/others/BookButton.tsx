@@ -8,7 +8,7 @@ type BookButtonProps = React.ComponentProps<typeof Button>;
 export function BookButton({ className, ...props }: BookButtonProps) {
   return (
     <Button asChild variant="primary" className={cn("", className)} {...props}>
-      <Link href="https://cal.com/pavel-hajduch-jix4cv">
+      <Link href="https://cal.com/medifree">
         <CalendarClock />
         Rezervace
       </Link>

@@ -50,7 +50,7 @@ export default async function AboutUsTherapistSection() {
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="bg-white/90 backdrop-blur-xs rounded-xl p-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+                      <div className="md:size-12 flex-shrink-0 size-8 bg-primary rounded-full flex items-center justify-center">
                         <GraduationCap className="h-6 w-6 text-secondary" />
                       </div>
                       <div>
@@ -245,20 +245,20 @@ export default async function AboutUsTherapistSection() {
                 </p>
               </div>
 
-              <div className="max-w-4xl mx-auto">
+              <div className="mx-auto">
                 <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg bg-gray-100">
-                  <video
-                    controls
-                    poster={radim.video.thumbnailUrl}
-                    className="w-full h-full object-cover"
-                    preload="metadata"
-                  >
-                    <source
-                      src="https://cdn.sanity.io/files/rmirl1zi/test/43f5dba90201186204d50e906b03dba8b5cbb2d8.mp4"
-                      type="video/mp4"
-                    />
-                    Your browser does not support the video tag.
-                  </video>
+                  {radim.video.asset?.url && (
+                    <video
+                      controls
+                      poster={radim.video.thumbnailImage?.asset?.url ?? ""}
+                      className="w-full h-full object-cover"
+                      preload="metadata"
+                    >
+                      <source src={radim.video.asset?.url} type="video/mp4" />
+                      Váš prohlížeč nepodporuje html video přehrávač, prosím
+                      aktualizujte jej.
+                    </video>
+                  )}
 
                   {/* Video overlay info */}
                   {/* <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
@@ -266,7 +266,7 @@ export default async function AboutUsTherapistSection() {
                   </div> */}
                 </div>
 
-                <div className="text-center mt-6">
+                {/* <div className="text-center mt-6">
                   <h4 className="font-medium text-lg mb-2">
                     Vítejte v Medifree
                   </h4>
@@ -274,7 +274,7 @@ export default async function AboutUsTherapistSection() {
                     Podívejte se na krátké video, kde se s vámi Radim podělí o
                     svou vizi a přístup k péči o vaše zdraví.
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
           )}
@@ -383,8 +383,8 @@ export default async function AboutUsTherapistSection() {
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="bg-white/90 backdrop-blur-xs rounded-xl p-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-tertiary rounded-full flex items-center justify-center">
-                        <GraduationCap className="h-6 w-6 text-white" />
+                      <div className="md:size-12 size-8 flex-shrink-0 bg-tertiary rounded-full flex items-center justify-center">
+                        <GraduationCap className="size-6 text-white" />
                       </div>
                       <div>
                         <p className="font-medium">
@@ -496,20 +496,23 @@ export default async function AboutUsTherapistSection() {
                 </p>
               </div>
 
-              <div className="max-w-4xl mx-auto">
+              <div className="mx-auto">
                 <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg bg-gray-100">
-                  <video
-                    controls
-                    poster={michaela?.video.thumbnailUrl}
-                    className="w-full h-full object-cover"
-                    preload="metadata"
-                  >
-                    <source
-                      src="https://cdn.sanity.io/files/rmirl1zi/test/589d304a65f995b79ce40c7fcaa90198b1736322.mp4"
-                      type="video/mp4"
-                    />
-                    Your browser does not support the video tag.
-                  </video>
+                  {michaela.video.asset?.url && (
+                    <video
+                      controls
+                      poster={michaela.video.thumbnailImage?.asset?.url ?? ""}
+                      className="w-full h-full object-cover"
+                      preload="metadata"
+                    >
+                      <source
+                        src={michaela.video.asset?.url}
+                        type="video/mp4"
+                      />
+                      Váš prohlížeč nepodporuje html video přehrávač, prosím
+                      aktualizujte jej.
+                    </video>
+                  )}
 
                   {/* Video overlay info */}
                   {/* <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
@@ -517,7 +520,7 @@ export default async function AboutUsTherapistSection() {
                   </div> */}
                 </div>
 
-                <div className="text-center mt-6">
+                {/* <div className="text-center mt-6">
                   <h4 className="font-medium text-lg mb-2">
                     Vítejte v Medifree
                   </h4>
@@ -525,7 +528,7 @@ export default async function AboutUsTherapistSection() {
                     Podívejte se na krátké video, kde se s vámi Míša podělí o
                     svou vizi a přístup k péči o vaše zdraví.
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
           )}

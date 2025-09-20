@@ -1,9 +1,13 @@
 "use client";
 
-import { Video } from "@/sanity.types";
+import { VideoQueryResult } from "@/sanity.types";
 import { useEffect, useRef, useState } from "react";
 
-export const HomepageVideoSection = ({ video }: { video: Video }) => {
+export const HomepageVideoSection = ({
+  video,
+}: {
+  video: VideoQueryResult;
+}) => {
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
   const [isInView, setIsInView] = useState(false);
 
@@ -38,15 +42,16 @@ export const HomepageVideoSection = ({ video }: { video: Video }) => {
 
   return (
     <section id="videoSection" className="relative w-full overflow-hidden">
-      <video
-        ref={desktopVideoRef}
-        src="https://cdn.sanity.io/files/rmirl1zi/test/2cc4c85392c4ff6c1ab4e99f6d8da00c2a1a06e3.mp4"
-        className="w-full h-full max-h-screen bg-black"
-        controls // show native controls
-        playsInline // keep it inline on iOS
-        // no muted → audio enabled
-        loop
-      />
+      {video?.videoFile?.asset?.url && (
+        <video
+          ref={desktopVideoRef}
+          src={video?.videoFile?.asset?.url}
+          className="w-full h-full max-h-screen bg-black"
+          controls
+          playsInline
+          loop
+        />
+      )}
     </section>
   );
 };

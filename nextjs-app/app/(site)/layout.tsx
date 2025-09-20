@@ -1,9 +1,8 @@
-import type { Metadata } from "next";
 import "@/app/globals.css";
-import localFont from "next/font/local";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-import { Toaster } from "sonner";
+import { Toaster } from "@/app/components/ui/Sonner";
+
 import DraftModeToast from "@/app/components/sanity/DraftModeToast";
 import { toPlainText, VisualEditing } from "next-sanity";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
@@ -22,6 +21,7 @@ export default async function RootLayout({
     <>
       <Header />
       <main className="bg-white">{children}</main>
+      <Toaster />
       <Footer />
     </>
   );
