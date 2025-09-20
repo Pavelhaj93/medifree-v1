@@ -37,31 +37,27 @@ export default function ServicesHeroSection({
 }) {
   return (
     <section className="bg-gray-50">
-      <div className="container mx-auto ">
-        <div className="border-t-8 border-secondary" />
-        <div className="border-t-8 border-primary w-2/5" />
-        <div className="py-12 md:py-16 px-4 ">
-          <div className="flex justify-center mb-8 ">
-            <Badge>Naše služby</Badge>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-medium text-center mb-6">
-            Co nabízíme
-          </h1>
-          <p className="text-gray-600 text-center max-w-3xl mx-auto mb-12">
-            Naším cílem je edukace o individuálních potřebách Vašeho organismu.
-            Zjistíte, co potřevbujete právě Vy, jaké parametry sledovat a jakým
-            způsobem je udržovat v optimálním rozmezí.
-          </p>
+      <div className="container mx-auto py-12 md:py-16 px-4 ">
+        <div className="flex justify-center mb-8 ">
+          <Badge>Naše služby</Badge>
+        </div>
+        <h1 className="text-4xl md:text-5xl font-medium text-center mb-6">
+          Co nabízíme
+        </h1>
+        <p className="text-gray-600 text-center max-w-3xl mx-auto mb-12">
+          Naším cílem je edukace o individuálních potřebách Vašeho organismu.
+          Zjistíte, co potřevbujete právě Vy, jaké parametry sledovat a jakým
+          způsobem je udržovat v optimálním rozmezí.
+        </p>
 
-          <div className="grid md:grid-cols-4 gap-6">
-            {services.map((service, index) => (
-              <ServiceCard
-                key={service._id}
-                {...service}
-                reverse={index % 2 === 1}
-              />
-            ))}
-          </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {services.map((service, index) => (
+            <ServiceCard
+              key={service._id}
+              {...service}
+              reverse={index % 2 === 1}
+            />
+          ))}
         </div>
       </div>
     </section>

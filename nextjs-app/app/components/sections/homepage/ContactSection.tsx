@@ -1,3 +1,5 @@
+"use client";
+
 import { Mail, Phone, MapPin, Clock, Instagram } from "lucide-react";
 import { Input } from "@/app/components/ui/Input";
 import { Textarea } from "@/app/components/ui/Textarea";
@@ -6,130 +8,187 @@ import { Badge } from "@/app/components/ui/Badge";
 import { BookButton } from "@/app/components/others/BookButton";
 import Link from "next/link";
 import { michaelaInstagram, sharedInstagram } from "@/app/lib/social-links";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../../ui/Form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Checkbox } from "../../ui/Checkbox";
+import { GdprQueryResult } from "@/sanity.types";
+import { toast } from "sonner";
+import { contactSchema } from "@/app/lib/schemas";
 
-export default function ContactSection({ first }: { first?: boolean }) {
+type ContactFormValues = z.infer<typeof contactSchema>;
+
+export default function ContactSection({ gdpr }: { gdpr: GdprQueryResult }) {
+  const form = useForm<ContactFormValues>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+      terms: false,
+    },
+  });
+
+  const { handleSubmit, control, reset } = form;
+
+  const onSubmit = async (data: ContactFormValues) => {
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      toast.error("Nastala chyba, zkuste to prosím znovu.");
+      return;
+    }
+
+    toast.success("Děkujeme za zprávu! Ozveme se Vám co nejdříve.");
+    reset();
+  };
+
   return (
     <section className="bg-white">
-      <div className="container mx-auto">
-        {first && <div className="border-t-8 border-secondary" />}
-        {first && <div className="border-t-8 border-primary w-2/5" />}
-        <div className="px-4 md:px-10 py-16 md:pb-32">
-          <div className="flex justify-center mb-8">
-            <Badge variant="primary">Kontakt</Badge>
+      <div className="container mx-auto px-4 md:px-10 py-16 md:pb-32">
+        <div className="flex justify-center mb-8">
+          <Badge variant="primary">Kontakt</Badge>
+        </div>
+
+        <h2 className="text-4xl md:text-5xl text-center mb-8">
+          Kontaktujte nás
+        </h2>
+        <p className="text-gray-600 max-w-2xl mx-auto mb-8 text-center">
+          Máte jakékoli otázky? Napiště nám a my se Vám co nejdříve ozveme.
+        </p>
+
+        <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+          {/* Contact Form */}
+          <div className="bg-white p-8 rounded-2xl shadow-xl">
+            <h3 className="text-2xl font-medium mb-6">Napište nám</h3>
+            <Form {...form}>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Jméno a příjmení</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Vaše jméno"
+                          className="rounded-lg border-gray-200 focus:border-primary focus:ring-primary"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="Váš email"
+                          className="rounded-lg border-gray-200 focus:border-primary focus:ring-primary"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Zpráva</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="S čím vám můžeme pomoci?"
+                          className="rounded-lg border-gray-200 focus:border-primary focus:ring-primary min-h-[120px]"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={control}
+                  name="terms"
+                  render={({ field }) => (
+                    <div className="flex flex-col">
+                      <FormItem className="flex flex-row items-center gap-2 mb-2">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={(value) => {
+                              field.onChange(value);
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="text-sm font-normal block">
+                          Souhlasím se zpracováním osobních údajů. Pro více
+                          informací si přečtěte naše{" "}
+                          <Link
+                            href={
+                              gdpr?.file.asset?.url ?? "/ochrana-osobnich-udaju"
+                            }
+                            className="text-primary hover:underline"
+                          >
+                            Zásady ochrany osobních údajů
+                          </Link>
+                          .
+                        </FormLabel>
+                      </FormItem>
+                      <FormMessage />
+                    </div>
+                  )}
+                />
+                <Button type="submit" className="w-full">
+                  Odeslat zprávu
+                </Button>
+              </form>
+            </Form>
           </div>
 
-          <h2 className="text-4xl md:text-5xl text-center mb-8">
-            {/* czech heading */}
-            Kontaktujte nás
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto mb-8 text-center">
-            Máte jakékoli otázky? Napiště nám a my se Vám co nejdříve ozveme.
-          </p>
+          {/* Contact Information */}
+          <div className="flex flex-col py-8 justify-between">
+            <div>
+              <h3 className="text-2xl font-medium mb-6">Kontaktní informace</h3>
+              <p className="text-gray-600 mb-8">
+                Jsme tu pro vás. Neváhejte nás kontaktovat s jakýmikoli dotazy
+                nebo obavami. Naše tým je připraven vám pomoci.
+              </p>
 
-          <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-            {/* Contact Form */}
-            <div className="bg-white p-8 rounded-2xl shadow-xs">
-              <h3 className="text-2xl font-medium mb-6">Napište nám</h3>
-              <form className="space-y-5">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Jméno a příjmení
-                  </label>
-                  <Input
-                    id="name"
-                    placeholder="Vaše jméno"
-                    className="rounded-lg border-gray-200 focus:border-primary focus:ring-primary"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Email
-                  </label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Váš email"
-                    className="rounded-lg border-gray-200 focus:border-primary focus:ring-primary"
-                  />
-                </div>
-
-                {/* <div>
-                  <label
-                    htmlFor="inquiry"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Typ dotazu
-                  </label>
-                  <Select>
-                    <SelectTrigger className="rounded-lg border-gray-200">
-                      <SelectValue placeholder="Vyberte dotaz" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="general">Obecný dotaz</SelectItem>
-                      <SelectItem value="session">Domluvit schůzku</SelectItem>
-                      <SelectItem value="couples">Úzkosti a deprese</SelectItem>
-                      <SelectItem value="individual">
-                        Individuální terapie
-                      </SelectItem>
-                      <SelectItem value="grief">Životospráva</SelectItem>
-                      <SelectItem value="work-life">Telemedicína</SelectItem>
-                      <SelectItem value="other">Jiné</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div> */}
-
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Zpráva
-                  </label>
-                  <Textarea
-                    id="message"
-                    placeholder="S čím vám můžeme pomoci?"
-                    className="rounded-lg border-gray-200 focus:border-primary focus:ring-primary min-h-[120px]"
-                  />
-                </div>
-
-                <div className="pt-2">
-                  <Button variant="outline" className="w-full">
-                    Odeslat zprávu
-                  </Button>
-                </div>
-              </form>
-            </div>
-
-            {/* Contact Information */}
-            <div className="flex flex-col py-8 justify-between">
-              <div>
-                <h3 className="text-2xl font-medium mb-6">
-                  Kontaktní informace
-                </h3>
-                <p className="text-gray-600 mb-8">
-                  Jsme tu pro vás. Neváhejte nás kontaktovat s jakýmikoli dotazy
-                  nebo obavami. Naše tým je připraven vám pomoci.
-                </p>
-
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-gray-100 p-3 rounded-full">
-                      <Mail className="h-5 w-5 text-primary" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium">Email</h4>
-                      <p className="text-gray-600">info@medifree.cz</p>
-                    </div>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="bg-gray-100 p-3 rounded-full">
+                    <Mail className="h-5 w-5 text-primary" />
                   </div>
+                  <div>
+                    <h4 className="font-medium">Email</h4>
+                    <p className="text-gray-600">info@medifree.cz</p>
+                  </div>
+                </div>
 
-                  {/* <div className="flex items-start gap-4">
+                {/* <div className="flex items-start gap-4">
                     <div className="bg-gray-100 p-3 rounded-full">
                       <Phone className="h-5 w-5 text-primary" />
                     </div>
@@ -139,43 +198,42 @@ export default function ContactSection({ first }: { first?: boolean }) {
                     </div>
                   </div> */}
 
-                  <div className="flex items-start gap-4">
-                    <div className="bg-gray-100 p-3 rounded-full">
-                      <Instagram className="h-5 w-5 text-primary" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium">Instagram</h4>
-                      <div className="text-gray-600 space-x-4 flex flex-col">
-                        <Link
-                          href={sharedInstagram}
-                          className="text-primary hover:underline"
-                        >
-                          @medifree.cz
-                        </Link>
-                        <Link
-                          href={michaelaInstagram}
-                          className="text-primary hover:underline"
-                        >
-                          @michaela_medifree
-                        </Link>
-                      </div>
-                    </div>
+                <div className="flex items-start gap-4">
+                  <div className="bg-gray-100 p-3 rounded-full">
+                    <Instagram className="h-5 w-5 text-primary" />
                   </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="bg-gray-100 p-3 rounded-full">
-                      <Clock className="h-5 w-5 text-primary" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium">Pracovní doba</h4>
-                      <p className="text-gray-600">Dle domluvy</p>
+                  <div>
+                    <h4 className="font-medium">Instagram</h4>
+                    <div className="text-gray-600 space-x-4 flex flex-col">
+                      <Link
+                        href={sharedInstagram}
+                        className="text-primary hover:underline"
+                      >
+                        @medifree.cz
+                      </Link>
+                      <Link
+                        href={michaelaInstagram}
+                        className="text-primary hover:underline"
+                      >
+                        @michaela_medifree
+                      </Link>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <BookButton className="mt-8 md:mt-0" />
+                <div className="flex items-start gap-4">
+                  <div className="bg-gray-100 p-3 rounded-full">
+                    <Clock className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium">Pracovní doba</h4>
+                    <p className="text-gray-600">Dle domluvy</p>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            <BookButton className="mt-8 md:mt-0" />
           </div>
         </div>
       </div>

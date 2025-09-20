@@ -111,6 +111,28 @@ export type BlockContent = Array<{
   _key: string;
 }>;
 
+export type LegalDocument = {
+  _id: string;
+  _type: "legalDocument";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  description: string;
+  tag?: string;
+  category: "Obchodn\xED podm\xEDnky" | "Ochrana osobn\xEDch \xFAdaj\u016F (GDPR)" | "Cookies" | "E-shop" | "Pobytov\xE9 slu\u017Eby" | "Dal\u0161\xED dokumenty";
+  file: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
+  };
+};
+
 export type HomepageService = {
   _id: string;
   _type: "homepageService";
@@ -314,9 +336,20 @@ export type Person = {
       [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
     };
     media?: unknown;
-    thumbnailUrl?: string;
-    caption?: string;
     description?: string;
+    thumbnailImage?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    };
     _type: "file";
   };
 };
@@ -480,7 +513,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = CallToAction | Link | InfoSection | BlockContent | HomepageService | Video | Service | Faq | Product | Page | Post | Person | Settings | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = CallToAction | Link | InfoSection | BlockContent | LegalDocument | HomepageService | Video | Service | Faq | Product | Page | Post | Person | Settings | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -775,7 +808,7 @@ export type PagesSlugsResult = Array<{
   slug: string;
 }>;
 // Variable: personQuery
-// Query: *[_type == "person" && slug.current == $slug][0]{    _id,    name,    slug,    specialization,    description,    topics,    mainImage,    picture {      asset->{        _id,        url      },      alt    },    video  }
+// Query: *[_type == "person" && slug.current == $slug][0]{    _id,    name,    slug,    specialization,    description,    topics,    mainImage,    picture {      asset->{        _id,        url      },      alt    },    video {      asset->{        _id,        url,        assetId,        originalFilename,        extension,        size          },        thumbnailImage {          asset->{            _id,            url          }        }    },    _createdAt,    _updatedAt,    _type,    _rev,   }
 export type PersonQueryResult = {
   _id: string;
   name: string;
@@ -804,18 +837,25 @@ export type PersonQueryResult = {
     alt: string | null;
   };
   video: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-    };
-    media?: unknown;
-    thumbnailUrl?: string;
-    caption?: string;
-    description?: string;
-    _type: "file";
+    asset: {
+      _id: string;
+      url: string | null;
+      assetId: string | null;
+      originalFilename: string | null;
+      extension: string | null;
+      size: number | null;
+    } | null;
+    thumbnailImage: {
+      asset: {
+        _id: string;
+        url: string | null;
+      } | null;
+    } | null;
   };
+  _createdAt: string;
+  _updatedAt: string;
+  _type: "person";
+  _rev: string;
 } | null;
 // Variable: allPersonsQuery
 // Query: *[_type == "person"] | order(name asc) {    _id,    name,    slug,    specialization,    description,    topics,    mainImage,    picture {      asset->{        _id,        url      },      alt    },  }
@@ -966,37 +1006,41 @@ export type AllServicesQueryResult = Array<{
   _rev: string;
 }>;
 // Variable: videoQuery
-// Query: *[_type == "video" && _id == $id][0]{    _id,    title,    description,    videoFile}
+// Query: *[_type == "video"][0]{    _id,    title,    description,    videoFile {      asset->{        _id,        url,        assetId,        originalFilename,        extension,        size          }    },    _createdAt,    _updatedAt,    _type,    _rev}
 export type VideoQueryResult = {
   _id: string;
   title: string;
   description: string;
   videoFile: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-    };
-    media?: unknown;
-    _type: "file";
+    asset: {
+      _id: string;
+      url: string | null;
+      assetId: string | null;
+      originalFilename: string | null;
+      extension: string | null;
+      size: number | null;
+    } | null;
   };
+  _createdAt: string;
+  _updatedAt: string;
+  _type: "video";
+  _rev: string;
 } | null;
 // Variable: allVideosQuery
-// Query: *[_type == "video"] | order(title asc) {    _id,    title,    description,    videoFile,    _createdAt,    _updatedAt,    _type,    _rev  }
+// Query: *[_type == "video"] | order(title asc) {    _id,    title,    description,    videoFile {      asset->{        _id,        url,        assetId,        originalFilename,        extension,        size        }    },    _createdAt,    _updatedAt,    _type,    _rev  }
 export type AllVideosQueryResult = Array<{
   _id: string;
   title: string;
   description: string;
   videoFile: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-    };
-    media?: unknown;
-    _type: "file";
+    asset: {
+      _id: string;
+      url: string | null;
+      assetId: string | null;
+      originalFilename: string | null;
+      extension: string | null;
+      size: number | null;
+    } | null;
   };
   _createdAt: string;
   _updatedAt: string;
@@ -1027,6 +1071,49 @@ export type AllHomepageServicesQueryResult = Array<{
   _type: "homepageService";
   _rev: string;
 }>;
+// Variable: allLegalDocumentsQuery
+// Query: *[_type == "legalDocument"] | order(title asc) {    _id,    title,    description,    category,    file {      asset->{        _id,        url,        assetId,        originalFilename,        extension,        size        }    },    _createdAt,    _updatedAt,    _rev  }
+export type AllLegalDocumentsQueryResult = Array<{
+  _id: string;
+  title: string;
+  description: string;
+  category: "Cookies" | "Dal\u0161\xED dokumenty" | "E-shop" | "Obchodn\xED podm\xEDnky" | "Ochrana osobn\xEDch \xFAdaj\u016F (GDPR)" | "Pobytov\xE9 slu\u017Eby";
+  file: {
+    asset: {
+      _id: string;
+      url: string | null;
+      assetId: string | null;
+      originalFilename: string | null;
+      extension: string | null;
+      size: number | null;
+    } | null;
+  };
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+}>;
+// Variable: gdprQuery
+// Query: *[_type == "legalDocument" && tag == "gdpr-consent"][0]{    _id,    title,    description,    category,    file {      asset-> {        _id,        url,        assetId,        originalFilename,        extension,        size      }    },    _createdAt,    _updatedAt,    _type,    _rev}
+export type GdprQueryResult = {
+  _id: string;
+  title: string;
+  description: string;
+  category: "Cookies" | "Dal\u0161\xED dokumenty" | "E-shop" | "Obchodn\xED podm\xEDnky" | "Ochrana osobn\xEDch \xFAdaj\u016F (GDPR)" | "Pobytov\xE9 slu\u017Eby";
+  file: {
+    asset: {
+      _id: string;
+      url: string | null;
+      assetId: string | null;
+      originalFilename: string | null;
+      extension: string | null;
+      size: number | null;
+    } | null;
+  };
+  _createdAt: string;
+  _updatedAt: string;
+  _type: "legalDocument";
+  _rev: string;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
@@ -1041,15 +1128,17 @@ declare module "@sanity/client" {
     "\n  *[_type == \"post\" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n    }\n  },\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture},\n\n  }\n": PostQueryResult;
     "\n  *[_type == \"post\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PostPagesSlugsResult;
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
-    "\n    *[_type == \"person\" && slug.current == $slug][0]{\n    _id,\n    name,\n    slug,\n    specialization,\n    description,\n    topics,\n    mainImage,\n    picture {\n      asset->{\n        _id,\n        url\n      },\n      alt\n    },\n    video\n  }\n": PersonQueryResult;
+    "\n    *[_type == \"person\" && slug.current == $slug][0]{\n    _id,\n    name,\n    slug,\n    specialization,\n    description,\n    topics,\n    mainImage,\n    picture {\n      asset->{\n        _id,\n        url\n      },\n      alt\n    },\n    video {\n      asset->{\n        _id,\n        url,\n        assetId,\n        originalFilename,\n        extension,\n        size  \n        },\n        thumbnailImage {\n          asset->{\n            _id,\n            url\n          }\n        }\n    },\n    _createdAt,\n    _updatedAt,\n    _type,\n    _rev, \n  }\n": PersonQueryResult;
     "\n  *[_type == \"person\"] | order(name asc) {\n    _id,\n    name,\n    slug,\n    specialization,\n    description,\n    topics,\n    mainImage,\n    picture {\n      asset->{\n        _id,\n        url\n      },\n      alt\n    },\n  }\n": AllPersonsQueryResult;
     "\n  *[_type == \"product\" && slug.current == $slug][0] {\n    _id,\n    title,\n    price,\n    originalPrice,\n    image,\n    rating,\n    reviews,\n    description,\n    featured,\n    category,\n    _createdAt, \n    _updatedAt,\n    _rev,\n    _type,\n  }\n": ProductQueryResult;
     "\n  *[_type == \"product\" && featured == true][0] {\n    _id,\n    title,\n    price,\n    originalPrice,\n    mainImage,\n    rating,\n    reviews,\n    description,\n    featured,\n    category,\n    _createdAt, \n    _updatedAt,\n    _rev,\n    _type,\n  }\n": FeaturedProductQueryResult;
     "\n  *[_type == \"product\"] | order(name asc) {\n    _id,\n    title,\n    price,\n    originalPrice,\n    mainImage,\n    rating,\n    reviews,\n    description,\n    featured,\n    category,\n    _createdAt, \n    _updatedAt,\n    _rev,\n    _type,\n    \"slug\": slug.current\n  }\n": AllProductsQueryResult;
     "\n  *[_type == \"faq\"] | order(order asc, question asc) {\n    _id,\n    question,\n    answer,\n    category,\n    order,\n    _createdAt,\n    _updatedAt\n  }\n": AllFaqsQueryResult;
     "\n  *[_type == \"service\"] | order(title asc) {\n    _id,\n    title,\n    tag,\n    description,\n    content,\n    price,\n    priceType,\n    image,\n    _createdAt,\n    _updatedAt,\n    _type,\n    _rev\n  }\n": AllServicesQueryResult;
-    "\n  *[_type == \"video\" && _id == $id][0]{\n    _id,\n    title,\n    description,\n    videoFile\n}": VideoQueryResult;
-    "\n  *[_type == \"video\"] | order(title asc) {\n    _id,\n    title,\n    description,\n    videoFile,\n    _createdAt,\n    _updatedAt,\n    _type,\n    _rev\n  }\n": AllVideosQueryResult;
+    "\n  *[_type == \"video\"][0]{\n    _id,\n    title,\n    description,\n    videoFile {\n      asset->{\n        _id,\n        url,\n        assetId,\n        originalFilename,\n        extension,\n        size  \n        }\n    },\n    _createdAt,\n    _updatedAt,\n    _type,\n    _rev\n}": VideoQueryResult;
+    "\n  *[_type == \"video\"] | order(title asc) {\n    _id,\n    title,\n    description,\n    videoFile {\n      asset->{\n        _id,\n        url,\n        assetId,\n        originalFilename,\n        extension,\n        size\n        }\n    },\n    _createdAt,\n    _updatedAt,\n    _type,\n    _rev\n  }\n": AllVideosQueryResult;
     "\n  *[_type == \"homepageService\"] | order(title asc) {\n    _id,\n    title,\n    description,\n    image,\n    _createdAt,\n    _updatedAt,\n    _type,\n    _rev\n  }\n": AllHomepageServicesQueryResult;
+    "\n  *[_type == \"legalDocument\"] | order(title asc) {\n    _id,\n    title,\n    description,\n    category,\n    file {\n      asset->{\n        _id,\n        url,\n        assetId,\n        originalFilename,\n        extension,\n        size\n        }\n    },\n    _createdAt,\n    _updatedAt,\n    _rev\n  }\n": AllLegalDocumentsQueryResult;
+    "\n  *[_type == \"legalDocument\" && tag == \"gdpr-consent\"][0]{\n    _id,\n    title,\n    description,\n    category,\n    file {\n      asset-> {\n        _id,\n        url,\n        assetId,\n        originalFilename,\n        extension,\n        size\n      }\n    },\n    _createdAt,\n    _updatedAt,\n    _type,\n    _rev\n}": GdprQueryResult;
   }
 }

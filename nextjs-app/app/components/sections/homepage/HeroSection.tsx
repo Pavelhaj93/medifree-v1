@@ -49,24 +49,20 @@ export default function HeroSectionCarousel() {
       <div className="absolute inset-0 bg-black/20" />
 
       {/* Content */}
-      <div className="relative container mx-auto h-full justify-center items-center my-auto">
-        <div className="border-t-8 border-secondary" />
-        <div className="border-t-8 border-primary w-2/5" />
-        <div className="px-4 md:px-10 text-center md:text-left text-white pb-10 flex flex-col justify-center h-full">
-          <div className="grid grid-cols-1 md:grid-cols-2 items-center mt-10">
-            <div className="max-w-3xl">
-              <Badge variant="primary" className="mb-4 inline-block">
-                Medifree
-              </Badge>
-              <h1 className="text-5xl md:text-6xl leading-tight mb-8">
-                Váš prostor pro zdraví a rovnováhu
-              </h1>
-              <p className="text-lg md:text-2xl mb-8">
-                Nabízíme celostní terapeutické přístupy, které vás podpoří na
-                cestě k plnohodnotnému životu.
-              </p>
-              <BookButton />
-            </div>
+      <div className="relative container mx-auto h-full justify-center items-center my-auto px-4 md:px-10 text-center md:text-left text-white pb-10 flex flex-col">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center mt-10">
+          <div className="max-w-3xl">
+            <Badge variant="primary" className="mb-4 inline-block">
+              Medifree
+            </Badge>
+            <h1 className="text-5xl md:text-6xl leading-tight mb-8">
+              Váš prostor pro zdraví a rovnováhu
+            </h1>
+            <p className="text-lg md:text-2xl mb-8">
+              Nabízíme celostní terapeutické přístupy, které vás podpoří na
+              cestě k plnohodnotnému životu.
+            </p>
+            <BookButton />
           </div>
         </div>
       </div>

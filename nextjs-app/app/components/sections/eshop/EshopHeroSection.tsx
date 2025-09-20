@@ -5,8 +5,6 @@ export default function EshopHeroSection() {
   return (
     <section className="bg-gray-50">
       <div className="container mx-auto">
-        <div className="border-t-8 border-secondary" />
-        <div className="border-t-8 border-primary w-2/5" />
         <div className="px-4 md:px-10 py-16 text-center">
           <Badge className="mb-6">Digitální obchod</Badge>
 

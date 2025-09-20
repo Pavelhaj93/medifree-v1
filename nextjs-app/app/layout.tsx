@@ -22,7 +22,6 @@ export async function generateMetadata(): Promise<Metadata> {
     stega: false,
   });
 
-  console.log("ttt settings", settings);
   const title = settings?.title || demo.title;
   const description = settings?.description || demo.description;
 
@@ -36,7 +35,6 @@ export async function generateMetadata(): Promise<Metadata> {
     // ignore
   }
 
-  console.log("tttoplainText(description)", toPlainText(description));
   return {
     metadataBase,
     title: {

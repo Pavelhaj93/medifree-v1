@@ -26,6 +26,12 @@ export default function BlogArticleGridItem({
   category,
   slug,
 }: BlogArticleGridItemProps) {
+  const newLocaleDate = new Date(date).toLocaleDateString("cs-CZ", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+
   return (
     <div className="bg-white rounded-xl shadow-xs overflow-hidden">
       <div className="relative h-[200px]">
@@ -51,11 +57,11 @@ export default function BlogArticleGridItem({
         <div className="flex items-center gap-4 mb-3 text-sm text-gray-500">
           <div className="flex items-center">
             <CalendarDays className="h-4 w-4 mr-1" />
-            {date}
+            {newLocaleDate}
           </div>
           <div className="flex items-center">
             <Clock className="h-4 w-4 mr-1" />
-            {readTime.toString()} min čtení
+            {readTime} min čtení
           </div>
         </div>
         <h3 className="font-medium text-lg mb-3">
@@ -66,7 +72,7 @@ export default function BlogArticleGridItem({
         <p className="text-gray-600 text-sm mb-4">{description}</p>
         <Link
           href="#"
-          className="text-[#8D3F38] font-medium hover:underline inline-flex items-center"
+          className="text-primary font-medium hover:underline inline-flex items-center"
         >
           Číst více <ChevronRight className="ml-1 h-4 w-4" />
         </Link>

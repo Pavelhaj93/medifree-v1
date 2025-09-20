@@ -73,15 +73,12 @@ export const person = defineType({
       ],
       options: {
         hotspot: true,
-        aiAssist: {
-          imageDescriptionField: 'alt',
-        },
       },
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'picture',
-      title: 'Picture',
+      title: 'Avatar Picture',
       type: 'image',
       fields: [
         defineField({
@@ -102,9 +99,6 @@ export const person = defineType({
       ],
       options: {
         hotspot: true,
-        aiAssist: {
-          imageDescriptionField: 'alt',
-        },
       },
       validation: (rule) => rule.required(),
     }),
@@ -120,23 +114,43 @@ export const person = defineType({
       validation: (Rule) => Rule.required(),
       fields: [
         defineField({
-          name: 'thumbnailUrl',
-          type: 'url',
-          title: 'Thumbnail URL',
-          description: 'URL of the thumbnail image for the video',
-        }),
-        defineField({
-          name: 'caption',
-          type: 'string',
-          title: 'Caption',
-          description: 'Caption for the video for accessibility and SEO',
-        }),
-        defineField({
           name: 'description',
-          type: 'string',
           title: 'Description',
+          type: 'string',
           description: 'Description above the video',
         }),
+        defineField({
+          name: 'thumbnailImage',
+          title: 'Thumbnail Image',
+          type: 'image',
+          description: 'Poster image for the video',
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            defineField({
+              name: 'alt',
+              type: 'string',
+              title: 'Alternative text',
+              description: 'Important for SEO and accessibility.',
+              validation: (rule) => {
+                // Custom validation to ensure alt text is provided if the image is present. https://www.sanity.io/docs/validation
+                return rule.custom((alt, context) => {
+                  if ((context.parent as any)?.asset?._ref && !alt) {
+                    return 'Required'
+                  }
+                  return true
+                })
+              },
+            }),
+          ],
+        }),
+        // defineField({
+        //   name: 'caption',
+        //   title: 'Caption',
+        //   type: 'string',
+        //   description: 'Caption for the video for accessibility and SEO',
+        // }),
       ],
     }),
   ],
