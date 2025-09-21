@@ -8,9 +8,10 @@ import { toPlainText, VisualEditing } from "next-sanity";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { draftMode } from "next/headers";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
-import { settingsQuery } from "@/sanity/lib/queries";
+import { settingsQuery } from "@/sanity/queries";
 import * as demo from "@/sanity/lib/demo";
 import { handleError } from "../client-utils";
+import { CartProvider } from "../context/cartContext";
 
 export default async function RootLayout({
   children,
@@ -18,11 +19,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <CartProvider>
       <Header />
       <main className="bg-white">{children}</main>
       <Toaster />
       <Footer />
-    </>
+    </CartProvider>
   );
 }

@@ -15,6 +15,8 @@ import {
 } from "next-sanity";
 
 import ResolvedLink from "@/app/components/sanity/ResolvedLink";
+import Image from "next/image";
+import { urlForImage } from "@/sanity/lib/utils";
 
 export default function CustomPortableText({
   className,
@@ -24,6 +26,24 @@ export default function CustomPortableText({
   value: PortableTextBlock[];
 }) {
   const components: PortableTextComponents = {
+    types: {
+      image: (props) =>
+        props.value ? (
+          <Image
+            className="rounded-lg not-prose w-full h-auto"
+            // @ts-ignore
+            src={urlForImage(props.value)
+              .width(600)
+              .height(400)
+              .quality(80)
+              .auto("format")
+              .url()}
+            alt={props?.value?.alt || ""}
+            width="600"
+            height="400"
+          />
+        ) : null,
+    },
     block: {
       h1: ({ children, value }) => (
         // Add an anchor to the h1
@@ -87,9 +107,7 @@ export default function CustomPortableText({
 
   return (
     <div
-      className={["prose prose-a:text-red-500", className]
-        .filter(Boolean)
-        .join(" ")}
+      className={["prose-a:text-primary", className].filter(Boolean).join(" ")}
     >
       <PortableText components={components} value={value} />
     </div>

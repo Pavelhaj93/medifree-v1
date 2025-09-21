@@ -7,7 +7,7 @@ import {
   getPageQuery,
   pagesSlugs,
   videoQuery,
-} from "@/sanity/lib/queries";
+} from "@/sanity/queries";
 import type { Metadata } from "next";
 import type { GetPageQueryResult } from "@/sanity.types";
 import PageBuilderPage from "@/app/components/sanity/PageBuilder";

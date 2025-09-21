@@ -33,7 +33,7 @@ export default function BlogArticleGridItem({
   });
 
   return (
-    <div className="bg-white rounded-xl shadow-xs overflow-hidden">
+    <div className="bg-white rounded-xl shadow-md overflow-hidden">
       <div className="relative h-[200px]">
         <Image
           src={

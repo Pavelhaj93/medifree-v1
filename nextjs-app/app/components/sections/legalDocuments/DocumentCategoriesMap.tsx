@@ -2,7 +2,7 @@
 
 import { AllLegalDocumentsQueryResult, LegalDocument } from "@/sanity.types";
 import React from "react";
-import { Button } from "../ui/Button";
+
 import {
   Cookie,
   CreditCard,
@@ -13,6 +13,7 @@ import {
   User,
 } from "lucide-react";
 import { buildFileUrl } from "@sanity/asset-utils";
+import { Button } from "../../ui/Button";
 
 const DocumentCategoriesMap = ({
   legalDocuments,
@@ -61,7 +62,7 @@ const DocumentCategoriesMap = ({
                 return (
                   <div
                     key={document._id}
-                    className="bg-white rounded-xl shadow-xs border border-gray-100 p-6 hover:shadow-md transition-shadow"
+                    className="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-md transition-shadow"
                   >
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center shrink-0">

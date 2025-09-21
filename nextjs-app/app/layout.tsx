@@ -5,7 +5,7 @@ import { toPlainText, VisualEditing } from "next-sanity";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { draftMode } from "next/headers";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
-import { settingsQuery } from "@/sanity/lib/queries";
+import { settingsQuery } from "@/sanity/queries/pages";
 import * as demo from "@/sanity/lib/demo";
 import { handleError } from "./client-utils";
 import localFont from "next/font/local";

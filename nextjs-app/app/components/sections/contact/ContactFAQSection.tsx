@@ -1,6 +1,6 @@
 import { Badge } from "@/app/components/ui/Badge";
 import { sanityFetch } from "@/sanity/lib/live";
-import { allFaqsQuery } from "@/sanity/lib/queries";
+import { allFaqsQuery } from "@/sanity/queries/faqs";
 import AccordionFAQSection from "./AccordionFAQSection";
 
 export default async function ContactFAQSection() {

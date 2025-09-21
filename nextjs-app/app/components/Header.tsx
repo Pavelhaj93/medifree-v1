@@ -8,6 +8,7 @@ import { cn } from "../lib/utils";
 import { Menu, ShoppingCart, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/Button";
+import { useCart } from "../context/cartContext";
 
 const links = [
   { href: "/", label: "Domů" },
@@ -22,6 +23,8 @@ const links = [
 export default function Header() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const { items } = useCart();
 
   // Prevent scrolling when mobile menu is open
   useEffect(() => {
@@ -78,9 +81,11 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-4">
             <Link href="/kosik" className="relative">
               <ShoppingCart className="h-5 w-5" />
-              <span className="absolute -top-2 -right-3 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                2
-              </span>
+              {items.length > 0 && (
+                <span className="absolute -top-2 -right-3 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {items.length ?? 0}
+                </span>
+              )}
             </Link>
           </div>
 

@@ -14,7 +14,7 @@ const RelatedArticleItem = ({
   title,
 }: RelatedArticleItemProps) => {
   return (
-    <div className="bg-white rounded-xl shadow-xs overflow-hidden">
+    <div className="bg-white rounded-xl shadow-md overflow-hidden">
       <div className="relative h-[160px]">
         <Image src={imageSrc} alt={imageAlt} fill className="object-cover" />
       </div>

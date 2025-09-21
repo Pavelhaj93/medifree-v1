@@ -1,21 +1,28 @@
+"use client";
+
 import { Badge } from "@/app/components/ui/Badge";
 import { Button } from "@/app/components/ui/Button";
+import { useCart } from "@/app/context/cartContext";
+import { FeaturedProductQueryResult, Product } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/live";
-import { featuredProductQuery } from "@/sanity/lib/queries";
+import { urlForImage } from "@/sanity/lib/utils";
+import { featuredProductQuery } from "@/sanity/queries";
 import { Download, ShoppingCart, Star } from "lucide-react";
 import Image from "next/image";
 
-export default async function FeaturedProductSection() {
-  const { data: featuredProduct } = await sanityFetch({
-    query: featuredProductQuery,
-  });
-
+export default function FeaturedProductSection({
+  featuredProduct,
+}: {
+  featuredProduct: FeaturedProductQueryResult;
+}) {
+  console.log("FeaturedProductSection render", featuredProduct);
+  const { addItem } = useCart();
   if (!featuredProduct) return null;
 
   return (
     <section className="py-16">
       <div className="container mx-auto px-4">
-        <div className="bg-white rounded-2xl shadow-xs overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-md overflow-hidden">
           <div className="grid md:grid-cols-2 gap-8">
             <div className="p-8 md:p-12 flex items-center">
               <div>
@@ -40,27 +47,30 @@ export default async function FeaturedProductSection() {
                 </p>
                 <div className="flex items-center gap-4 mb-6">
                   <div className="text-3xl font-bold">
-                    {featuredProduct.price.toLocaleString("CZ")} Kč
+                    {featuredProduct.price -
+                      ((featuredProduct.price ?? 0) *
+                        (featuredProduct.discount ?? 0)) /
+                        100}{" "}
+                    Kč
                   </div>
-                  {featuredProduct.originalPrice && (
+                  {featuredProduct.discount && (
                     <div className="text-lg text-gray-500 line-through">
-                      {featuredProduct?.originalPrice?.toLocaleString("CZ")} Kč
+                      {featuredProduct?.price?.toLocaleString("CZ")} Kč
                     </div>
                   )}
-                  {featuredProduct.originalPrice && (
+                  {featuredProduct.discount && (
                     <div className="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded-sm">
-                      {featuredProduct.originalPrice &&
-                        Math.round(
-                          ((featuredProduct.originalPrice -
-                            featuredProduct.price) /
-                            featuredProduct.originalPrice) *
-                            100
-                        ) + "% sleva"}
+                      {featuredProduct.price &&
+                        featuredProduct.discount + "% sleva"}
                     </div>
                   )}
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button variant="primary" className="">
+                  <Button
+                    variant="primary"
+                    className=""
+                    onClick={() => addItem(featuredProduct as Product)}
+                  >
                     <ShoppingCart className="mr-2 h-4 w-4" /> Přidat do košíku
                   </Button>
                   <Button variant="outline" className="">
@@ -70,14 +80,22 @@ export default async function FeaturedProductSection() {
               </div>
             </div>
             <div className="relative md:h-auto bg-gray-50 flex items-center justify-center p-8">
-              <div className="relative w-[200px] h-[400px] shadow-xl transform rotate-5 transition-transform hover:rotate-0 hover:scale-125">
-                <Image
-                  src="/images/eshop/book_placeholder.png"
-                  alt="Ebook Cover"
-                  fill
-                  className="object-cover rounded-lg w-full"
-                />
-              </div>
+              {featuredProduct.image.asset && (
+                <div className="relative w-[250px] h-[400px] shadow-xl transform rotate-5 transition-transform hover:rotate-0 hover:scale-125">
+                  <Image
+                    src={
+                      urlForImage(featuredProduct.image)
+                        ?.width(400)
+                        .height(600)
+                        .fit("crop")
+                        .url() as string
+                    }
+                    alt="Ebook Cover"
+                    fill
+                    className="object-cover rounded-lg w-full"
+                  />
+                </div>
+              )}
               <Badge
                 size="sm"
                 variant="primary"

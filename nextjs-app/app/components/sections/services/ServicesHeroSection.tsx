@@ -8,7 +8,7 @@ const ServiceCard = (service: Service & { reverse?: boolean }) => {
   return (
     <Link
       href={`#${service._id}`}
-      className="bg-white p-6 rounded-2xl shadow-xs hover:shadow-md transition-shadow flex flex-col items-center text-center"
+      className="bg-white p-6 rounded-2xl shadow-md hover:shadow-md transition-shadow flex flex-col items-center text-center"
     >
       <div className="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center mb-4 overflow-hidden">
         <Image
