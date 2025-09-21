@@ -1,7 +1,15 @@
-import { BookOpen } from "lucide-react";
+import { BookOpen, Video } from "lucide-react";
 import Link from "next/link";
 
-export default function ProductCategories() {
+export default function ProductCategories({
+  eBooksLength,
+  coursesLength,
+}: {
+  eBooksLength: number;
+  coursesLength: number;
+}) {
+  const productsLabelHelper = (count: number) =>
+    count === 1 ? "položka" : count >= 2 && count <= 4 ? "položky" : "položek";
   return (
     <section className="py-8">
       <div className="container mx-auto px-4">
@@ -42,18 +50,20 @@ export default function ProductCategories() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
           <Link
             href="#"
-            className="bg-white p-6 rounded-xl shadow-xs hover:shadow-md transition-shadow flex flex-col items-center text-center"
+            className="bg-white p-6 rounded-xl shadow-md hover:shadow-md transition-shadow flex flex-col items-center text-center"
           >
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <BookOpen className="h-6 w-6 text-primary" />
             </div>
             <h3 className="font-medium">Ebooky</h3>
-            <p className="text-sm text-gray-600 mt-1">12 položek</p>
+            <p className="text-sm text-gray-600 mt-1">
+              {eBooksLength} {productsLabelHelper(eBooksLength)}
+            </p>
           </Link>
 
           {/* <Link
             href="#"
-            className="bg-white p-6 rounded-xl shadow-xs hover:shadow-md transition-shadow flex flex-col items-center text-center"
+            className="bg-white p-6 rounded-xl shadow-md hover:shadow-md transition-shadow flex flex-col items-center text-center"
           >
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <FileText className="h-6 w-6 text-primary" />
@@ -64,7 +74,7 @@ export default function ProductCategories() {
 
           {/* <Link
             href="#"
-            className="bg-white p-6 rounded-xl shadow-xs hover:shadow-md transition-shadow flex flex-col items-center text-center"
+            className="bg-white p-6 rounded-xl shadow-md hover:shadow-md transition-shadow flex flex-col items-center text-center"
           >
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <Headphones className="h-6 w-6 text-primary" />
@@ -75,28 +85,15 @@ export default function ProductCategories() {
 
           <Link
             href="#"
-            className="bg-white p-6 rounded-xl shadow-xs hover:shadow-md transition-shadow flex flex-col items-center text-center"
+            className="bg-white p-6 rounded-xl shadow-md hover:shadow-md transition-shadow flex flex-col items-center text-center"
           >
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-video text-primary"
-              >
-                <title>Videokurzy</title>
-                <path d="m22 8-6 4 6 4V8Z" />
-                <rect width="14" height="12" x="2" y="6" rx="2" ry="2" />
-              </svg>
+              <Video className="h-6 w-6 text-primary" />
             </div>
             <h3 className="font-medium">Video kurzy</h3>
-            <p className="text-sm text-gray-600 mt-1">6 položek</p>
+            <p className="text-sm text-gray-600 mt-1">
+              {coursesLength} {productsLabelHelper(coursesLength)}
+            </p>
           </Link>
         </div>
       </div>

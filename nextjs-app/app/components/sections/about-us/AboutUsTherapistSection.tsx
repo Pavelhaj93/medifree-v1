@@ -12,7 +12,7 @@ import {
 import { Badge } from "@/app/components/ui/Badge";
 import { Button } from "@/app/components/ui/Button";
 import { sanityFetch } from "@/sanity/lib/live";
-import { personQuery } from "@/sanity/lib/queries";
+import { personQuery } from "@/sanity/queries";
 import { urlForImage } from "@/sanity/lib/utils";
 import { Arrow } from "@radix-ui/react-select";
 
@@ -250,6 +250,7 @@ export default async function AboutUsTherapistSection() {
                   {radim.video.asset?.url && (
                     <video
                       controls
+                      // @ts-ignore
                       poster={radim.video.thumbnailImage?.asset?.url ?? ""}
                       className="w-full h-full object-cover"
                       preload="metadata"
@@ -327,7 +328,7 @@ export default async function AboutUsTherapistSection() {
                 </p>
               </div> */}
 
-              <div className="bg-white rounded-xl p-6 shadow-xs">
+              <div className="bg-white rounded-xl p-6 shadow-md">
                 <h3 className="text-xl font-medium mb-3">Další zaměření</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
                   Další téma, které je pro mě velice zajímavé a aktuální je
@@ -401,7 +402,7 @@ export default async function AboutUsTherapistSection() {
               </div>
 
               {/* Credentials and certifications */}
-              <div className="bg-white rounded-xl p-6 shadow-xs">
+              <div className="bg-white rounded-xl p-6 shadow-md">
                 <h3 className="font-medium text-lg mb-4">
                   Odborné kvalifikace a certifikace
                 </h3>
@@ -442,7 +443,7 @@ export default async function AboutUsTherapistSection() {
               Dr. Chen's Specializations
             </h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="text-center p-6 bg-white rounded-xl shadow-xs">
+              <div className="text-center p-6 bg-white rounded-xl shadow-md">
                 <div className="w-12 h-12 bg-tertiary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Calendar className="h-6 w-6 text-tertiary" />
                 </div>
@@ -452,7 +453,7 @@ export default async function AboutUsTherapistSection() {
                 </p>
               </div>
 
-              <div className="text-center p-6 bg-white rounded-xl shadow-xs">
+              <div className="text-center p-6 bg-white rounded-xl shadow-md">
                 <div className="w-12 h-12 bg-tertiary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Brain className="h-6 w-6 text-tertiary" />
                 </div>
@@ -462,7 +463,7 @@ export default async function AboutUsTherapistSection() {
                 </p>
               </div>
 
-              <div className="text-center p-6 bg-white rounded-xl shadow-xs">
+              <div className="text-center p-6 bg-white rounded-xl shadow-md">
                 <div className="w-12 h-12 bg-tertiary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Heart className="h-6 w-6 text-tertiary" />
                 </div>
@@ -472,7 +473,7 @@ export default async function AboutUsTherapistSection() {
                 </p>
               </div>
 
-              <div className="text-center p-6 bg-white rounded-xl shadow-xs">
+              <div className="text-center p-6 bg-white rounded-xl shadow-md">
                 <div className="w-12 h-12 bg-tertiary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Users className="h-6 w-6 text-tertiary" />
                 </div>
@@ -501,6 +502,7 @@ export default async function AboutUsTherapistSection() {
                   {michaela.video.asset?.url && (
                     <video
                       controls
+                      // @ts-ignore
                       poster={michaela.video.thumbnailImage?.asset?.url ?? ""}
                       className="w-full h-full object-cover"
                       preload="metadata"

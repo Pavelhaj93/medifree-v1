@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ArrowRight, Instagram } from "lucide-react";
-import { allPersonsQuery } from "@/sanity/lib/queries";
+import { allPersonsQuery } from "@/sanity/queries";
 import { sanityFetch } from "@/sanity/lib/live";
 import { michaelaInstagram, sharedInstagram } from "@/app/lib/social-links";
 import Link from "next/link";

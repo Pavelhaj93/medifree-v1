@@ -7,7 +7,7 @@ import CoverImage from "@/app/components/sanity/CoverImage";
 import { MorePosts } from "@/app/components/sanity/Posts";
 import PortableText from "@/app/components/sanity/PortableText";
 import { sanityFetch } from "@/sanity/lib/live";
-import { postPagesSlugs, postQuery } from "@/sanity/lib/queries";
+import { postPagesSlugs, postQuery } from "@/sanity/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 
 type Props = {

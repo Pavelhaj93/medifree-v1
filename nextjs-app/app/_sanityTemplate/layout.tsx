@@ -6,7 +6,7 @@ import { VisualEditing, toPlainText } from "next-sanity";
 import { Toaster } from "sonner";
 import * as demo from "@/sanity/lib/demo";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
-import { settingsQuery } from "@/sanity/lib/queries";
+import { settingsQuery } from "@/sanity/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import DraftModeToast from "@/app/components/sanity/DraftModeToast";
 import Header from "@/app/components/Header";

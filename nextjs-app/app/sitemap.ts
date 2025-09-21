@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 import { sanityFetch } from "@/sanity/lib/live";
-import { sitemapData } from "@/sanity/lib/queries";
+import { sitemapData } from "@/sanity/queries";
 import { headers } from "next/headers";
 
 /**

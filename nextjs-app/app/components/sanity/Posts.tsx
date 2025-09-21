@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { sanityFetch } from "@/sanity/lib/live";
-import { morePostsQuery, allPostsQuery } from "@/sanity/lib/queries";
+import { morePostsQuery, allPostsQuery } from "@/sanity/queries";
 import type { Post as PostType } from "@/sanity.types";
 import DateComponent from "@/app/components/sanity/Date";
 import OnBoarding from "@/app/components/sanity/Onboarding";

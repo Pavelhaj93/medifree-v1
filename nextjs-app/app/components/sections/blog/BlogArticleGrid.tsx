@@ -1,7 +1,7 @@
 import { Button } from "@/app/components/ui/Button";
 import BlogArticleGridItem from "./BlogArticleGridItem";
 import { sanityFetch } from "@/sanity/lib/live";
-import { allPostsQuery } from "@/sanity/lib/queries";
+import { allPostsQuery } from "@/sanity/queries";
 
 export default async function BlogArticleGrid() {
   const { data: posts } = await sanityFetch({

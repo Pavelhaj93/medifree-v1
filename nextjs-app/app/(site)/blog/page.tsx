@@ -47,7 +47,7 @@ export default function BlogPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <Link
               href="#"
-              className="bg-white p-6 rounded-xl shadow-xs hover:shadow-md transition-shadow text-center"
+              className="bg-white p-6 rounded-xl shadow-md hover:shadow-md transition-shadow text-center"
             >
               <div className="w-16 h-16 rounded-full bg-[#8D3F38]/10 flex items-center justify-center mx-auto mb-4">
                 <svg
@@ -72,7 +72,7 @@ export default function BlogPage() {
 
             <Link
               href="#"
-              className="bg-white p-6 rounded-xl shadow-xs hover:shadow-md transition-shadow text-center"
+              className="bg-white p-6 rounded-xl shadow-md hover:shadow-md transition-shadow text-center"
             >
               <div className="w-16 h-16 rounded-full bg-[#8D3F38]/10 flex items-center justify-center mx-auto mb-4">
                 <svg
@@ -98,7 +98,7 @@ export default function BlogPage() {
 
             <Link
               href="#"
-              className="bg-white p-6 rounded-xl shadow-xs hover:shadow-md transition-shadow text-center"
+              className="bg-white p-6 rounded-xl shadow-md hover:shadow-md transition-shadow text-center"
             >
               <div className="w-16 h-16 rounded-full bg-[#8D3F38]/10 flex items-center justify-center mx-auto mb-4">
                 <svg
@@ -123,7 +123,7 @@ export default function BlogPage() {
 
             <Link
               href="#"
-              className="bg-white p-6 rounded-xl shadow-xs hover:shadow-md transition-shadow text-center"
+              className="bg-white p-6 rounded-xl shadow-md hover:shadow-md transition-shadow text-center"
             >
               <div className="w-16 h-16 rounded-full bg-[#8D3F38]/10 flex items-center justify-center mx-auto mb-4">
                 <svg

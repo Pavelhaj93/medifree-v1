@@ -1,7 +1,7 @@
 import { Badge } from "@/app/components/ui/Badge";
 import { Button } from "@/app/components/ui/Button";
 import { sanityFetch } from "@/sanity/lib/live";
-import { firstPostQuery } from "@/sanity/lib/queries";
+import { firstPostQuery } from "@/sanity/queries";
 import { urlForImage } from "@/sanity/lib/utils";
 import { CalendarDays, ChevronRight, Clock } from "lucide-react";
 import { stegaClean } from "next-sanity";

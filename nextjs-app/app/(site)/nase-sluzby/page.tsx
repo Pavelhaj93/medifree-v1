@@ -2,7 +2,7 @@ import ServicesCtaSection from "@/app/components/sections/services/ServicesCtaSe
 import ServicesHeroSection from "@/app/components/sections/services/ServicesHeroSection";
 import ServicesItemSection from "@/app/components/sections/services/ServicesItemSection";
 import { sanityFetch } from "@/sanity/lib/live";
-import { allServicesQuery } from "@/sanity/lib/queries";
+import { allServicesQuery } from "@/sanity/queries";
 
 export default async function ServicesPage() {
   const { data: servicesRaw } = await sanityFetch({

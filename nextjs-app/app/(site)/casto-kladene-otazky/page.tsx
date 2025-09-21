@@ -1,6 +1,6 @@
 import { Badge } from "@/app/components/ui/Badge";
 import { sanityFetch } from "@/sanity/lib/live";
-import { allFaqsQuery } from "@/sanity/lib/queries";
+import { allFaqsQuery } from "@/sanity/queries/faqs";
 
 export default async function ContactFAQSection() {
   const { data: faqItems } = await sanityFetch({
@@ -22,7 +22,7 @@ export default async function ContactFAQSection() {
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 mx-auto">
           {/* FAQ Item */}
           {faqItems.map((item) => (
-            <div key={item._id} className="bg-white p-6 rounded-2xl shadow-xs">
+            <div key={item._id} className="bg-white p-6 rounded-2xl shadow-md">
               <h3 className="text-xl font-medium mb-4">{item.question}</h3>
               <p className="text-gray-600">{item.answer}</p>
             </div>

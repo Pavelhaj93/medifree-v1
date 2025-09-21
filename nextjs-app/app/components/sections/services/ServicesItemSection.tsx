@@ -4,8 +4,9 @@ import { Badge } from "@/app/components/ui/Badge";
 import { Button } from "@/app/components/ui/Button";
 import { Service } from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
-import { PortableText } from "next-sanity";
 import Link from "next/link";
+import CustomPortableText from "../../sanity/PortableText";
+import { PortableTextBlock } from "next-sanity";
 
 export function ServiceItemSection({
   _id,
@@ -54,7 +55,7 @@ export function ServiceItemSection({
               <h3 className="font-medium text-lg">Co služba zahrnuje:</h3>
               {/* rich text */}
               <div className="prose prose-lg max-w-none">
-                <PortableText value={content ?? []} />
+                <CustomPortableText value={content as PortableTextBlock[]} />
               </div>
             </div>
 

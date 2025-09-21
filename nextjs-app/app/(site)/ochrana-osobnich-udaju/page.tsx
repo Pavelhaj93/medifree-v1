@@ -1,8 +1,8 @@
-import DocumentCategoriesMap from "@/app/components/legalDocuments/DocumentCategoriesMap";
+import DocumentCategoriesMap from "@/app/components/sections/legalDocuments/DocumentCategoriesMap";
 import { Badge } from "@/app/components/ui/Badge";
 import { Button } from "@/app/components/ui/Button";
 import { sanityFetch } from "@/sanity/lib/live";
-import { allLegalDocumentsQuery } from "@/sanity/lib/queries";
+import { allLegalDocumentsQuery } from "@/sanity/queries";
 
 export default async function LegalDocumentsPage() {
   const { data: legalDocuments } = await sanityFetch({
@@ -26,7 +26,7 @@ export default async function LegalDocumentsPage() {
         </p>
 
         {/* Company Info */}
-        <div className="border-l-4 border-primary bg-white rounded-r-xl p-6 mb-12 shadow-xs">
+        <div className="border-l-4 border-primary bg-white rounded-r-xl p-6 mb-12 shadow-md">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <h2 className="text-lg font-medium text-primary mb-1">

@@ -12,20 +12,34 @@ export const product = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      options: {
+        list: [
+          {title: 'Ebooky', value: 'Ebooky'},
+          {title: 'Video kurzy', value: 'Video kurzy'},
+        ],
+      },
+    }),
+    defineField({
       name: 'price',
       title: 'Price',
       type: 'number',
       validation: (Rule) => Rule.required().min(0),
     }),
     defineField({
-      name: 'originalPrice',
-      title: 'Original Price',
+      name: 'discount',
+      title: 'Discount',
       type: 'number',
-      validation: (Rule) => Rule.min(0),
+      description: 'Discount in percentage (0-100)',
+      validation: (Rule) => Rule.min(0).max(100).error('Discount must be between 0 and 100'),
+      initialValue: 0,
     }),
     defineField({
-      name: 'mainImage',
-      title: 'Main Image',
+      name: 'image',
+      title: 'Image',
       type: 'image',
       fields: [
         defineField({
@@ -46,9 +60,6 @@ export const product = defineType({
       ],
       options: {
         hotspot: true,
-        aiAssist: {
-          imageDescriptionField: 'alt',
-        },
       },
       validation: (rule) => rule.required(),
     }),

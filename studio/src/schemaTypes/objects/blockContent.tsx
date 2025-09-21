@@ -92,5 +92,26 @@ export const blockContent = defineType({
         ],
       },
     }),
+    defineArrayMember({
+      type: 'image',
+      options: {hotspot: true},
+      fields: [
+        defineField({
+          name: 'alt',
+          type: 'string',
+          title: 'Alternative text',
+          description: 'Important for SEO and accessibility.',
+          validation: (rule) => {
+            // Custom validation to ensure alt text is provided if the image is present. https://www.sanity.io/docs/validation
+            return rule.custom((alt, context) => {
+              if ((context.document as any)?.asset?._ref && !alt) {
+                return 'Required'
+              }
+              return true
+            })
+          },
+        }),
+      ],
+    }),
   ],
 })

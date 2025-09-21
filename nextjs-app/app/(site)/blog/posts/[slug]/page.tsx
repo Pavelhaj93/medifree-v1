@@ -5,12 +5,13 @@ import { Badge } from "@/app/components/ui/Badge";
 import AboutTheAuthor from "@/app/components/sections/blogItem/AboutTheAuthor";
 import RelatedArticles from "@/app/components/sections/blogItem/RelatedArticlesGrid";
 import { sanityFetch } from "@/sanity/lib/live";
-import { postQuery } from "@/sanity/lib/queries";
+import { postQuery } from "@/sanity/queries";
 import type { Person, PostQueryResult } from "@/sanity.types";
 import Avatar from "@/app/components/sanity/Avatar";
-import { PortableText } from "next-sanity";
 import { urlForImage } from "@/sanity/lib/utils";
 import SocialSitesShareButtons from "@/app/components/sections/blog/SocialSitesShareButtons";
+import CustomPortableText from "@/app/components/sanity/PortableText";
+import { PortableTextBlock } from "next-sanity";
 
 export default async function BlogPostPage({
   params,
@@ -24,6 +25,11 @@ export default async function BlogPostPage({
     query: postQuery,
     params: { slug },
   });
+
+  console.log(
+    "ttt post",
+    post?.content?.find((block) => block._type === "image")
+  );
 
   return (
     <>
@@ -105,8 +111,10 @@ export default async function BlogPostPage({
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="prose prose-lg max-w-none">
-              <PortableText value={post?.content ?? []} />
+            <div className="prose prose-lg max-w-6xl">
+              <CustomPortableText
+                value={post?.content as PortableTextBlock[]}
+              />
             </div>
 
             <SocialSitesShareButtons />
@@ -117,7 +125,7 @@ export default async function BlogPostPage({
               image={post?.author?.picture}
             />
 
-            {/* Pass related articles of same category */}
+            {/* TODO: Pass related articles of same category */}
             <RelatedArticles />
           </div>
         </div>
