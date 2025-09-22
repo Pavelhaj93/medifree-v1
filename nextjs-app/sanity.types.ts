@@ -248,7 +248,7 @@ export type Product = {
   title: string;
   category: "Ebooky" | "Video kurzy";
   price: number;
-  discount?: number;
+  discount: number;
   image: {
     asset?: {
       _ref: string;
@@ -728,7 +728,7 @@ export type SettingsQueryResult = {
 
 // Source: ./sanity/queries/people.ts
 // Variable: personQuery
-// Query: *[_type == "person" && slug.current == $slug][0]{      _id,  name,  slug,  specialization,  description,  topics,  mainImage {   asset,  alt,  _type },  picture {   asset,  alt,  _type },    video {      asset->{_id,url,assetId,originalFilename,extension,size},      thumbnailImage {   asset,  alt,  _type }    },    _createdAt,_updatedAt,_type,_rev  }
+// Query: *[_type == "person" && slug.current == $slug][0]{      _id,  name,  slug,  specialization,  description,  topics,  mainImage {   asset->,  alt,  _type },  picture {   asset->,  alt,  _type },    video {      asset->{_id,url,assetId,originalFilename,extension,size},      thumbnailImage {   asset->,  alt,  _type }    },    _createdAt,_updatedAt,_type,_rev  }
 export type PersonQueryResult = {
   _id: string;
   name: string;
@@ -738,20 +738,52 @@ export type PersonQueryResult = {
   topics: Array<string>;
   mainImage: {
     asset: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      _id: string;
+      _type: "sanity.imageAsset";
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      originalFilename?: string;
+      label?: string;
+      title?: string;
+      description?: string;
+      altText?: string;
+      sha1hash?: string;
+      extension?: string;
+      mimeType?: string;
+      size?: number;
+      assetId?: string;
+      uploadId?: string;
+      path?: string;
+      url?: string;
+      metadata?: SanityImageMetadata;
+      source?: SanityAssetSourceData;
     } | null;
     alt: string | null;
     _type: "image";
   };
   picture: {
     asset: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      _id: string;
+      _type: "sanity.imageAsset";
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      originalFilename?: string;
+      label?: string;
+      title?: string;
+      description?: string;
+      altText?: string;
+      sha1hash?: string;
+      extension?: string;
+      mimeType?: string;
+      size?: number;
+      assetId?: string;
+      uploadId?: string;
+      path?: string;
+      url?: string;
+      metadata?: SanityImageMetadata;
+      source?: SanityAssetSourceData;
     } | null;
     alt: string | null;
     _type: "image";
@@ -767,10 +799,26 @@ export type PersonQueryResult = {
     } | null;
     thumbnailImage: {
       asset: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        _id: string;
+        _type: "sanity.imageAsset";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        originalFilename?: string;
+        label?: string;
+        title?: string;
+        description?: string;
+        altText?: string;
+        sha1hash?: string;
+        extension?: string;
+        mimeType?: string;
+        size?: number;
+        assetId?: string;
+        uploadId?: string;
+        path?: string;
+        url?: string;
+        metadata?: SanityImageMetadata;
+        source?: SanityAssetSourceData;
       } | null;
       alt: string | null;
       _type: "image";
@@ -782,7 +830,7 @@ export type PersonQueryResult = {
   _rev: string;
 } | null;
 // Variable: allPersonsQuery
-// Query: *[_type == "person"] | order(name asc) {   _id,  name,  slug,  specialization,  description,  topics,  mainImage {   asset,  alt,  _type },  picture {   asset,  alt,  _type } }
+// Query: *[_type == "person"] | order(name asc) {   _id,  name,  slug,  specialization,  description,  topics,  mainImage {   asset->,  alt,  _type },  picture {   asset->,  alt,  _type } }
 export type AllPersonsQueryResult = Array<{
   _id: string;
   name: string;
@@ -792,20 +840,52 @@ export type AllPersonsQueryResult = Array<{
   topics: Array<string>;
   mainImage: {
     asset: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      _id: string;
+      _type: "sanity.imageAsset";
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      originalFilename?: string;
+      label?: string;
+      title?: string;
+      description?: string;
+      altText?: string;
+      sha1hash?: string;
+      extension?: string;
+      mimeType?: string;
+      size?: number;
+      assetId?: string;
+      uploadId?: string;
+      path?: string;
+      url?: string;
+      metadata?: SanityImageMetadata;
+      source?: SanityAssetSourceData;
     } | null;
     alt: string | null;
     _type: "image";
   };
   picture: {
     asset: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      _id: string;
+      _type: "sanity.imageAsset";
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      originalFilename?: string;
+      label?: string;
+      title?: string;
+      description?: string;
+      altText?: string;
+      sha1hash?: string;
+      extension?: string;
+      mimeType?: string;
+      size?: number;
+      assetId?: string;
+      uploadId?: string;
+      path?: string;
+      url?: string;
+      metadata?: SanityImageMetadata;
+      source?: SanityAssetSourceData;
     } | null;
     alt: string | null;
     _type: "image";
@@ -996,44 +1076,35 @@ export type PostPagesSlugsResult = Array<{
 }>;
 
 // Source: ./sanity/queries/products.ts
-// Variable: productQuery
-// Query: *[_type == "product" && slug.current == $slug][0] {   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  _createdAt,  _updatedAt,  _rev,  _type }
-export type ProductQueryResult = {
-  _id: string;
-  title: string;
-  price: number;
-  discount: number | null;
-  image: {
-    asset: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    } | null;
-    alt: string | null;
-    _type: "image";
-  };
-  description: string;
-  featured: boolean | null;
-  category: "Ebooky" | "Video kurzy";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  _type: "product";
-} | null;
 // Variable: allProductsQuery
-// Query: *[_type == "product"] | order(name asc) {   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  _createdAt,  _updatedAt,  _rev,  _type }
+// Query: *[_type == "product"] | order(name asc) {   _id,  title,  price,  discount,  image {   asset->,  alt,  _type },  description,  featured,  category,  _createdAt,  _updatedAt,  _rev,  _type }
 export type AllProductsQueryResult = Array<{
   _id: string;
   title: string;
   price: number;
-  discount: number | null;
+  discount: number;
   image: {
     asset: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      _id: string;
+      _type: "sanity.imageAsset";
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      originalFilename?: string;
+      label?: string;
+      title?: string;
+      description?: string;
+      altText?: string;
+      sha1hash?: string;
+      extension?: string;
+      mimeType?: string;
+      size?: number;
+      assetId?: string;
+      uploadId?: string;
+      path?: string;
+      url?: string;
+      metadata?: SanityImageMetadata;
+      source?: SanityAssetSourceData;
     } | null;
     alt: string | null;
     _type: "image";
@@ -1047,18 +1118,34 @@ export type AllProductsQueryResult = Array<{
   _type: "product";
 }>;
 // Variable: featuredProductQuery
-// Query: *[_type == "product" && featured == true][0]{   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  _createdAt,  _updatedAt,  _rev,  _type }
+// Query: *[_type == "product" && featured == true][0]{   _id,  title,  price,  discount,  image {   asset->,  alt,  _type },  description,  featured,  category,  _createdAt,  _updatedAt,  _rev,  _type }
 export type FeaturedProductQueryResult = {
   _id: string;
   title: string;
   price: number;
-  discount: number | null;
+  discount: number;
   image: {
     asset: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      _id: string;
+      _type: "sanity.imageAsset";
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      originalFilename?: string;
+      label?: string;
+      title?: string;
+      description?: string;
+      altText?: string;
+      sha1hash?: string;
+      extension?: string;
+      mimeType?: string;
+      size?: number;
+      assetId?: string;
+      uploadId?: string;
+      path?: string;
+      url?: string;
+      metadata?: SanityImageMetadata;
+      source?: SanityAssetSourceData;
     } | null;
     alt: string | null;
     _type: "image";
@@ -1181,16 +1268,15 @@ declare module "@sanity/client" {
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
     "\n  *[_type == \"page\" || _type == \"post\" && defined(slug.current)]\n  | order(_type asc) {\n    \"slug\": slug.current,\n    _type,\n    _updatedAt\n  }\n": SitemapDataResult;
     "*[_type == \"settings\"][0]": SettingsQueryResult;
-    "\n  *[_type == \"person\" && slug.current == $slug][0]{\n    \n  _id,\n  name,\n  slug,\n  specialization,\n  description,\n  topics,\n  mainImage { \n  asset,\n  alt,\n  _type\n },\n  picture { \n  asset,\n  alt,\n  _type\n }\n,\n    video {\n      asset->{_id,url,assetId,originalFilename,extension,size},\n      thumbnailImage { \n  asset,\n  alt,\n  _type\n }\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": PersonQueryResult;
-    "\n  *[_type == \"person\"] | order(name asc) { \n  _id,\n  name,\n  slug,\n  specialization,\n  description,\n  topics,\n  mainImage { \n  asset,\n  alt,\n  _type\n },\n  picture { \n  asset,\n  alt,\n  _type\n }\n }\n": AllPersonsQueryResult;
+    "\n  *[_type == \"person\" && slug.current == $slug][0]{\n    \n  _id,\n  name,\n  slug,\n  specialization,\n  description,\n  topics,\n  mainImage { \n  asset->,\n  alt,\n  _type\n },\n  picture { \n  asset->,\n  alt,\n  _type\n }\n,\n    video {\n      asset->{_id,url,assetId,originalFilename,extension,size},\n      thumbnailImage { \n  asset->,\n  alt,\n  _type\n }\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": PersonQueryResult;
+    "\n  *[_type == \"person\"] | order(name asc) { \n  _id,\n  name,\n  slug,\n  specialization,\n  description,\n  topics,\n  mainImage { \n  asset->,\n  alt,\n  _type\n },\n  picture { \n  asset->,\n  alt,\n  _type\n }\n }\n": AllPersonsQueryResult;
     "*[_type == \"post\" && defined(slug.current)] | order(date desc, _updatedAt desc){\n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture},\n}": AllPostsQueryResult;
     "*[_type == \"post\" && defined(slug.current)] | order(date desc, _updatedAt desc)[0]{\n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture},\n}": FirstPostQueryResult;
     "*[_type == \"post\" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc)[0...$limit]{\n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture},\n}": MorePostsQueryResult;
     "*[_type == \"post\" && slug.current == $slug][0]{content[]{...,markDefs[]{...,\n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n}},\n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture},\n}": PostQueryResult;
     "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostPagesSlugsResult;
-    "*[_type == \"product\" && slug.current == $slug][0] { \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }": ProductQueryResult;
-    "*[_type == \"product\"] | order(name asc) { \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }": AllProductsQueryResult;
-    "*[_type == \"product\" && featured == true][0]{ \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }": FeaturedProductQueryResult;
+    "*[_type == \"product\"] | order(name asc) { \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset->,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }": AllProductsQueryResult;
+    "*[_type == \"product\" && featured == true][0]{ \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset->,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }": FeaturedProductQueryResult;
     "\n  *[_type == \"service\"] | order(title asc) {\n    _id,title,tag,description,content,price,priceType,image,\n    _createdAt,_updatedAt,_type,_rev\n  }\n": AllServicesQueryResult;
     "\n  *[_type == \"homepageService\"] | order(title asc) {\n    _id,title,description,image,\n    _createdAt,_updatedAt,_type,_rev\n  }\n": AllHomepageServicesQueryResult;
     "\n  *[_type == \"video\"][0]{\n    _id,title,description,\n    videoFile{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": VideoQueryResult;

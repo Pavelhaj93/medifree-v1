@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { Product } from "@/sanity.types";
+import { urlForImage } from "@/sanity/lib/utils";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -12,17 +13,6 @@ export async function POST(req: NextRequest) {
     const { items }: { items: (Product & { quantity: number })[] } =
       await req.json();
 
-    // const line_items = items.map((item) => ({
-    //   price_data: {
-    //     currency: "czk",
-    //     product_data: {
-    //       name: item.title,
-    //       images: ["https://via.placeholder.com/150"],
-    //     },
-    //     unit_amount: item.price,
-    //   },
-    //   quantity: item.quantity,
-    // }));
     const params: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: ["card"],
       mode: "payment",
@@ -34,7 +24,7 @@ export async function POST(req: NextRequest) {
           product_data: {
             name: item.title,
             // @ts-ignore
-            images: [item?.image?.asset?.url],
+            images: [urlForImage(item.image).url()!],
           },
           unit_amount: item.price * 100,
         },

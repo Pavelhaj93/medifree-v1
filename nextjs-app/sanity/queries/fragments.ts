@@ -1,5 +1,5 @@
 export const imageAssetFields = /* groq */ `
-  asset,
+  asset->,
   alt,
   _type
 `;

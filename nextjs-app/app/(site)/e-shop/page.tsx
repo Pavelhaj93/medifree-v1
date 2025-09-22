@@ -15,8 +15,6 @@ export default async function EshopPage() {
     query: allProductsQuery,
   });
 
-  console.log("products", products);
-
   const ebooksLength = products.filter(
     (product) => product.category === "Ebooky"
   ).length;
@@ -35,7 +33,8 @@ export default async function EshopPage() {
       <ProductGridSection products={products} />
       {/* <TestimonialsSection /> */}
       {/* <EshopFAQSection /> */}
-      <NewsletterSection />
+      {/* TODO: allow newsletter  */}
+      {/* <NewsletterSection /> */}
     </div>
   );
 }

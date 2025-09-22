@@ -7,6 +7,7 @@ import { ArrowLeft, CreditCard, ShoppingCart, Trash2 } from "lucide-react";
 import { useCart } from "@/app/context/cartContext";
 import Image from "next/image";
 import { Input } from "../../ui/Input";
+import { urlForImage } from "@/sanity/lib/utils";
 
 const CartClient = () => {
   const { items, removeItem, clearCart, subtotal, tax, total } = useCart();
@@ -61,8 +62,13 @@ const CartClient = () => {
                   <li key={item?._id} className="p-6 flex gap-6">
                     <div className="relative h-40 w-40 rounded-md overflow-hidden shrink-0">
                       <Image
-                        // @ts-ignore
-                        src={item?.image.asset.url as string}
+                        src={
+                          urlForImage(item?.image)
+                            ?.width(160)
+                            .height(160)
+                            .fit("crop")
+                            .url()!
+                        }
                         alt={item?.image?.alt ?? item?.title ?? ""}
                         fill
                         className="object-cover"
