@@ -18,6 +18,7 @@ type CartContextType = {
   subtotal: number;
   tax: number;
   total: number;
+  itemExists: (title: string) => boolean;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -34,19 +35,27 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     localStorage.setItem(cartKey, JSON.stringify(items));
+    if (items.length > 0) {
+      const last = items[items.length - 1];
+      toast.success(`Přidáno do košíku: ${last.title}`);
+    }
   }, [items]);
 
   const addItem = (item: Product) => {
+    console.log("Adding item to cart:", item.title);
     setItems((prev) => {
       const exists = prev.find((i) => i?.title === item?.title);
       if (exists) return prev; // don’t add duplicates
-      toast.success(`Přidáno do košíku: ${item.title}`);
       return [...prev, item];
     });
   };
 
   const removeItem = (id: string) => {
     setItems((prev) => prev.filter((i) => i?._id !== id));
+  };
+
+  const itemExists = (title: string) => {
+    return items.some((i) => i?.title === title);
   };
 
   const clearCart = () => setItems([]);
@@ -65,6 +74,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         subtotal,
         tax,
         total,
+        itemExists,
       }}
     >
       {children}

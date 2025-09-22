@@ -16,7 +16,7 @@ export default function FeaturedProductSection({
   featuredProduct: FeaturedProductQueryResult;
 }) {
   console.log("FeaturedProductSection render", featuredProduct);
-  const { addItem } = useCart();
+  const { addItem, itemExists } = useCart();
   if (!featuredProduct) return null;
 
   return (
@@ -67,15 +67,24 @@ export default function FeaturedProductSection({
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
-                    variant="primary"
-                    className=""
+                    variant={
+                      itemExists(featuredProduct.title)
+                        ? "secondary"
+                        : "primary"
+                    }
+                    className="rounded-full"
                     onClick={() => addItem(featuredProduct as Product)}
+                    disabled={itemExists(featuredProduct.title)}
                   >
-                    <ShoppingCart className="mr-2 h-4 w-4" /> Přidat do košíku
+                    <ShoppingCart className="mr-2 h-2 w-2" />
+                    {itemExists(featuredProduct.title)
+                      ? "V košíku"
+                      : "Přidat do košíku"}
                   </Button>
-                  <Button variant="outline" className="">
+                  {/* TODO: přidat stahnout ukazku */}
+                  {/* <Button variant="outline" className="">
                     <Download className="mr-2 h-4 w-4" /> Stáhnout ukázku
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </div>

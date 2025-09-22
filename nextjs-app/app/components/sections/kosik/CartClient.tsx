@@ -48,7 +48,7 @@ const CartClient = ({
             Prozkoumejte náš obchod a najděte digitální zdroje, které podpoří
             vaši cestu ke zdraví a duševní pohodě.
           </p>
-          <Link href="/eshop">
+          <Link href="/e-shop">
             <Button variant="primary">Prozkoumat obchod</Button>
           </Link>
         </div>

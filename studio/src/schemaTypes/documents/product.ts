@@ -24,21 +24,6 @@ export const product = defineType({
       },
     }),
     defineField({
-      name: 'price',
-      title: 'Price',
-      type: 'number',
-      validation: (Rule) => Rule.required().min(0),
-    }),
-    defineField({
-      name: 'discount',
-      title: 'Discount',
-      type: 'number',
-      description: 'Discount in percentage (0-100)',
-      validation: (Rule) =>
-        Rule.required().min(0).max(100).error('Discount must be between 0 and 100'),
-      initialValue: 0,
-    }),
-    defineField({
       name: 'image',
       title: 'Image',
       type: 'image',
@@ -64,18 +49,12 @@ export const product = defineType({
       },
       validation: (rule) => rule.required(),
     }),
-    // defineField({
-    //   name: 'rating',
-    //   title: 'Rating',
-    //   type: 'number',
-    //   validation: (Rule) => Rule.required().min(0).max(5),
-    // }),
-    // defineField({
-    //   name: 'reviews',
-    //   title: 'Number of Reviews',
-    //   type: 'number',
-    //   validation: (Rule) => Rule.required().min(0),
-    // }),
+    defineField({
+      name: 'price',
+      title: 'Base price',
+      type: 'number',
+      validation: (Rule) => Rule.required().min(0),
+    }),
     defineField({
       name: 'description',
       title: 'Description',
