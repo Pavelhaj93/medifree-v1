@@ -22,7 +22,6 @@ export default async function RootLayout({
     <CartProvider>
       <Header />
       <main className="bg-white">{children}</main>
-      <Toaster />
       <Footer />
     </CartProvider>
   );
