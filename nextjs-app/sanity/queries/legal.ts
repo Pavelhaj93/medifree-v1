@@ -19,3 +19,13 @@ export const gdprQuery = defineQuery(`
     _createdAt,_updatedAt,_type,_rev
   }
 `);
+
+export const termsAndConditionsQuery = defineQuery(`
+  *[_type == "legalDocument" && tag == "TandC"][0]{
+    _id,title,description,category,
+    file{
+      asset->{_id,url,assetId,originalFilename,extension,size}
+    },
+    _createdAt,_updatedAt,_type,_rev
+  }
+`);

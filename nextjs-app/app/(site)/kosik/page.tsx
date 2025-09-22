@@ -13,52 +13,20 @@ import { Button } from "@/app/components/ui/Button";
 import { Input } from "@/app/components/ui/Input";
 import CartClient from "@/app/components/sections/kosik/CartClient";
 import { sanityFetch } from "@/sanity/lib/live";
-import { featuredProductQuery } from "@/sanity/queries";
+import {
+  featuredProductQuery,
+  gdprQuery,
+  termsAndConditionsQuery,
+} from "@/sanity/queries";
 
-// Mock cart data - in a real app, this would come from a state management solution
-const cartItems = [
-  {
-    id: 1,
-    title: "Finding balance: Průvodce duševní pohodou",
-    price: 400,
-    quantity: 1,
-    image: "/placeholder.svg?height=120&width=80",
-    type: "Ebook",
-  },
-  {
-    id: 2,
-    title: "Úleva od úzkosti - Meditační balíček",
-    price: 250,
-    quantity: 1,
-    image: "/placeholder.svg?height=120&width=80",
-    type: "Audio",
-  },
-  {
-    id: 3,
-    title: "Zdravý spánek - Meditační balíček",
-    price: 250,
-    quantity: 1,
-    image: "/placeholder.svg?height=120&width=80",
-    type: "Audio",
-  },
-  {
-    id: 4,
-    title: "Zdravý spánek - Meditační balíček",
-    price: 250,
-    quantity: 1,
-    image: "/placeholder.svg?height=120&width=80",
-    type: "Audio",
-  },
-];
+export default async function CartPage() {
+  const { data: gdpr } = await sanityFetch({
+    query: gdprQuery,
+  });
 
-export default function CartPage() {
-  // Calculate cart totals
-  const subtotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
-  const tax = subtotal * 0.21; // 21% tax rate
-  const total = subtotal + tax;
+  const { data: termsAndConditions } = await sanityFetch({
+    query: termsAndConditionsQuery,
+  });
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
@@ -72,7 +40,7 @@ export default function CartPage() {
             Váš košík
           </h1>
 
-          <CartClient />
+          <CartClient gdpr={gdpr} termsAndConditions={termsAndConditions} />
 
           {/* Customer Support */}
           <div className="mt-16 max-w-3xl mx-auto text-center">
@@ -83,7 +51,7 @@ export default function CartPage() {
               Jsme tu, abychom vám pomohli!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact">
+              <Link href="/kontakt">
                 <Button
                   variant="outline"
                   className="rounded-full border-primary text-primary hover:bg-primary hover:text-white"
@@ -92,7 +60,7 @@ export default function CartPage() {
                 </Button>
               </Link>
               <Button variant="outline" className="rounded-full">
-                <Link href="/faq">Často kladené otázky</Link>
+                <Link href="/casto-kladene-otazky">Často kladené otázky</Link>
               </Button>
             </div>
           </div>

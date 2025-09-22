@@ -599,6 +599,28 @@ export type GdprQueryResult = {
   _type: "legalDocument";
   _rev: string;
 } | null;
+// Variable: termsAndConditionsQuery
+// Query: *[_type == "legalDocument" && tag == "TandC"][0]{    _id,title,description,category,    file{      asset->{_id,url,assetId,originalFilename,extension,size}    },    _createdAt,_updatedAt,_type,_rev  }
+export type TermsAndConditionsQueryResult = {
+  _id: string;
+  title: string;
+  description: string;
+  category: "Cookies" | "Dal\u0161\xED dokumenty" | "E-shop" | "Obchodn\xED podm\xEDnky" | "Ochrana osobn\xEDch \xFAdaj\u016F (GDPR)" | "Pobytov\xE9 slu\u017Eby";
+  file: {
+    asset: {
+      _id: string;
+      url: string | null;
+      assetId: string | null;
+      originalFilename: string | null;
+      extension: string | null;
+      size: number | null;
+    } | null;
+  };
+  _createdAt: string;
+  _updatedAt: string;
+  _type: "legalDocument";
+  _rev: string;
+} | null;
 
 // Source: ./sanity/queries/pages.ts
 // Variable: getPageQuery
@@ -1264,6 +1286,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"faq\"] | order(order asc, question asc) {\n    _id,\n    question,\n    answer,\n    category,\n    order,\n    _createdAt,\n    _updatedAt\n  }\n": AllFaqsQueryResult;
     "\n  *[_type == \"legalDocument\"] | order(title asc) {\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_rev\n  }\n": AllLegalDocumentsQueryResult;
     "\n  *[_type == \"legalDocument\" && tag == \"gdpr-consent\"][0]{\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": GdprQueryResult;
+    "\n  *[_type == \"legalDocument\" && tag == \"TandC\"][0]{\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": TermsAndConditionsQueryResult;
     "\n  *[_type == 'page' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    \"pageBuilder\": pageBuilder[]{\n      ...,\n      _type == \"callToAction\" => { \n  link {\n    ...,\n    \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n  }\n },\n      _type == \"infoSection\" => {\n        content[]{\n          ...,\n          markDefs[]{ ..., \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n }\n        }\n      },\n    },\n  }\n": GetPageQueryResult;
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
     "\n  *[_type == \"page\" || _type == \"post\" && defined(slug.current)]\n  | order(_type asc) {\n    \"slug\": slug.current,\n    _type,\n    _updatedAt\n  }\n": SitemapDataResult;
