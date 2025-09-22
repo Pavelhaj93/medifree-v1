@@ -69,7 +69,6 @@ export default function FeaturedProductSection({
                   <Button
                     variant="primary"
                     className=""
-                    // @ts-ignore
                     onClick={() => addItem(featuredProduct as Product)}
                   >
                     <ShoppingCart className="mr-2 h-4 w-4" /> Přidat do košíku

@@ -38,7 +38,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const addItem = (item: Product) => {
     setItems((prev) => {
-      const exists = prev.find((i) => i?._id === item?._id);
+      const exists = prev.find((i) => i?.title === item?.title);
       if (exists) return prev; // don’t add duplicates
       toast.success(`Přidáno do košíku: ${item.title}`);
       return [...prev, item];

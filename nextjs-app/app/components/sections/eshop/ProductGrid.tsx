@@ -15,7 +15,6 @@ export default async function ProductGridSection({
         <div className="grid md:grid-cols-3 gap-6">
           {products.map((product) => {
             return (
-              // @ts-ignore
               <ProductCard key={product._id} product={product as Product} />
             );
           })}
