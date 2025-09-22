@@ -250,8 +250,11 @@ export default async function AboutUsTherapistSection() {
                   {radim.video.asset?.url && (
                     <video
                       controls
-                      // @ts-ignore
-                      poster={radim.video.thumbnailImage?.asset?.url ?? ""}
+                      poster={urlForImage(radim.video.thumbnailImage)
+                        ?.width(1280)
+                        .height(720)
+                        .fit("crop")
+                        .url()}
                       className="w-full h-full object-cover"
                       preload="metadata"
                     >
@@ -502,8 +505,11 @@ export default async function AboutUsTherapistSection() {
                   {michaela.video.asset?.url && (
                     <video
                       controls
-                      // @ts-ignore
-                      poster={michaela.video.thumbnailImage?.asset?.url ?? ""}
+                      poster={urlForImage(michaela.video.thumbnailImage)
+                        ?.width(1280)
+                        .height(720)
+                        .fit("crop")
+                        .url()}
                       className="w-full h-full object-cover"
                       preload="metadata"
                     >

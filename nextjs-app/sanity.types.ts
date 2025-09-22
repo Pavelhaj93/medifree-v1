@@ -248,7 +248,7 @@ export type Product = {
   title: string;
   category: "Ebooky" | "Video kurzy";
   price: number;
-  discount?: number;
+  discount: number;
   image: {
     asset?: {
       _ref: string;
@@ -580,6 +580,28 @@ export type AllLegalDocumentsQueryResult = Array<{
 // Variable: gdprQuery
 // Query: *[_type == "legalDocument" && tag == "gdpr-consent"][0]{    _id,title,description,category,    file{      asset->{_id,url,assetId,originalFilename,extension,size}    },    _createdAt,_updatedAt,_type,_rev  }
 export type GdprQueryResult = {
+  _id: string;
+  title: string;
+  description: string;
+  category: "Cookies" | "Dal\u0161\xED dokumenty" | "E-shop" | "Obchodn\xED podm\xEDnky" | "Ochrana osobn\xEDch \xFAdaj\u016F (GDPR)" | "Pobytov\xE9 slu\u017Eby";
+  file: {
+    asset: {
+      _id: string;
+      url: string | null;
+      assetId: string | null;
+      originalFilename: string | null;
+      extension: string | null;
+      size: number | null;
+    } | null;
+  };
+  _createdAt: string;
+  _updatedAt: string;
+  _type: "legalDocument";
+  _rev: string;
+} | null;
+// Variable: termsAndConditionsQuery
+// Query: *[_type == "legalDocument" && tag == "TandC"][0]{    _id,title,description,category,    file{      asset->{_id,url,assetId,originalFilename,extension,size}    },    _createdAt,_updatedAt,_type,_rev  }
+export type TermsAndConditionsQueryResult = {
   _id: string;
   title: string;
   description: string;
@@ -996,38 +1018,13 @@ export type PostPagesSlugsResult = Array<{
 }>;
 
 // Source: ./sanity/queries/products.ts
-// Variable: productQuery
-// Query: *[_type == "product" && slug.current == $slug][0] {   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  _createdAt,  _updatedAt,  _rev,  _type }
-export type ProductQueryResult = {
-  _id: string;
-  title: string;
-  price: number;
-  discount: number | null;
-  image: {
-    asset: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    } | null;
-    alt: string | null;
-    _type: "image";
-  };
-  description: string;
-  featured: boolean | null;
-  category: "Ebooky" | "Video kurzy";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  _type: "product";
-} | null;
 // Variable: allProductsQuery
 // Query: *[_type == "product"] | order(name asc) {   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  _createdAt,  _updatedAt,  _rev,  _type }
 export type AllProductsQueryResult = Array<{
   _id: string;
   title: string;
   price: number;
-  discount: number | null;
+  discount: number;
   image: {
     asset: {
       _ref: string;
@@ -1052,7 +1049,7 @@ export type FeaturedProductQueryResult = {
   _id: string;
   title: string;
   price: number;
-  discount: number | null;
+  discount: number;
   image: {
     asset: {
       _ref: string;
@@ -1177,6 +1174,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"faq\"] | order(order asc, question asc) {\n    _id,\n    question,\n    answer,\n    category,\n    order,\n    _createdAt,\n    _updatedAt\n  }\n": AllFaqsQueryResult;
     "\n  *[_type == \"legalDocument\"] | order(title asc) {\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_rev\n  }\n": AllLegalDocumentsQueryResult;
     "\n  *[_type == \"legalDocument\" && tag == \"gdpr-consent\"][0]{\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": GdprQueryResult;
+    "\n  *[_type == \"legalDocument\" && tag == \"TandC\"][0]{\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": TermsAndConditionsQueryResult;
     "\n  *[_type == 'page' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    \"pageBuilder\": pageBuilder[]{\n      ...,\n      _type == \"callToAction\" => { \n  link {\n    ...,\n    \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n  }\n },\n      _type == \"infoSection\" => {\n        content[]{\n          ...,\n          markDefs[]{ ..., \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n }\n        }\n      },\n    },\n  }\n": GetPageQueryResult;
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
     "\n  *[_type == \"page\" || _type == \"post\" && defined(slug.current)]\n  | order(_type asc) {\n    \"slug\": slug.current,\n    _type,\n    _updatedAt\n  }\n": SitemapDataResult;
@@ -1188,7 +1186,6 @@ declare module "@sanity/client" {
     "*[_type == \"post\" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc)[0...$limit]{\n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture},\n}": MorePostsQueryResult;
     "*[_type == \"post\" && slug.current == $slug][0]{content[]{...,markDefs[]{...,\n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n}},\n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture},\n}": PostQueryResult;
     "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostPagesSlugsResult;
-    "*[_type == \"product\" && slug.current == $slug][0] { \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }": ProductQueryResult;
     "*[_type == \"product\"] | order(name asc) { \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }": AllProductsQueryResult;
     "*[_type == \"product\" && featured == true][0]{ \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }": FeaturedProductQueryResult;
     "\n  *[_type == \"service\"] | order(title asc) {\n    _id,title,tag,description,content,price,priceType,image,\n    _createdAt,_updatedAt,_type,_rev\n  }\n": AllServicesQueryResult;

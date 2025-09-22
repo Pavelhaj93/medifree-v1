@@ -38,7 +38,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const addItem = (item: Product) => {
     setItems((prev) => {
-      const exists = prev.find((i) => i?._id === item?._id);
+      const exists = prev.find((i) => i?.title === item?.title);
       if (exists) return prev; // don’t add duplicates
       toast.success(`Přidáno do košíku: ${item.title}`);
       return [...prev, item];
@@ -51,9 +51,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const clearCart = () => setItems([]);
 
-  const subtotal = items.reduce((sum, i) => sum + (i?.price ?? 0), 0);
-  const tax = subtotal * 0.21;
-  const total = subtotal + tax;
+  const total = items.reduce((sum, i) => sum + (i?.price ?? 0), 0);
+  const tax = total - total / 1.21;
+  const subtotal = total / 1.21;
 
   return (
     <CartContext.Provider

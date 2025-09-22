@@ -7,8 +7,16 @@ import { ArrowLeft, CreditCard, ShoppingCart, Trash2 } from "lucide-react";
 import { useCart } from "@/app/context/cartContext";
 import Image from "next/image";
 import { Input } from "../../ui/Input";
+import { urlForImage } from "@/sanity/lib/utils";
+import { GdprQueryResult, TermsAndConditionsQueryResult } from "@/sanity.types";
 
-const CartClient = () => {
+const CartClient = ({
+  gdpr,
+  termsAndConditions,
+}: {
+  gdpr: GdprQueryResult;
+  termsAndConditions: TermsAndConditionsQueryResult;
+}) => {
   const { items, removeItem, clearCart, subtotal, tax, total } = useCart();
 
   const handleCheckout = async () => {
@@ -61,8 +69,13 @@ const CartClient = () => {
                   <li key={item?._id} className="p-6 flex gap-6">
                     <div className="relative h-40 w-40 rounded-md overflow-hidden shrink-0">
                       <Image
-                        // @ts-ignore
-                        src={item?.image.asset.url as string}
+                        src={
+                          urlForImage(item?.image)
+                            ?.width(160)
+                            .height(160)
+                            .fit("crop")
+                            .url()!
+                        }
                         alt={item?.image?.alt ?? item?.title ?? ""}
                         fill
                         className="object-cover"
@@ -125,7 +138,8 @@ const CartClient = () => {
                   Pokračovat v nákupu
                 </Link>
 
-                <div className="flex items-center gap-4">
+                {/* TODO: maybe add later the promo code input */}
+                {/* <div className="flex items-center gap-4">
                   <Input
                     placeholder="Promo kód"
                     className="rounded-full border-gray-200 focus:border-primary focus:ring-primary w-40"
@@ -133,7 +147,7 @@ const CartClient = () => {
                   <Button variant="outline" className="rounded-full">
                     Použít
                   </Button>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -170,11 +184,22 @@ const CartClient = () => {
 
                 <p className="text-xs text-gray-500 text-center">
                   Pokračováním k pokladně souhlasíte s našimi{" "}
-                  <Link href="#" className="underline">
+                  <Link
+                    href={gdpr?.file.asset?.url ?? "/ochrana-osobnich-udaju"}
+                    target="_blank"
+                    className="underline"
+                  >
                     Obchodními podmínkami
                   </Link>{" "}
                   a{" "}
-                  <Link href="#" className="underline">
+                  <Link
+                    href={
+                      termsAndConditions?.file.asset?.url ??
+                      "/zasady-ochrany-osobnich-udaju"
+                    }
+                    target="_blank"
+                    className="underline"
+                  >
                     Zásadami ochrany osobních údajů
                   </Link>
                   .
