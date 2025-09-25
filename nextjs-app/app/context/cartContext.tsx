@@ -41,7 +41,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [items]);
 
   const addItem = (item: Product) => {
-    console.log("Adding item to cart:", item.title);
     setItems((prev) => {
       const exists = prev.find((i) => i?.title === item?.title);
       if (exists) return prev; // don’t add duplicates
