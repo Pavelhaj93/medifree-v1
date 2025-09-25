@@ -35,7 +35,7 @@ const homeLocation = {
 function resolveHref(documentType?: string, slug?: string): string | undefined {
   switch (documentType) {
     case 'post':
-      return slug ? `/blog/posts/${slug}` : undefined
+      return slug ? `/clanky/${slug}` : undefined
     case 'page':
       return slug ? `/${slug}` : undefined
     default:

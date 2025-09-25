@@ -3,6 +3,12 @@ import ContactSection from "@/app/components/sections/homepage/ContactSection";
 import { sanityFetch } from "@/sanity/lib/live";
 import { gdprQuery } from "@/sanity/queries";
 
+export const metadata = {
+  title: "Kontakt - Medifree",
+  description:
+    "Máte otázky nebo potřebujete pomoc? Kontaktujte náš tým Medifree prostřednictvím telefonu, e-mailu nebo online formuláře. Jsme zde, abychom vám pomohli s vašimi zdravotními potřebami.",
+};
+
 export default async function ContactPage() {
   const { data: gdpr } = await sanityFetch({
     query: gdprQuery,

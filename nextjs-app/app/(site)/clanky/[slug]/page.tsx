@@ -5,20 +5,79 @@ import { Badge } from "@/app/components/ui/Badge";
 import AboutTheAuthor from "@/app/components/sections/blogItem/AboutTheAuthor";
 import RelatedArticles from "@/app/components/sections/blogItem/RelatedArticlesGrid";
 import { sanityFetch } from "@/sanity/lib/live";
-import { postQuery } from "@/sanity/queries";
+import { postPagesSlugs, postQuery } from "@/sanity/queries";
 import type { Person, PostQueryResult } from "@/sanity.types";
 import Avatar from "@/app/components/sanity/Avatar";
-import { urlForImage } from "@/sanity/lib/utils";
+import { resolveOpenGraphImage, urlForImage } from "@/sanity/lib/utils";
 import SocialSitesShareButtons from "@/app/components/sections/blog/SocialSitesShareButtons";
 import CustomPortableText from "@/app/components/sanity/PortableText";
 import { PortableTextBlock } from "next-sanity";
+import { Metadata, ResolvingMetadata } from "next";
+
+type Props = {
+  params: Promise<{ slug: string }>;
+};
+
+/**
+ * Generate the static params for the page.
+ * Learn more: https://nextjs.org/docs/app/api-reference/functions/generate-static-params
+ */
+export async function generateStaticParams() {
+  const { data } = await sanityFetch({
+    query: postPagesSlugs,
+    // Use the published perspective in generateStaticParams
+    perspective: "published",
+    stega: false,
+  });
+  return data;
+}
+
+/**
+ * Generate metadata for the page.
+ * Learn more: https://nextjs.org/docs/app/api-reference/functions/generate-metadata#generatemetadata-function
+ */
+export async function generateMetadata(
+  props: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const params = await props.params;
+  const { data: post } = await sanityFetch({
+    query: postQuery,
+    params,
+    // Metadata should never contain stega
+    stega: false,
+  });
+
+  const previousImages = (await parent).openGraph?.images || [];
+  const ogImage = resolveOpenGraphImage(post?.coverImage);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const postUrl = `${baseUrl}/clanky/${post?.slug}`;
+
+  return {
+    title: post?.title,
+    description: post?.description,
+    authors: post?.author?.name ? [{ name: `${post.author.name}` }] : [],
+    openGraph: {
+      type: "article",
+      url: postUrl,
+      title: post?.title,
+      description: post?.description,
+      images: ogImage ? [ogImage, ...previousImages] : previousImages,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post?.title,
+      description: post?.description,
+      images: ogImage ? [ogImage] : previousImages,
+    },
+  } satisfies Metadata;
+}
 
 export default async function BlogPostPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  // This would normally fetch the specific blog post based on the slug
   const { slug } = await params;
 
   const { data: post } = await sanityFetch({
@@ -26,17 +85,12 @@ export default async function BlogPostPage({
     params: { slug },
   });
 
-  console.log(
-    "ttt post",
-    post?.content?.find((block) => block._type === "image")
-  );
-
   return (
     <>
       <section className="bg-gray-50">
         <div className="container mx-auto px-4 md:px-10 pt-8 pb-16">
           <Link
-            href="/blog"
+            href="/clanky"
             className="inline-flex items-center text-primary hover:text-secondary mb-8 transition-colors"
           >
             <ChevronLeft className="h-4 w-4 mr-1" /> Zpět na blog
@@ -123,10 +177,11 @@ export default async function BlogPostPage({
               name={post?.author?.name ?? ""}
               description={post?.author?.specialization ?? ""}
               image={post?.author?.picture}
+              slug={post?.author?.slug.current ?? ""}
             />
 
             {/* TODO: Pass related articles of same category */}
-            <RelatedArticles />
+            {/* <RelatedArticles /> */}
           </div>
         </div>
       </section>

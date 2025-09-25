@@ -2,6 +2,8 @@ import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+// TODO: az bude vice clanku, tak to nahradit nejakym dynamickym ziskavanim podobnych clanku
+
 type RelatedArticleItemProps = {
   imageSrc: string;
   imageAlt: string;

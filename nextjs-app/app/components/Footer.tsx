@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="container mx-auto bg-gray-50">
         <div className="border-t-8 border-primary w-2/5 ml-auto" />
         <div className="border-t-8 border-secondary" />
-        <div className="flex justify-between items-center px-4 md:px-10 text-center py-4">
+        <div className="flex flex-col md:flex-row justify-between items-center px-4 md:px-10 text-center py-4 gap-4">
           <div className="flex gap-8 items-center">
             <Image
               src="/logo/Logotyp_Medifree_black.png"

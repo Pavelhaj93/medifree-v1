@@ -21,11 +21,6 @@ const ProductCard = ({ product }: { product: Product }) => {
           fill
           className="object-cover w-full"
         />
-        {product?.discount && (
-          <Badge size="sm" variant="success" className="absolute top-2 right-2">
-            Sleva {product.discount}%
-          </Badge>
-        )}
         {product?.featured && (
           <Badge size="sm" variant="primary" className="absolute top-2 left-2">
             Doporučené
@@ -51,16 +46,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         </div> */}
         <p className="text-gray-600 text-sm mb-4">{product?.description}</p>
         <div className="flex items-center justify-between">
-          {product?.discount ? (
-            <div className="flex items-center gap-2">
-              <div className="text-xl font-bold">{product?.price} Kč</div>
-              <div className="text-sm text-gray-500 line-through">
-                {product?.price * (1 - product.discount / 100)} Kč
-              </div>
-            </div>
-          ) : (
-            <div className="text-xl font-bold">{product?.price} Kč</div>
-          )}
+          <div className="text-xl font-bold">{product?.price} Kč</div>
           <AddToCartButton product={product} />
         </div>
       </div>

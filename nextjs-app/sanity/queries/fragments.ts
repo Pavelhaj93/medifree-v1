@@ -16,7 +16,7 @@ export const postFields = /* groq */ `
   readTime,
   coverImage,
   "date": coalesce(date, _updatedAt),
-  "author": author->{name, specialization, picture},
+  "author": author->{name, specialization, picture, slug},
 `;
 
 export const baseProductFields = /* groq */ `
@@ -42,7 +42,10 @@ export const basePersonFields = /* groq */ `
   description,
   topics,
   mainImage { ${imageAssetFields} },
-  picture { ${imageAssetFields} }
+  picture { ${imageAssetFields} },
+  certifications,
+  biography,
+  extraBlock
 `;
 
 export const linkReference = /* groq */ `

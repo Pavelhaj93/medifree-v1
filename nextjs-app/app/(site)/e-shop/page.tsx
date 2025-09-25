@@ -1,10 +1,15 @@
+import HeroSection from "@/app/components/others/HeroSection";
 import EshopHeroSection from "@/app/components/sections/eshop/EshopHeroSection";
 import FeaturedProductSection from "@/app/components/sections/eshop/FeaturedProductSection";
-import NewsletterSection from "@/app/components/sections/eshop/NewsletterSection";
-import ProductCategories from "@/app/components/sections/eshop/ProductCategories";
 import ProductGridSection from "@/app/components/sections/eshop/ProductGrid";
 import { sanityFetch } from "@/sanity/lib/live";
 import { allProductsQuery, featuredProductQuery } from "@/sanity/queries";
+
+export const metadata = {
+  title: "E-shop - Medifree",
+  description:
+    "Objevte náš e-shop s širokou nabídkou zdravotních produktů, včetně e-booků a video kurzů. Nakupujte pohodlně online a získejte přístup k odborným materiálům, které vám pomohou na vaší cestě ke zdraví.",
+};
 
 export default async function EshopPage() {
   const { data: featuredProduct } = await sanityFetch({
@@ -15,21 +20,20 @@ export default async function EshopPage() {
     query: allProductsQuery,
   });
 
-  const ebooksLength = products.filter(
-    (product) => product.category === "Ebooky"
-  ).length;
-  const coursesLength = products.filter(
-    (product) => product.category === "Video kurzy"
-  ).length;
-
   return (
     <div className="min-h-screen flex flex-col">
-      <EshopHeroSection />
-      <FeaturedProductSection featuredProduct={featuredProduct} />
-      <ProductCategories
-        eBooksLength={ebooksLength}
-        coursesLength={coursesLength}
+      <HeroSection
+        badge="E-shop"
+        title="Naše produkty"
+        description=" Objevte naši nabídku doporučení jak si zlepšit zdraví, vitalitu,
+            energii a duševní pohodu. Vše z pohodlí domova v online formě."
+        buttons={[
+          { label: "Zobrazit všechny produkty", href: "/e-shop#products" },
+          // { label: "Zobrazit e-knihy", href: "/e-shop#ebooks", variant: "outline"
+        ]}
       />
+
+      <FeaturedProductSection featuredProduct={featuredProduct} />
       <ProductGridSection products={products} />
       {/* <TestimonialsSection /> */}
       {/* <EshopFAQSection /> */}

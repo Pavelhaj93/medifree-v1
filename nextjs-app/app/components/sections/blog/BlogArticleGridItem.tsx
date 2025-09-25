@@ -65,7 +65,7 @@ export default function BlogArticleGridItem({
           </div>
         </div>
         <h3 className="font-medium text-lg mb-3">
-          <Link href={`/blog/posts/${slug}`} className="hover:underline">
+          <Link href={`/clanky/${slug}`} className="hover:underline">
             {title}
           </Link>
         </h3>

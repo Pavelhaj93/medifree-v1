@@ -37,7 +37,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(cartKey, JSON.stringify(items));
     if (items.length > 0) {
       const last = items[items.length - 1];
-      toast.success(`Přidáno do košíku: ${last.title}`);
     }
   }, [items]);
 

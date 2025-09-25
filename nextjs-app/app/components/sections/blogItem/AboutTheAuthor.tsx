@@ -1,18 +1,22 @@
 import { Badge } from "@/app/components/ui/Badge";
 import { Button } from "@/app/components/ui/Button";
 import { urlForImage } from "@/sanity/lib/utils";
+import { ArrowRight } from "lucide-react";
 
 import Image from "next/image";
+import Link from "next/link";
 
 export default function AboutTheAuthor({
   name,
   description,
   image,
+  slug,
 }: {
   name: string;
   description: string;
   // TODO: find correct type for image prop in Sanity schema
   image: any;
+  slug: string;
 }) {
   return (
     <div className="my-12">
@@ -41,7 +45,12 @@ export default function AboutTheAuthor({
 
             <h4 className="text-lg font-medium mb-2">{name}</h4>
             <p className="text-gray-600 mb-4">{description}</p>
-            <Button variant="primary">Zobrazit všechny články</Button>
+            <Button variant="primary" asChild>
+              <Link href={`/o-nas#${slug}`}>
+                Více o mně
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
           </div>
         </div>
       </div>
