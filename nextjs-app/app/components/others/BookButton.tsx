@@ -9,7 +9,7 @@ export function BookButton({ className, ...props }: BookButtonProps) {
   return (
     <Button asChild variant="primary" className={cn("", className)} {...props}>
       <Link href="https://cal.com/medifree">
-        <CalendarClock />
+        <CalendarClock className="inline mr-2" />
         Rezervace
       </Link>
     </Button>

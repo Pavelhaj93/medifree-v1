@@ -137,6 +137,28 @@ export type BlockContent = Array<{
   _key: string;
 }>;
 
+export type HomepagePicture = {
+  _id: string;
+  _type: "homepagePicture";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  image: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: "image";
+    _key: string;
+  }>;
+};
+
 export type LegalDocument = {
   _id: string;
   _type: "legalDocument";
@@ -247,8 +269,6 @@ export type Product = {
   _rev: string;
   title: string;
   category: "Ebooky" | "Video kurzy";
-  price: number;
-  discount: number;
   image: {
     asset?: {
       _ref: string;
@@ -262,6 +282,7 @@ export type Product = {
     alt?: string;
     _type: "image";
   };
+  price: number;
   description: string;
   featured?: boolean;
 };
@@ -292,8 +313,7 @@ export type Post = {
   title: string;
   slug: Slug;
   description: string;
-  category: "Zdrav\xED" | "Du\u0161evn\xED zdrav\xED" | "Fyzick\xE9 zdrav\xED" | "Zdravotn\xED p\xE9\u010De" | "Zdravotn\xED slu\u017Eby" | "Psychoterapie" | "Psychologie" | "Psychiatrie";
-  tags: Array<string>;
+  category: "Zdrav\xED" | "Pohyb" | "Metabolismus" | "Du\u0161evn\xED zdrav\xED" | "\u017Deny" | "Mu\u017Ei";
   content?: BlockContent;
   readTime?: number;
   coverImage: {
@@ -378,6 +398,12 @@ export type Person = {
       _type: "image";
     };
     _type: "file";
+  };
+  certifications?: Array<string>;
+  biography: BlockContent;
+  extraBlock?: {
+    title?: string;
+    description?: BlockContent;
   };
 };
 
@@ -540,7 +566,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = CallToAction | Link | InfoSection | BlockContent | LegalDocument | HomepageService | Video | Service | Faq | Product | Page | Post | Person | Settings | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = CallToAction | Link | InfoSection | BlockContent | HomepagePicture | LegalDocument | HomepageService | Video | Service | Faq | Product | Page | Post | Person | Settings | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/queries/faqs.ts
 // Variable: allFaqsQuery
@@ -554,6 +580,31 @@ export type AllFaqsQueryResult = Array<{
   _createdAt: string;
   _updatedAt: string;
 }>;
+
+// Source: ./sanity/queries/homepagePictures.ts
+// Variable: homepagePicturesQuery
+// Query: *[_type == "homepagePicture"][0]
+export type HomepagePicturesQueryResult = {
+  _id: string;
+  _type: "homepagePicture";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  image: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: "image";
+    _key: string;
+  }>;
+} | null;
 
 // Source: ./sanity/queries/legal.ts
 // Variable: allLegalDocumentsQuery
@@ -750,7 +801,7 @@ export type SettingsQueryResult = {
 
 // Source: ./sanity/queries/people.ts
 // Variable: personQuery
-// Query: *[_type == "person" && slug.current == $slug][0]{      _id,  name,  slug,  specialization,  description,  topics,  mainImage {   asset,  alt,  _type },  picture {   asset,  alt,  _type },    video {      asset->{_id,url,assetId,originalFilename,extension,size},      thumbnailImage {   asset,  alt,  _type }    },    _createdAt,_updatedAt,_type,_rev  }
+// Query: *[_type == "person" && slug.current == $slug][0]{      _id,  name,  slug,  specialization,  description,  topics,  mainImage {   asset,  alt,  _type },  picture {   asset,  alt,  _type },  certifications,  biography,  extraBlock,    video {      asset->{_id,url,assetId,originalFilename,extension,size},      thumbnailImage {   asset,  alt,  _type }    },    _createdAt,_updatedAt,_type,_rev  }
 export type PersonQueryResult = {
   _id: string;
   name: string;
@@ -778,6 +829,12 @@ export type PersonQueryResult = {
     alt: string | null;
     _type: "image";
   };
+  certifications: Array<string> | null;
+  biography: BlockContent;
+  extraBlock: {
+    title?: string;
+    description?: BlockContent;
+  } | null;
   video: {
     asset: {
       _id: string;
@@ -804,7 +861,7 @@ export type PersonQueryResult = {
   _rev: string;
 } | null;
 // Variable: allPersonsQuery
-// Query: *[_type == "person"] | order(name asc) {   _id,  name,  slug,  specialization,  description,  topics,  mainImage {   asset,  alt,  _type },  picture {   asset,  alt,  _type } }
+// Query: *[_type == "person"] | order(name asc) {   _id,  name,  slug,  specialization,  description,  topics,  mainImage {   asset,  alt,  _type },  picture {   asset,  alt,  _type },  certifications,  biography,  extraBlock }
 export type AllPersonsQueryResult = Array<{
   _id: string;
   name: string;
@@ -832,19 +889,25 @@ export type AllPersonsQueryResult = Array<{
     alt: string | null;
     _type: "image";
   };
+  certifications: Array<string> | null;
+  biography: BlockContent;
+  extraBlock: {
+    title?: string;
+    description?: BlockContent;
+  } | null;
 }>;
 
 // Source: ./sanity/queries/posts.ts
 // Variable: allPostsQuery
-// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc){  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture},}
+// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc){  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},}
 export type AllPostsQueryResult = Array<{
   _id: string;
   status: "draft" | "published";
   title: string;
   slug: string;
   description: string;
-  category: "Du\u0161evn\xED zdrav\xED" | "Fyzick\xE9 zdrav\xED" | "Psychiatrie" | "Psychologie" | "Psychoterapie" | "Zdrav\xED" | "Zdravotn\xED p\xE9\u010De" | "Zdravotn\xED slu\u017Eby";
-  tags: Array<string>;
+  category: "Du\u0161evn\xED zdrav\xED" | "Metabolismus" | "Mu\u017Ei" | "Pohyb" | "Zdrav\xED" | "\u017Deny";
+  tags: null;
   content: BlockContent | null;
   readTime: number | null;
   coverImage: {
@@ -877,18 +940,19 @@ export type AllPostsQueryResult = Array<{
       alt?: string;
       _type: "image";
     };
+    slug: Slug;
   };
 }>;
 // Variable: firstPostQuery
-// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc)[0]{  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture},}
+// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc)[0]{  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},}
 export type FirstPostQueryResult = {
   _id: string;
   status: "draft" | "published";
   title: string;
   slug: string;
   description: string;
-  category: "Du\u0161evn\xED zdrav\xED" | "Fyzick\xE9 zdrav\xED" | "Psychiatrie" | "Psychologie" | "Psychoterapie" | "Zdrav\xED" | "Zdravotn\xED p\xE9\u010De" | "Zdravotn\xED slu\u017Eby";
-  tags: Array<string>;
+  category: "Du\u0161evn\xED zdrav\xED" | "Metabolismus" | "Mu\u017Ei" | "Pohyb" | "Zdrav\xED" | "\u017Deny";
+  tags: null;
   content: BlockContent | null;
   readTime: number | null;
   coverImage: {
@@ -921,18 +985,19 @@ export type FirstPostQueryResult = {
       alt?: string;
       _type: "image";
     };
+    slug: Slug;
   };
 } | null;
 // Variable: morePostsQuery
-// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc)[0...$limit]{  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture},}
+// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc)[0...$limit]{  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},}
 export type MorePostsQueryResult = Array<{
   _id: string;
   status: "draft" | "published";
   title: string;
   slug: string;
   description: string;
-  category: "Du\u0161evn\xED zdrav\xED" | "Fyzick\xE9 zdrav\xED" | "Psychiatrie" | "Psychologie" | "Psychoterapie" | "Zdrav\xED" | "Zdravotn\xED p\xE9\u010De" | "Zdravotn\xED slu\u017Eby";
-  tags: Array<string>;
+  category: "Du\u0161evn\xED zdrav\xED" | "Metabolismus" | "Mu\u017Ei" | "Pohyb" | "Zdrav\xED" | "\u017Deny";
+  tags: null;
   content: BlockContent | null;
   readTime: number | null;
   coverImage: {
@@ -965,10 +1030,11 @@ export type MorePostsQueryResult = Array<{
       alt?: string;
       _type: "image";
     };
+    slug: Slug;
   };
 }>;
 // Variable: postQuery
-// Query: *[_type == "post" && slug.current == $slug][0]{content[]{...,markDefs[]{...,  _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }}},  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture},}
+// Query: *[_type == "post" && slug.current == $slug][0]{content[]{...,markDefs[]{...,  _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }}},  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},}
 export type PostQueryResult = {
   content: BlockContent | null;
   _id: string;
@@ -976,8 +1042,8 @@ export type PostQueryResult = {
   title: string;
   slug: string;
   description: string;
-  category: "Du\u0161evn\xED zdrav\xED" | "Fyzick\xE9 zdrav\xED" | "Psychiatrie" | "Psychologie" | "Psychoterapie" | "Zdrav\xED" | "Zdravotn\xED p\xE9\u010De" | "Zdravotn\xED slu\u017Eby";
-  tags: Array<string>;
+  category: "Du\u0161evn\xED zdrav\xED" | "Metabolismus" | "Mu\u017Ei" | "Pohyb" | "Zdrav\xED" | "\u017Deny";
+  tags: null;
   readTime: number | null;
   coverImage: {
     asset?: {
@@ -1009,6 +1075,7 @@ export type PostQueryResult = {
       alt?: string;
       _type: "image";
     };
+    slug: Slug;
   };
 } | null;
 // Variable: postPagesSlugs
@@ -1024,7 +1091,7 @@ export type AllProductsQueryResult = Array<{
   _id: string;
   title: string;
   price: number;
-  discount: number;
+  discount: null;
   image: {
     asset: {
       _ref: string;
@@ -1049,7 +1116,7 @@ export type FeaturedProductQueryResult = {
   _id: string;
   title: string;
   price: number;
-  discount: number;
+  discount: null;
   image: {
     asset: {
       _ref: string;
@@ -1172,6 +1239,7 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "\n  *[_type == \"faq\"] | order(order asc, question asc) {\n    _id,\n    question,\n    answer,\n    category,\n    order,\n    _createdAt,\n    _updatedAt\n  }\n": AllFaqsQueryResult;
+    "\n    *[_type == \"homepagePicture\"][0]\n": HomepagePicturesQueryResult;
     "\n  *[_type == \"legalDocument\"] | order(title asc) {\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_rev\n  }\n": AllLegalDocumentsQueryResult;
     "\n  *[_type == \"legalDocument\" && tag == \"gdpr-consent\"][0]{\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": GdprQueryResult;
     "\n  *[_type == \"legalDocument\" && tag == \"TandC\"][0]{\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": TermsAndConditionsQueryResult;
@@ -1179,12 +1247,12 @@ declare module "@sanity/client" {
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
     "\n  *[_type == \"page\" || _type == \"post\" && defined(slug.current)]\n  | order(_type asc) {\n    \"slug\": slug.current,\n    _type,\n    _updatedAt\n  }\n": SitemapDataResult;
     "*[_type == \"settings\"][0]": SettingsQueryResult;
-    "\n  *[_type == \"person\" && slug.current == $slug][0]{\n    \n  _id,\n  name,\n  slug,\n  specialization,\n  description,\n  topics,\n  mainImage { \n  asset,\n  alt,\n  _type\n },\n  picture { \n  asset,\n  alt,\n  _type\n }\n,\n    video {\n      asset->{_id,url,assetId,originalFilename,extension,size},\n      thumbnailImage { \n  asset,\n  alt,\n  _type\n }\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": PersonQueryResult;
-    "\n  *[_type == \"person\"] | order(name asc) { \n  _id,\n  name,\n  slug,\n  specialization,\n  description,\n  topics,\n  mainImage { \n  asset,\n  alt,\n  _type\n },\n  picture { \n  asset,\n  alt,\n  _type\n }\n }\n": AllPersonsQueryResult;
-    "*[_type == \"post\" && defined(slug.current)] | order(date desc, _updatedAt desc){\n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture},\n}": AllPostsQueryResult;
-    "*[_type == \"post\" && defined(slug.current)] | order(date desc, _updatedAt desc)[0]{\n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture},\n}": FirstPostQueryResult;
-    "*[_type == \"post\" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc)[0...$limit]{\n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture},\n}": MorePostsQueryResult;
-    "*[_type == \"post\" && slug.current == $slug][0]{content[]{...,markDefs[]{...,\n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n}},\n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture},\n}": PostQueryResult;
+    "\n  *[_type == \"person\" && slug.current == $slug][0]{\n    \n  _id,\n  name,\n  slug,\n  specialization,\n  description,\n  topics,\n  mainImage { \n  asset,\n  alt,\n  _type\n },\n  picture { \n  asset,\n  alt,\n  _type\n },\n  certifications,\n  biography,\n  extraBlock\n,\n    video {\n      asset->{_id,url,assetId,originalFilename,extension,size},\n      thumbnailImage { \n  asset,\n  alt,\n  _type\n }\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": PersonQueryResult;
+    "\n  *[_type == \"person\"] | order(name asc) { \n  _id,\n  name,\n  slug,\n  specialization,\n  description,\n  topics,\n  mainImage { \n  asset,\n  alt,\n  _type\n },\n  picture { \n  asset,\n  alt,\n  _type\n },\n  certifications,\n  biography,\n  extraBlock\n }\n": AllPersonsQueryResult;
+    "*[_type == \"post\" && defined(slug.current)] | order(date desc, _updatedAt desc){\n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture, slug},\n}": AllPostsQueryResult;
+    "*[_type == \"post\" && defined(slug.current)] | order(date desc, _updatedAt desc)[0]{\n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture, slug},\n}": FirstPostQueryResult;
+    "*[_type == \"post\" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc)[0...$limit]{\n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture, slug},\n}": MorePostsQueryResult;
+    "*[_type == \"post\" && slug.current == $slug][0]{content[]{...,markDefs[]{...,\n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n}},\n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture, slug},\n}": PostQueryResult;
     "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostPagesSlugsResult;
     "*[_type == \"product\"] | order(name asc) { \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }": AllProductsQueryResult;
     "*[_type == \"product\" && featured == true][0]{ \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }": FeaturedProductQueryResult;

@@ -1,8 +1,15 @@
+import HeroSection from "@/app/components/others/HeroSection";
+import { ServiceCard } from "@/app/components/sections/services/ServiceCard";
 import ServicesCtaSection from "@/app/components/sections/services/ServicesCtaSection";
-import ServicesHeroSection from "@/app/components/sections/services/ServicesHeroSection";
 import ServicesItemSection from "@/app/components/sections/services/ServicesItemSection";
 import { sanityFetch } from "@/sanity/lib/live";
 import { allServicesQuery } from "@/sanity/queries";
+
+export const metadata = {
+  title: "Naše služby - Medifree",
+  description:
+    "Objevte širokou škálu zdravotních služeb, které nabízíme v Medifree. Od preventivních prohlídek po specializované léčebné postupy, náš tým odborníků je zde, aby vám poskytl nejlepší péči.",
+};
 
 export default async function ServicesPage() {
   const { data: servicesRaw } = await sanityFetch({
@@ -16,7 +23,24 @@ export default async function ServicesPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <ServicesHeroSection services={services} />
+      <HeroSection
+        badge="Naše služby"
+        title="Co nabízíme"
+        description="Naším cílem je edukace o individuálních potřebách Vašeho organismu.
+          Zjistíte, co potřevbujete právě Vy, jaké parametry sledovat a jakým
+          způsobem je udržovat v optimálním rozmezí."
+      >
+        <div className="grid md:grid-cols-3 gap-6">
+          {services.map((service, index) => (
+            <ServiceCard
+              key={service._id}
+              {...service}
+              reverse={index % 2 === 1}
+            />
+          ))}
+        </div>
+      </HeroSection>
+
       <ServicesItemSection services={services} />
       <ServicesCtaSection />
     </div>

@@ -10,34 +10,45 @@ import {
 } from "@/app/components/ui/Carousel";
 import { Badge } from "@/app/components/ui/Badge";
 import { BookButton } from "@/app/components/others/BookButton";
+import { HomepagePicturesQueryResult } from "@/sanity.types";
+import { urlForImage } from "@/sanity/lib/utils";
+import { Button } from "../../ui/Button";
+import Link from "next/link";
+import { CalendarClock } from "lucide-react";
 
-const images = [
-  "/images/homepage/hero_1.jpg",
-  "/images/homepage/hero_2.jpg",
-  "/images/homepage/hero_3.jpg",
-];
-
-export default function HeroSectionCarousel() {
+export default function HeroSectionCarousel({
+  pictures,
+}: {
+  pictures?: HomepagePicturesQueryResult;
+}) {
   const plugin = React.useRef(
     Autoplay({ delay: 5000, stopOnInteraction: false })
   );
 
   return (
     <section className="relative h-[700px] flex items-center justify-center overflow-hidden">
-      {/* Carousel background */}
       <Carousel
         plugins={[plugin.current]}
         className="absolute inset-0 h-screen w-full"
         opts={{ loop: true }}
       >
         <CarouselContent className="h-screen">
-          {images.map((src, idx) => (
+          {pictures?.image?.map((src, idx) => (
             <CarouselItem key={idx} className="relative h-full w-full">
               <Image
-                src={src}
-                alt={`Hero background ${idx + 1}`}
+                src={
+                  urlForImage(src)
+                    ?.height(800)
+                    .width(1600)
+                    .fit("crop")
+                    .auto("format")
+                    .url() as string
+                }
+                sizes="100vw"
                 fill
+                alt={src?.alt || "Hero image"}
                 priority={idx === 0}
+                quality={100}
                 className="object-cover"
               />
             </CarouselItem>
@@ -58,7 +69,7 @@ export default function HeroSectionCarousel() {
             <h1 className="text-5xl md:text-6xl leading-tight mb-8">
               Váš prostor pro zdraví a rovnováhu
             </h1>
-            <p className="text-lg md:text-2xl mb-8">
+            <p className="text-lg md:text-xl mb-8">
               Nabízíme celostní terapeutické přístupy, které vás podpoří na
               cestě k plnohodnotnému životu.
             </p>

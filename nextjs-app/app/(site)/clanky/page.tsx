@@ -1,11 +1,26 @@
+import HeroSection from "@/app/components/others/HeroSection";
 import BlogArticleGrid from "@/app/components/sections/blog/BlogArticleGrid";
 import BlogFeaturedArticle from "@/app/components/sections/blog/BlogFeaturedArticle";
-import { BlogHeroSection } from "@/app/components/sections/blog/BlogHeroSection";
+
+export const metadata = {
+  title: "Blog - Medifree",
+  description:
+    "Přečtěte si náš blog a získejte cenné informace o duševním zdraví, osobním rozvoji a dalších tématech. Naši odborníci sdílejí své poznatky a tipy, které vám pomohou na vaší cestě k lepšímu životu.",
+};
 
 export default function BlogPage() {
   return (
     <>
-      <BlogHeroSection />
+      <HeroSection
+        badge="Medifree blog"
+        title="Naše články"
+        description="Zde najdete články zaměřené na zdravou životosprávu a kvalitnější
+          život. Dozvíte se cenné rady a tipy jak zlepšovat své zdraví, fyzickou
+          kondici i duševní pohodu."
+        buttons={[
+          { label: "Prozkoumat články", href: "clanky#vsechny-clanky" },
+        ]}
+      />
       <BlogFeaturedArticle />
       <BlogArticleGrid />
 

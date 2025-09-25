@@ -3,6 +3,13 @@ import { Badge } from "@/app/components/ui/Badge";
 import { Button } from "@/app/components/ui/Button";
 import { sanityFetch } from "@/sanity/lib/live";
 import { allLegalDocumentsQuery } from "@/sanity/queries";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Právní dokumenty",
+  description:
+    "Zde najdete všechny důležité právní dokumenty týkající se našich služeb a e-shopu. Všechny dokumenty jsou k dispozici ke stažení v textovém formátu nebo PDF.",
+};
 
 export default async function LegalDocumentsPage() {
   const { data: legalDocuments } = await sanityFetch({

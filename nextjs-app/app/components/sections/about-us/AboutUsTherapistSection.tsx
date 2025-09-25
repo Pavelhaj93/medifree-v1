@@ -14,7 +14,8 @@ import { Button } from "@/app/components/ui/Button";
 import { sanityFetch } from "@/sanity/lib/live";
 import { personQuery } from "@/sanity/queries";
 import { urlForImage } from "@/sanity/lib/utils";
-import { Arrow } from "@radix-ui/react-select";
+import { PortableText, PortableTextBlock } from "next-sanity";
+import CustomPortableText from "../../sanity/PortableText";
 
 export default async function AboutUsTherapistSection() {
   const { data: radim } = await sanityFetch({
@@ -27,9 +28,11 @@ export default async function AboutUsTherapistSection() {
     params: { slug: "mudr-michaela-hnykova" },
   });
 
+  const iconsSet = [Award, BookOpen, Heart, Brain];
+
   return (
     <>
-      <section id={radim?.slug as unknown as string} className="py-20">
+      <section id={radim?.slug.current} className="py-20">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Left side - Image and credentials */}
@@ -73,31 +76,18 @@ export default async function AboutUsTherapistSection() {
                   Odborné kvalifikace a certifikace
                 </h3>
                 <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <Award className="h-5 w-5 text-primary" />
-                    <span className="text-sm">
-                      Atestovaný lékař s praxí na interních a rehabilitačních
-                      klinikách
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <BookOpen className="h-5 w-5 text-primary" />
-                    <span className="text-sm">
-                      Specialista na kognitivně-behaviorální terapii
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Heart className="h-5 w-5 text-primary" />
-                    <span className="text-sm">
-                      Certifikace v oblasti péče o trauma
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Brain className="h-5 w-5 text-primary" />
-                    <span className="text-sm">
-                      Pokročilé školení v oblasti duševního zdraví a wellness
-                    </span>
-                  </div>
+                  {radim?.certifications?.map((certification, idx) => {
+                    const Icon = iconsSet[idx % iconsSet.length];
+                    return (
+                      <div
+                        className="flex items-center gap-3"
+                        key={certification}
+                      >
+                        <Icon className="h-5 w-5 text-primary" />
+                        <span className="text-sm">{certification}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -109,63 +99,24 @@ export default async function AboutUsTherapistSection() {
                 <p className="text-primary font-medium mb-4">
                   {radim?.specialization}
                 </p>
-                <p className="text-gray-600 leading-relaxed mb-4">
-                  Ahoj, jsem lékař s několikaletou praxí na interních a
-                  rehabilitačních klinikách v ČR. Mám dokončený interní kmen a
-                  atestaci z rehabilitace.
-                </p>
-                <p className="text-gray-600 leading-relaxed mb-4">
-                  Již před studiem medicíny mě zaujalo jak razantně se mohou
-                  lišit naše nálady, hladina energie, vzhled nebo i schopnost
-                  soustředění, produktivita a kreativita v různých dnech.
-                  Postupně jsem si začal všímat, že nesouvisí jen s tím co se
-                  děje v okolí, ale z větší části s naším denním režimem,
-                  výživou (fyzickou i duševní), pohybem, kontrolou pozornosti.
-                </p>
-                <p className="text-gray-600 leading-relaxed">
-                  Jednotlivé oblasti jsem postupně objevoval dle aktuálních
-                  trendů a vše si testoval přibližně od roku 2012. Během práce
-                  na interní klinice jsem si uvědomil, že přirozenou prioritou
-                  veřejného zdravotnictví v ČR jsou závažné stavy ohrožující
-                  život a nezbývá prostor či finance na preventivní opatření.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-xl font-medium mb-3">Moje vize</h3>
-                <p className="text-gray-600 leading-relaxed mb-4">
-                  Během práce na interní klinice jsem si uvědomil, že přirozenou
-                  prioritou veřejného zdravotnictví v ČR jsou závažné stavy
-                  ohrožující život a nezbývá prostor či finance na preventivní
-                  opatření.
-                </p>
-                <p className="text-gray-600 leading-relaxed mb-4">
-                  A právě v prevenci vidím smysl jak na úrovni jednotlivce, tak
-                  v úlevě zdravotnictví jako celku. Mou prioritou je výběr
-                  jednoduchých, dostupných metod pro každého bez komerční
-                  zátěže. Zároveň se chci zaměřit na principy, kterým se u nás
-                  nevěnuje příliš pozornosti.
-                </p>
-                <p className="text-gray-600 leading-relaxed mb-4">
-                  Věnuji se tématům výživy, pohybu, vnitřní práce - kontroly
-                  pozornosti vč. problematiky návyků (dopaminu) a optimalizaci
-                  hladiny testosteronu u mužů.
-                </p>
-                <p className="text-gray-600 leading-relaxed mb-4">
-                  Aktuálně se také soustředím na účinky přírody na organismus a
-                  jak je co nejlépe využít i v rámci městského života ke
-                  zlepšení soustředění, kreativity a celkové pohody.
-                </p>
+                <div className="prose max-w-none">
+                  <CustomPortableText
+                    value={radim?.biography as PortableTextBlock[]}
+                  />
+                </div>
               </div>
 
               <div className="bg-primary/5 rounded-xl p-6">
-                <h3 className="text-xl font-medium mb-3">Můj cíl</h3>
-                <p className="text-gray-600 eading-relaxed">
-                  Rád bych nabídl alternativu lidem, u kterých lékař zvažuje
-                  nasazení léků (vysoký krevní tlak, cukrovka II.typu, obezita,
-                  antidepresiva,..) ve smyslu řešení změnou životního stylu dle
-                  aktuálních vědeckých poznatků.
-                </p>
+                <h3 className="text-xl font-semibold mb-3">
+                  {radim?.extraBlock?.title}
+                </h3>
+                <div className="prose max-w-none">
+                  <CustomPortableText
+                    value={
+                      radim?.extraBlock?.description as PortableTextBlock[]
+                    }
+                  />
+                </div>
               </div>
 
               <div className="flex flex-wrap gap-3 mb-6">
@@ -285,10 +236,7 @@ export default async function AboutUsTherapistSection() {
         </div>
       </section>
       {/* Second Therapist - Dr. Michael Chen */}
-      <section
-        id={michaela?.slug as unknown as string}
-        className="py-20 bg-gray-50"
-      >
+      <section id={michaela?.slug.current} className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Right side - About text (order reversed for visual variety) */}
@@ -298,20 +246,11 @@ export default async function AboutUsTherapistSection() {
                 <p className="text-tertiary font-medium mb-4">
                   {michaela?.specialization}
                 </p>
-                <p className="text-gray-600 leading-relaxed mb-4">
-                  Jsem lékařka s několika lety zkušeností na interních
-                  odděleních s ukončeným ústním interním kmenem a atestací z
-                  rehabilitace. Už během studia na medicíně mě zajímaly
-                  alternativnější postupy léčby, protože jsem z vlastních
-                  zkušeností poznala, že si západní medicína ne vždy dokáže
-                  poradit (hlavně s chronickými obtížemi všeho druhu).
-                </p>
-                <p className="text-gray-600 leading-relaxed">
-                  Odjakživa mě zajímala zdravá výživa a pohyb, postupně jsem se
-                  začala zajímat také o psychosomatiku, péči o duševní zdraví a
-                  kvalitnější spánek, které považuji za nutnou součást zdravého
-                  životního stylu a spokojenějšího života.
-                </p>
+                <div className="prose max-w-none">
+                  <CustomPortableText
+                    value={michaela?.biography as PortableTextBlock[]}
+                  />
+                </div>
               </div>
 
               {/* <div>
@@ -332,18 +271,16 @@ export default async function AboutUsTherapistSection() {
               </div> */}
 
               <div className="bg-white rounded-xl p-6 shadow-md">
-                <h3 className="text-xl font-medium mb-3">Další zaměření</h3>
-                <p className="text-gray-600 leading-relaxed mb-4">
-                  Další téma, které je pro mě velice zajímavé a aktuální je
-                  ženská cykličnost, tedy zaměření na ženskou hormonální
-                  rovnováhu a s ní spojené jakékoliv obtíže.
-                </p>
-                <p className="text-gray-600 leading-relaxed">
-                  V žádném případě nezasahuji do léčby ostatních lékařů a
-                  terapeutů a stále věřím, že i západní medicína má své
-                  uplatnění, a proto se snažím o co nejvíce komplexní a celostní
-                  přístup v péči o sebe i o své klienty 🙂.
-                </p>
+                <h3 className="text-xl font-medium mb-3">
+                  {michaela?.extraBlock?.title}
+                </h3>
+                <div className="prose max-w-none">
+                  <CustomPortableText
+                    value={
+                      michaela?.extraBlock?.description as PortableTextBlock[]
+                    }
+                  />
+                </div>
               </div>
 
               <div className="flex flex-wrap gap-3 mb-6">

@@ -1,29 +1,20 @@
 import { sanityFetch } from "@/sanity/lib/live";
 import {
   allHomepageServicesQuery,
-  allPersonsQuery,
-  allVideosQuery,
   gdprQuery,
-  getPageQuery,
-  pagesSlugs,
   videoQuery,
 } from "@/sanity/queries";
 import type { Metadata } from "next";
-import type { GetPageQueryResult } from "@/sanity.types";
-import PageBuilderPage from "@/app/components/sanity/PageBuilder";
-import { PageOnboarding } from "@/app/components/sanity/Onboarding";
-
-import { Suspense } from "react";
 import MiddleSection from "@/app/components/sections/homepage/MiddleSection";
 import { TherapistSection } from "@/app/components/sections/homepage/TherapistSection";
-
 import HowItWorksSection from "@/app/components/sections/homepage/HowItWorksSection";
 import { CalendarSection } from "@/app/components/sections/homepage/CalendarSection";
 import SocialConnectSection from "@/app/components/sections/homepage/SocialConnectSection";
 import ContactSection from "@/app/components/sections/homepage/ContactSection";
-import HeroSection from "@/app/components/sections/homepage/HeroSection";
 import { HomepageVideoSection } from "@/app/components/sections/homepage/HomepageVideoSection";
 import { ServicesCarouselSection } from "../components/sections/homepage/SevicesCarouselSection";
+import { homepagePicturesQuery } from "@/sanity/queries/homepagePictures";
+import HeroSectionCarousel from "../components/sections/homepage/HeroSectionCarousel";
 
 // type Props = {
 //   params: Promise<{ slug: string }>;
@@ -62,6 +53,12 @@ import { ServicesCarouselSection } from "../components/sections/homepage/Sevices
 //   } satisfies Metadata;
 // }
 
+export const metadata: Metadata = {
+  title: "Medifree - Váš prostor po zdraví a rovnováhu",
+  description:
+    "Objevte Medifree, váš online prostor pro fyzické ale i duševní zdraví. Nabízíme širokou škálu služeb, včetně online konzultací, přednášek a workshopů, tématických pobytů a e-shop s odbornými materiály. Připojte se k naší komunitě a začněte svou cestu ke zdravějšímu a vyrovnanějšímu životu ještě dnes.",
+};
+
 export default async function Page() {
   const { data: video } = await sanityFetch({
     query: videoQuery,
@@ -75,9 +72,13 @@ export default async function Page() {
     query: gdprQuery,
   });
 
+  const { data: homepageCarouselPictures } = await sanityFetch({
+    query: homepagePicturesQuery,
+  });
+
   return (
     <>
-      <HeroSection />
+      <HeroSectionCarousel pictures={homepageCarouselPictures} />
       <MiddleSection />
       <TherapistSection />
       <HomepageVideoSection video={video} />

@@ -1,6 +1,8 @@
 import { BookOpen, Video } from "lucide-react";
 import Link from "next/link";
 
+// pokud bude vice produktu
+
 export default function ProductCategories({
   eBooksLength,
   coursesLength,
@@ -47,7 +49,7 @@ export default function ProductCategories({
           </div> */}
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Link
             href="#"
             className="bg-white p-6 rounded-xl shadow-md hover:shadow-md transition-shadow flex flex-col items-center text-center"

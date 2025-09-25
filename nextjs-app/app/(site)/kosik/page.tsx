@@ -19,6 +19,12 @@ import {
   termsAndConditionsQuery,
 } from "@/sanity/queries";
 
+export const metadata = {
+  title: "Košík - Medifree",
+  description:
+    "Prohlédněte si položky ve vašem košíku a pokračujte k pokladně. Upravte množství, odstraňte položky nebo přidejte další produkty před dokončením nákupu.",
+};
+
 export default async function CartPage() {
   const { data: gdpr } = await sanityFetch({
     query: gdprQuery,

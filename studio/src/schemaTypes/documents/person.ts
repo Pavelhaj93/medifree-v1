@@ -153,6 +153,41 @@ export const person = defineType({
         // }),
       ],
     }),
+    defineField({
+      name: 'certifications',
+      title: 'Certifications',
+      type: 'array',
+      of: [
+        defineField({
+          name: 'certification',
+          title: 'Certification',
+          type: 'string',
+        }),
+      ],
+    }),
+    defineField({
+      name: 'biography',
+      title: 'Biography',
+      type: 'blockContent',
+      validation: (rule) => rule.required(),
+    }),
+    {
+      name: 'extraBlock',
+      title: 'Extra Block of biography',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'title',
+          title: 'Title',
+          type: 'string',
+        }),
+        defineField({
+          name: 'description',
+          title: 'Description',
+          type: 'blockContent',
+        }),
+      ],
+    },
   ],
   // List preview configuration. https://www.sanity.io/docs/previews-list-views
   preview: {

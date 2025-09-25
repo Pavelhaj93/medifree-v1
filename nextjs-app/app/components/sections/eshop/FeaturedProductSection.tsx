@@ -15,7 +15,6 @@ export default function FeaturedProductSection({
 }: {
   featuredProduct: FeaturedProductQueryResult;
 }) {
-  console.log("FeaturedProductSection render", featuredProduct);
   const { addItem, itemExists } = useCart();
   if (!featuredProduct) return null;
 

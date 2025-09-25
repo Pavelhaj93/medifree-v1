@@ -35,7 +35,8 @@ export const post = defineType({
       name: 'description',
       title: 'Description',
       type: 'text',
-      description: 'A short description of the post',
+      description:
+        'A short description of the post. Important for SEO and accessibility. Will be visible for example when sharing the post on social media.',
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -46,44 +47,42 @@ export const post = defineType({
       options: {
         list: [
           {title: 'Zdraví', value: 'Zdraví'},
+          {title: 'Pohyb', value: 'Pohyb'},
+          {title: 'Metabolismus', value: 'Metabolismus'},
           {title: 'Duševní zdraví', value: 'Duševní zdraví'},
-          {title: 'Fyzické zdraví', value: 'Fyzické zdraví'},
-          {title: 'Zdravotní péče', value: 'Zdravotní péče'},
-          {title: 'Zdravotní služby', value: 'Zdravotní služby'},
-          {title: 'Psychoterapie', value: 'Psychoterapie'},
-          {title: 'Psychologie', value: 'Psychologie'},
-          {title: 'Psychiatrie', value: 'Psychiatrie'},
+          {title: 'Ženy', value: 'Ženy'},
+          {title: 'Muži', value: 'Muži'},
         ],
         layout: 'radio',
         direction: 'horizontal',
       },
       validation: (rule) => rule.required(),
     }),
-    defineField({
-      name: 'tags',
-      title: 'Tags',
-      type: 'array',
-      of: [{type: 'string'}],
-      description: 'A list of tags for SEO purposes',
-      options: {
-        list: [
-          'Zdraví',
-          'Duševní zdraví',
-          'Fyzické zdraví',
-          'Zdravotní péče',
-          'Zdravotní služby',
-          'Psychoterapie',
-          'Psychologie',
-          'Psychiatrie',
-          'Životní styl',
-          'Úzkost',
-          'Deprese',
-          'Stres',
-        ],
-        layout: 'list',
-      },
-      validation: (rule) => rule.required(),
-    }),
+    // defineField({
+    //   name: 'tags',
+    //   title: 'Tags',
+    //   type: 'array',
+    //   of: [{type: 'string'}],
+    //   description: 'A list of tags for SEO purposes',
+    //   options: {
+    //     list: [
+    //       'Zdraví',
+    //       'Duševní zdraví',
+    //       'Fyzické zdraví',
+    //       'Zdravotní péče',
+    //       'Zdravotní služby',
+    //       'Psychoterapie',
+    //       'Psychologie',
+    //       'Psychiatrie',
+    //       'Životní styl',
+    //       'Úzkost',
+    //       'Deprese',
+    //       'Stres',
+    //     ],
+    //     layout: 'list',
+    //   },
+    //   validation: (rule) => rule.required(),
+    // }),
     defineField({
       name: 'content',
       title: 'Content',
@@ -103,9 +102,6 @@ export const post = defineType({
       type: 'image',
       options: {
         hotspot: true,
-        aiAssist: {
-          imageDescriptionField: 'alt',
-        },
       },
       fields: [
         {

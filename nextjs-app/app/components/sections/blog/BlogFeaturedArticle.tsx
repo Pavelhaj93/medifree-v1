@@ -18,7 +18,7 @@ export default async function BlogFeaturedArticle() {
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="relative h-[400px] rounded-2xl overflow-hidden">
-            <Link href={`/blog/posts/${featuredArticle?.slug}`}>
+            <Link href={`/clanky/${featuredArticle?.slug}`}>
               <Image
                 src="/images/blog/depression.png"
                 alt="Featured article"
@@ -51,7 +51,7 @@ export default async function BlogFeaturedArticle() {
                 {featuredArticle?.readTime} min čtení
               </div>
             </div>
-            <Link href={`/blog/posts/${featuredArticle?.slug}`}>
+            <Link href={`/clanky/${featuredArticle?.slug}`}>
               <h2 className="text-3xl hover:underline hover:text-primary transition-colors font-medium mb-4">
                 {featuredArticle?.title}
               </h2>
@@ -80,7 +80,7 @@ export default async function BlogFeaturedArticle() {
               </div>
             </div>
             <Button variant="primary" asChild>
-              <Link href={`/blog/posts/${featuredArticle?.slug}`}>
+              <Link href={`/clanky/${featuredArticle?.slug}`}>
                 Číst článek
                 <ChevronRight className="ml-2 h-4 w-4" />
               </Link>

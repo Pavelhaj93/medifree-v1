@@ -37,12 +37,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(cartKey, JSON.stringify(items));
     if (items.length > 0) {
       const last = items[items.length - 1];
-      toast.success(`Přidáno do košíku: ${last.title}`);
     }
   }, [items]);
 
   const addItem = (item: Product) => {
-    console.log("Adding item to cart:", item.title);
     setItems((prev) => {
       const exists = prev.find((i) => i?.title === item?.title);
       if (exists) return prev; // don’t add duplicates

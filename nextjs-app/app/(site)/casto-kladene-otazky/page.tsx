@@ -2,6 +2,12 @@ import { Badge } from "@/app/components/ui/Badge";
 import { sanityFetch } from "@/sanity/lib/live";
 import { allFaqsQuery } from "@/sanity/queries/faqs";
 
+export const metadata = {
+  title: "Často kladené otázky - Medifree",
+  description:
+    "Najděte odpovědi na nejčastější otázky týkající se našich služeb, objednávek a dalších témat. Pokud nenajdete, co hledáte, neváhejte nás kontaktovat.",
+};
+
 export default async function ContactFAQSection() {
   const { data: faqItems } = await sanityFetch({
     query: allFaqsQuery,
