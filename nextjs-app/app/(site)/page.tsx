@@ -86,7 +86,7 @@ export default async function Page() {
       <HowItWorksSection />
       <CalendarSection />
       <SocialConnectSection />
-      <ContactSection gdpr={gdpr} />
+      <ContactSection gdpr={gdpr} className="bg-white" />
       {/* <PageBuilderPage page={page as GetPageQueryResult} /> */}
     </>
   );

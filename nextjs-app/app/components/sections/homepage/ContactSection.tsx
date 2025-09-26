@@ -26,7 +26,13 @@ import { contactSchema } from "@/app/lib/schemas";
 
 type ContactFormValues = z.infer<typeof contactSchema>;
 
-export default function ContactSection({ gdpr }: { gdpr: GdprQueryResult }) {
+export default function ContactSection({
+  gdpr,
+  className,
+}: {
+  gdpr: GdprQueryResult;
+  className?: string;
+}) {
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
@@ -56,7 +62,7 @@ export default function ContactSection({ gdpr }: { gdpr: GdprQueryResult }) {
   };
 
   return (
-    <section className="bg-gray-50 py-8 md:py-16">
+    <section className={`bg-gray-50 py-8 md:py-16 ${className}`}>
       {/* <div className="container mx-auto px-4 md:px-10 py-16 md:pb-32">
         <div className="flex justify-center mb-8">
           <Badge variant="primary">Kontakt</Badge>
