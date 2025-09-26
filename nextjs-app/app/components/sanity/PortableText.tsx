@@ -33,14 +33,15 @@ export default function CustomPortableText({
             className="rounded-lg not-prose w-full h-auto"
             // @ts-ignore
             src={urlForImage(props.value)
-              .width(600)
-              .height(400)
-              .quality(80)
+              .width(2000)
+              .height(832)
+              .quality(100)
               .auto("format")
               .url()}
             alt={props?.value?.alt || ""}
-            width="600"
-            height="400"
+            width={1248}
+            height={832}
+            quality={100}
           />
         ) : null,
     },

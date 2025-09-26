@@ -38,21 +38,42 @@ export default function HeroSectionCarousel({
               <Image
                 src={
                   urlForImage(src)
-                    ?.height(800)
+                    ?.height(700)
                     .width(1600)
                     .fit("crop")
                     .auto("format")
+                    .quality(100)
                     .url() as string
                 }
                 sizes="100vw"
                 fill
-                alt={src?.alt || "Hero image"}
+                alt={src?.alt || "Medifree"}
                 priority={idx === 0}
                 quality={100}
                 className="object-cover"
               />
             </CarouselItem>
           ))}
+
+          {/* <CarouselItem key={"test"} className="relative h-full w-full">
+            <Image
+              src={
+                urlForImage(pictures?.image[0])
+                  ?.height(700)
+                  .width(1600)
+                  .fit("crop")
+                  .auto("format")
+                  .quality(100)
+                  .url() as string
+              }
+              sizes="100vw"
+              fill
+              alt={"Hero image"}
+              priority
+              quality={100}
+              className="object-cover"
+            />
+          </CarouselItem> */}
         </CarouselContent>
       </Carousel>
 
