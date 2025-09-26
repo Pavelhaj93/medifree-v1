@@ -8,7 +8,11 @@ type BookButtonProps = React.ComponentProps<typeof Button>;
 export function BookButton({ className, ...props }: BookButtonProps) {
   return (
     <Button asChild variant="primary" className={cn("", className)} {...props}>
-      <Link href="https://cal.com/medifree">
+      <Link
+        href="https://cal.com/medifree"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <CalendarClock className="inline mr-2" />
         Rezervace
       </Link>

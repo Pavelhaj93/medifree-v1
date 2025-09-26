@@ -5,8 +5,8 @@ import { Badge } from "@/app/components/ui/Badge";
 
 export function CalendarSection() {
   return (
-    <section className="bg-white">
-      <div className="container items-center justify-center flex flex-col w-full mx-auto px-4 md:px-10 py-16 md:py-32">
+    <section className="bg-white py-8 md:py-16">
+      <div className="container items-center justify-center flex flex-col w-full mx-auto px-4 md:px-10">
         <Badge variant="primary" className="mb-4">
           Rezervace
         </Badge>

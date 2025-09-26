@@ -1,3 +1,4 @@
+import HeroSection from "@/app/components/others/HeroSection";
 import ContactFAQSection from "@/app/components/sections/contact/ContactFAQSection";
 import ContactSection from "@/app/components/sections/homepage/ContactSection";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -16,6 +17,11 @@ export default async function ContactPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <HeroSection
+        badge="Kontakt"
+        title="Kontaktujte nás"
+        description="Máte jakékoli otázky? Napiště nám a my se Vám co nejdříve ozveme."
+      />
       <ContactSection gdpr={gdpr} />
       <ContactFAQSection />
     </div>

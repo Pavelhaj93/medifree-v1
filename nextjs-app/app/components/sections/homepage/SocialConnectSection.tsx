@@ -6,8 +6,8 @@ import { sharedInstagram } from "@/app/lib/social-links";
 
 export default function SocialConnectSection() {
   return (
-    <section className="bg-gray-50 py-12 md:py-16">
-      <div className="container mx-auto px-4">
+    <section className="bg-gray-50 py-8 md:py-16">
+      <div className="container mx-auto px-4 md:px-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Left side - Podcast promo */}
           <div className="flex-1 max-w-xl">

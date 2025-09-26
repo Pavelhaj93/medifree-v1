@@ -16,6 +16,7 @@ const links = [
   { href: "/nase-sluzby", label: "Služby" },
   { href: "/e-shop", label: "E-shop" },
   { href: "/clanky", label: "Články" },
+  { href: "/akce-a-novinky", label: "Akce a novinky" },
   { href: "/casto-kladene-otazky", label: "FAQ" },
   { href: "/kontakt", label: "Kontakt" },
 ];

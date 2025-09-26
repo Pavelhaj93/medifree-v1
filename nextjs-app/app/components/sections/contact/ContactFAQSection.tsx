@@ -9,16 +9,18 @@ export default async function ContactFAQSection() {
   });
 
   return (
-    <section className="container mx-auto px-4 py-16">
-      <div className="flex justify-center mb-8">
-        <Badge variant="primary">FAQ</Badge>
-      </div>
-      <h2 className="text-3xl font-medium mb-12 text-center">
-        Často kladené dotazy
-      </h2>
+    <section className="py-8 md:py-16 ">
+      <div className="container mx-auto px-4 md:px-10">
+        <div className="flex justify-center mb-8">
+          <Badge variant="primary">FAQ</Badge>
+        </div>
+        <h2 className="text-3xl font-medium mb-12 text-center">
+          Často kladené dotazy
+        </h2>
 
-      <div className="max-w-3xl mx-auto">
-        <AccordionFAQSection faqItems={faqItems} />
+        <div className="max-w-3xl mx-auto">
+          <AccordionFAQSection faqItems={faqItems} />
+        </div>
       </div>
     </section>
   );

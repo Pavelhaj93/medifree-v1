@@ -6,6 +6,8 @@ import { michaelaInstagram, sharedInstagram } from "@/app/lib/social-links";
 import Link from "next/link";
 import { Badge } from "@/app/components/ui/Badge";
 import { Button } from "@/app/components/ui/Button";
+import { AllPersonsQueryResult, Person } from "@/sanity.types";
+import { urlForImage } from "@/sanity/lib/utils";
 
 const socialIcons = {
   radim: [
@@ -45,31 +47,15 @@ const socialIcons = {
 };
 
 type TherapistProps = {
-  name: string;
-  title: string;
-  slug: {
-    current: string;
-  };
-  topics: string[];
-  description: string;
-  imageUrl: string;
+  person: AllPersonsQueryResult[0];
   reverse?: boolean;
   pink?: boolean;
 };
 
-function Therapist({
-  name,
-  title,
-  slug,
-  topics,
-  description,
-  imageUrl,
-  reverse = false,
-  pink,
-}: TherapistProps) {
+function Therapist({ person, reverse = false, pink }: TherapistProps) {
   return (
-    <section className="bg-gray-50 text-left">
-      <div className="grid md:grid-cols-2 gap-12 items-center container mx-auto px-4 md:px-10 py-16 md:py-32">
+    <section className="bg-gray-50 text-left py-8 md:py-16">
+      <div className="grid md:grid-cols-2 gap-12 items-center container mx-auto px-4 md:px-10 ">
         <div className="mb-4 md:hidden">
           <Badge variant={pink ? "tertiary" : "primary"}>O nás</Badge>
         </div>
@@ -85,7 +71,7 @@ function Therapist({
                   <Link
                     key={item.id}
                     href={item.href}
-                    className="w-10 h-10 rounded-full bg-gray-50/80 flex items-center justify-center shadow-md z-10 hover:opacity-80 transition-opacity"
+                    className="w-10 h-10 rounded-full bg-gray-50/80 flex items-center justify-center shadow-md z-1 hover:opacity-80 transition-opacity"
                   >
                     {item.icon}
                   </Link>
@@ -100,7 +86,23 @@ function Therapist({
                   </Link>
                 ))}
           </div>
-          <Image src={imageUrl} alt={name} fill className="object-cover" />
+          <Link
+            href={`/o-nas#${person.slug.current}`}
+            className="absolute inset-0 cursor-pointer"
+          >
+            <Image
+              src={
+                urlForImage(person.mainImage)
+                  ?.width(600)
+                  .height(400)
+                  .fit("crop")
+                  .url() as string
+              }
+              alt={person.mainImage?.alt || person.name}
+              fill
+              className="object-cover"
+            />
+          </Link>
           {/* bottom name overlay */}
           <div className="absolute inset-0 flex h-12 self-end items-center justify-center p-4 bg-white">
             <h3
@@ -108,7 +110,7 @@ function Therapist({
                 pink ? "text-tertiary" : "text-primary"
               } italic`}
             >
-              {name}
+              {person.name}
             </h3>
           </div>
         </div>
@@ -116,19 +118,19 @@ function Therapist({
           <div className="mb-4 hidden md:block">
             <Badge variant={pink ? "tertiary" : "primary"}>O nás</Badge>
           </div>
-          <p className="text-gray-600 mb-4 leading-7">{description}</p>
+          <p className="text-gray-600 mb-4 leading-7">{person.description}</p>
           <Button
             variant="link"
             className={`mb-4 self-start px-0 ${pink ? "text-tertiary" : "text-primary"}`}
             asChild
           >
-            <Link href={`/o-nas#${slug.current}`}>
+            <Link href={`/o-nas#${person.slug.current}`}>
               Více o mně zde
               <ArrowRight size={16} className="ml-2" />
             </Link>
           </Button>
           <div className="flex flex-wrap gap-4 mb-4">
-            {topics.map((item) => (
+            {person.topics.map((item) => (
               <Badge
                 key={item}
                 variant={pink ? "tertiary" : "primary"}
@@ -159,16 +161,7 @@ export async function TherapistSection() {
       {persons.reverse().map((person, index) => (
         <Therapist
           key={person._id}
-          name={person.name}
-          title={person.specialization}
-          slug={person.slug as unknown as { current: string }}
-          topics={person.topics}
-          description={person.description}
-          imageUrl={
-            ["/images/therapist/radim.jpg", "/images/therapist/michaela.jpg"][
-              index
-            ]
-          }
+          person={person}
           pink={index % 2 === 1}
           reverse={index % 2 !== 0}
         />

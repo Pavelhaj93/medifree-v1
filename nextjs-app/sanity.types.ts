@@ -137,6 +137,37 @@ export type BlockContent = Array<{
   _key: string;
 }>;
 
+export type NewAndEvent = {
+  _id: string;
+  _type: "newAndEvent";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  content: BlockContent;
+};
+
+export type ServiceGallery = {
+  _id: string;
+  _type: "serviceGallery";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  image: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: "image";
+    _key: string;
+  }>;
+};
+
 export type HomepagePicture = {
   _id: string;
   _type: "homepagePicture";
@@ -566,7 +597,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = CallToAction | Link | InfoSection | BlockContent | HomepagePicture | LegalDocument | HomepageService | Video | Service | Faq | Product | Page | Post | Person | Settings | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = CallToAction | Link | InfoSection | BlockContent | NewAndEvent | ServiceGallery | HomepagePicture | LegalDocument | HomepageService | Video | Service | Faq | Product | Page | Post | Person | Settings | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/queries/faqs.ts
 // Variable: allFaqsQuery
@@ -671,6 +702,18 @@ export type TermsAndConditionsQueryResult = {
   _updatedAt: string;
   _type: "legalDocument";
   _rev: string;
+} | null;
+
+// Source: ./sanity/queries/newsAndEvents.ts
+// Variable: newsAndEventsQuery
+// Query: *[_type == "newAndEvent"][0]
+export type NewsAndEventsQueryResult = {
+  _id: string;
+  _type: "newAndEvent";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  content: BlockContent;
 } | null;
 
 // Source: ./sanity/queries/pages.ts
@@ -1136,6 +1179,31 @@ export type FeaturedProductQueryResult = {
   _type: "product";
 } | null;
 
+// Source: ./sanity/queries/serviceGalleries.ts
+// Variable: serviceGalleriesQuery
+// Query: *[_type == "serviceGallery"][0]
+export type ServiceGalleriesQueryResult = {
+  _id: string;
+  _type: "serviceGallery";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  image: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: "image";
+    _key: string;
+  }>;
+} | null;
+
 // Source: ./sanity/queries/services.ts
 // Variable: allServicesQuery
 // Query: *[_type == "service"] | order(title asc) {    _id,title,tag,description,content,price,priceType,image,    _createdAt,_updatedAt,_type,_rev  }
@@ -1243,6 +1311,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"legalDocument\"] | order(title asc) {\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_rev\n  }\n": AllLegalDocumentsQueryResult;
     "\n  *[_type == \"legalDocument\" && tag == \"gdpr-consent\"][0]{\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": GdprQueryResult;
     "\n  *[_type == \"legalDocument\" && tag == \"TandC\"][0]{\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": TermsAndConditionsQueryResult;
+    "\n    *[_type == \"newAndEvent\"][0]\n": NewsAndEventsQueryResult;
     "\n  *[_type == 'page' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    \"pageBuilder\": pageBuilder[]{\n      ...,\n      _type == \"callToAction\" => { \n  link {\n    ...,\n    \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n  }\n },\n      _type == \"infoSection\" => {\n        content[]{\n          ...,\n          markDefs[]{ ..., \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n }\n        }\n      },\n    },\n  }\n": GetPageQueryResult;
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
     "\n  *[_type == \"page\" || _type == \"post\" && defined(slug.current)]\n  | order(_type asc) {\n    \"slug\": slug.current,\n    _type,\n    _updatedAt\n  }\n": SitemapDataResult;
@@ -1256,6 +1325,7 @@ declare module "@sanity/client" {
     "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostPagesSlugsResult;
     "*[_type == \"product\"] | order(name asc) { \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }": AllProductsQueryResult;
     "*[_type == \"product\" && featured == true][0]{ \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }": FeaturedProductQueryResult;
+    "\n    *[_type == \"serviceGallery\"][0]\n": ServiceGalleriesQueryResult;
     "\n  *[_type == \"service\"] | order(title asc) {\n    _id,title,tag,description,content,price,priceType,image,\n    _createdAt,_updatedAt,_type,_rev\n  }\n": AllServicesQueryResult;
     "\n  *[_type == \"homepageService\"] | order(title asc) {\n    _id,title,description,image,\n    _createdAt,_updatedAt,_type,_rev\n  }\n": AllHomepageServicesQueryResult;
     "\n  *[_type == \"video\"][0]{\n    _id,title,description,\n    videoFile{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": VideoQueryResult;
