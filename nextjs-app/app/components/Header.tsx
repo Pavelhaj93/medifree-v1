@@ -16,7 +16,7 @@ const links = [
   { href: "/nase-sluzby", label: "Služby" },
   { href: "/e-shop", label: "E-shop" },
   { href: "/clanky", label: "Články" },
-  { href: "/akce-a-novinky", label: "Akce a novinky" },
+  { href: "/akce-a-novinky", label: "Akce a Novinky" },
   { href: "/casto-kladene-otazky", label: "FAQ" },
   { href: "/kontakt", label: "Kontakt" },
 ];
@@ -66,7 +66,7 @@ export default function Header() {
             </Link>
           </div>
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="hidden xl:flex items-center space-x-8">
             {links.map((link) => (
               <Link
                 key={link.href}
@@ -81,7 +81,7 @@ export default function Header() {
           </nav>
 
           {/* Desktop Cart Link */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden xl:flex items-center gap-4">
             <Link href="/kosik" className="relative">
               <ShoppingCart className="h-5 w-5" />
               {items.length > 0 && (
@@ -93,7 +93,8 @@ export default function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center gap-4 lg:hidden z-20">
+          <div className="flex items-center gap-4 xl:hidden z-20">
+            <BookButton className="mr-2 md:mr-10" />
             <Link href="/kosik" className="relative mr-2">
               <ShoppingCart className="h-5 w-5" />
               {items.length > 0 && (
