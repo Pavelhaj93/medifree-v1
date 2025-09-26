@@ -11,13 +11,9 @@ import {
 } from "@/app/components/ui/Carousel";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
-import { sanityFetch } from "@/sanity/lib/live";
-import { allHomepageServicesQuery } from "@/sanity/queries";
-import {
-  AllHomepageServicesQueryResult,
-  HomepageService,
-} from "@/sanity.types";
+import { AllHomepageServicesQueryResult } from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
+import { Badge } from "../../ui/Badge";
 
 export function ServicesCarouselSection({
   services,
@@ -27,13 +23,11 @@ export function ServicesCarouselSection({
   const plugin = useRef(Autoplay({ delay: 4000, stopOnInteraction: true }));
 
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
+    <section className=" bg-gray-50 py-8 md:py-16">
+      <div className="container mx-auto px-4 md:px-10">
         <div className="text-center mb-12">
-          <div className="inline-block rounded-full bg-white px-6 py-2 mb-6 shadow-md">
-            <span className="text-primary font-medium text-sm">
-              NAŠE SLUŽBY
-            </span>
+          <div className="mb-6">
+            <Badge variant={"primary"}>NAŠE SLUŽBY</Badge>
           </div>
           <h2 className="text-3xl md:text-4xl font-medium mb-4">
             Co pro vás můžeme udělat

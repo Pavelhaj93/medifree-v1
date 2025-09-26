@@ -7,6 +7,7 @@ import {
   Calendar,
   GraduationCap,
   Heart,
+  Stethoscope,
   Users,
 } from "lucide-react";
 import { Badge } from "@/app/components/ui/Badge";
@@ -32,8 +33,8 @@ export default async function AboutUsTherapistSection() {
 
   return (
     <>
-      <section id={radim?.slug.current} className="py-20">
-        <div className="container mx-auto px-4">
+      <section id={radim?.slug.current} className="bg-gray-50">
+        <div className="container mx-auto px-4 md:px-10 py-8 md:py-16">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Left side - Image and credentials */}
             <div className="space-y-6">
@@ -54,15 +55,12 @@ export default async function AboutUsTherapistSection() {
                   <div className="bg-white/90 backdrop-blur-xs rounded-xl p-4">
                     <div className="flex items-center gap-3">
                       <div className="md:size-12 flex-shrink-0 size-8 bg-primary rounded-full flex items-center justify-center">
-                        <GraduationCap className="h-6 w-6 text-secondary" />
+                        <Stethoscope className="h-6 w-6 text-secondary" />
                       </div>
                       <div>
-                        <p className="font-medium">
-                          Atestovaný lékař s praxí na interních a
-                          rehabilitačních klinikách
-                        </p>
+                        <p className="font-medium">{radim?.name}</p>
                         <p className="text-sm text-gray-600">
-                          MUDr. v oboru medicíny
+                          {radim?.specialization}
                         </p>
                       </div>
                     </div>
@@ -236,8 +234,8 @@ export default async function AboutUsTherapistSection() {
         </div>
       </section>
       {/* Second Therapist - Dr. Michael Chen */}
-      <section id={michaela?.slug.current} className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
+      <section id={michaela?.slug.current}>
+        <div className="container mx-auto px-4 md:px-10 py-8 md:py-16">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Right side - About text (order reversed for visual variety) */}
             <div className="space-y-6 order-2 lg:order-1">
@@ -325,15 +323,12 @@ export default async function AboutUsTherapistSection() {
                   <div className="bg-white/90 backdrop-blur-xs rounded-xl p-4">
                     <div className="flex items-center gap-3">
                       <div className="md:size-12 size-8 flex-shrink-0 bg-tertiary rounded-full flex items-center justify-center">
-                        <GraduationCap className="size-6 text-white" />
+                        <Stethoscope className="h-6 w-6 text-white" />
                       </div>
                       <div>
-                        <p className="font-medium">
-                          Atestovaná lékařka s praxí na interních a
-                          rehabilitačních klinikách
-                        </p>
+                        <p className="font-medium">{michaela?.name}</p>
                         <p className="text-sm text-gray-600">
-                          MUDr. v oboru medicíny
+                          {michaela?.specialization}
                         </p>
                       </div>
                     </div>

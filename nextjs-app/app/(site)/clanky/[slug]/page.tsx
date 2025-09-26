@@ -87,8 +87,8 @@ export default async function BlogPostPage({
 
   return (
     <>
-      <section className="bg-gray-50">
-        <div className="container mx-auto px-4 md:px-10 pt-8 pb-16">
+      <section className="bg-gray-50 py-8 md:py-16">
+        <div className="container mx-auto px-4 md:px-10">
           <Link
             href="/clanky"
             className="inline-flex items-center text-primary hover:text-secondary mb-8 transition-colors"

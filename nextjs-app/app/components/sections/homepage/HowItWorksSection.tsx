@@ -24,8 +24,8 @@ const steps = [
 
 export default function HowItWorksSection() {
   return (
-    <section className="bg-gray-200">
-      <div className="container mx-auto px-4 md:px-10 py-16 md:py-32">
+    <section className="bg-gray-200 py-8 md:py-16">
+      <div className="container mx-auto px-4 md:px-10">
         <div className="flex justify-center mb-8">
           <Badge variant="primary">Jak to funguje?</Badge>
         </div>

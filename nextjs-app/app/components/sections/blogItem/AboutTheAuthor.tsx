@@ -19,24 +19,25 @@ export default function AboutTheAuthor({
   slug: string;
 }) {
   return (
-    <div className="my-12">
+    <div className="">
       {/* <Badge variant="primary" className="mb-4">
         O autorovi
       </Badge> */}
       <h2 className="text-2xl font-medium mb-8">O autorovi</h2>
-      <div className="bg-gray-50 rounded-2xl p-8">
-        <div className="flex flex-col md:flex-row gap-6 items-center">
+      <div className="bg-gray-50 rounded-2xl">
+        <div className="flex flex-col md:flex-row gap-6 items-center text-center md:text-left">
           <div className="w-24 h-24 rounded-full overflow-hidden relative shrink-0">
             <Image
               src={
                 urlForImage(image)
-                  ?.height(256)
-                  .width(256)
+                  ?.height(192)
+                  .width(192)
                   .fit("crop")
                   .url() as string
               }
               alt={name}
-              fill
+              width={192}
+              height={192}
               className="object-cover"
             />
           </div>

@@ -19,8 +19,8 @@ export default function FeaturedProductSection({
   if (!featuredProduct) return null;
 
   return (
-    <section className="py-16">
-      <div className="container mx-auto px-4">
+    <section className="py-8 md:py-16 bg-gray-50">
+      <div className="container mx-auto px-4 md:px-10">
         <div className="bg-white rounded-2xl shadow-md overflow-hidden">
           <div className="grid md:grid-cols-2 gap-8">
             <div className="p-8 md:p-12 flex items-center">

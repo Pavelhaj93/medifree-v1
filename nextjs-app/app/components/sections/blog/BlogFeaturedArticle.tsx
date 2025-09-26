@@ -14,8 +14,8 @@ export default async function BlogFeaturedArticle() {
   });
 
   return (
-    <section className="py-16">
-      <div className="container mx-auto px-4">
+    <section className="bg-gray-50 py-8 md:py-16">
+      <div className="container mx-auto px-4 md:px-10">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="relative h-[400px] rounded-2xl overflow-hidden">
             <Link href={`/clanky/${featuredArticle?.slug}`}>

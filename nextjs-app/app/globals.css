@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @config "../tailwind.config.ts";
 
@@ -19,7 +19,7 @@
 
   @keyframes accordion-down {
     from {
-      height: '0';
+      height: "0";
     }
     to {
       height: var(--radix--accordion-content-height);
@@ -31,7 +31,7 @@
       height: var(--radix--accordion-content-height);
     }
     to {
-      height: '0';
+      height: "0";
     }
   }
 }
@@ -51,6 +51,18 @@
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
+  }
+
+  /* ✅ Smooth scrolling for in-page anchors */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* ✅ Offset anchor targets for a fixed/sticky header
+     Adjust 80px to match your header height */
+  section[id],
+  [id^="anchor-"] {
+    scroll-margin-top: 112px;
   }
 }
 

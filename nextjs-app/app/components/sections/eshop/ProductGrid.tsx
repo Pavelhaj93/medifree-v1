@@ -29,8 +29,8 @@ export default function ProductGridSection({
   };
 
   return (
-    <section className="bg-gray-50" id="products">
-      <div className="container mx-auto px-4 md:px-10 py-16 md:py-32">
+    <section className="py-8 md:py-16" id="products">
+      <div className="container mx-auto px-4 md:px-10 ">
         <div className="flex justify-between flex-col md:flex-row md:items-center gap-4 mb-6 md:mb-12">
           <h2 className="text-2xl font-medium">Oblíbené položky</h2>
           <div className="flex gap-2 overflow-x-auto py-2 pr-1">

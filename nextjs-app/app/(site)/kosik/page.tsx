@@ -37,7 +37,7 @@ export default async function CartPage() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <section>
-        <div className="container mx-auto px-4 md:px-10 py-16">
+        <div className="container mx-auto px-4 md:px-10 py-16 md:py-32">
           <div className="flex justify-center mb-8">
             <Badge>Košík</Badge>
           </div>

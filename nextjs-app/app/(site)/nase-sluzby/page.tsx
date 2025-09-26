@@ -1,9 +1,11 @@
 import HeroSection from "@/app/components/others/HeroSection";
 import { ServiceCard } from "@/app/components/sections/services/ServiceCard";
 import ServicesCtaSection from "@/app/components/sections/services/ServicesCtaSection";
+import ServicesGallerySection from "@/app/components/sections/services/ServicesGallerySection";
 import ServicesItemSection from "@/app/components/sections/services/ServicesItemSection";
 import { sanityFetch } from "@/sanity/lib/live";
 import { allServicesQuery } from "@/sanity/queries";
+import { serviceGalleriesQuery } from "@/sanity/queries/serviceGalleries";
 
 export const metadata = {
   title: "Naše služby - Medifree",
@@ -42,6 +44,7 @@ export default async function ServicesPage() {
       </HeroSection>
 
       <ServicesItemSection services={services} />
+      <ServicesGallerySection />
       <ServicesCtaSection />
     </div>
   );

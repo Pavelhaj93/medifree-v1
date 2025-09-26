@@ -17,8 +17,8 @@ export default async function LegalDocumentsPage() {
   });
 
   return (
-    <div className="py-12">
-      <div className="container mx-auto px-4 max-w-6xl">
+    <section className="bg-white">
+      <div className="container mx-auto px-4 md:px-10 py-16 md:py-32">
         <div className="flex justify-center mb-8">
           <Badge variant="primary">Právní dokumenty</Badge>
         </div>
@@ -101,6 +101,6 @@ export default async function LegalDocumentsPage() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
