@@ -53,7 +53,7 @@ export function ServicesCarouselSection({
               {services.map((item) => (
                 <CarouselItem
                   key={item._id}
-                  className="pl-3 md:pl-4 md:basis-1/2 lg:basis-1/4"
+                  className="pl-3 md:pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
                 >
                   <Card className="h-full bg-white shadow-lg hover:shadow-xl transition-all duration-300 border-0 group overflow-hidden p-0">
                     <CardContent className="p-0 relative h-[450px]">
@@ -62,14 +62,17 @@ export function ServicesCarouselSection({
                         <Image
                           src={
                             urlForImage(item.image)
-                              ?.width(600)
+                              ?.width(800)
                               .height(450)
                               .fit("crop")
+                              .quality(100)
                               .url() as string
                           }
                           alt={item.image?.alt || item.title}
                           fill
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 288px"
+                          quality={100}
                         />
                         {/* Gradient overlay dark on bottom, and light on top */}
                         <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />

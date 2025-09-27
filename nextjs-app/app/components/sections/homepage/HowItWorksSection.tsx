@@ -30,7 +30,9 @@ export default function HowItWorksSection() {
           <Badge variant="primary">Jak to funguje?</Badge>
         </div>
 
-        <h2 className="text-4xl md:text-5xl text-center mb-16">Náš postup</h2>
+        <h2 className="text-3xl md:text-4xl font-medium mb-4 text-center">
+          Náš postup
+        </h2>
 
         <div className="relative max-w-5xl mx-auto">
           {/* Arrow between Step 1 and Step 2 */}

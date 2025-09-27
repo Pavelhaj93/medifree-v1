@@ -12,9 +12,6 @@ import { Badge } from "@/app/components/ui/Badge";
 import { BookButton } from "@/app/components/others/BookButton";
 import { HomepagePicturesQueryResult } from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
-import { Button } from "../../ui/Button";
-import Link from "next/link";
-import { CalendarClock } from "lucide-react";
 
 export default function HeroSectionCarousel({
   pictures,
@@ -38,8 +35,8 @@ export default function HeroSectionCarousel({
               <Image
                 src={
                   urlForImage(src)
-                    ?.height(700)
-                    .width(1600)
+                    ?.height(1600)
+                    .width(2400)
                     .fit("crop")
                     .auto("format")
                     .quality(100)
