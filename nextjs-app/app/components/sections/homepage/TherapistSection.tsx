@@ -93,14 +93,17 @@ function Therapist({ person, reverse = false, pink }: TherapistProps) {
             <Image
               src={
                 urlForImage(person.mainImage)
-                  ?.width(600)
-                  .height(400)
+                  ?.width(1200)
+                  .height(800)
                   .fit("crop")
+                  .quality(100)
                   .url() as string
               }
               alt={person.mainImage?.alt || person.name}
               fill
               className="object-cover"
+              quality={100}
+              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 576px"
             />
           </Link>
           {/* bottom name overlay */}

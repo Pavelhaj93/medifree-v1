@@ -77,7 +77,7 @@ export default function ContactSection({
 
       <div className="grid md:grid-cols-2 gap-12 container mx-auto px-4 md:px-10">
         {/* Contact Form */}
-        <div className="bg-white p-8 rounded-2xl shadow-md">
+        <div className="bg-white p-8 rounded-2xl shadow-xl">
           <h3 className="text-2xl font-medium mb-6">Napište nám</h3>
           <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">

@@ -10,7 +10,7 @@ export function CalendarSection() {
         <Badge variant="primary" className="mb-4">
           Rezervace
         </Badge>
-        <h2 className="text-4xl md:text-5xl text-center mb-8">
+        <h2 className="text-3xl md:text-4xl font-medium mb-4">
           Rezervujte si sezení
         </h2>
         <p className="text-gray-600 mb-8 text-center">
