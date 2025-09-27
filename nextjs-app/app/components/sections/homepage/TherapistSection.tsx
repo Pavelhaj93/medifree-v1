@@ -80,7 +80,7 @@ function Therapist({ person, reverse = false, pink }: TherapistProps) {
                   <Link
                     key={item.id}
                     href={item.href}
-                    className="w-10 h-10 rounded-full bg-gray-50/80 flex items-center justify-center shadow-md z-10 hover:opacity-80 transition-opacity"
+                    className="w-10 h-10 rounded-full bg-gray-50/80 flex items-center justify-center shadow-md z-1 hover:opacity-80 transition-opacity"
                   >
                     {item.icon}
                   </Link>
