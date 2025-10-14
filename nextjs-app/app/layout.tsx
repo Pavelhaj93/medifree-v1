@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import DraftModeToast from "@/app/components/sanity/DraftModeToast";
-import { toPlainText, VisualEditing } from "next-sanity";
+import { toPlainText } from "next-sanity";
+import { VisualEditing } from "next-sanity/visual-editing";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { draftMode } from "next/headers";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";

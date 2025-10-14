@@ -154,8 +154,10 @@ export default function ContactSection({
                         informací si přečtěte naše{" "}
                         <Link
                           href={
-                            gdpr?.file.asset?.url ?? "/ochrana-osobnich-udaju"
+                            gdpr?.file?.asset?.url ?? "/ochrana-osobnich-udaju"
                           }
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="text-primary hover:underline"
                         >
                           Zásady ochrany osobních údajů

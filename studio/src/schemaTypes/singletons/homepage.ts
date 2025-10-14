@@ -1,53 +1,36 @@
 import {defineField, defineType} from 'sanity'
-import {DocumentIcon} from '@sanity/icons'
+import {HomeIcon} from '@sanity/icons'
 
 /**
- * Page schema.  Define and edit the fields for the 'page' content type.
- * Learn more: https://www.sanity.io/docs/schema-types
+ * Homepage schema - A singleton document for the homepage content
  */
 
-export const page = defineType({
-  name: 'page',
-  title: 'Page',
+export const homepage = defineType({
+  name: 'homepage',
+  title: 'Homepage',
   type: 'document',
-  icon: DocumentIcon,
+  icon: HomeIcon,
   fields: [
     defineField({
-      name: 'name',
-      title: 'Name',
+      name: 'title',
+      title: 'Page Title',
       type: 'string',
       validation: (Rule) => Rule.required(),
+      initialValue: 'Medifree - Váš prostor po zdraví a rovnováhu',
     }),
-
     defineField({
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
+      name: 'description',
+      title: 'Meta Description',
+      type: 'text',
       validation: (Rule) => Rule.required(),
-      options: {
-        source: 'name',
-        maxLength: 96,
-      },
-    }),
-    defineField({
-      name: 'heading',
-      title: 'Heading',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'subheading',
-      title: 'Subheading',
-      type: 'string',
+      initialValue:
+        'Objevte Medifree, váš online prostor pro fyzické ale i duševní zdraví. Nabízíme širokou škálu služeb, včetně online konzultací, přednášek a workshopů, tématických pobytů a e-shop s odbornými materiály.',
     }),
     defineField({
       name: 'pageBuilder',
-      title: 'Page builder',
+      title: 'Page Builder',
       type: 'array',
       of: [
-        {type: 'callToAction'},
-        {type: 'infoSection'},
-        // Homepage sections
         {type: 'heroSectionCarousel'},
         {type: 'quoteSection'},
         {type: 'therapistSection'},
@@ -57,10 +40,12 @@ export const page = defineType({
         {type: 'calendarSection'},
         {type: 'socialConnectSection'},
         {type: 'contactSection'},
+        // Also include generic sections
+        {type: 'callToAction'},
+        {type: 'infoSection'},
       ],
       options: {
         insertMenu: {
-          // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/array-type#efb1fe03459d
           views: [
             {
               name: 'grid',
@@ -72,4 +57,12 @@ export const page = defineType({
       },
     }),
   ],
+  preview: {
+    prepare() {
+      return {
+        title: 'Homepage',
+        subtitle: 'Main website homepage',
+      }
+    },
+  },
 })

@@ -4,7 +4,8 @@ import Footer from "@/app/components/Footer";
 import { Toaster } from "@/app/components/ui/Sonner";
 
 import DraftModeToast from "@/app/components/sanity/DraftModeToast";
-import { toPlainText, VisualEditing } from "next-sanity";
+import { toPlainText } from "next-sanity";
+import { VisualEditing } from "next-sanity/visual-editing";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { draftMode } from "next/headers";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";

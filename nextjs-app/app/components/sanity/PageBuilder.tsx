@@ -35,11 +35,21 @@ function renderSections(
   if (!page) {
     return null;
   }
+
+  // Ensure we have required fields for data attributes
+  const pageType = page._type || "homepage";
+  const pageId = page._id;
+
+  if (!pageId) {
+    console.warn("PageBuilder: Missing page._id");
+    return null;
+  }
+
   return (
     <div
       data-sanity={dataAttr({
-        id: page._id,
-        type: page._type,
+        id: pageId,
+        type: pageType,
         path: `pageBuilder`,
       }).toString()}
     >
@@ -48,8 +58,8 @@ function renderSections(
           key={block._key}
           index={index}
           block={block}
-          pageId={page._id}
-          pageType={page._type}
+          pageId={pageId}
+          pageType={pageType}
         />
       ))}
     </div>
