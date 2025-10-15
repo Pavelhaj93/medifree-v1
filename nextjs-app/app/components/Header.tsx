@@ -81,8 +81,11 @@ export default function Header() {
           </nav>
 
           {/* Desktop Cart Link */}
-          <div className="hidden xl:flex items-center gap-4">
-            <Link href="/kosik" className="relative">
+          <div className="hidden xl:flex items-center gap-4 ">
+            <Link
+              href="/kosik"
+              className="relative p-1 cursor-pointer rounded-full hover:bg-gray-100"
+            >
               <ShoppingCart className="h-5 w-5" />
               {items.length > 0 && (
                 <span className="absolute -top-2 -right-3 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -93,9 +96,12 @@ export default function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center gap-4 xl:hidden z-20">
+          <div className="flex items-center gap-4 xl:hidden z-20 ">
             <BookButton className="mr-2 md:mr-10" />
-            <Link href="/kosik" className="relative mr-2">
+            <Link
+              href="/kosik"
+              className="relative mr-2 p-1 cursor-pointer rounded-full hover:bg-gray-100"
+            >
               <ShoppingCart className="h-5 w-5" />
               {items.length > 0 && (
                 <span className="absolute -top-2 -right-3 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -107,7 +113,7 @@ export default function Header() {
               type="button"
               onClick={toggleMenu}
               aria-label="Toggle menu"
-              className="p-1"
+              className="p-1 cursor-pointer rounded-full hover:bg-gray-100"
             >
               {isMenuOpen ? (
                 <X className="h-6 w-6" />
@@ -132,7 +138,7 @@ export default function Header() {
 
       {/* Mobile Navigation Menu */}
       <div
-        className={`fixed inset-y-0 right-0 w-full max-w-xs bg-white shadow-xl z-40 transform transition-transform duration-300 ease-in-out md:hidden ${
+        className={`fixed inset-y-0 right-0 w-full max-w-xs bg-white shadow-xl z-40 transform transition-transform duration-300 ease-in-out xl:hidden ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -141,7 +147,7 @@ export default function Header() {
           <button
             onClick={toggleMenu}
             type="button"
-            className="absolute top-8 right-8 p-1 rounded-full hover:bg-gray-100"
+            className="absolute top-8 right-8 sm:right-10 md:right-20 p-1 rounded-full hover:bg-gray-100 cursor-pointer"
             aria-label="Close menu"
           >
             <X className="h-6 w-6" />
