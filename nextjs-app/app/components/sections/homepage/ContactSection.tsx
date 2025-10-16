@@ -179,8 +179,8 @@ export default function ContactSection({
           <div>
             <h3 className="text-2xl font-medium mb-6">Kontaktní informace</h3>
             <p className="text-gray-600 mb-8">
-              Jsme tu pro vás. Neváhejte nás kontaktovat s jakýmikoli dotazy
-              nebo obavami. Naše tým je připraven vám pomoci.
+              Jsme tu pro vás. Neváhejte nás kontaktovat s jakýmikoli dotazy.
+              Naš tým je připraven vám pomoci.
             </p>
 
             <div className="space-y-6 mb-6">
@@ -191,7 +191,9 @@ export default function ContactSection({
                 </div>
                 <div>
                   <h4 className="font-medium">Firma</h4>
-                  <p className="text-gray-600">Medifree s.r.o.</p>
+                  <p className="text-gray-600">
+                    Medifree s.r.o. - Na Kotli 1176/29, 500 09 Hradec Králové
+                  </p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
