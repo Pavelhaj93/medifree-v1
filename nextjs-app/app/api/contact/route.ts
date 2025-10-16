@@ -1,32 +1,40 @@
-import { contactSchema } from "@/app/lib/schemas";
-import { NextResponse } from "next/server";
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import nodemailer from "nodemailer";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const data = contactSchema.parse(body);
+    const { name, email, message } = await req.json();
 
-    const result = await resend.emails.send({
-      from: "no-reply@medifree.cz",
+    if (!name || !email || !message) {
+      return new Response("Missing fields", { status: 400 });
+    }
+
+    // Configure transporter using Gmail
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_APP_PASSWORD,
+      },
+    });
+
+    // Send the email
+    await transporter.sendMail({
+      from: "Medifree Website",
       to: "info@medifree.cz",
-      subject: `Nový email od: ${data.name}`,
-      replyTo: data.email,
+      subject: "Nová zpráva z webu Medifree",
+      text: `Od: ${name} (${email})\n\n${message}`,
       html: `
-        <p><strong>Jméno:</strong> ${data.name}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-        <p>${data.message}</p>
+        <h2>Nová zpráva z webu Medifree</h2>
+        <p><strong>Jméno:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Zpráva:</strong></p>
+        <p>${message}</p>
       `,
     });
 
-    return NextResponse.json({ success: true, result });
-  } catch (err) {
-    console.error(err);
-    return NextResponse.json(
-      { success: false, error: (err as Error).message },
-      { status: 400 }
-    );
+    return new Response("Message sent successfully", { status: 200 });
+  } catch (error) {
+    console.error("Email sending error:", error);
+    return new Response("Failed to send email", { status: 500 });
   }
 }
