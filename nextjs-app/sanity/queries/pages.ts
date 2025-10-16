@@ -18,6 +18,87 @@ export const getPageQuery = defineQuery(`
           markDefs[]{ ..., ${linkReference} }
         }
       },
+      _type == "heroSectionCarousel" => {
+        ...,
+        images[]{
+          ...,
+          asset->{
+            ...,
+            _id,
+            url
+          }
+        }
+      },
+      _type == "quoteSection" => {
+        ...
+      },
+      _type == "therapistSection" => {
+        ...,
+        selectedTherapists[]->{
+          _id,
+          name,
+          slug,
+          description,
+          topics,
+          mainImage{
+            ...,
+            asset->{
+              ...,
+              _id,
+              url
+            }
+          }
+        }
+      },
+      _type == "videoSection" => {
+        ...,
+        video->{
+          _id,
+          title,
+          description,
+          videoFile{
+            asset->{
+              ...,
+              _id,
+              url
+            }
+          }
+        }
+      },
+      _type == "servicesCarouselSection" => {
+        ...,
+        selectedServices[]->{
+          _id,
+          title,
+          description,
+          image{
+            ...,
+            asset->{
+              ...,
+              _id,
+              url
+            }
+          },
+          slug
+        }
+      },
+      _type == "howItWorksSection" => {
+        ...
+      },
+      _type == "calendarSection" => {
+        ...
+      },
+      _type == "socialConnectSection" => {
+        ...
+      },
+      _type == "contactSection" => {
+        ...,
+        gdprDocument->{
+          _id,
+          title,
+          content
+        }
+      },
     },
   }
 `);

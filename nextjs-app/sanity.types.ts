@@ -13,6 +13,263 @@
  */
 
 // Source: schema.json
+export type ContactSection = {
+  _type: "contactSection";
+  title?: string;
+  subtitle?: string;
+  badge?: string;
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      linkType?: "href" | "page" | "post";
+      href?: string;
+      page?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "page";
+      };
+      post?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "post";
+      };
+      openInNewTab?: boolean;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }>;
+  showContactForm?: boolean;
+  gdprDocument?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "legalDocument";
+  };
+  backgroundColor?: "bg-white" | "bg-gray-50" | "bg-primary/5";
+};
+
+export type SocialConnectSection = {
+  _type: "socialConnectSection";
+  title?: string;
+  subtitle?: string;
+  badge?: string;
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      linkType?: "href" | "page" | "post";
+      href?: string;
+      page?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "page";
+      };
+      post?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "post";
+      };
+      openInNewTab?: boolean;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }>;
+  socialLinks?: Array<{
+    platform: "instagram" | "facebook" | "linkedin" | "twitter" | "youtube" | "tiktok";
+    url: string;
+    label?: string;
+    _key: string;
+  }>;
+  backgroundColor?: "bg-gray-50" | "bg-white" | "bg-primary/5";
+};
+
+export type CalendarSection = {
+  _type: "calendarSection";
+  title?: string;
+  subtitle?: string;
+  badge?: string;
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      linkType?: "href" | "page" | "post";
+      href?: string;
+      page?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "page";
+      };
+      post?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "post";
+      };
+      openInNewTab?: boolean;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }>;
+  backgroundColor?: "bg-white" | "bg-gray-50" | "bg-primary/5";
+  showBookButton?: boolean;
+};
+
+export type HowItWorksSection = {
+  _type: "howItWorksSection";
+  badge?: string;
+  title: string;
+  steps?: Array<{
+    title: string;
+    description: string;
+    _key: string;
+  }>;
+  backgroundColor?: "bg-gray-200" | "bg-gray-50" | "bg-white" | "bg-primary/5";
+};
+
+export type ServicesCarouselSection = {
+  _type: "servicesCarouselSection";
+  title?: string;
+  subtitle?: string;
+  badge?: string;
+  showAllServices?: boolean;
+  selectedServices?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "homepageService";
+  }>;
+  backgroundColor?: "bg-white" | "bg-gray-50" | "bg-primary/5";
+};
+
+export type VideoSection = {
+  _type: "videoSection";
+  video: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "video";
+  };
+  autoplay?: boolean;
+  showControls?: boolean;
+  loop?: boolean;
+};
+
+export type TherapistSection = {
+  _type: "therapistSection";
+  title?: string;
+  showAllTherapists?: boolean;
+  selectedTherapists?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "person";
+  }>;
+  backgroundColor?: "bg-gray-50" | "bg-white" | "bg-primary/5";
+};
+
+export type QuoteSection = {
+  _type: "quoteSection";
+  quote: string;
+  author?: string;
+  backgroundColor?: "bg-gray-50" | "bg-white" | "bg-primary/5";
+};
+
+export type HeroSection = {
+  _type: "heroSection";
+  heading: string;
+  subheading: string;
+  badge?: string;
+  images?: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }>;
+  showBookButton?: boolean;
+};
+
 export type CallToAction = {
   _type: "callToAction";
   heading: string;
@@ -318,6 +575,39 @@ export type Product = {
   featured?: boolean;
 };
 
+export type Homepage = {
+  _id: string;
+  _type: "homepage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  description: string;
+  pageBuilder?: Array<{
+    _key: string;
+  } & HeroSection | {
+    _key: string;
+  } & QuoteSection | {
+    _key: string;
+  } & TherapistSection | {
+    _key: string;
+  } & VideoSection | {
+    _key: string;
+  } & ServicesCarouselSection | {
+    _key: string;
+  } & HowItWorksSection | {
+    _key: string;
+  } & CalendarSection | {
+    _key: string;
+  } & SocialConnectSection | {
+    _key: string;
+  } & ContactSection | {
+    _key: string;
+  } & CallToAction | {
+    _key: string;
+  } & InfoSection>;
+};
+
 export type Page = {
   _id: string;
   _type: "page";
@@ -332,7 +622,25 @@ export type Page = {
     _key: string;
   } & CallToAction | {
     _key: string;
-  } & InfoSection>;
+  } & InfoSection | {
+    _key: string;
+  } & HeroSection | {
+    _key: string;
+  } & QuoteSection | {
+    _key: string;
+  } & TherapistSection | {
+    _key: string;
+  } & VideoSection | {
+    _key: string;
+  } & ServicesCarouselSection | {
+    _key: string;
+  } & HowItWorksSection | {
+    _key: string;
+  } & CalendarSection | {
+    _key: string;
+  } & SocialConnectSection | {
+    _key: string;
+  } & ContactSection>;
 };
 
 export type Post = {
@@ -597,7 +905,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = CallToAction | Link | InfoSection | BlockContent | NewAndEvent | ServiceGallery | HomepagePicture | LegalDocument | HomepageService | Video | Service | Faq | Product | Page | Post | Person | Settings | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = ContactSection | SocialConnectSection | CalendarSection | HowItWorksSection | ServicesCarouselSection | VideoSection | TherapistSection | QuoteSection | HeroSection | CallToAction | Link | InfoSection | BlockContent | NewAndEvent | ServiceGallery | HomepagePicture | LegalDocument | HomepageService | Video | Service | Faq | Product | Homepage | Page | Post | Person | Settings | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/queries/faqs.ts
 // Variable: allFaqsQuery
@@ -611,6 +919,409 @@ export type AllFaqsQueryResult = Array<{
   _createdAt: string;
   _updatedAt: string;
 }>;
+
+// Source: ./sanity/queries/homepage.ts
+// Variable: homepageQuery
+// Query: *[_type == "homepage"][0] {  _id,  _type,  title,  description,  pageBuilder[] {    _type,    _key,    _type == "heroSectionCarousel" => {      heading,      subheading,      badge,      images[],      showBookButton    },    _type == "quoteSection" => {      quote,      author,      backgroundColor    },    _type == "therapistSection" => {      title,      showAllTherapists,      showAllTherapists == true => {        "selectedTherapists": *[_type == "person"] | order(_createdAt asc) {          _id,          name,          slug,          mainImage,          description,          topics[]        }      },      showAllTherapists != true => {        selectedTherapists[]-> {          _id,          name,          slug,          mainImage,          description,          topics[]        }      },      backgroundColor    },    _type == "videoSection" => {      video-> {        _id,        title,        description,        videoFile {          asset-> {            _id,            url          }        }      },      autoplay,      showControls,      loop    },    _type == "servicesCarouselSection" => {      title,      subtitle,      badge,      showAllServices,      showAllServices == true => {        "selectedServices": *[_type == "homepageService"] | order(_createdAt desc) {          _id,          title,          description,          icon,          link,          image,        }      },      showAllServices != true => {        selectedServices[]-> {          _id,          title,          description,          icon,          link,          image,        }      },      backgroundColor    },    _type == "howItWorksSection" => {      badge,      title,      steps[] {        title,        description      },      backgroundColor    },    _type == "calendarSection" => {      title,      subtitle,      badge,      description,      backgroundColor,      showBookButton    },    _type == "socialConnectSection" => {      title,      subtitle,      badge,      description,      socialLinks[] {        platform,        url,        label      },      backgroundColor    },    _type == "contactSection" => {      title,      subtitle,      badge,      description,      showContactForm,      gdprDocument-> {        _id,        title,        file {          asset-> {            _id,            url          }        }      },      backgroundColor    },    _type == "callToAction" => {      heading,      text,      buttonText,      link {        linkType,        href,        reference-> {          _type,          slug        }      }    },    _type == "infoSection" => {      heading,      subheading,      content    }  }}
+export type HomepageQueryResult = {
+  _id: string;
+  _type: "homepage";
+  title: string;
+  description: string;
+  pageBuilder: Array<{
+    _type: "calendarSection";
+    _key: string;
+    title: string | null;
+    subtitle: string | null;
+    badge: string | null;
+    description: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        linkType?: "href" | "page" | "post";
+        href?: string;
+        page?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "page";
+        };
+        post?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "post";
+        };
+        openInNewTab?: boolean;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      _key: string;
+    }> | null;
+    backgroundColor: "bg-gray-50" | "bg-primary/5" | "bg-white" | null;
+    showBookButton: boolean | null;
+  } | {
+    _type: "callToAction";
+    _key: string;
+    heading: string;
+    text: string | null;
+    buttonText: string | null;
+    link: {
+      linkType: "href" | "page" | "post" | null;
+      href: string | null;
+      reference: null;
+    } | null;
+  } | {
+    _type: "contactSection";
+    _key: string;
+    title: string | null;
+    subtitle: string | null;
+    badge: string | null;
+    description: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        linkType?: "href" | "page" | "post";
+        href?: string;
+        page?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "page";
+        };
+        post?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "post";
+        };
+        openInNewTab?: boolean;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      _key: string;
+    }> | null;
+    showContactForm: boolean | null;
+    gdprDocument: {
+      _id: string;
+      title: string;
+      file: {
+        asset: {
+          _id: string;
+          url: string | null;
+        } | null;
+      };
+    } | null;
+    backgroundColor: "bg-gray-50" | "bg-primary/5" | "bg-white" | null;
+  } | {
+    _type: "heroSection";
+    _key: string;
+  } | {
+    _type: "howItWorksSection";
+    _key: string;
+    badge: string | null;
+    title: string;
+    steps: Array<{
+      title: string;
+      description: string;
+    }> | null;
+    backgroundColor: "bg-gray-200" | "bg-gray-50" | "bg-primary/5" | "bg-white" | null;
+  } | {
+    _type: "infoSection";
+    _key: string;
+    heading: string | null;
+    subheading: string | null;
+    content: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        linkType?: "href" | "page" | "post";
+        href?: string;
+        page?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "page";
+        };
+        post?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "post";
+        };
+        openInNewTab?: boolean;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      _key: string;
+    }> | null;
+  } | {
+    _type: "quoteSection";
+    _key: string;
+    quote: string;
+    author: string | null;
+    backgroundColor: "bg-gray-50" | "bg-primary/5" | "bg-white" | null;
+  } | {
+    _type: "servicesCarouselSection";
+    _key: string;
+    title: string | null;
+    subtitle: string | null;
+    badge: string | null;
+    showAllServices: boolean | null;
+    selectedServices: Array<{
+      _id: string;
+      title: string;
+      description: string;
+      icon: null;
+      link: null;
+      image: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt: string;
+        _type: "image";
+      } | null;
+    }>;
+    backgroundColor: "bg-gray-50" | "bg-primary/5" | "bg-white" | null;
+  } | {
+    _type: "servicesCarouselSection";
+    _key: string;
+    title: string | null;
+    subtitle: string | null;
+    badge: string | null;
+    showAllServices: boolean | null;
+    selectedServices: Array<{
+      _id: string;
+      title: string;
+      description: string;
+      icon: null;
+      link: null;
+      image: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt: string;
+        _type: "image";
+      } | null;
+    }> | null;
+    backgroundColor: "bg-gray-50" | "bg-primary/5" | "bg-white" | null;
+  } | {
+    _type: "servicesCarouselSection";
+    _key: string;
+    title: string | null;
+    subtitle: string | null;
+    badge: string | null;
+    showAllServices: boolean | null;
+    backgroundColor: "bg-gray-50" | "bg-primary/5" | "bg-white" | null;
+  } | {
+    _type: "socialConnectSection";
+    _key: string;
+    title: string | null;
+    subtitle: string | null;
+    badge: string | null;
+    description: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        linkType?: "href" | "page" | "post";
+        href?: string;
+        page?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "page";
+        };
+        post?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "post";
+        };
+        openInNewTab?: boolean;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      _key: string;
+    }> | null;
+    socialLinks: Array<{
+      platform: "facebook" | "instagram" | "linkedin" | "tiktok" | "twitter" | "youtube";
+      url: string;
+      label: string | null;
+    }> | null;
+    backgroundColor: "bg-gray-50" | "bg-primary/5" | "bg-white" | null;
+  } | {
+    _type: "therapistSection";
+    _key: string;
+    title: string | null;
+    showAllTherapists: boolean | null;
+    selectedTherapists: Array<{
+      _id: string;
+      name: string;
+      slug: Slug;
+      mainImage: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+      };
+      description: string;
+      topics: Array<string>;
+    }>;
+    backgroundColor: "bg-gray-50" | "bg-primary/5" | "bg-white" | null;
+  } | {
+    _type: "therapistSection";
+    _key: string;
+    title: string | null;
+    showAllTherapists: boolean | null;
+    selectedTherapists: Array<{
+      _id: string;
+      name: string;
+      slug: Slug;
+      mainImage: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+      };
+      description: string;
+      topics: Array<string>;
+    }> | null;
+    backgroundColor: "bg-gray-50" | "bg-primary/5" | "bg-white" | null;
+  } | {
+    _type: "therapistSection";
+    _key: string;
+    title: string | null;
+    showAllTherapists: boolean | null;
+    backgroundColor: "bg-gray-50" | "bg-primary/5" | "bg-white" | null;
+  } | {
+    _type: "videoSection";
+    _key: string;
+    video: {
+      _id: string;
+      title: string;
+      description: string;
+      videoFile: {
+        asset: {
+          _id: string;
+          url: string | null;
+        } | null;
+      };
+    };
+    autoplay: boolean | null;
+    showControls: boolean | null;
+    loop: boolean | null;
+  }> | null;
+} | null;
 
 // Source: ./sanity/queries/homepagePictures.ts
 // Variable: homepagePicturesQuery
@@ -718,7 +1429,7 @@ export type NewsAndEventsQueryResult = {
 
 // Source: ./sanity/queries/pages.ts
 // Variable: getPageQuery
-// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {   link {    ...,      _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }  } },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{ ...,   _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  } }        }      },    },  }
+// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {   link {    ...,      _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }  } },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{ ...,   _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  } }        }      },      _type == "heroSectionCarousel" => {        ...,        images[]{          ...,          asset->{            ...,            _id,            url          }        }      },      _type == "quoteSection" => {        ...      },      _type == "therapistSection" => {        ...,        selectedTherapists[]->{          _id,          name,          slug,          description,          topics,          mainImage{            ...,            asset->{              ...,              _id,              url            }          }        }      },      _type == "videoSection" => {        ...,        video->{          _id,          title,          description,          videoFile{            asset->{              ...,              _id,              url            }          }        }      },      _type == "servicesCarouselSection" => {        ...,        selectedServices[]->{          _id,          title,          description,          image{            ...,            asset->{              ...,              _id,              url            }          },          slug        }      },      _type == "howItWorksSection" => {        ...      },      _type == "calendarSection" => {        ...      },      _type == "socialConnectSection" => {        ...      },      _type == "contactSection" => {        ...,        gdprDocument->{          _id,          title,          content        }      },    },  }
 export type GetPageQueryResult = {
   _id: string;
   _type: "page";
@@ -727,6 +1438,59 @@ export type GetPageQueryResult = {
   heading: string;
   subheading: string | null;
   pageBuilder: Array<{
+    _key: string;
+    _type: "calendarSection";
+    title?: string;
+    subtitle?: string;
+    badge?: string;
+    description?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        linkType?: "href" | "page" | "post";
+        href?: string;
+        page?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "page";
+        };
+        post?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "post";
+        };
+        openInNewTab?: boolean;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      _key: string;
+    }>;
+    backgroundColor?: "bg-gray-50" | "bg-primary/5" | "bg-white";
+    showBookButton?: boolean;
+  } | {
     _key: string;
     _type: "callToAction";
     heading: string;
@@ -740,6 +1504,96 @@ export type GetPageQueryResult = {
       post: string | null;
       openInNewTab?: boolean;
     } | null;
+  } | {
+    _key: string;
+    _type: "contactSection";
+    title?: string;
+    subtitle?: string;
+    badge?: string;
+    description?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        linkType?: "href" | "page" | "post";
+        href?: string;
+        page?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "page";
+        };
+        post?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "post";
+        };
+        openInNewTab?: boolean;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      _key: string;
+    }>;
+    showContactForm?: boolean;
+    gdprDocument: {
+      _id: string;
+      title: string;
+      content: null;
+    } | null;
+    backgroundColor?: "bg-gray-50" | "bg-primary/5" | "bg-white";
+  } | {
+    _key: string;
+    _type: "heroSection";
+    heading: string;
+    subheading: string;
+    badge?: string;
+    images?: Array<{
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      _key: string;
+    }>;
+    showBookButton?: boolean;
+  } | {
+    _key: string;
+    _type: "howItWorksSection";
+    badge?: string;
+    title: string;
+    steps?: Array<{
+      title: string;
+      description: string;
+      _key: string;
+    }>;
+    backgroundColor?: "bg-gray-200" | "bg-gray-50" | "bg-primary/5" | "bg-white";
   } | {
     _key: string;
     _type: "infoSection";
@@ -781,6 +1635,189 @@ export type GetPageQueryResult = {
       _key: string;
       markDefs: null;
     }> | null;
+  } | {
+    _key: string;
+    _type: "quoteSection";
+    quote: string;
+    author?: string;
+    backgroundColor?: "bg-gray-50" | "bg-primary/5" | "bg-white";
+  } | {
+    _key: string;
+    _type: "servicesCarouselSection";
+    title?: string;
+    subtitle?: string;
+    badge?: string;
+    showAllServices?: boolean;
+    selectedServices: Array<{
+      _id: string;
+      title: string;
+      description: string;
+      image: {
+        asset: {
+          _id: string;
+          _type: "sanity.imageAsset";
+          _createdAt: string;
+          _updatedAt: string;
+          _rev: string;
+          originalFilename?: string;
+          label?: string;
+          title?: string;
+          description?: string;
+          altText?: string;
+          sha1hash?: string;
+          extension?: string;
+          mimeType?: string;
+          size?: number;
+          assetId?: string;
+          uploadId?: string;
+          path?: string;
+          url: string | null;
+          metadata?: SanityImageMetadata;
+          source?: SanityAssetSourceData;
+        } | null;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt: string;
+        _type: "image";
+      } | null;
+      slug: null;
+    }> | null;
+    backgroundColor?: "bg-gray-50" | "bg-primary/5" | "bg-white";
+  } | {
+    _key: string;
+    _type: "socialConnectSection";
+    title?: string;
+    subtitle?: string;
+    badge?: string;
+    description?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        linkType?: "href" | "page" | "post";
+        href?: string;
+        page?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "page";
+        };
+        post?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "post";
+        };
+        openInNewTab?: boolean;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      _key: string;
+    }>;
+    socialLinks?: Array<{
+      platform: "facebook" | "instagram" | "linkedin" | "tiktok" | "twitter" | "youtube";
+      url: string;
+      label?: string;
+      _key: string;
+    }>;
+    backgroundColor?: "bg-gray-50" | "bg-primary/5" | "bg-white";
+  } | {
+    _key: string;
+    _type: "therapistSection";
+    title?: string;
+    showAllTherapists?: boolean;
+    selectedTherapists: Array<{
+      _id: string;
+      name: string;
+      slug: Slug;
+      description: string;
+      topics: Array<string>;
+      mainImage: {
+        asset: {
+          _id: string;
+          _type: "sanity.imageAsset";
+          _createdAt: string;
+          _updatedAt: string;
+          _rev: string;
+          originalFilename?: string;
+          label?: string;
+          title?: string;
+          description?: string;
+          altText?: string;
+          sha1hash?: string;
+          extension?: string;
+          mimeType?: string;
+          size?: number;
+          assetId?: string;
+          uploadId?: string;
+          path?: string;
+          url: string | null;
+          metadata?: SanityImageMetadata;
+          source?: SanityAssetSourceData;
+        } | null;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+      };
+    }> | null;
+    backgroundColor?: "bg-gray-50" | "bg-primary/5" | "bg-white";
+  } | {
+    _key: string;
+    _type: "videoSection";
+    video: {
+      _id: string;
+      title: string;
+      description: string;
+      videoFile: {
+        asset: {
+          _id: string;
+          _type: "sanity.fileAsset";
+          _createdAt: string;
+          _updatedAt: string;
+          _rev: string;
+          originalFilename?: string;
+          label?: string;
+          title?: string;
+          description?: string;
+          altText?: string;
+          sha1hash?: string;
+          extension?: string;
+          mimeType?: string;
+          size?: number;
+          assetId?: string;
+          uploadId?: string;
+          path?: string;
+          url: string | null;
+          source?: SanityAssetSourceData;
+        } | null;
+      };
+    };
+    autoplay?: boolean;
+    showControls?: boolean;
+    loop?: boolean;
   }> | null;
 } | null;
 // Variable: pagesSlugs
@@ -1307,12 +2344,13 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "\n  *[_type == \"faq\"] | order(order asc, question asc) {\n    _id,\n    question,\n    answer,\n    category,\n    order,\n    _createdAt,\n    _updatedAt\n  }\n": AllFaqsQueryResult;
+    "*[_type == \"homepage\"][0] {\n  _id,\n  _type,\n  title,\n  description,\n  pageBuilder[] {\n    _type,\n    _key,\n    _type == \"heroSectionCarousel\" => {\n      heading,\n      subheading,\n      badge,\n      images[],\n      showBookButton\n    },\n    _type == \"quoteSection\" => {\n      quote,\n      author,\n      backgroundColor\n    },\n    _type == \"therapistSection\" => {\n      title,\n      showAllTherapists,\n      showAllTherapists == true => {\n        \"selectedTherapists\": *[_type == \"person\"] | order(_createdAt asc) {\n          _id,\n          name,\n          slug,\n          mainImage,\n          description,\n          topics[]\n        }\n      },\n      showAllTherapists != true => {\n        selectedTherapists[]-> {\n          _id,\n          name,\n          slug,\n          mainImage,\n          description,\n          topics[]\n        }\n      },\n      backgroundColor\n    },\n    _type == \"videoSection\" => {\n      video-> {\n        _id,\n        title,\n        description,\n        videoFile {\n          asset-> {\n            _id,\n            url\n          }\n        }\n      },\n      autoplay,\n      showControls,\n      loop\n    },\n    _type == \"servicesCarouselSection\" => {\n      title,\n      subtitle,\n      badge,\n      showAllServices,\n      showAllServices == true => {\n        \"selectedServices\": *[_type == \"homepageService\"] | order(_createdAt desc) {\n          _id,\n          title,\n          description,\n          icon,\n          link,\n          image,\n        }\n      },\n      showAllServices != true => {\n        selectedServices[]-> {\n          _id,\n          title,\n          description,\n          icon,\n          link,\n          image,\n        }\n      },\n      backgroundColor\n    },\n    _type == \"howItWorksSection\" => {\n      badge,\n      title,\n      steps[] {\n        title,\n        description\n      },\n      backgroundColor\n    },\n    _type == \"calendarSection\" => {\n      title,\n      subtitle,\n      badge,\n      description,\n      backgroundColor,\n      showBookButton\n    },\n    _type == \"socialConnectSection\" => {\n      title,\n      subtitle,\n      badge,\n      description,\n      socialLinks[] {\n        platform,\n        url,\n        label\n      },\n      backgroundColor\n    },\n    _type == \"contactSection\" => {\n      title,\n      subtitle,\n      badge,\n      description,\n      showContactForm,\n      gdprDocument-> {\n        _id,\n        title,\n        file {\n          asset-> {\n            _id,\n            url\n          }\n        }\n      },\n      backgroundColor\n    },\n    _type == \"callToAction\" => {\n      heading,\n      text,\n      buttonText,\n      link {\n        linkType,\n        href,\n        reference-> {\n          _type,\n          slug\n        }\n      }\n    },\n    _type == \"infoSection\" => {\n      heading,\n      subheading,\n      content\n    }\n  }\n}": HomepageQueryResult;
     "\n    *[_type == \"homepagePicture\"][0]\n": HomepagePicturesQueryResult;
     "\n  *[_type == \"legalDocument\"] | order(title asc) {\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_rev\n  }\n": AllLegalDocumentsQueryResult;
     "\n  *[_type == \"legalDocument\" && tag == \"gdpr-consent\"][0]{\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": GdprQueryResult;
     "\n  *[_type == \"legalDocument\" && tag == \"TandC\"][0]{\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": TermsAndConditionsQueryResult;
     "\n    *[_type == \"newAndEvent\"][0]\n": NewsAndEventsQueryResult;
-    "\n  *[_type == 'page' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    \"pageBuilder\": pageBuilder[]{\n      ...,\n      _type == \"callToAction\" => { \n  link {\n    ...,\n    \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n  }\n },\n      _type == \"infoSection\" => {\n        content[]{\n          ...,\n          markDefs[]{ ..., \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n }\n        }\n      },\n    },\n  }\n": GetPageQueryResult;
+    "\n  *[_type == 'page' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    \"pageBuilder\": pageBuilder[]{\n      ...,\n      _type == \"callToAction\" => { \n  link {\n    ...,\n    \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n  }\n },\n      _type == \"infoSection\" => {\n        content[]{\n          ...,\n          markDefs[]{ ..., \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n }\n        }\n      },\n      _type == \"heroSectionCarousel\" => {\n        ...,\n        images[]{\n          ...,\n          asset->{\n            ...,\n            _id,\n            url\n          }\n        }\n      },\n      _type == \"quoteSection\" => {\n        ...\n      },\n      _type == \"therapistSection\" => {\n        ...,\n        selectedTherapists[]->{\n          _id,\n          name,\n          slug,\n          description,\n          topics,\n          mainImage{\n            ...,\n            asset->{\n              ...,\n              _id,\n              url\n            }\n          }\n        }\n      },\n      _type == \"videoSection\" => {\n        ...,\n        video->{\n          _id,\n          title,\n          description,\n          videoFile{\n            asset->{\n              ...,\n              _id,\n              url\n            }\n          }\n        }\n      },\n      _type == \"servicesCarouselSection\" => {\n        ...,\n        selectedServices[]->{\n          _id,\n          title,\n          description,\n          image{\n            ...,\n            asset->{\n              ...,\n              _id,\n              url\n            }\n          },\n          slug\n        }\n      },\n      _type == \"howItWorksSection\" => {\n        ...\n      },\n      _type == \"calendarSection\" => {\n        ...\n      },\n      _type == \"socialConnectSection\" => {\n        ...\n      },\n      _type == \"contactSection\" => {\n        ...,\n        gdprDocument->{\n          _id,\n          title,\n          content\n        }\n      },\n    },\n  }\n": GetPageQueryResult;
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
     "\n  *[_type == \"page\" || _type == \"post\" && defined(slug.current)]\n  | order(_type asc) {\n    \"slug\": slug.current,\n    _type,\n    _updatedAt\n  }\n": SitemapDataResult;
     "*[_type == \"settings\"][0]": SettingsQueryResult;

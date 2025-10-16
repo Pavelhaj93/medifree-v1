@@ -6,3 +6,4 @@ export * from "./products";
 export * from "./videos";
 export * from "./services";
 export * from "./legal";
+export * from "./homepage";
