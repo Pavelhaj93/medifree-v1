@@ -20,7 +20,13 @@ export default async function BlogFeaturedArticle() {
           <div className="relative h-[400px] rounded-2xl overflow-hidden">
             <Link href={`/clanky/${featuredArticle?.slug}`}>
               <Image
-                src="/images/blog/depression.png"
+                src={
+                  urlForImage(featuredArticle?.coverImage)
+                    ?.height(720)
+                    .width(1280)
+                    .auto("format")
+                    .url() as string
+                }
                 alt="Featured article"
                 fill
                 className="object-cover"
