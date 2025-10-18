@@ -23,7 +23,7 @@ export default function SocialConnectSection() {
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <Link
+              {/* <Link
                 href="#"
                 className="bg-white text-black rounded-full px-5 py-2.5 flex items-center hover:shadow border border-black transition"
               >
@@ -35,7 +35,7 @@ export default function SocialConnectSection() {
                   className="mr-2"
                 />
                 HeroHero
-              </Link>
+              </Link> */}
 
               <Link
                 href={sharedInstagram}

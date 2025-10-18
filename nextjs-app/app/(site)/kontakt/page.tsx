@@ -1,6 +1,7 @@
 import HeroSection from "@/app/components/others/HeroSection";
 import ContactFAQSection from "@/app/components/sections/contact/ContactFAQSection";
 import ContactSection from "@/app/components/sections/homepage/ContactSection";
+import ServicesCtaSection from "@/app/components/sections/services/ServicesCtaSection";
 import { sanityFetch } from "@/sanity/lib/live";
 import { gdprQuery } from "@/sanity/queries";
 
@@ -24,6 +25,7 @@ export default async function ContactPage() {
       />
       <ContactSection gdpr={gdpr} />
       <ContactFAQSection />
+      <ServicesCtaSection />
     </div>
   );
 }

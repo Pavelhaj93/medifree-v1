@@ -15,6 +15,7 @@ import { HomepageVideoSection } from "@/app/components/sections/homepage/Homepag
 import { ServicesCarouselSection } from "../components/sections/homepage/SevicesCarouselSection";
 import { homepagePicturesQuery } from "@/sanity/queries/homepagePictures";
 import HeroSectionCarousel from "../components/sections/homepage/HeroSectionCarousel";
+import ServicesCtaSection from "../components/sections/services/ServicesCtaSection";
 
 // type Props = {
 //   params: Promise<{ slug: string }>;
@@ -84,7 +85,7 @@ export default async function Page() {
       <HomepageVideoSection video={video} />
       <ServicesCarouselSection services={homepageServices} />
       <HowItWorksSection />
-      <CalendarSection />
+      <ServicesCtaSection className="bg-white" />
       <SocialConnectSection />
       <ContactSection gdpr={gdpr} className="bg-white" />
       {/* <PageBuilderPage page={page as GetPageQueryResult} /> */}
