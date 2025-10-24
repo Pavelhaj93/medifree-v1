@@ -41,7 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${title}`,
       default: title,
     },
-    description: "test",
+    description: toPlainText(description),
     openGraph: {
       images: ogImage ? [ogImage] : [],
     },
@@ -85,7 +85,7 @@ export default async function RootLayout({
         )}
         {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
         <SanityLive onError={handleError} />
-        <main className="bg-white">{children}</main>
+        <main className="bg-white min-h-screen">{children}</main>
       </body>
     </html>
   );

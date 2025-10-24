@@ -13,6 +13,10 @@ export default async function BlogFeaturedArticle() {
     query: firstPostQuery,
   });
 
+  if (!featuredArticle) {
+    return null;
+  }
+
   return (
     <section className="bg-gray-50 py-8 md:py-16">
       <div className="container mx-auto px-4 md:px-10">

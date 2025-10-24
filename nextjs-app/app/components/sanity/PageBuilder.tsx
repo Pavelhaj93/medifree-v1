@@ -3,7 +3,6 @@
 import type { SanityDocument } from "next-sanity";
 import { useOptimistic } from "next-sanity/hooks";
 import Link from "next/link";
-
 import BlockRenderer from "@/app/components/sanity/BlockRenderer";
 import type { GetPageQueryResult } from "@/sanity.types";
 import { dataAttr } from "@/sanity/lib/utils";

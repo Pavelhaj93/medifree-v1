@@ -17,6 +17,7 @@ import { personQuery } from "@/sanity/queries";
 import { urlForImage } from "@/sanity/lib/utils";
 import { PortableText, PortableTextBlock } from "next-sanity";
 import CustomPortableText from "../../sanity/PortableText";
+import Link from "next/link";
 
 export default async function AboutUsTherapistSection() {
   const { data: radim } = await sanityFetch({
@@ -127,9 +128,11 @@ export default async function AboutUsTherapistSection() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button>
-                  Domluvit konzultaci s Radimem
-                  <ArrowRight className="h-4 w-4 ml-2" />
+                <Button asChild>
+                  <Link href="https://cal.com/medifree">
+                    Domluvit konzultaci s Radimem
+                    <ArrowRight className="h-4 w-4 ml-2" />
+                  </Link>
                 </Button>
                 {/* <Button
                 variant="outline"
@@ -291,9 +294,11 @@ export default async function AboutUsTherapistSection() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button variant="tertiary" className="rounded-full">
-                  Domluvit konzultaci s Míšou
-                  <ArrowRight className="h-4 w-4 ml-2" />
+                <Button variant="tertiary" asChild>
+                  <Link href="https://cal.com/medifree">
+                    Domluvit konzultaci s Míšou
+                    <ArrowRight className="h-4 w-4 ml-2" />
+                  </Link>
                 </Button>
                 {/* <Button
                   variant="outline"

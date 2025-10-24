@@ -19,7 +19,7 @@ const ServicesGallerySection = async () => {
         <Badge variant="primary" className="mb-4">
           GALERIE
         </Badge>
-        <h3 className="text-3xl font-medium mb-6">Medifreee v akci</h3>
+        <h3 className="text-3xl font-medium mb-6">Medifree v akci</h3>
         <p className="text-gray-600 mb-8 text-center">
           Pár fotek z našich služeb a akcí, které jsme pro vás připravili.
         </p>
