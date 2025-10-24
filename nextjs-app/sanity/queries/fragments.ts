@@ -28,6 +28,14 @@ export const baseProductFields = /* groq */ `
   description,
   featured,
   category,
+  ebookFile {
+    asset->{
+      _id,
+      url,
+      originalFilename,
+      mimeType
+    }
+  },
   _createdAt,
   _updatedAt,
   _rev,

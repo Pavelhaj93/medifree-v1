@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../../ui/Button";
 import { ArrowLeft, CreditCard, ShoppingCart, Trash2 } from "lucide-react";
 import { useCart } from "@/app/context/cartContext";
@@ -9,6 +9,7 @@ import Image from "next/image";
 import { Input } from "../../ui/Input";
 import { urlForImage } from "@/sanity/lib/utils";
 import { GdprQueryResult, TermsAndConditionsQueryResult } from "@/sanity.types";
+import { toast } from "sonner";
 
 const CartClient = ({
   gdpr,
@@ -18,13 +19,23 @@ const CartClient = ({
   termsAndConditions: TermsAndConditionsQueryResult;
 }) => {
   const { items, removeItem, clearCart, subtotal, tax, total } = useCart();
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   const handleCheckout = async () => {
+    if (!customerEmail || !customerEmail.includes("@")) {
+      toast.error(
+        "Prosím zadejte platnou emailovou adresu pro doručení ebooků."
+      );
+      return;
+    }
+
+    setIsCheckingOut(true);
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items }),
+        body: JSON.stringify({ items, customerEmail }),
       });
       const data = await res.json();
       if (data.url) {
@@ -32,6 +43,9 @@ const CartClient = ({
       }
     } catch (err) {
       console.error(err);
+      toast.error("Nastala chyba při přesměrování na platbu.");
+    } finally {
+      setIsCheckingOut(false);
     }
   };
 
@@ -177,9 +191,34 @@ const CartClient = ({
               </div>
 
               <div className="p-6 bg-gray-50">
-                <Button className="w-full mb-4" onClick={handleCheckout}>
+                <div className="mb-4">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Email pro doručení ebooků *
+                  </label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="vas.email@priklad.cz"
+                    value={customerEmail}
+                    onChange={(e) => setCustomerEmail(e.target.value)}
+                    required
+                    className="w-full"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Na tento email Vám zašleme zakoupené ebooky
+                  </p>
+                </div>
+
+                <Button
+                  className="w-full mb-4"
+                  onClick={handleCheckout}
+                  disabled={isCheckingOut || !customerEmail}
+                >
                   <CreditCard className="h-4 w-4 mr-2" />
-                  Pokračovat k platbě
+                  {isCheckingOut ? "Přesměrovávání..." : "Pokračovat k platbě"}
                 </Button>
 
                 <p className="text-xs text-gray-500 text-center">

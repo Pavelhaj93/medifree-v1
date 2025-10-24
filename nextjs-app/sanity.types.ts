@@ -1129,7 +1129,7 @@ export type PostPagesSlugsResult = Array<{
 
 // Source: ./sanity/queries/products.ts
 // Variable: allProductsQuery
-// Query: *[_type == "product"] | order(name asc) {   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  _createdAt,  _updatedAt,  _rev,  _type }
+// Query: *[_type == "product"] | order(name asc) {   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  ebookFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  _createdAt,  _updatedAt,  _rev,  _type }
 export type AllProductsQueryResult = Array<{
   _id: string;
   title: string;
@@ -1148,13 +1148,14 @@ export type AllProductsQueryResult = Array<{
   description: string;
   featured: boolean | null;
   category: "Ebooky" | "Video kurzy";
+  ebookFile: null;
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   _type: "product";
 }>;
 // Variable: featuredProductQuery
-// Query: *[_type == "product" && featured == true][0]{   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  _createdAt,  _updatedAt,  _rev,  _type }
+// Query: *[_type == "product" && featured == true][0]{   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  ebookFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  _createdAt,  _updatedAt,  _rev,  _type }
 export type FeaturedProductQueryResult = {
   _id: string;
   title: string;
@@ -1173,6 +1174,7 @@ export type FeaturedProductQueryResult = {
   description: string;
   featured: boolean | null;
   category: "Ebooky" | "Video kurzy";
+  ebookFile: null;
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -1323,8 +1325,8 @@ declare module "@sanity/client" {
     "*[_type == \"post\" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc)[0...$limit]{\n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture, slug},\n}": MorePostsQueryResult;
     "*[_type == \"post\" && slug.current == $slug][0]{content[]{...,markDefs[]{...,\n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n}},\n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{name, specialization, picture, slug},\n}": PostQueryResult;
     "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostPagesSlugsResult;
-    "*[_type == \"product\"] | order(name asc) { \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }": AllProductsQueryResult;
-    "*[_type == \"product\" && featured == true][0]{ \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }": FeaturedProductQueryResult;
+    "*[_type == \"product\"] | order(name asc) { \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  ebookFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }": AllProductsQueryResult;
+    "*[_type == \"product\" && featured == true][0]{ \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  ebookFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }": FeaturedProductQueryResult;
     "\n    *[_type == \"serviceGallery\"][0]\n": ServiceGalleriesQueryResult;
     "\n  *[_type == \"service\"] | order(title asc) {\n    _id,title,tag,description,content,price,priceType,image,\n    _createdAt,_updatedAt,_type,_rev\n  }\n": AllServicesQueryResult;
     "\n  *[_type == \"homepageService\"] | order(title asc) {\n    _id,title,description,image,\n    _createdAt,_updatedAt,_type,_rev\n  }\n": AllHomepageServicesQueryResult;

@@ -16,6 +16,8 @@ import { ServicesCarouselSection } from "../components/sections/homepage/Sevices
 import { homepagePicturesQuery } from "@/sanity/queries/homepagePictures";
 import HeroSectionCarousel from "../components/sections/homepage/HeroSectionCarousel";
 import ServicesCtaSection from "../components/sections/services/ServicesCtaSection";
+import CheckoutSuccessHandler from "../components/CheckoutSuccessHandler";
+import { Suspense } from "react";
 
 // type Props = {
 //   params: Promise<{ slug: string }>;
@@ -79,6 +81,9 @@ export default async function Page() {
 
   return (
     <>
+      <Suspense fallback={null}>
+        <CheckoutSuccessHandler />
+      </Suspense>
       <HeroSectionCarousel pictures={homepageCarouselPictures} />
       <MiddleSection />
       <TherapistSection />

@@ -7,7 +7,7 @@ import AddToCartButton from "../../others/AddToCartButton";
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl hover:scale-105 transition-all duration-300 group">
+    <div className="bg-white rounded-xl shadow-md overflow-hidden">
       <div className="relative h-[200px]">
         <Image
           src={
@@ -19,7 +19,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           }
           alt={product?.image?.alt ?? product?.title ?? ""}
           fill
-          className="object-cover w-full group-hover:scale-110 transition-transform duration-500"
+          className="object-cover w-full"
         />
         {product?.featured && (
           <Badge size="sm" variant="primary" className="absolute top-2 left-2">

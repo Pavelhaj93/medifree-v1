@@ -62,6 +62,17 @@ export const product = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'ebookFile',
+      title: 'Ebook File',
+      type: 'file',
+      description:
+        'Upload the ebook file (PDF, EPUB, etc.) that will be sent to customers after purchase',
+      options: {
+        accept: '.pdf,.epub,.mobi',
+      },
+      hidden: ({document}) => document?.category !== 'Ebooky',
+    }),
+    defineField({
       name: 'featured',
       title: 'Featured',
       type: 'boolean',

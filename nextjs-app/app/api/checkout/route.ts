@@ -10,14 +10,27 @@ console.log(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(req: NextRequest) {
   try {
-    const { items }: { items: (Product & { quantity: number })[] } =
-      await req.json();
+    const {
+      items,
+      customerEmail,
+    }: {
+      items: (Product & { quantity: number })[];
+      customerEmail?: string;
+    } = await req.json();
+
+    // Get the base URL from the request
+    const baseUrl =
+      process.env.NODE_ENV === "production"
+        ? "https://www.medifree.cz"
+        : `${req.nextUrl.protocol}//${req.nextUrl.host}`;
 
     const params: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: ["card"],
       mode: "payment",
-      success_url: "https://medifree-v1-nextjs-app.vercel.app/",
-      cancel_url: "https://medifree-v1-nextjs-app.vercel.app/",
+      success_url: `${baseUrl}/?checkout=success`,
+      cancel_url: `${baseUrl}/`,
+      customer_email: customerEmail,
+      billing_address_collection: "required",
       line_items: items.map((item) => ({
         price_data: {
           currency: "czk",
@@ -25,6 +38,10 @@ export async function POST(req: NextRequest) {
             name: item.title,
             // @ts-ignore
             images: [urlForImage(item.image).url()!],
+            metadata: {
+              product_id: item._id,
+              category: item.category,
+            },
           },
           unit_amount: item.price * 100,
         },
