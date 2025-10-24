@@ -84,8 +84,8 @@ export default async function Page() {
       {/* <HomepageVideoSection video={video} /> */}
       <ServicesCarouselSection services={homepageServices} />
       <HowItWorksSection />
-      <TherapistSection />
       <ServicesCtaSection className="bg-white" />
+      <TherapistSection />
       <SocialConnectSection />
       <ContactSection gdpr={gdpr} className="bg-white" />
       {/* <PageBuilderPage page={page as GetPageQueryResult} /> */}
