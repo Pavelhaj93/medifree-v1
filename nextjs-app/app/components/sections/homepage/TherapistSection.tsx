@@ -60,7 +60,7 @@ function Therapist({ person, reverse = false, pink }: TherapistProps) {
           <Badge variant={pink ? "tertiary" : "primary"}>O nás</Badge>
         </div>
         <div
-          className={`relative h-[400px] rounded-2xl overflow-hidden ${
+          className={`relative h-[400px] rounded-2xl overflow-hidden opacity-0 animate-fade-in-up animation-delay-200 ${
             reverse ? "md:order-2" : ""
           }`}
         >
@@ -117,7 +117,7 @@ function Therapist({ person, reverse = false, pink }: TherapistProps) {
             </h3>
           </div>
         </div>
-        <div className="flex flex-col justify-between h-full">
+        <div className="flex flex-col justify-between h-full opacity-0 animate-fade-in-up animation-delay-400">
           <div className="mb-4 hidden md:block">
             <Badge variant={pink ? "tertiary" : "primary"}>O nás</Badge>
           </div>

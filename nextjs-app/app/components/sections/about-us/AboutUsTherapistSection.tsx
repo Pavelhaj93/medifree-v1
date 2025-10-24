@@ -37,7 +37,7 @@ export default async function AboutUsTherapistSection() {
         <div className="container mx-auto px-4 md:px-10 py-8 md:py-16">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Left side - Image and credentials */}
-            <div className="space-y-6">
+            <div className="space-y-6 opacity-0 animate-fade-in-up">
               <div className="relative h-[500px] rounded-2xl overflow-hidden">
                 <Image
                   src={
@@ -49,7 +49,7 @@ export default async function AboutUsTherapistSection() {
                   }
                   alt={radim?.name || "Therapist"}
                   fill
-                  className="object-cover"
+                  className="object-cover hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="bg-white/90 backdrop-blur-xs rounded-xl p-4">
@@ -69,7 +69,7 @@ export default async function AboutUsTherapistSection() {
               </div>
 
               {/* Credentials and certifications */}
-              <div className="bg-gray-50 rounded-xl p-6">
+              <div className="bg-gray-50 rounded-xl p-6 opacity-0 animate-fade-in animation-delay-400">
                 <h3 className="font-medium text-lg mb-4">
                   Odborné kvalifikace a certifikace
                 </h3>
@@ -91,7 +91,7 @@ export default async function AboutUsTherapistSection() {
             </div>
 
             {/* Right side - About text */}
-            <div className="space-y-6">
+            <div className="space-y-6 opacity-0 animate-fade-in-up animation-delay-200">
               <div>
                 <h2 className="text-3xl font-medium mb-2">{radim?.name}</h2>
                 <p className="text-primary font-medium mb-4">

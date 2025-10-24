@@ -17,7 +17,7 @@ export default async function BlogFeaturedArticle() {
     <section className="bg-gray-50 py-8 md:py-16">
       <div className="container mx-auto px-4 md:px-10">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="relative h-[400px] rounded-2xl overflow-hidden">
+          <div className="relative h-[400px] rounded-2xl overflow-hidden opacity-0 animate-fade-in-up">
             <Link href={`/clanky/${featuredArticle?.slug}`}>
               <Image
                 src={
@@ -29,14 +29,14 @@ export default async function BlogFeaturedArticle() {
                 }
                 alt="Featured article"
                 fill
-                className="object-cover"
+                className="object-cover hover:scale-105 transition-transform duration-500"
               />
             </Link>
             <div className="absolute top-4 left-4">
               <Badge variant="primary">Doporučené</Badge>
             </div>
           </div>
-          <div>
+          <div className="opacity-0 animate-fade-in-up animation-delay-200">
             <div className="flex items-center gap-4 mb-4">
               <Badge variant="primary" className="rounded-full">
                 {featuredArticle?.category}

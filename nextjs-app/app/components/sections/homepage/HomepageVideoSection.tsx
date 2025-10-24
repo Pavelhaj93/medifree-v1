@@ -29,6 +29,8 @@ export const HomepageVideoSection = ({
     const vid = desktopVideoRef.current;
     if (!vid) return;
 
+    vid.volume = 0.2;
+
     if (isInView) {
       // Attempt to start playback when visible
       vid.play().catch((err) => {
@@ -41,7 +43,10 @@ export const HomepageVideoSection = ({
   }, [isInView]);
 
   return (
-    <section id="videoSection" className="relative w-full overflow-hidden">
+    <section
+      id="videoSection"
+      className="relative w-full overflow-hidden opacity-0 animate-fade-in"
+    >
       {video?.videoFile?.asset?.url && (
         <video
           ref={desktopVideoRef}

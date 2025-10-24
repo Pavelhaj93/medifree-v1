@@ -31,7 +31,7 @@ export default function BlogArticleGridClient({
   return (
     <section className="py-8 md:py-16" id="vsechny-clanky">
       <div className="container mx-auto px-4 md:px-10">
-        <div className="flex justify-between flex-col md:flex-row md:items-center gap-4 mb-6 md:mb-12">
+        <div className="flex justify-between flex-col md:flex-row md:items-center gap-4 mb-6 md:mb-12 opacity-0 animate-fade-in">
           <h2 className="text-2xl font-medium">Nejnovější články</h2>
           <div className="flex gap-2 overflow-x-auto py-2 pr-1">
             <Button
@@ -53,7 +53,7 @@ export default function BlogArticleGridClient({
         </div>
 
         {/* Articles */}
-        <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-8 opacity-0 animate-fade-in animation-delay-400">
           {visiblePosts.map((article) => (
             <BlogArticleGridItem
               key={article._id}

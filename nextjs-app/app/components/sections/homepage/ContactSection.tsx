@@ -77,7 +77,7 @@ export default function ContactSection({
 
       <div className="grid md:grid-cols-2 gap-12 container mx-auto px-4 md:px-10">
         {/* Contact Form */}
-        <div className="bg-white p-8 rounded-2xl shadow-xl">
+        <div className="bg-white p-8 rounded-2xl shadow-xl opacity-0 animate-fade-in-up hover:shadow-2xl transition-shadow duration-300">
           <h3 className="text-2xl font-medium mb-6">Napište nám</h3>
           <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -175,7 +175,7 @@ export default function ContactSection({
         </div>
 
         {/* Contact Information */}
-        <div className="flex flex-col py-8 justify-between">
+        <div className="flex flex-col py-8 justify-between opacity-0 animate-fade-in-up animation-delay-200">
           <div>
             <h3 className="text-2xl font-medium mb-6">Kontaktní informace</h3>
             <p className="text-gray-600 mb-8">

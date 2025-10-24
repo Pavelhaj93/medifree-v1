@@ -21,7 +21,7 @@ export default function FeaturedProductSection({
   return (
     <section className="py-8 md:py-16 bg-gray-50">
       <div className="container mx-auto px-4 md:px-10">
-        <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-md overflow-hidden opacity-0 animate-fade-in-up hover:shadow-xl transition-shadow duration-300">
           <div className="grid md:grid-cols-2 gap-8">
             <div className="p-8 md:p-12 flex items-center">
               <div>
@@ -89,7 +89,7 @@ export default function FeaturedProductSection({
             </div>
             <div className="relative md:h-auto bg-gray-50 flex items-center justify-center p-8">
               {featuredProduct.image.asset && (
-                <div className="relative w-[250px] h-[400px] shadow-xl transform rotate-5 transition-transform hover:rotate-0 hover:scale-125">
+                <div className="relative w-[250px] h-[400px] shadow-xl transform rotate-5 transition-all duration-500 hover:rotate-0 hover:scale-110">
                   <Image
                     src={
                       urlForImage(featuredProduct.image)

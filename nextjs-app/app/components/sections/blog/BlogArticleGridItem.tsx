@@ -33,7 +33,7 @@ export default function BlogArticleGridItem({
   });
 
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden">
+    <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl hover:scale-105 transition-all duration-300 group">
       <div className="relative h-[200px]">
         <Image
           src={
@@ -45,7 +45,7 @@ export default function BlogArticleGridItem({
           }
           alt={imageAlt}
           fill
-          className="object-cover"
+          className="object-cover group-hover:scale-110 transition-transform duration-500"
         />
         <div className="absolute top-4 left-4">
           <Badge variant="primary" className="bg-white/80 backdrop-blur-xs">
