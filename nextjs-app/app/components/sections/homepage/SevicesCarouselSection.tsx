@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Card, CardContent } from "@/app/components/ui/Card";
 import {
   Carousel,
@@ -8,6 +8,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/app/components/ui/Carousel";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
@@ -22,11 +23,27 @@ export function ServicesCarouselSection({
   services: AllHomepageServicesQueryResult;
 }) {
   const plugin = useRef(Autoplay({ delay: 4000, stopOnInteraction: true }));
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
 
   return (
     <section className=" bg-gray-50 py-8 md:py-16">
       <div className="container mx-auto px-4 md:px-10">
-        <div className="text-center mb-12">
+        <div className="text-center mb-4">
           <AnimatedSection animation="fade-in" className="mb-6">
             <Badge variant={"primary"}>NAŠE SLUŽBY</Badge>
           </AnimatedSection>
@@ -48,11 +65,60 @@ export function ServicesCarouselSection({
           delay={600}
           className="max-w-7xl mx-auto"
         >
+          {/* Mobile Navigation Arrows */}
+          <div className="flex justify-center gap-4 mb-6 md:hidden">
+            <button
+              onClick={() => api?.scrollPrev()}
+              className="p-3 rounded-full bg-white border border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={!api?.canScrollPrev()}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15 18L9 12L15 6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <span className="sr-only">Previous slide</span>
+            </button>
+            <button
+              onClick={() => api?.scrollNext()}
+              className="p-3 rounded-full bg-white border border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={!api?.canScrollNext()}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9 18L15 12L9 6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <span className="sr-only">Next slide</span>
+            </button>
+          </div>
+
           <Carousel
             plugins={[plugin.current]}
             className="w-full"
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
+            setApi={setApi}
             opts={{
               align: "start",
               loop: true,
@@ -107,6 +173,22 @@ export function ServicesCarouselSection({
             <CarouselPrevious className="hidden md:flex -left-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-lg transition-all duration-300" />
             <CarouselNext className="hidden md:flex -right-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-lg transition-all duration-300" />
           </Carousel>
+
+          {/* Carousel Indicators */}
+          <div className="flex justify-center mt-6 gap-2">
+            {Array.from({ length: count }, (_, index) => (
+              <button
+                key={index}
+                className={`w-2 h-2 rounded-full cursor-pointer transition-all duration-300 ${
+                  index + 1 === current
+                    ? "bg-primary w-8"
+                    : "bg-gray-300 hover:bg-gray-400"
+                }`}
+                onClick={() => api?.scrollTo(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
         </AnimatedSection>
 
         {/* Statistics below carousel */}

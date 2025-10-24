@@ -29,8 +29,8 @@ export default function SocialConnectSection() {
               Buďte součástí naší komunity
             </h2>
             <p className="text-gray-600 mb-8">
-              Sledujte nás na sociálních sítích nebo si nalaďte náš podcast a
-              zůstaňte v obraze s novinkami i inspirací pro zdravý životní styl.
+              Sledujte nás na sociálních sítích a zůstaňte v obraze s novinkami
+              i inspirací pro zdravý životní styl.
             </p>
 
             <div className="flex flex-wrap gap-4">
