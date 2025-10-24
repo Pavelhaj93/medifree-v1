@@ -5,15 +5,27 @@ import { client } from "@/sanity/lib/client";
 import nodemailer from "nodemailer";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 export async function POST(req: NextRequest) {
   try {
+    // Check if webhook secret is configured
+    if (!webhookSecret) {
+      console.error(
+        "STRIPE_WEBHOOK_SECRET is not configured in environment variables"
+      );
+      return NextResponse.json(
+        { error: "Webhook secret not configured" },
+        { status: 500 }
+      );
+    }
+
     const body = await req.text();
     const headersList = await headers();
     const signature = headersList.get("stripe-signature");
 
     if (!signature) {
+      console.error("No stripe-signature header found");
       return NextResponse.json({ error: "No signature" }, { status: 400 });
     }
 
@@ -23,6 +35,8 @@ export async function POST(req: NextRequest) {
       event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
     } catch (err) {
       console.error("Webhook signature verification failed:", err);
+      console.error("Webhook secret exists:", !!webhookSecret);
+      console.error("Signature exists:", !!signature);
       return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
     }
 
