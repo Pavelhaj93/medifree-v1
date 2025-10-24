@@ -27,8 +27,8 @@ export async function POST(req: NextRequest) {
     const params: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: ["card"],
       mode: "payment",
-      success_url: `${baseUrl}/?checkout=success`,
-      cancel_url: `${baseUrl}/`,
+      success_url: `${baseUrl}/uspech?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${baseUrl}/kosik`,
       customer_email: customerEmail,
       billing_address_collection: "required",
       line_items: items.map((item) => ({
