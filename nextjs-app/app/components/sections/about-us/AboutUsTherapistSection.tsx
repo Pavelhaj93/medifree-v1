@@ -347,31 +347,18 @@ export default async function AboutUsTherapistSection() {
                   Odborné kvalifikace a certifikace
                 </h3>
                 <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <Award className="h-5 w-5 text-tertiary" />
-                    <span className="text-sm">
-                      Atestovaná lékařka s praxí na interních a rehabilitačních
-                      klinikách
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <BookOpen className="h-5 w-5 text-tertiary" />
-                    <span className="text-sm">
-                      Specialista na kognitivně-behaviorální terapii
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Heart className="h-5 w-5 text-tertiary" />
-                    <span className="text-sm">
-                      Certifikace v oblasti péče o trauma
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Brain className="h-5 w-5 text-tertiary" />
-                    <span className="text-sm">
-                      Pokročilé školení v oblasti duševního zdraví a wellness
-                    </span>
-                  </div>
+                  {michaela?.certifications?.map((certification, idx) => {
+                    const Icon = iconsSet[idx % iconsSet.length];
+                    return (
+                      <div
+                        className="flex items-center gap-3"
+                        key={certification}
+                      >
+                        <Icon className="h-5 w-5 text-primary" />
+                        <span className="text-sm">{certification}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
