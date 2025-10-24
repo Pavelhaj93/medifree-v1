@@ -182,7 +182,7 @@ export default async function AboutUsTherapistSection() {
           </div> */}
 
           {/* Video Introduction Section */}
-          {radim?.video && (
+          {/* {radim?.video && (
             <div className="mt-16 pt-16 border-t border-gray-200">
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-medium mb-4">
@@ -213,13 +213,13 @@ export default async function AboutUsTherapistSection() {
                     </video>
                   )}
 
-                  {/* Video overlay info */}
-                  {/* <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+                  Video overlay info
+                  <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
                     {radim.video.duration}
-                  </div> */}
+                  </div>
                 </div>
 
-                {/* <div className="text-center mt-6">
+                <div className="text-center mt-6">
                   <h4 className="font-medium text-lg mb-2">
                     Vítejte v Medifree
                   </h4>
@@ -227,10 +227,10 @@ export default async function AboutUsTherapistSection() {
                     Podívejte se na krátké video, kde se s vámi Radim podělí o
                     svou vizi a přístup k péči o vaše zdraví.
                   </p>
-                </div> */}
+                </div>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </section>
       {/* Second Therapist - Dr. Michael Chen */}
@@ -420,7 +420,7 @@ export default async function AboutUsTherapistSection() {
             </div>
           </div> */}
 
-          {michaela?.video && (
+          {/* {michaela?.video && (
             <div className="mt-16 pt-16 border-t border-gray-200">
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-medium mb-4">
@@ -454,13 +454,13 @@ export default async function AboutUsTherapistSection() {
                     </video>
                   )}
 
-                  {/* Video overlay info */}
-                  {/* <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+                  Video overlay info
+                  <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
                     {michaela?.video.duration}
-                  </div> */}
+                  </div>
                 </div>
 
-                {/* <div className="text-center mt-6">
+                <div className="text-center mt-6">
                   <h4 className="font-medium text-lg mb-2">
                     Vítejte v Medifree
                   </h4>
@@ -468,10 +468,10 @@ export default async function AboutUsTherapistSection() {
                     Podívejte se na krátké video, kde se s vámi Míša podělí o
                     svou vizi a přístup k péči o vaše zdraví.
                   </p>
-                </div> */}
+                </div>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </section>
 
