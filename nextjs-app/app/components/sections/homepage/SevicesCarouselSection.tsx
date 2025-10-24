@@ -14,6 +14,7 @@ import Image from "next/image";
 import { AllHomepageServicesQueryResult } from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
 import { Badge } from "../../ui/Badge";
+import { AnimatedSection } from "@/app/components/ui/AnimatedSection";
 
 export function ServicesCarouselSection({
   services,
@@ -26,19 +27,27 @@ export function ServicesCarouselSection({
     <section className=" bg-gray-50 py-8 md:py-16">
       <div className="container mx-auto px-4 md:px-10">
         <div className="text-center mb-12">
-          <div className="mb-6">
+          <AnimatedSection animation="fade-in" className="mb-6">
             <Badge variant={"primary"}>NAŠE SLUŽBY</Badge>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-medium mb-4">
-            Co pro vás můžeme udělat
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Komplexní péče zaměřená na optimalizaci vašeho zdraví a životního
-            stylu
-          </p>
+          </AnimatedSection>
+          <AnimatedSection animation="fade-in-up" delay={200}>
+            <h2 className="text-3xl md:text-4xl font-medium mb-4">
+              Co pro vás můžeme udělat
+            </h2>
+          </AnimatedSection>
+          <AnimatedSection animation="fade-in-up" delay={400}>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Komplexní péče zaměřená na optimalizaci vašeho zdraví a životního
+              stylu
+            </p>
+          </AnimatedSection>
         </div>
 
-        <div className="max-w-7xl mx-auto">
+        <AnimatedSection
+          animation="fade-in"
+          delay={600}
+          className="max-w-7xl mx-auto"
+        >
           <Carousel
             plugins={[plugin.current]}
             className="w-full"
@@ -98,7 +107,7 @@ export function ServicesCarouselSection({
             <CarouselPrevious className="hidden md:flex -left-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-lg transition-all duration-300" />
             <CarouselNext className="hidden md:flex -right-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-lg transition-all duration-300" />
           </Carousel>
-        </div>
+        </AnimatedSection>
 
         {/* Statistics below carousel */}
         {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto">

@@ -16,7 +16,7 @@ export default async function NewsAndEventsPage() {
         description="Aktuální dění v naší ordinaci a plánované akce."
       />
       <section className="bg-gray-50 py-8 md:py-16">
-        <div className="container mx-auto my-10 px-4">
+        <div className="container mx-auto my-10 px-4 opacity-0 animate-fade-in-up">
           <div className="prose max-w-none">
             {newsAndEventsContent?.content && (
               <CustomPortableText

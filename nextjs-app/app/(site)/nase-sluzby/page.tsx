@@ -32,7 +32,7 @@ export default async function ServicesPage() {
           Zjistíte, co potřevbujete právě Vy, jaké parametry sledovat a jakým
           způsobem je udržovat v optimálním rozmezí."
       >
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-6 opacity-0 animate-fade-in animation-delay-600">
           {services.map((service, index) => (
             <ServiceCard
               key={service._id}

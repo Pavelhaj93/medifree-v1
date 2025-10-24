@@ -1,11 +1,17 @@
 import { Button } from "@/app/components/ui/Button";
+import { cn } from "@/app/lib/utils";
+import { CalendarClock } from "lucide-react";
 import Link from "next/link";
 
-export default function ServicesCtaSection() {
+export default function ServicesCtaSection({
+  className,
+}: {
+  className?: string;
+}) {
   return (
-    <section className="bg-gray-50">
+    <section className={cn("bg-gray-50", className)}>
       <div className="container mx-auto px-4 md:px-10 py-8 md:py-16">
-        <div className="bg-primary rounded-2xl p-8 md:p-12 text-center">
+        <div className="bg-primary rounded-2xl p-8 md:p-12 text-center opacity-0 animate-fade-in-up hover:scale-105 transition-all duration-500">
           <h2 className="text-3xl md:text-4xl font-medium text-white  mb-4">
             Připraveni vykročit na cestu změny?
           </h2>
@@ -17,6 +23,7 @@ export default function ServicesCtaSection() {
           <Button variant="secondary" asChild>
             <Link href="https://cal.com/medifree">
               Rezervujte si bezplatnou konzultaci
+              <CalendarClock className="inline mr-2" />
             </Link>
           </Button>
         </div>

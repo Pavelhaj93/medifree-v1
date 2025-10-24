@@ -24,7 +24,7 @@ export function ServiceItemSection({
       <div className="container mx-auto px-4 md:px-10 py-8 md:py-16">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div
-            className={`relative h-[400px] rounded-2xl overflow-hidden ${
+            className={`relative h-[400px] rounded-2xl overflow-hidden opacity-0 animate-fade-in-up animation-delay-200 ${
               reverse ? "md:order-2" : ""
             }`}
           >
@@ -38,10 +38,10 @@ export function ServiceItemSection({
               }
               alt={image?.alt || title}
               fill
-              className="object-cover"
+              className="object-cover hover:scale-105 transition-transform duration-500"
             />
           </div>
-          <div>
+          <div className="opacity-0 animate-fade-in-up animation-delay-400">
             <Badge variant="primary" className="inline-block mb-4">
               {tag}
             </Badge>

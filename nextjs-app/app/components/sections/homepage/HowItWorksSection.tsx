@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import { Badge } from "@/app/components/ui/Badge";
+import { useInView, getAnimationClasses } from "@/app/hooks/useInView";
 
 const steps = [
   {
@@ -23,14 +26,24 @@ const steps = [
 ];
 
 export default function HowItWorksSection() {
+  const { ref: headerRef, isInView: headerInView } = useInView();
+  const { ref: titleRef, isInView: titleInView } = useInView();
+  const { ref: stepsRef, isInView: stepsInView } = useInView();
+
   return (
     <section className="bg-gray-200 py-8 md:py-16">
       <div className="container mx-auto px-4 md:px-10">
-        <div className="flex justify-center mb-8">
+        <div
+          ref={headerRef}
+          className={`flex justify-center mb-8 ${getAnimationClasses(headerInView, "fade-in")}`}
+        >
           <Badge variant="primary">Jak to funguje?</Badge>
         </div>
 
-        <h2 className="text-3xl md:text-4xl font-medium mb-4 text-center">
+        <h2
+          ref={titleRef}
+          className={`text-3xl md:text-4xl font-medium mb-4 text-center ${getAnimationClasses(titleInView, "fade-in-up", 200)}`}
+        >
           Náš postup
         </h2>
 
@@ -46,10 +59,13 @@ export default function HowItWorksSection() {
           </div>
 
           {/* Steps */}
-          <div className="grid md:grid-cols-3 gap-8">
-            {steps.map((step) => (
-              <div key={step.id} className="text-center space-y-4 p-3">
-                <div className="text-7xl text-primary font-medium mb-8">
+          <div ref={stepsRef} className="grid md:grid-cols-3 gap-8">
+            {steps.map((step, index) => (
+              <div
+                key={step.id}
+                className={`text-center space-y-4 p-3 ${getAnimationClasses(stepsInView, "fade-in-up", 400 + index * 200)}`}
+              >
+                <div className="text-7xl text-primary font-medium mb-8 hover:scale-110 transition-transform duration-300">
                   {step.id}
                 </div>
                 <h3 className="text-2xl font-medium mb-2.5">{step.title}</h3>

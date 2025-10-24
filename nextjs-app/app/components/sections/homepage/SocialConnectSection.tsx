@@ -1,16 +1,27 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Headphones, Instagram } from "lucide-react";
 import { Badge } from "@/app/components/ui/Badge";
 import { sharedInstagram } from "@/app/lib/social-links";
+import { useInView, getAnimationClasses } from "@/app/hooks/useInView";
 
 export default function SocialConnectSection() {
+  const { ref: leftRef, isInView: leftInView } = useInView();
+  const { ref: rightRef, isInView: rightInView } = useInView({
+    threshold: 0.2,
+  });
+
   return (
     <section className="bg-gray-50 py-8 md:py-16">
       <div className="container mx-auto px-4 md:px-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-12">
           {/* Left side – hlavní výzva k akci */}
-          <div className="flex-1 max-w-xl">
+          <div
+            ref={leftRef}
+            className={`flex-1 max-w-xl ${getAnimationClasses(leftInView, "fade-in-up")}`}
+          >
             <Badge variant="primary" className="mb-4">
               POSLOUCHEJTE A SLEDUJTE
             </Badge>
@@ -23,7 +34,7 @@ export default function SocialConnectSection() {
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <Link
+              {/* <Link
                 href="#"
                 className="bg-white text-black rounded-full px-5 py-2.5 flex items-center hover:shadow border border-black transition"
               >
@@ -35,7 +46,7 @@ export default function SocialConnectSection() {
                   className="mr-2"
                 />
                 HeroHero
-              </Link>
+              </Link> */}
 
               <Link
                 href={sharedInstagram}
@@ -48,13 +59,16 @@ export default function SocialConnectSection() {
           </div>
 
           {/* Right side – jen vizuál / podcast */}
-          <div className="flex-1 flex justify-center">
+          <div
+            ref={rightRef}
+            className={`flex-1 flex justify-center ${getAnimationClasses(rightInView, "fade-in", 400)}`}
+          >
             <div className="relative w-72 h-72 md:w-80 md:h-80">
               <Image
                 src="/images/homepage/podcast.png"
                 alt="Mindful Moments Podcast"
                 fill
-                className="object-cover rounded-2xl shadow-lg"
+                className="object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
               />
               <div className="absolute -bottom-3 -right-3 bg-white p-3 rounded-full shadow-md">
                 <Headphones className="size-6 text-primary" />
