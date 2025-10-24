@@ -111,6 +111,18 @@ export async function POST(req: NextRequest) {
 
 async function sendEbookEmail(email: string, product: any) {
   try {
+    // Check if Gmail credentials are configured
+    if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+      console.error(
+        "Gmail credentials not configured. Missing GMAIL_USER or GMAIL_APP_PASSWORD"
+      );
+      throw new Error("Email service not configured");
+    }
+
+    console.log("Attempting to send email to:", email);
+    console.log("Gmail user configured:", !!process.env.GMAIL_USER);
+    console.log("Gmail password configured:", !!process.env.GMAIL_APP_PASSWORD);
+
     // Configure transporter using Gmail (same as contact route)
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -120,9 +132,13 @@ async function sendEbookEmail(email: string, product: any) {
       },
     });
 
+    // Verify the connection
+    await transporter.verify();
+    console.log("Gmail connection verified successfully");
+
     // Send the email with ebook
     await transporter.sendMail({
-      from: "Medifree Website",
+      from: process.env.GMAIL_USER,
       to: email,
       subject: `Váš ebook: ${product.title}`,
       html: `
@@ -134,7 +150,6 @@ async function sendEbookEmail(email: string, product: any) {
              style="background-color: #007cba; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block; margin: 16px 0;">
             Stáhnout ebook
           </a>
-          <p><small>Odkaz je platný po dobu 30 dnů od nákupu.</small></p>
           <hr style="margin: 24px 0; border: none; height: 1px; background-color: #eee;">
           <p style="color: #666; font-size: 14px;">
             S pozdravem,<br>
