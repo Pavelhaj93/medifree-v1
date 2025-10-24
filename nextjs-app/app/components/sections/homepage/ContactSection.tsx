@@ -238,7 +238,7 @@ export default function ContactSection({
                       href={sharedInstagram}
                       className="text-primary hover:underline"
                     >
-                      @medifree.cz
+                      @medifree
                     </Link>
                     <Link
                       href={michaelaInstagram}
