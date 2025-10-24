@@ -81,10 +81,10 @@ export default async function Page() {
     <>
       <HeroSectionCarousel pictures={homepageCarouselPictures} />
       <MiddleSection />
-      <TherapistSection />
       {/* <HomepageVideoSection video={video} /> */}
       <ServicesCarouselSection services={homepageServices} />
       <HowItWorksSection />
+      <TherapistSection />
       <ServicesCtaSection className="bg-white" />
       <SocialConnectSection />
       <ContactSection gdpr={gdpr} className="bg-white" />

@@ -43,7 +43,7 @@ export function ServicesCarouselSection({
   return (
     <section className=" bg-gray-50 py-8 md:py-16">
       <div className="container mx-auto px-4 md:px-10">
-        <div className="text-center mb-4">
+        <div className="text-center mb-4 md:mb-12">
           <AnimatedSection animation="fade-in" className="mb-6">
             <Badge variant={"primary"}>NAŠE SLUŽBY</Badge>
           </AnimatedSection>
