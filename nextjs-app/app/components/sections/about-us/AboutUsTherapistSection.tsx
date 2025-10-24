@@ -322,7 +322,7 @@ export default async function AboutUsTherapistSection() {
                   }
                   alt={michaela?.name || "Therapist"}
                   fill
-                  className="object-cover"
+                  className="object-cover hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="bg-white/90 backdrop-blur-xs rounded-xl p-4">
