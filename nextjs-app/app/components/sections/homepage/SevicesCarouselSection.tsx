@@ -71,8 +71,8 @@ export function ServicesCarouselSection({
                         <Image
                           src={
                             urlForImage(item.image)
-                              ?.width(800)
-                              .height(450)
+                              ?.width(600)
+                              .height(900)
                               .fit("crop")
                               .quality(100)
                               .url() as string
