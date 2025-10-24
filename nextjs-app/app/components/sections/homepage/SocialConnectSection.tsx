@@ -33,7 +33,7 @@ export default function SocialConnectSection() {
               i inspirací pro zdravý životní styl.
             </p>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex justify-center gap-4">
               {/* <Link
                 href="#"
                 className="bg-white text-black rounded-full px-5 py-2.5 flex items-center hover:shadow border border-black transition"
