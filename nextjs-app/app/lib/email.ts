@@ -13,62 +13,20 @@ interface EmailData {
 
 export async function sendEmail(data: EmailData): Promise<boolean> {
   try {
-    // Option 1: Resend (recommended for Next.js)
-    if (process.env.RESEND_API_KEY) {
-      return await sendWithResend(data);
+    if (!process.env.SMTP_HOST) {
+      console.error(
+        "No SMTP configuration found. Please set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, and FROM_EMAIL in your environment."
+      );
+      return false;
     }
-
-    // Option 2: SendGrid (commented out - install @sendgrid/mail to enable)
-    // if (process.env.SENDGRID_API_KEY) {
-    //   return await sendWithSendGrid(data);
-    // }
-
-    // Option 3: Nodemailer (SMTP)
-    if (process.env.SMTP_HOST) {
-      return await sendWithNodemailer(data);
-    }
-
-    console.error(
-      "No email service configured. Please set up one of: RESEND_API_KEY or SMTP_HOST"
-    );
-    return false;
+    return await sendWithNodemailer(data);
   } catch (error) {
     console.error("Failed to send email:", error);
     return false;
   }
 }
 
-async function sendWithResend(data: EmailData): Promise<boolean> {
-  try {
-    // Import Resend dynamically to avoid errors if not installed
-    const resendModule = await import("resend").catch(() => null);
-    if (!resendModule) {
-      console.error("Resend not installed. Run: npm install resend");
-      return false;
-    }
-
-    const { Resend } = resendModule;
-    const resend = new Resend(process.env.RESEND_API_KEY);
-
-    const emailData: any = {
-      from: process.env.FROM_EMAIL || "noreply@medifree.cz",
-      to: data.to,
-      subject: data.subject,
-      html: data.html,
-    };
-
-    // Note: Resend doesn't support file attachments from URLs directly
-    // You would need to download the file first and attach it as a buffer
-    // For now, we'll send the download link in the email
-
-    await resend.emails.send(emailData);
-    console.log("Email sent successfully with Resend");
-    return true;
-  } catch (error) {
-    console.error("Resend error:", error);
-    return false;
-  }
-}
+// Removed Resend and SendGrid implementations. Only Nodemailer is used for all emails.
 
 // Commented out SendGrid implementation - uncomment and install @sendgrid/mail to use
 /*
