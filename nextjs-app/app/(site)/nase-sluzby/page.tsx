@@ -29,7 +29,7 @@ export default async function ServicesPage() {
         badge="Naše služby"
         title="Co nabízíme"
         description="Naším cílem je edukace o individuálních potřebách Vašeho organismu.
-          Zjistíte, co potřevbujete právě Vy, jaké parametry sledovat a jakým
+          Zjistíte, co potřebujete právě Vy, jaké parametry sledovat a jakým
           způsobem je udržovat v optimálním rozmezí."
       >
         <div className="grid md:grid-cols-3 gap-6 opacity-0 animate-fade-in animation-delay-600">

@@ -202,7 +202,7 @@ export default function ContactSection({
                   <MapPin className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <h4 className="font-medium">Ičo</h4>
+                  <h4 className="font-medium">IČO</h4>
                   <p className="text-gray-600">23153041</p>
                 </div>
               </div>
@@ -238,7 +238,7 @@ export default function ContactSection({
                       href={sharedInstagram}
                       className="text-primary hover:underline"
                     >
-                      @medifree
+                      @medifreecz
                     </Link>
                     <Link
                       href={michaelaInstagram}
