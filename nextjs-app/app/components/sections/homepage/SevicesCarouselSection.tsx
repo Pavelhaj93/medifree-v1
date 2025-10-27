@@ -22,7 +22,7 @@ export function ServicesCarouselSection({
 }: {
   services: AllHomepageServicesQueryResult;
 }) {
-  const plugin = useRef(Autoplay({ delay: 4000, stopOnInteraction: true }));
+  const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
