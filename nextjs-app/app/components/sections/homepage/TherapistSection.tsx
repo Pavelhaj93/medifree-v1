@@ -55,8 +55,8 @@ type TherapistProps = {
 function Therapist({ person, reverse = false, pink }: TherapistProps) {
   return (
     <section className="bg-gray-50 text-left py-8 md:py-16">
-      <div className="grid md:grid-cols-2 gap-12 items-center container mx-auto px-4 md:px-10 ">
-        <div className="mb-4 md:hidden">
+      <div className="grid md:grid-cols-2 gap-4 md:gap-12 items-center container mx-auto px-4 md:px-10 ">
+        <div className="mb-4 md:hidden flex justify-center">
           <Badge variant={pink ? "tertiary" : "primary"}>O nás</Badge>
         </div>
         <div
@@ -166,7 +166,7 @@ export async function TherapistSection() {
           key={person._id}
           person={person}
           pink={index % 2 === 1}
-          reverse={index % 2 !== 0}
+          reverse={index % 2 !== 1}
         />
       ))}
     </>

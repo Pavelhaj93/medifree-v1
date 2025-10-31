@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Headphones, Instagram } from "lucide-react";
 import { Badge } from "@/app/components/ui/Badge";
-import { sharedInstagram } from "@/app/lib/social-links";
+import { michaelaInstagram, sharedInstagram } from "@/app/lib/social-links";
 import { useInView, getAnimationClasses } from "@/app/hooks/useInView";
 
 export default function SocialConnectSection() {
@@ -14,13 +14,13 @@ export default function SocialConnectSection() {
   });
 
   return (
-    <section className="bg-gray-50 py-8 md:py-16">
+    <section className="bg-gradient-to-br from-blue-50 via-white to-green-50 py-8 md:py-16">
       <div className="container mx-auto px-4 md:px-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-12">
           {/* Left side – hlavní výzva k akci */}
           <div
             ref={leftRef}
-            className={`flex-1 max-w-xl ${getAnimationClasses(leftInView, "fade-in-up")}`}
+            className={`flex-1 max-w-xl items-center flex-col flex md:block ${getAnimationClasses(leftInView, "fade-in-up")}`}
           >
             <Badge variant="primary" className="mb-4">
               POSLOUCHEJTE A SLEDUJTE
@@ -33,7 +33,7 @@ export default function SocialConnectSection() {
               i inspirací pro zdravý životní styl.
             </p>
 
-            <div className="flex justify-center gap-4">
+            <div className="flex justify-center md:justify-start gap-4">
               {/* <Link
                 href="#"
                 className="bg-white text-black rounded-full px-5 py-2.5 flex items-center hover:shadow border border-black transition"
