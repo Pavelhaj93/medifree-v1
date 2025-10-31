@@ -107,7 +107,7 @@ function Therapist({ person, reverse = false, pink }: TherapistProps) {
             />
           </Link>
           {/* bottom name overlay */}
-          <div className="absolute inset-0 flex h-12 self-end items-center justify-center p-4 bg-white">
+          <div className="absolute bottom-0 left-0 right-0 h-12 flex items-center justify-center p-4 bg-white">
             <h3
               className={`text-2xl text-center ${
                 pink ? "text-tertiary" : "text-primary"
