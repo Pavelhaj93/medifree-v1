@@ -36,7 +36,7 @@ function TherapistCard({ person, index }: TherapistCardProps) {
       className={isPink ? "bg-white" : "bg-gray-50"}
     >
       <div className="container mx-auto px-4 md:px-10 py-8 md:py-16">
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           {/* Content side */}
           <div
             className={`space-y-6 opacity-0 animate-fade-in-up animation-delay-200 order-2 ${isReversed ? "lg:order-1" : "lg:order-2"}`}
