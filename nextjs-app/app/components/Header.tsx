@@ -55,7 +55,10 @@ export default function Header() {
         <div className="flex justify-between items-center md:px-10 h-24">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center">
+            <Link
+              href="/"
+              className="flex items-center focus-visible:outline-primary rounded-2xl"
+            >
               <Image
                 className="text-xl font-bold h-18 w-18"
                 src="/logo/Logotyp_Medifree_black.png"
@@ -71,7 +74,10 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={cn("text-lg", linkClass(link.href))}
+                className={cn(
+                  "text-lg focus-visible:outline-primary px-2 rounded-full",
+                  linkClass(link.href)
+                )}
               >
                 {link.label}
               </Link>
@@ -84,7 +90,7 @@ export default function Header() {
           <div className="hidden xl:flex items-center gap-4 ">
             <Link
               href="/kosik"
-              className="relative p-1 cursor-pointer rounded-full hover:bg-gray-100"
+              className="relative p-2 cursor-pointer rounded-full hover:bg-gray-100 focus-visible:outline-primary"
             >
               <ShoppingCart className="h-5 w-5" />
               {items.length > 0 && (

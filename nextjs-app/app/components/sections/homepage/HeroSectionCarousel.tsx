@@ -39,7 +39,7 @@ export default function HeroSectionCarousel({
                     .width(2400)
                     .fit("crop")
                     .auto("format")
-                    .quality(100)
+                    .quality(90)
                     .url() as string
                 }
                 sizes="100vw"
