@@ -31,6 +31,10 @@ export async function POST(req: NextRequest) {
       cancel_url: `${baseUrl}/kosik`,
       customer_email: customerEmail,
       billing_address_collection: "required",
+      // Enable automatic receipt emails from Stripe
+      payment_intent_data: {
+        receipt_email: customerEmail,
+      },
       line_items: items.map((item) => ({
         price_data: {
           currency: "czk",
