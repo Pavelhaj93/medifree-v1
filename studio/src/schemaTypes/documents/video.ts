@@ -21,9 +21,19 @@ export const video = defineType({
     }),
     defineField({
       name: 'videoFile',
-      title: 'Video File',
+      title: 'Desktop Video File',
       type: 'file',
-      description: 'Upload the video file here',
+      description: 'Upload the desktop video file here',
+      options: {
+        accept: 'video/*',
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'mobileVideoFile',
+      title: 'Mobile Video File',
+      type: 'file',
+      description: 'Upload the mobile video file here (portrait/vertical format)',
       options: {
         accept: 'video/*',
       },

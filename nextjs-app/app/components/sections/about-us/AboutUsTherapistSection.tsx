@@ -95,7 +95,7 @@ function TherapistCard({ person, index }: TherapistCardProps) {
 
           {/* Image side */}
           <div
-            className={`space-y-6 opacity-0 animate-fade-in-up order-1 ${isReversed ? "lg:order-2" : "lg:order-1"}`}
+            className={`space-y-6 opacity-0 lg:sticky lg:top-32  animate-fade-in-up order-1 ${isReversed ? "lg:order-2" : "lg:order-1"}`}
           >
             <div className="relative h-[600px] sm:h-[1000px] lg:h-[600px] rounded-2xl overflow-hidden">
               <Image

@@ -1262,7 +1262,7 @@ export type AllHomepageServicesQueryResult = Array<{
 
 // Source: ./sanity/queries/videos.ts
 // Variable: videoQuery
-// Query: *[_type == "video"][0]{    _id,title,description,    videoFile{      asset->{_id,url,assetId,originalFilename,extension,size}    },    _createdAt,_updatedAt,_type,_rev  }
+// Query: *[_type == "video"][0]{    _id,title,description,    videoFile{      asset->{_id,url,assetId,originalFilename,extension,size}    },    mobileVideoFile{      asset->{_id,url,assetId,originalFilename,extension,size}    },    _createdAt,_updatedAt,_type,_rev  }
 export type VideoQueryResult = {
   _id: string;
   title: string;
@@ -1277,13 +1277,14 @@ export type VideoQueryResult = {
       size: number | null;
     } | null;
   };
+  mobileVideoFile: null;
   _createdAt: string;
   _updatedAt: string;
   _type: "video";
   _rev: string;
 } | null;
 // Variable: allVideosQuery
-// Query: *[_type == "video"] | order(title asc){    _id,title,description,    videoFile{      asset->{_id,url,assetId,originalFilename,extension,size}    },    _createdAt,_updatedAt,_type,_rev  }
+// Query: *[_type == "video"] | order(title asc){    _id,title,description,    videoFile{      asset->{_id,url,assetId,originalFilename,extension,size}    },    mobileVideoFile{      asset->{_id,url,assetId,originalFilename,extension,size}    },    _createdAt,_updatedAt,_type,_rev  }
 export type AllVideosQueryResult = Array<{
   _id: string;
   title: string;
@@ -1298,6 +1299,7 @@ export type AllVideosQueryResult = Array<{
       size: number | null;
     } | null;
   };
+  mobileVideoFile: null;
   _createdAt: string;
   _updatedAt: string;
   _type: "video";
@@ -1330,7 +1332,7 @@ declare module "@sanity/client" {
     "\n    *[_type == \"serviceGallery\"][0]\n": ServiceGalleriesQueryResult;
     "\n  *[_type == \"service\"] | order(title asc) {\n    _id,title,tag,description,content,price,priceType,image,\n    _createdAt,_updatedAt,_type,_rev\n  }\n": AllServicesQueryResult;
     "\n  *[_type == \"homepageService\"] | order(title asc) {\n    _id,title,description,image,\n    _createdAt,_updatedAt,_type,_rev\n  }\n": AllHomepageServicesQueryResult;
-    "\n  *[_type == \"video\"][0]{\n    _id,title,description,\n    videoFile{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": VideoQueryResult;
-    "\n  *[_type == \"video\"] | order(title asc){\n    _id,title,description,\n    videoFile{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": AllVideosQueryResult;
+    "\n  *[_type == \"video\"][0]{\n    _id,title,description,\n    videoFile{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    mobileVideoFile{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": VideoQueryResult;
+    "\n  *[_type == \"video\"] | order(title asc){\n    _id,title,description,\n    videoFile{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    mobileVideoFile{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n": AllVideosQueryResult;
   }
 }

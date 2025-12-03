@@ -9,7 +9,9 @@ export const HomepageVideoSection = ({
   video: VideoQueryResult;
 }) => {
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
+  const mobileVideoRef = useRef<HTMLVideoElement>(null);
   const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -17,7 +19,7 @@ export const HomepageVideoSection = ({
       { threshold: 0.5 }
     );
 
-    const target = desktopVideoRef.current;
+    const target = sectionRef.current;
     if (target) observer.observe(target);
 
     return () => {
@@ -26,32 +28,56 @@ export const HomepageVideoSection = ({
   }, []);
 
   useEffect(() => {
-    const vid = desktopVideoRef.current;
-    if (!vid) return;
+    const desktopVid = desktopVideoRef.current;
+    const mobileVid = mobileVideoRef.current;
 
-    vid.volume = 0.2;
+    if (desktopVid) {
+      desktopVid.volume = 0.2;
+      if (isInView) {
+        desktopVid.play().catch((err) => {
+          console.warn("Desktop autoplay blocked:", err);
+        });
+      } else {
+        desktopVid.pause();
+      }
+    }
 
-    if (isInView) {
-      // Attempt to start playback when visible
-      vid.play().catch((err) => {
-        // Autoplay with sound might be blocked until user interaction
-        console.warn("Autoplay blocked:", err);
-      });
-    } else {
-      vid.pause();
+    if (mobileVid) {
+      mobileVid.volume = 0.2;
+      if (isInView) {
+        mobileVid.play().catch((err) => {
+          console.warn("Mobile autoplay blocked:", err);
+        });
+      } else {
+        mobileVid.pause();
+      }
     }
   }, [isInView]);
 
   return (
     <section
+      ref={sectionRef}
       id="videoSection"
       className="relative w-full overflow-hidden opacity-0 animate-fade-in"
     >
+      {/* Desktop Video */}
       {video?.videoFile?.asset?.url && (
         <video
           ref={desktopVideoRef}
           src={video?.videoFile?.asset?.url}
-          className="w-full h-full max-h-screen bg-black"
+          className="hidden md:block w-full h-full max-h-screen bg-black"
+          controls
+          playsInline
+          loop
+        />
+      )}
+
+      {/* Mobile Video */}
+      {video?.mobileVideoFile?.asset?.url && (
+        <video
+          ref={mobileVideoRef}
+          src={video?.mobileVideoFile?.asset?.url}
+          className="md:hidden w-full h-full max-h-screen bg-black"
           controls
           playsInline
           loop

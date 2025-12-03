@@ -81,7 +81,7 @@ export default async function Page() {
     <>
       <HeroSectionCarousel pictures={homepageCarouselPictures} />
       <MiddleSection />
-      {/* <HomepageVideoSection video={video} /> */}
+      <HomepageVideoSection video={video} />
       <ServicesCarouselSection services={homepageServices} />
       <HowItWorksSection />
       <ServicesCtaSection className="bg-white" />
