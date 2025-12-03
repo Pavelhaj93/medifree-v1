@@ -11,10 +11,23 @@ export const HomepageVideoSection = ({
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
   const mobileVideoRef = useRef<HTMLVideoElement>(null);
   const [isInView, setIsInView] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
   // Temporary type cast until mobileVideoFile is added to Sanity and types are regenerated
   const videoData = video as any;
+
+  // Detect screen size changes
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -33,10 +46,15 @@ export const HomepageVideoSection = ({
   useEffect(() => {
     const desktopVid = desktopVideoRef.current;
     const mobileVid = mobileVideoRef.current;
+    const hasMobileVideo = videoData?.mobileVideoFile?.asset?.url;
+
+    // Determine which video should be active
+    const shouldPlayMobile = isMobile && hasMobileVideo;
+    const shouldPlayDesktop = !isMobile || !hasMobileVideo;
 
     if (desktopVid) {
       desktopVid.volume = 0.2;
-      if (isInView) {
+      if (isInView && shouldPlayDesktop) {
         desktopVid.play().catch((err) => {
           console.warn("Desktop autoplay blocked:", err);
         });
@@ -47,7 +65,7 @@ export const HomepageVideoSection = ({
 
     if (mobileVid) {
       mobileVid.volume = 0.2;
-      if (isInView) {
+      if (isInView && shouldPlayMobile) {
         mobileVid.play().catch((err) => {
           console.warn("Mobile autoplay blocked:", err);
         });
@@ -55,7 +73,7 @@ export const HomepageVideoSection = ({
         mobileVid.pause();
       }
     }
-  }, [isInView]);
+  }, [isInView, isMobile, videoData]);
 
   return (
     <section
