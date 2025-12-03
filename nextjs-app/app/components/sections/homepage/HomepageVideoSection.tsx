@@ -13,6 +13,9 @@ export const HomepageVideoSection = ({
   const [isInView, setIsInView] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
+  // Temporary type cast until mobileVideoFile is added to Sanity and types are regenerated
+  const videoData = video as any;
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setIsInView(entry.isIntersecting),
@@ -73,10 +76,10 @@ export const HomepageVideoSection = ({
       )}
 
       {/* Mobile Video */}
-      {video?.mobileVideoFile?.asset?.url && (
+      {videoData?.mobileVideoFile?.asset?.url && (
         <video
           ref={mobileVideoRef}
-          src={video?.mobileVideoFile?.asset?.url}
+          src={videoData.mobileVideoFile.asset.url}
           className="md:hidden w-full h-full max-h-screen bg-black"
           controls
           playsInline
