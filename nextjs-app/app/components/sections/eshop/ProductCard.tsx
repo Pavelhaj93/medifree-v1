@@ -7,7 +7,7 @@ import AddToCartButton from "../../others/AddToCartButton";
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden">
+    <div className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col h-full">
       <div className="relative h-[200px]">
         <Image
           src={
@@ -27,7 +27,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           </Badge>
         )}
       </div>
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-grow">
         <h3 className="font-medium text-lg mb-2">{product?.title}</h3>
         {/* TODO: no reviews yet, maybe later */}
         {/* <div className="flex items-center gap-1 mb-2">
@@ -44,8 +44,10 @@ const ProductCard = ({ product }: { product: Product }) => {
           ))}
           <span className="ml-2 text-xs text-gray-600">({reviews})</span>
         </div> */}
-        <p className="text-gray-600 text-sm mb-4">{product?.description}</p>
-        <div className="flex items-center justify-between">
+        <p className="text-gray-600 text-sm mb-4 flex-grow">
+          {product?.description}
+        </p>
+        <div className="flex items-center justify-between mt-auto">
           <div className="text-xl font-bold">{product?.price} Kč</div>
           <AddToCartButton product={product} />
         </div>
