@@ -23,19 +23,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   if (allPostsAndPages != null && allPostsAndPages.data.length != 0) {
-    let priority: number;
-    let changeFrequency:
-      | "monthly"
-      | "always"
-      | "hourly"
-      | "daily"
-      | "weekly"
-      | "yearly"
-      | "never"
-      | undefined;
-    let url: string;
-
     for (const p of allPostsAndPages.data) {
+      let priority: number = 0.5;
+      let changeFrequency:
+        | "monthly"
+        | "always"
+        | "hourly"
+        | "daily"
+        | "weekly"
+        | "yearly"
+        | "never"
+        | undefined = "monthly";
+      let url: string = `${domain}`;
+
       switch (p._type) {
         case "page":
           priority = 0.8;

@@ -161,14 +161,16 @@ export async function TherapistSection() {
 
   return (
     <>
-      {persons.reverse().map((person, index) => (
-        <Therapist
-          key={person._id}
-          person={person}
-          pink={index % 2 === 1}
-          reverse={index % 2 !== 1}
-        />
-      ))}
+      {persons
+        .reverse()
+        .map((person: AllPersonsQueryResult[number], index: number) => (
+          <Therapist
+            key={person._id}
+            person={person}
+            pink={index % 2 === 1}
+            reverse={index % 2 !== 1}
+          />
+        ))}
     </>
   );
 }

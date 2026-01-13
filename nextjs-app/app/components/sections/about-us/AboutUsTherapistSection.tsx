@@ -173,9 +173,11 @@ export default async function AboutUsTherapistSection() {
 
   return (
     <>
-      {persons.reverse().map((person, index) => (
-        <TherapistCard key={person._id} person={person} index={index} />
-      ))}
+      {persons
+        .reverse()
+        .map((person: AllPersonsQueryResult[number], index: number) => (
+          <TherapistCard key={person._id} person={person} index={index} />
+        ))}
     </>
   );
 }

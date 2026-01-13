@@ -6,6 +6,7 @@ import ServicesItemSection from "@/app/components/sections/services/ServicesItem
 import { sanityFetch } from "@/sanity/lib/live";
 import { allServicesQuery } from "@/sanity/queries";
 import { serviceGalleriesQuery } from "@/sanity/queries/serviceGalleries";
+import type { AllServicesQueryResult, Service } from "@/sanity.types";
 
 export const metadata = {
   title: "Naše služby - Medifree",
@@ -18,10 +19,12 @@ export default async function ServicesPage() {
     query: allServicesQuery,
   });
 
-  const services = servicesRaw.map((service: any) => ({
-    ...service,
-    price: service.price === null ? undefined : service.price,
-  }));
+  const services: Service[] = servicesRaw.map(
+    (service: AllServicesQueryResult[number]) => ({
+      ...service,
+      price: service.price ?? undefined,
+    })
+  );
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -33,7 +36,7 @@ export default async function ServicesPage() {
           způsobem je udržovat v optimálním rozmezí."
       >
         <div className="grid md:grid-cols-3 gap-6 opacity-0 animate-fade-in animation-delay-600">
-          {services.map((service, index) => (
+          {services.map((service: Service, index: number) => (
             <ServiceCard
               key={service._id}
               {...service}

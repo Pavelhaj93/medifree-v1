@@ -2,6 +2,7 @@ import HeroSection from "@/app/components/others/HeroSection";
 import { Badge } from "@/app/components/ui/Badge";
 import { sanityFetch } from "@/sanity/lib/live";
 import { allFaqsQuery } from "@/sanity/queries/faqs";
+import type { AllFaqsQueryResult } from "@/sanity.types";
 
 export const metadata = {
   title: "Často kladené otázky - Medifree",
@@ -27,7 +28,7 @@ export default async function ContactFAQSection() {
         <div className="container mx-auto px-4 md:px-10 text-center">
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 mx-auto">
             {/* FAQ Item */}
-            {faqItems.map((item) => (
+            {faqItems.map((item: AllFaqsQueryResult[number]) => (
               <div
                 key={item._id}
                 className="bg-white p-6 rounded-2xl shadow-md"
