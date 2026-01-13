@@ -1172,7 +1172,7 @@ export type FeaturedProductQueryResult = {
     _type: "image";
   };
   description: string;
-  featured: boolean | null;
+  featured: true;
   category: "Ebooky" | "Video kurzy";
   ebookFile: null;
   _createdAt: string;

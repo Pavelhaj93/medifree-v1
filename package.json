@@ -25,6 +25,11 @@
     "nextjs-app"
   ],
   "devDependencies": {
+    "baseline-browser-mapping": "^2.9.14",
     "npm-run-all": "^4.1.5"
+  },
+  "dependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.0"
   }
 }
