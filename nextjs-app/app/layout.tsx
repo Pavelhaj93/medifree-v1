@@ -14,6 +14,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { CartProvider } from "./context/cartContext";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 
 /**
  * Generate metadata for the page.
@@ -96,6 +97,7 @@ export default async function RootLayout({
             <main>{children}</main>
             <Footer />
           </CartProvider>
+          <Analytics />
         </section>
       </body>
     </html>
