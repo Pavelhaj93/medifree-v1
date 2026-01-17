@@ -1,6 +1,6 @@
 {
   "framework": "nextjs",
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npm run build",
-  "installCommand": "npm ci && npm install --no-save --platform=linuxmusl --arch=x64 lightningcss"
+  "buildCommand": "npm run build --workspace=nextjs-app",
+  "installCommand": "npm ci --workspace=nextjs-app && npm install --no-save --platform=linuxmusl --arch=x64 lightningcss --workspace=nextjs-app"
 }
