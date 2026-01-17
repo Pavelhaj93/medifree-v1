@@ -21,6 +21,7 @@ import FaqAccordion from "./FaqAccordion";
 import CartPage from "./CartPage";
 import CheckoutSuccess from "./CheckoutSuccess";
 import LegalDocumentsSection from "./LegalDocumentsSection";
+import { createElement } from "react";
 
 type BlocksType = {
   [key: string]: React.FC<any>;
@@ -83,7 +84,7 @@ export default function BlockRenderer({
           path: `pageBuilder[_key=="${block._key}"]`,
         }).toString()}
       >
-        {React.createElement(Blocks[block._type], {
+        {createElement(Blocks[block._type], {
           key: block._key,
           block: block,
           index: index,
@@ -92,7 +93,7 @@ export default function BlockRenderer({
     );
   }
   // Block doesn't exist yet
-  return React.createElement(
+  return createElement(
     () => (
       <div className="w-full bg-gray-100 text-center text-gray-500 p-20 rounded-sm">
         A &ldquo;{block._type}&rdquo; block hasn&apos;t been created

@@ -14,7 +14,6 @@ type TherapistCardProps = {
   underImageTitle?: string;
   backgroundColor?: "primary" | "tertiary" | "white" | "gray";
   reverseLayout?: boolean;
-  showBookingButton?: boolean;
   bookingButtonText?: string;
   bookingUrl?: string;
 };
@@ -29,7 +28,6 @@ export default function TherapistCard({
     underImageTitle,
     backgroundColor = "gray",
     reverseLayout = false,
-    showBookingButton = true,
     bookingButtonText,
     bookingUrl,
   } = block;
@@ -38,14 +36,10 @@ export default function TherapistCard({
     return null;
   }
 
-  console.log("ttt person", person);
-
   const isPink = backgroundColor === "tertiary";
   const isWhite = backgroundColor === "white";
   const bgClass = isWhite ? "bg-white" : isPink ? "bg-white" : "bg-gray-50";
   const colorVariant = isPink ? "tertiary" : "primary";
-
-  console.log("ttt bookingUrl", person);
 
   const defaultBookingUrl = "https://cal.com/medifree";
 
