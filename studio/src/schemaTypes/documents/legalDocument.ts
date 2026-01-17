@@ -1,9 +1,11 @@
+import {DocumentPdfIcon} from '@sanity/icons'
 import {defineField, defineType} from 'sanity'
 
 export const legalDocument = defineType({
   name: 'legalDocument',
   title: 'Legal Document',
   type: 'document',
+  icon: DocumentPdfIcon,
   fields: [
     defineField({
       name: 'title',

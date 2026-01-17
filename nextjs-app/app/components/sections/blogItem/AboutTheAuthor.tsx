@@ -1,8 +1,6 @@
-import { Badge } from "@/app/components/ui/Badge";
 import { Button } from "@/app/components/ui/Button";
 import { urlForImage } from "@/sanity/lib/utils";
 import { ArrowRight } from "lucide-react";
-
 import Image from "next/image";
 import Link from "next/link";
 

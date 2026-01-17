@@ -1,37 +1,51 @@
-import { Suspense } from "react";
+import { Button } from "@/app/components/ui/Button";
+import Link from "next/link";
+import { iconMap } from "@/app/components/sanity/iconMap";
 
-import ResolvedLink from "@/app/components/sanity/ResolvedLink";
-import { CallToAction } from "@/sanity.types";
+type CtaBlock = {
+  title?: string;
+  subtitle?: string;
+  button?: {
+    text?: string;
+    link?: string;
+    icon?: string;
+  };
+};
 
 type CtaProps = {
-  block: CallToAction;
+  block: CtaBlock;
   index: number;
 };
 
 export default function CTA({ block }: CtaProps) {
-  return (
-    <div className="container my-12">
-      <div className="bg-gray-50 border border-gray-100 rounded-2xl max-w-3xl">
-        <div className="px-12 py-12 flex flex-col gap-6">
-          <div className="max-w-xl flex flex-col gap-3">
-            <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl">
-              {block.heading}
-            </h2>
-            <p className="text-lg leading-8 text-gray-600">{block.text}</p>
-          </div>
+  const ButtonIcon = block.button?.icon
+    ? iconMap[block.button.icon]
+    : undefined;
 
-          <Suspense fallback={null}>
-            <div className="flex items-center gap-x-6 lg:mt-0 lg:shrink-0">
-              <ResolvedLink
-                link={block.link}
-                className="rounded-full flex gap-2 mr-6 items-center bg-black hover:bg-red-500 focus:bg-cyan-500 py-3 px-6 text-white transition-colors duration-200"
+  return (
+    <section className="bg-gray-50">
+      <div className="container mx-auto px-4 md:px-10 py-8 md:py-16">
+        <div className="bg-primary rounded-2xl p-8 md:p-12 text-center opacity-0 animate-fade-in-up transition-all duration-200">
+          <h2 className="text-3xl md:text-4xl font-medium text-white mb-4">
+            {block.title}
+          </h2>
+          <p className="max-w-2xl mx-auto mb-8 opacity-90 text-white">
+            {block.subtitle}
+          </p>
+          {block.button?.link && block.button?.text && (
+            <Button variant="secondary" asChild>
+              <Link
+                href={block.button.link}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                {block.buttonText}
-              </ResolvedLink>
-            </div>
-          </Suspense>
+                {block.button.text}
+                {ButtonIcon && <ButtonIcon className="inline ml-2" />}
+              </Link>
+            </Button>
+          )}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

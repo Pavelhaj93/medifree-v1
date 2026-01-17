@@ -4,10 +4,13 @@ import { ShoppingCart } from "lucide-react";
 import { Button } from "../ui/Button";
 import { useCart } from "@/app/context/cartContext";
 import { Product } from "@/sanity.types";
-import { cn } from "@/app/lib/utils";
 
-const AddToCartButton = ({ product }: { product: Product }) => {
+const AddToCartButton = ({ product }: { product?: Product }) => {
   const { addItem, itemExists } = useCart();
+
+  if (!product) {
+    return null;
+  }
 
   return (
     <Button

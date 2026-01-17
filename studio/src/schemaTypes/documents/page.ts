@@ -16,13 +16,15 @@ export const page = defineType({
       name: 'name',
       title: 'Name',
       type: 'string',
+      description: 'Internal name for the page',
       validation: (Rule) => Rule.required(),
     }),
-
     defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
+      // readOnly: true,
+      description: 'The URL slug for the page, e.g. "about-us"',
       validation: (Rule) => Rule.required(),
       options: {
         source: 'name',
@@ -33,21 +35,48 @@ export const page = defineType({
       name: 'heading',
       title: 'Heading',
       type: 'string',
+      description: 'Main heading for the page, used in metadata or as H1, very important for SEO!',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'subheading',
       title: 'Subheading',
       type: 'string',
+      description: 'Subheading for the page, used in metadata or as H2, important for SEO',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'pageBuilder',
       title: 'Page builder',
       type: 'array',
-      of: [{type: 'callToAction'}, {type: 'infoSection'}],
+      of: [
+        {type: 'callToAction'},
+        {type: 'infoSection'},
+        {type: 'heroSectionCarousel'},
+        {type: 'quote'},
+        {type: 'videoSection'},
+        {type: 'mediaCardsCarousel'},
+        {type: 'stepper'},
+        {type: 'contentDisplayBlock'},
+        {type: 'contactSection'},
+        {type: 'cta'},
+        {type: 'contentDisplayBlockCompact'},
+        {type: 'heroSection'},
+        {type: 'therapistSection'},
+        {type: 'serviceCardBlock'},
+        {type: 'masonryGallery'},
+        {type: 'productShowcase'},
+        {type: 'calendarSection'},
+        {type: 'postShowcase'},
+        {type: 'textBlock'},
+        {type: 'faqCardsGrid'},
+        {type: 'faqAccordion'},
+        {type: 'cart'},
+        {type: 'checkoutSuccess'},
+        {type: 'legalDocumentsSection'},
+      ],
       options: {
         insertMenu: {
-          // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/array-type#efb1fe03459d
           views: [
             {
               name: 'grid',

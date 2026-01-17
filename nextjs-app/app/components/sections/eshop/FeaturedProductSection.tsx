@@ -3,17 +3,23 @@
 import { Badge } from "@/app/components/ui/Badge";
 import { Button } from "@/app/components/ui/Button";
 import { useCart } from "@/app/context/cartContext";
-import { FeaturedProductQueryResult, Product } from "@/sanity.types";
-import { sanityFetch } from "@/sanity/lib/live";
+import {
+  FeaturedProductQueryResult,
+  Product,
+  ProductShowcase,
+} from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
-import { featuredProductQuery } from "@/sanity/queries";
 import { Download, ShoppingCart, Star } from "lucide-react";
 import Image from "next/image";
 
 export default function FeaturedProductSection({
   featuredProduct,
+  bestSellerBadgeText,
+  recommendedBadgeText,
 }: {
-  featuredProduct: FeaturedProductQueryResult;
+  featuredProduct?: FeaturedProductQueryResult;
+  bestSellerBadgeText?: ProductShowcase["bestSellerBadgeText"];
+  recommendedBadgeText?: ProductShowcase["recommendedBadgeText"];
 }) {
   const { addItem, itemExists } = useCart();
   if (!featuredProduct) return null;
@@ -25,9 +31,11 @@ export default function FeaturedProductSection({
           <div className="grid md:grid-cols-2 gap-8">
             <div className="p-8 md:p-12 flex items-center">
               <div>
-                <Badge variant="primary" className="mb-4">
-                  Doporučené
-                </Badge>
+                {recommendedBadgeText && (
+                  <Badge variant="primary" className="mb-4">
+                    {recommendedBadgeText}
+                  </Badge>
+                )}
                 <h2 className="text-3xl font-medium mb-4">
                   {featuredProduct?.title}
                 </h2>
@@ -72,7 +80,9 @@ export default function FeaturedProductSection({
                         : "primary"
                     }
                     className="rounded-full"
-                    onClick={() => addItem(featuredProduct as Product)}
+                    onClick={() =>
+                      addItem(featuredProduct as unknown as Product)
+                    }
                     disabled={itemExists(featuredProduct.title)}
                   >
                     <ShoppingCart className="mr-2 h-2 w-2" />
@@ -89,7 +99,7 @@ export default function FeaturedProductSection({
             </div>
             <div className="relative md:h-auto bg-gray-50 flex items-center justify-center p-8">
               {featuredProduct.image.asset && (
-                <div className="relative w-[250px] h-[400px] shadow-xl transform rotate-5 transition-all duration-500 hover:rotate-0 hover:scale-110">
+                <div className="relative w-62.5 h-100 shadow-xl transform rotate-5 transition-all duration-500 hover:rotate-0 hover:scale-110">
                   <Image
                     src={
                       urlForImage(featuredProduct.image)
@@ -109,7 +119,7 @@ export default function FeaturedProductSection({
                 variant="primary"
                 className="absolute top-4 right-4"
               >
-                Bestseller
+                {bestSellerBadgeText}
               </Badge>
             </div>
           </div>

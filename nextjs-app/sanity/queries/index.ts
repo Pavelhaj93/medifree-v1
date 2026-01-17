@@ -3,6 +3,4 @@ export * from "./pages";
 export * from "./posts";
 export * from "./people";
 export * from "./products";
-export * from "./videos";
-export * from "./services";
 export * from "./legal";

@@ -1,9 +1,11 @@
 import {defineField, defineType} from 'sanity'
+import {CommentIcon} from '@sanity/icons'
 
 export const faq = defineType({
   name: 'faq',
   title: 'FAQs',
   type: 'document',
+  icon: CommentIcon,
   fields: [
     defineField({
       name: 'question',

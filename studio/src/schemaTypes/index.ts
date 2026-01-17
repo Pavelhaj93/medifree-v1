@@ -8,13 +8,34 @@ import {link} from './objects/link'
 import {blockContent} from './objects/blockContent'
 import {product} from './documents/product'
 import {faq} from './documents/faq'
-import {service} from './documents/service'
-import {video} from './documents/video'
-import {homepageService} from './documents/homepageService'
 import {legalDocument} from './documents/legalDocument'
-import {homepagePicture} from './documents/homepagePicture'
-import {serviceGallery} from './documents/serviceGallery'
-import {newAndEvent} from './documents/newAndEvent'
+import {quote} from './objects/quote'
+import {
+  heroSectionCarousel,
+  videoSection,
+  mediaCard,
+  mediaCardsCarousel,
+  step,
+  stepper,
+  cta,
+  contentDisplayBlock,
+  contactSection,
+  therapistSection,
+  serviceCardBlock,
+  masonryGallery,
+  productShowcase,
+  calendarSection,
+  textBlock,
+  faqCardsGrid,
+  faqAccordion,
+  cart,
+  checkoutSuccess,
+  legalDocumentsSection,
+} from './objects'
+import {contentDisplayBlockCompact} from './objects/contentDisplayBlockCompact'
+import {heroSection} from './objects/heroSection'
+import {heroSectionCard} from './objects/heroSectionCard'
+import {postShowcase} from './objects/postShowcase'
 
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/schema-types
 
@@ -23,20 +44,39 @@ export const schemaTypes = [
   settings,
   // Documents
   page,
-  post,
   person,
+  post,
   product,
   faq,
-  service,
-  video,
-  homepageService,
   legalDocument,
-  homepagePicture,
-  serviceGallery,
-  newAndEvent,
   // Objects
   blockContent,
   infoSection,
   callToAction,
   link,
+  heroSectionCarousel,
+  quote,
+  videoSection,
+  mediaCard,
+  mediaCardsCarousel,
+  step,
+  stepper,
+  cta,
+  contentDisplayBlock,
+  contactSection,
+  contentDisplayBlockCompact,
+  heroSection,
+  heroSectionCard,
+  therapistSection,
+  serviceCardBlock,
+  masonryGallery,
+  productShowcase,
+  calendarSection,
+  postShowcase,
+  textBlock,
+  faqCardsGrid,
+  faqAccordion,
+  cart,
+  checkoutSuccess,
+  legalDocumentsSection,
 ]
