@@ -21,6 +21,7 @@ export async function generateStaticParams() {
     perspective: "published",
     stega: false,
   });
+
   return data;
 }
 

@@ -31,10 +31,8 @@ export default function MediaCardsCarousel({
   block: MediaCardsCarouselBlock;
 }) {
   const [current, setCurrent] = React.useState(0);
-  const [count, setCount] = React.useState(block.cards.length);
+  const [count] = React.useState(block.cards.length);
   const carouselRef = React.useRef<any>(null);
-
-  console.log("ttt cards", block.cards);
 
   return (
     <section className="bg-gray-50 py-8 md:py-16">
@@ -86,7 +84,7 @@ export default function MediaCardsCarousel({
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 288px"
                           quality={100}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
                       </div>
                     )}
                     {/* Content */}
@@ -110,7 +108,7 @@ export default function MediaCardsCarousel({
                         </a>
                       )}
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-linear-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </CardContent>
                 </Card>
               </CarouselItem>

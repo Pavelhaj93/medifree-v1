@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useCart } from "@/app/context/cartContext";
-import { useSearchParams } from "next/navigation";
 import { CheckCircle, Download, ArrowRight, Home } from "lucide-react";
 import { Button } from "@/app/components/ui/Button";
 import Link from "next/link";
+import OrderDetails from "../sections/kosik/OrderDetails";
 
 type CheckoutSuccessBlockProps = {
   successTitle?: string;
@@ -36,7 +36,6 @@ export default function CheckoutSuccess({
     contactLinkText = "Kontaktujte nás",
   } = block ?? {};
   const { clearCart } = useCart();
-  const searchParams = useSearchParams();
   const [hasCleared, setHasCleared] = useState(false);
 
   useEffect(() => {
@@ -46,9 +45,6 @@ export default function CheckoutSuccess({
       setHasCleared(true);
     }
   }, [clearCart, hasCleared]);
-
-  // Get session ID from URL params if available (for future order tracking)
-  const sessionId = searchParams.get("session_id");
 
   return (
     <div className="min-h-[calc(100dvh-14.5rem)] bg-gray-50 flex items-center justify-center px-4 py-10">
@@ -74,12 +70,9 @@ export default function CheckoutSuccess({
           <p className="text-sm text-blue-800">{deliveryDescription}</p>
         </div>
 
-        {/* Order Details */}
-        {sessionId && (
-          <div className="text-xs text-gray-500 mb-6">
-            {orderNumberLabel} {sessionId.slice(-8).toUpperCase()}
-          </div>
-        )}
+        <Suspense>
+          <OrderDetails orderNumberLabel={orderNumberLabel} />
+        </Suspense>
 
         {/* Action Buttons */}
         <div className="flex flex-col gap-3">

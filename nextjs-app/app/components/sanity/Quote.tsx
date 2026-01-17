@@ -7,7 +7,7 @@ export type QuoteBlock = {
 
 export default function Quote({ block }: { block: QuoteBlock }) {
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <section className="py-16 md:py-24 bg-linear-to-br from-blue-50 via-white to-green-50">
       <div className="container mx-auto px-4 md:px-10">
         <div className="relative max-w-5xl mx-auto">
           {/* Background decorative elements */}
@@ -18,7 +18,7 @@ export default function Quote({ block }: { block: QuoteBlock }) {
           {/* Main quote box */}
           <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/50 p-8 md:p-12 lg:p-16">
             {/* Quote marks */}
-            <div className="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-br from-blue-500 to-green-500 rounded-full flex items-center justify-center shadow-lg">
+            <div className="absolute -top-4 -left-4 w-16 h-16 bg-linear-to-br from-blue-500 to-green-500 rounded-full flex items-center justify-center shadow-lg">
               <svg
                 className="w-8 h-8 text-white"
                 fill="currentColor"
@@ -36,7 +36,7 @@ export default function Quote({ block }: { block: QuoteBlock }) {
             {/* Attribution */}
             {block.attribution && (
               <div className="text-center">
-                <div className="inline-flex items-center justify-center px-6 py-2 bg-gradient-to-r from-blue-500 to-green-500 rounded-full">
+                <div className="inline-flex items-center justify-center px-6 py-2 bg-linear-to-r from-blue-500 to-green-500 rounded-full">
                   <span className="text-white font-medium text-sm tracking-wide">
                     {block.attribution}
                   </span>
@@ -45,7 +45,7 @@ export default function Quote({ block }: { block: QuoteBlock }) {
             )}
 
             {/* Subtle pattern overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/10 to-transparent rounded-3xl pointer-events-none"></div>
+            <div className="absolute inset-0 bg-linear-to-br from-transparent via-white/10 to-transparent rounded-3xl pointer-events-none"></div>
           </div>
 
           {/* Additional floating elements */}

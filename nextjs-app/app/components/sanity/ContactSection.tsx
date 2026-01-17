@@ -2,7 +2,6 @@
 
 import {
   Mail,
-  Phone,
   MapPin,
   Clock,
   Instagram,
@@ -13,7 +12,6 @@ import { Input } from "@/app/components/ui/Input";
 import { Textarea } from "@/app/components/ui/Textarea";
 import { Button } from "@/app/components/ui/Button";
 import Link from "next/link";
-import { michaelaInstagram, sharedInstagram } from "@/app/lib/social-links";
 import { z } from "zod";
 import {
   Form,
@@ -170,7 +168,7 @@ export default function ContactSection({
                     <FormControl>
                       <Textarea
                         placeholder={messagePlaceholder}
-                        className="rounded-lg border-gray-200 focus:border-primary focus:ring-primary min-h-[220px]"
+                        className="rounded-lg border-gray-200 focus:border-primary focus:ring-primary min-h-55"
                         {...field}
                       />
                     </FormControl>

@@ -46,8 +46,6 @@ export default function ContentDisplayBlock({
     color = "primary",
   } = block;
 
-  console.log("ttt link", link);
-
   // Determine link href based on linkType and anchor
   const linkHref = link
     ? link.linkType === "url"
@@ -61,8 +59,6 @@ export default function ContentDisplayBlock({
 
   // Icon rendering (Lucide, mapped)
   const LinkIcon = link?.icon ? iconMap[link.icon] : undefined;
-
-  console.log("ttt linkLabel", link?.label, "linkHref", linkHref);
 
   return (
     <section className="bg-gray-50 text-left py-8 md:py-16">

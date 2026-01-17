@@ -2,6 +2,7 @@
 
 import DocumentCategoriesMap from "@/app/components/sections/legalDocuments/DocumentCategoriesMap";
 import { Button } from "@/app/components/ui/Button";
+import Link from "next/link";
 
 type LegalDocumentsSectionBlockProps = {
   companyName?: string;
@@ -98,7 +99,7 @@ export default function LegalDocumentsSection({
           <p className="text-gray-600 mb-6">{contactDescription}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild>
-              <a href="/kontakt">{contactButtonText}</a>
+              <Link href="/kontakt">{contactButtonText}</Link>
             </Button>
           </div>
         </div>
