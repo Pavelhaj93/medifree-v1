@@ -2,7 +2,6 @@ import {
   AllFaqsQueryResult,
   FaqAccordion as SanityFaqAccordion,
 } from "@/sanity.types";
-import React from "react";
 import { Badge } from "../ui/Badge";
 import AccordionFAQSection from "../sections/contact/AccordionFAQSection";
 

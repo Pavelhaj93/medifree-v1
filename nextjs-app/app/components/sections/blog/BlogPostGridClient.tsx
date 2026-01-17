@@ -3,11 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/app/components/ui/Button";
 import BlogPostGridItem from "./BlogPostGridItem";
-import {
-  AllPostsQueryResult,
-  PostShowcase,
-  ProductShowcase,
-} from "@/sanity.types";
+import { AllPostsQueryResult, PostShowcase } from "@/sanity.types";
 
 const PAGE_SIZE = 6;
 

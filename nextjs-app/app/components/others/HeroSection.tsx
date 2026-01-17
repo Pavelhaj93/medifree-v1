@@ -1,7 +1,6 @@
 import { Badge } from "@/app/components/ui/Badge";
 import { HeroSection as HeroSectionProps } from "@/sanity.types";
 import Link from "next/link";
-import React from "react";
 import Image from "next/image";
 import { urlForImage } from "@/sanity/lib/utils";
 
@@ -9,7 +8,6 @@ export default function HeroSection({ block }: { block: HeroSectionProps }) {
   const { title, subtitle, badgeText, primaryButton, secondaryButton, cards } =
     block ?? {};
 
-  // console.log("ttt tiltle", block);
   return (
     <section
       className={`relative overflow-hidden bg-linear-to-br from-blue-50 via-white to-green-50 py-8 md:py-16`}

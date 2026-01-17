@@ -1,12 +1,5 @@
 import Image from "next/image";
-import {
-  ArrowRight,
-  Award,
-  BookOpen,
-  Brain,
-  Heart,
-  Stethoscope,
-} from "lucide-react";
+import { ArrowRight, Award, Stethoscope } from "lucide-react";
 import { Badge } from "@/app/components/ui/Badge";
 import { Button } from "@/app/components/ui/Button";
 import { urlForImage } from "@/sanity/lib/utils";

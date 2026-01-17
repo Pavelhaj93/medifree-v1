@@ -1,4 +1,3 @@
-import React from "react";
 import Cta from "@/app/components/sanity/Cta";
 import Info from "@/app/components/sanity/InfoSection";
 import HeroSectionCarousel from "@/app/components/sanity/HeroSectionCarousel";

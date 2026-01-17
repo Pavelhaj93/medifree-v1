@@ -1,6 +1,5 @@
 import { urlForImage } from "@/sanity/lib/utils";
 import Image from "next/image";
-import React from "react";
 import { Badge } from "../ui/Badge";
 
 type MasonryGalleryProps = {

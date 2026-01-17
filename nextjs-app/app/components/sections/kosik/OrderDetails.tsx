@@ -1,7 +1,6 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import React from "react";
 
 const OrderDetails = ({ orderNumberLabel }: { orderNumberLabel: string }) => {
   const params = useSearchParams();

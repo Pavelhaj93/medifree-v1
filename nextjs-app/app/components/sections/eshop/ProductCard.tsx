@@ -1,5 +1,4 @@
 import { Badge } from "@/app/components/ui/Badge";
-import { Button } from "@/app/components/ui/Button";
 import { Product } from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
 import Image from "next/image";

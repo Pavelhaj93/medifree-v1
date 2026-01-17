@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Badge } from "@/app/components/ui/Badge";
 
 export type Step = {

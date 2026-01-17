@@ -9,7 +9,7 @@ import {
   ProductShowcase,
 } from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
-import { Download, ShoppingCart, Star } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 
 export default function FeaturedProductSection({

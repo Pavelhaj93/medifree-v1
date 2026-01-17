@@ -4,7 +4,6 @@ import { Badge } from "@/app/components/ui/Badge";
 import { Button } from "@/app/components/ui/Button";
 import { urlForImage } from "@/sanity/lib/utils";
 import Link from "next/link";
-
 import { PortableTextBlock } from "next-sanity";
 import CustomPortableText from "./PortableText";
 

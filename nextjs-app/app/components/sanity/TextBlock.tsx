@@ -1,4 +1,3 @@
-import React from "react";
 import CustomPortableText from "./PortableText";
 import { PortableTextBlock } from "next-sanity";
 import { TextBlock as TextBlockProps } from "@/sanity.types";

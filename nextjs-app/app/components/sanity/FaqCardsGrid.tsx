@@ -2,7 +2,6 @@ import {
   AllFaqsQueryResult,
   FaqCardsGrid as FaqCardsGridProps,
 } from "@/sanity.types";
-import React from "react";
 
 type FaqCardsGridBlockProps = {
   title?: string;

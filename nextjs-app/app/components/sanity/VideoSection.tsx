@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type VideoSectionBlock = {
   video?: { asset?: { url?: string } };
@@ -8,13 +8,13 @@ export type VideoSectionBlock = {
 };
 
 export default function VideoSection({ block }: { block: VideoSectionBlock }) {
-  const desktopVideoRef = React.useRef<HTMLVideoElement>(null);
-  const mobileVideoRef = React.useRef<HTMLVideoElement>(null);
-  const [isInView, setIsInView] = React.useState(false);
-  const [isMobile, setIsMobile] = React.useState(false);
-  const sectionRef = React.useRef<HTMLElement>(null);
+  const desktopVideoRef = useRef<HTMLVideoElement>(null);
+  const mobileVideoRef = useRef<HTMLVideoElement>(null);
+  const [isInView, setIsInView] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -23,7 +23,7 @@ export default function VideoSection({ block }: { block: VideoSectionBlock }) {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setIsInView(entry.isIntersecting),
       { threshold: 0.5 }
@@ -35,7 +35,7 @@ export default function VideoSection({ block }: { block: VideoSectionBlock }) {
     };
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const desktopVid = desktopVideoRef.current;
     const mobileVid = mobileVideoRef.current;
     const hasMobileVideo = block.mobileVideo?.asset?.url;

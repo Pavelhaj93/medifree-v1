@@ -1,18 +1,14 @@
 "use client";
 
 import { AllLegalDocumentsQueryResult, LegalDocument } from "@/sanity.types";
-import React from "react";
-
 import {
   Cookie,
   CreditCard,
   Download,
-  Eye,
   FileText,
   Shield,
   User,
 } from "lucide-react";
-import { buildFileUrl } from "@sanity/asset-utils";
 import { Button } from "../../ui/Button";
 
 const DocumentCategoriesMap = ({
