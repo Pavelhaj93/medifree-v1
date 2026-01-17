@@ -10,18 +10,18 @@ const PAGE_SIZE = 6;
 export default function ProductGridSection({
   products,
 }: {
-  products: AllProductsQueryResult;
+  products?: AllProductsQueryResult;
 }) {
-  const categories = Array.from(new Set(products.map((p) => p.category)));
+  const categories = Array.from(new Set(products?.map((p) => p.category)));
 
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const filtered = activeFilter
-    ? products.filter((p) => p.category === activeFilter)
+    ? products?.filter((p) => p.category === activeFilter)
     : products;
 
-  const visibleProducts = filtered.slice(0, visibleCount);
+  const visibleProducts = filtered?.slice(0, visibleCount);
 
   const handleFilter = (cat: string | null) => {
     setActiveFilter(cat);
@@ -53,15 +53,15 @@ export default function ProductGridSection({
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 opacity-0 animate-fade-in animation-delay-400">
-          {visibleProducts.map((product) => {
+          {visibleProducts?.map((product) => {
             return (
-              <ProductCard key={product._id} product={product as Product} />
+              <ProductCard key={product._id} product={product as unknown as Product} />
             );
           })}
         </div>
 
         {/* Show more */}
-        {visibleCount < filtered.length && (
+        {visibleCount < (filtered?.length ?? 0) && (
           <div className="mt-12 text-center">
             <Button
               variant="primary"

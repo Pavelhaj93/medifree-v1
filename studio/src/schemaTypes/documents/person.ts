@@ -1,5 +1,6 @@
 import {UserIcon} from '@sanity/icons'
 import {defineField, defineType} from 'sanity'
+import {iconList} from '../../lib/iconList'
 
 /**
  * Person schema.  Define and edit the fields for the 'person' content type.
@@ -158,11 +159,36 @@ export const person = defineType({
       title: 'Certifications',
       type: 'array',
       of: [
-        defineField({
-          name: 'certification',
-          title: 'Certification',
-          type: 'string',
-        }),
+        {
+          type: 'object',
+          name: 'certificationItem',
+          title: 'Certification Item',
+          fields: [
+            defineField({
+              name: 'certification',
+              title: 'Certification',
+              type: 'string',
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: 'icon',
+              title: 'Icon',
+              type: 'string',
+              options: {
+                list: iconList,
+                layout: 'dropdown',
+              },
+              description: 'Select an icon for this certification',
+              validation: (rule) => rule.required(),
+            }),
+          ],
+          preview: {
+            select: {
+              title: 'certification',
+              subtitle: 'icon',
+            },
+          },
+        },
       ],
     }),
     defineField({

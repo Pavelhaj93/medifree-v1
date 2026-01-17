@@ -2,7 +2,6 @@
 
 import { Button } from "@/app/components/ui/Button";
 import { Facebook, Linkedin, Twitter } from "lucide-react";
-import React from "react";
 
 export default function SocialSitesShareButtons() {
   const shareUrl = encodeURIComponent(

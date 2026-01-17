@@ -1,0 +1,16 @@
+export const iconList = [
+  {title: 'Calendar', value: 'Calendar'},
+  {title: 'Arrow Right', value: 'ArrowRight'},
+  {title: 'Chevron Right', value: 'ChevronRight'},
+  {title: 'Check', value: 'Check'},
+  {title: 'User', value: 'User'},
+  {title: 'Mail', value: 'Mail'},
+  {title: 'Phone', value: 'Phone'},
+  {title: 'Map Pin', value: 'MapPin'},
+  {title: 'Star', value: 'Star'},
+  {title: 'Heart', value: 'Heart'},
+  {title: 'Instagram', value: 'Instagram'},
+  {title: 'Award', value: 'Award'},
+  {title: 'Brain', value: 'Brain'},
+  {title: 'Book Open', value: 'BookOpen'},
+]

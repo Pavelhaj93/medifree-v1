@@ -3,7 +3,6 @@ import Link from "next/link";
 import { CalendarDays, Clock, ChevronLeft } from "lucide-react";
 import { Badge } from "@/app/components/ui/Badge";
 import AboutTheAuthor from "@/app/components/sections/blogItem/AboutTheAuthor";
-import RelatedArticles from "@/app/components/sections/blogItem/RelatedArticlesGrid";
 import { sanityFetch } from "@/sanity/lib/live";
 import { postPagesSlugs, postQuery } from "@/sanity/queries";
 import type { Person, PostQueryResult } from "@/sanity.types";
@@ -149,7 +148,7 @@ export default async function BlogPostPage({
             </div>
           </div>
 
-          <div className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden mb-12">
+          <div className="relative h-100 md:h-125 rounded-2xl overflow-hidden mb-12">
             <Image
               src={
                 urlForImage(post?.coverImage)

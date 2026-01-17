@@ -24,6 +24,7 @@
     "@sanity/image-url": "^1.1.0",
     "@sanity/uuid": "^3.0.2",
     "@tailwindcss/typography": "^0.5.16",
+    "@vercel/analytics": "^1.6.1",
     "@vercel/speed-insights": "^1.1.0",
     "class-variance-authority": "^0.7.1",
     "date-fns": "^3.6.0",
@@ -43,7 +44,7 @@
     "stripe": "^18.5.0",
     "styled-components": "^6.1.15",
     "tailwind-merge": "^3.2.0",
-    "zod": "3.21.4"
+    "zod": "^4.3.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.13",

@@ -1,5 +1,4 @@
 import { Badge } from "@/app/components/ui/Badge";
-import { Button } from "@/app/components/ui/Button";
 import { Product } from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
 import Image from "next/image";
@@ -8,7 +7,7 @@ import AddToCartButton from "../../others/AddToCartButton";
 const ProductCard = ({ product }: { product: Product }) => {
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col h-full">
-      <div className="relative h-[200px]">
+      <div className="relative h-50">
         <Image
           src={
             urlForImage(product?.image)
@@ -27,7 +26,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           </Badge>
         )}
       </div>
-      <div className="p-6 flex flex-col flex-grow">
+      <div className="p-6 flex flex-col grow">
         <h3 className="font-medium text-lg mb-2">{product?.title}</h3>
         {/* TODO: no reviews yet, maybe later */}
         {/* <div className="flex items-center gap-1 mb-2">
@@ -44,7 +43,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           ))}
           <span className="ml-2 text-xs text-gray-600">({reviews})</span>
         </div> */}
-        <p className="text-gray-600 text-sm mb-4 flex-grow">
+        <p className="text-gray-600 text-sm mb-4 grow">
           {product?.description}
         </p>
         <div className="flex items-center justify-between mt-auto">

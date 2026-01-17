@@ -1,23 +1,49 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "../../ui/Button";
 import { ArrowLeft, CreditCard, ShoppingCart, Trash2 } from "lucide-react";
 import { useCart } from "@/app/context/cartContext";
 import Image from "next/image";
 import { Input } from "../../ui/Input";
 import { urlForImage } from "@/sanity/lib/utils";
-import { GdprQueryResult, TermsAndConditionsQueryResult } from "@/sanity.types";
 import { toast } from "sonner";
+import { Cart } from "@/sanity.types";
+import CustomPortableText from "../../sanity/PortableText";
+import { PortableTextBlock } from "next-sanity";
 
 const CartClient = ({
-  gdpr,
-  termsAndConditions,
+  rest,
 }: {
-  gdpr: GdprQueryResult;
-  termsAndConditions: TermsAndConditionsQueryResult;
+  rest: Omit<
+    Cart,
+    | "badgeText"
+    | "contactButtonText"
+    | "faqButtonText"
+    | "pageTitle"
+    | "supportDescription"
+    | "supportTitle"
+  >;
 }) => {
+  const {
+    cartItemsTitle,
+    checkingOutText,
+    checkoutButtonText,
+    continueShoppingText,
+    emailHelperText,
+    emailLabel,
+    emailPlaceholder,
+    emptyCartButtonText,
+    emptyCartDescription,
+    emptyCartTitle,
+    orderSummaryTitle,
+    removeButtonText,
+    subtotalLabel,
+    taxLabel,
+    termsText,
+    totalLabel,
+  } = rest;
   const { items, removeItem, clearCart, subtotal, tax, total } = useCart();
   const [customerEmail, setCustomerEmail] = useState("");
   const [isCheckingOut, setIsCheckingOut] = useState(false);
@@ -56,14 +82,10 @@ const CartClient = ({
           <div className="bg-gray-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
             <ShoppingCart className="h-8 w-8 text-gray-500" />
           </div>
-          <h2 className="text-2xl font-medium mb-4">Váš košík je prázdný</h2>
-          <p className="text-gray-600 mb-8">
-            Vypadá to, že jste do svého košíku zatím nepřidali žádné položky.
-            Prozkoumejte náš obchod a najděte digitální zdroje, které podpoří
-            vaši cestu ke zdraví a duševní pohodě.
-          </p>
+          <h2 className="text-2xl font-medium mb-4">{emptyCartTitle}</h2>
+          <p className="text-gray-600 mb-8">{emptyCartDescription}</p>
           <Link href="/e-shop">
-            <Button variant="primary">Prozkoumat obchod</Button>
+            <Button variant="primary">{emptyCartButtonText}</Button>
           </Link>
         </div>
       ) : (
@@ -73,7 +95,7 @@ const CartClient = ({
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
               <div className="p-6 border-b">
                 <h2 className="text-xl font-medium">
-                  Položek v košíku (
+                  {cartItemsTitle} (
                   {items.reduce((total, item) => total + 1, 0)})
                 </h2>
               </div>
@@ -131,7 +153,7 @@ const CartClient = ({
                           onClick={() => removeItem(item?._id ?? "")}
                         >
                           <Trash2 className="h-4 w-4 mr-1" />
-                          <span className="text-sm">Odstranit</span>
+                          <span className="text-sm">{removeButtonText}</span>
                         </button>
                       </div>
 
@@ -149,7 +171,7 @@ const CartClient = ({
                   className="text-primary hover:underline flex items-center"
                 >
                   <ArrowLeft className="h-4 w-4 mr-2" />
-                  Pokračovat v nákupu
+                  {continueShoppingText}
                 </Link>
 
                 {/* TODO: maybe add later the promo code input */}
@@ -170,22 +192,22 @@ const CartClient = ({
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow-md overflow-hidden sticky top-28">
               <div className="p-6 border-b">
-                <h2 className="text-xl font-medium">Shrnutí objednávky</h2>
+                <h2 className="text-xl font-medium">{orderSummaryTitle}</h2>
               </div>
 
               <div className="p-6 space-y-4">
                 <div className="flex justify-between text-sm">
-                  <span>Mezisoučet</span>
+                  <span>{subtotalLabel}</span>
                   <span>{subtotal.toFixed(2)} Kč</span>
                 </div>
 
                 <div className="flex justify-between text-sm">
-                  <span>DPH (21%)</span>
+                  <span>{taxLabel}</span>
                   <span>{tax.toFixed(2)} Kč</span>
                 </div>
 
                 <div className="pt-4 border-t flex justify-between font-medium">
-                  <span>Celkem</span>
+                  <span>{totalLabel}</span>
                   <span>{total.toFixed(2)} Kč</span>
                 </div>
               </div>
@@ -196,52 +218,35 @@ const CartClient = ({
                     htmlFor="email"
                     className="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    Email pro doručení ebooků *
+                    {emailLabel}
                   </label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="vas.email@priklad.cz"
+                    placeholder={emailPlaceholder}
                     value={customerEmail}
                     onChange={(e) => setCustomerEmail(e.target.value)}
                     required
                     className="w-full"
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Na tento email Vám zašleme zakoupené ebooky
+                    {emailHelperText}
                   </p>
                 </div>
 
                 <Button
-                  className="w-full mb-4"
+                  className="w-full"
                   onClick={handleCheckout}
                   disabled={isCheckingOut || !customerEmail}
                 >
                   <CreditCard className="h-4 w-4 mr-2" />
-                  {isCheckingOut ? "Přesměrovávání..." : "Pokračovat k platbě"}
+                  {isCheckingOut ? checkingOutText : checkoutButtonText}
                 </Button>
 
-                <p className="text-xs text-gray-500 text-center">
-                  Pokračováním k pokladně souhlasíte s našimi{" "}
-                  <Link
-                    href={gdpr?.file.asset?.url ?? "/ochrana-osobnich-udaju"}
-                    target="_blank"
-                    className="underline"
-                  >
-                    Obchodními podmínkami
-                  </Link>{" "}
-                  a{" "}
-                  <Link
-                    href={
-                      termsAndConditions?.file.asset?.url ??
-                      "/zasady-ochrany-osobnich-udaju"
-                    }
-                    target="_blank"
-                    className="underline"
-                  >
-                    Zásadami ochrany osobních údajů
-                  </Link>
-                  .
+                <p className="prose text-xs text-gray-500">
+                  <CustomPortableText
+                    value={termsText as PortableTextBlock[]}
+                  />
                 </p>
               </div>
             </div>
