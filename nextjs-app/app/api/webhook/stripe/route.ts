@@ -12,11 +12,11 @@ export async function POST(req: NextRequest) {
     // Check if webhook secret is configured
     if (!webhookSecret) {
       console.error(
-        "STRIPE_WEBHOOK_SECRET is not configured in environment variables"
+        "STRIPE_WEBHOOK_SECRET is not configured in environment variables",
       );
       return NextResponse.json(
         { error: "Webhook secret not configured" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
         console.error("No customer email found in session");
         return NextResponse.json(
           { error: "No customer email" },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
         session.id,
         {
           expand: ["data.price.product"],
-        }
+        },
       );
 
       // Process each purchased item
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
               }
             }
           `,
-            { title: productName }
+            { title: productName },
           );
 
           if (
@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
             product.category === "Ebooky" &&
             product.ebookFile?.asset
           ) {
-            // Send email with ebook attachment
+            // Send email with ebook link
             await sendEbookEmail(customerEmail, product);
           }
         }
@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
     console.error("Webhook error:", error);
     return NextResponse.json(
       { error: "Webhook handler failed" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -114,7 +114,7 @@ async function sendEbookEmail(email: string, product: any) {
     // Check if Gmail credentials are configured
     if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
       console.error(
-        "Gmail credentials not configured. Missing GMAIL_USER or GMAIL_APP_PASSWORD"
+        "Gmail credentials not configured. Missing GMAIL_USER or GMAIL_APP_PASSWORD",
       );
       throw new Error("Email service not configured");
     }
@@ -158,17 +158,10 @@ async function sendEbookEmail(email: string, product: any) {
           </p>
         </div>
       `,
-      attachments: [
-        {
-          filename:
-            product.ebookFile.asset.originalFilename || `${product.title}.pdf`,
-          path: product.ebookFile.asset.url,
-        },
-      ],
     });
 
     console.log(
-      `Ebook email sent successfully to ${email} for product ${product.title}`
+      `Ebook email sent successfully to ${email} for product ${product.title}`,
     );
   } catch (error) {
     console.error("Failed to send ebook email:", error);

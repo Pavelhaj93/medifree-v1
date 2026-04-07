@@ -7,7 +7,7 @@ This system automatically sends purchased ebooks to customers via email after su
 1. **Customer Purchase**: Customer adds ebooks to cart and provides email address
 2. **Stripe Checkout**: Customer completes payment through Stripe
 3. **Webhook Processing**: Stripe webhook triggers email delivery
-4. **Email Sent**: Customer receives email with ebook download link/attachment
+4. **Email Sent**: Customer receives email with ebook download link
 
 ## Required Environment Variables
 
