@@ -12,7 +12,126 @@
  * ---------------------------------------------------------------------------------
  */
 
-// Source: ../studio/schema.json
+export declare const internalGroqTypeReferenceTo: unique symbol;
+
+// Source: schema.json
+export type PageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "page";
+};
+
+export type Button = {
+  text?: string;
+  linkType?: "page" | "url";
+  page?: PageReference;
+  url?: string;
+  icon?:
+    | "Calendar"
+    | "ArrowRight"
+    | "ChevronRight"
+    | "Check"
+    | "User"
+    | "Mail"
+    | "Phone"
+    | "MapPin"
+    | "Star"
+    | "Heart";
+};
+
+export type ContentDisplayBlockLink = {
+  linkType?: "page" | "url";
+  page?: PageReference;
+  url?: string;
+  anchor?: string;
+  label?: string;
+  icon?:
+    | "Calendar"
+    | "ArrowRight"
+    | "ChevronRight"
+    | "Check"
+    | "User"
+    | "Mail"
+    | "Phone"
+    | "MapPin"
+    | "Star"
+    | "Heart"
+    | "Instagram";
+};
+
+export type CtaButton = {
+  text: string;
+  link: string;
+  icon?:
+    | "Calendar"
+    | "ArrowRight"
+    | "ChevronRight"
+    | "Check"
+    | "User"
+    | "Mail"
+    | "Phone"
+    | "MapPin"
+    | "Star"
+    | "Heart";
+};
+
+export type ContentDisplayBlockCompactLink = {
+  linkType?: "page" | "url";
+  page?: PageReference;
+  url?: string;
+  anchor?: string;
+  label?: string;
+  icon?:
+    | "Calendar"
+    | "ArrowRight"
+    | "ChevronRight"
+    | "Check"
+    | "User"
+    | "Mail"
+    | "Phone"
+    | "MapPin"
+    | "Star"
+    | "Heart"
+    | "Instagram";
+};
+
+export type PrimaryButton = {
+  text?: string;
+  linkType?: "page" | "url";
+  page?: PageReference;
+  url?: string;
+  icon?:
+    | "Calendar"
+    | "ArrowRight"
+    | "ChevronRight"
+    | "Check"
+    | "User"
+    | "Mail"
+    | "Phone"
+    | "MapPin"
+    | "Star"
+    | "Heart";
+};
+
+export type SecondaryButton = {
+  text?: string;
+  linkType?: "page" | "url";
+  page?: PageReference;
+  url?: string;
+  icon?:
+    | "Calendar"
+    | "ArrowRight"
+    | "ChevronRight"
+    | "Check"
+    | "User"
+    | "Mail"
+    | "Phone"
+    | "MapPin"
+    | "Star"
+    | "Heart";
+};
+
 export type LegalDocumentsSection = {
   _type: "legalDocumentsSection";
   companyName: string;
@@ -100,18 +219,20 @@ export type ProductShowcase = {
   recommendedBadgeText?: string;
 };
 
+export type SanityImageAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+};
+
 export type MasonryGallery = {
   _type: "masonryGallery";
   badgeText: string;
   heading: string;
   description?: string;
   images: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -127,12 +248,7 @@ export type ServiceCardBlock = {
   title: string;
   content: BlockContent;
   image: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -147,14 +263,16 @@ export type ServiceCardBlock = {
   buttonUrl?: string;
 };
 
+export type PersonReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "person";
+};
+
 export type TherapistSection = {
   _type: "therapistSection";
-  therapist: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "person";
-  };
+  therapist: PersonReference;
   backgroundColor?: "primary" | "tertiary" | "white" | "gray";
   reverseLayout?: boolean;
   showBookingButton?: boolean;
@@ -169,12 +287,7 @@ export type HeroSectionCard = {
   slug: Slug;
   description?: string;
   image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -188,50 +301,8 @@ export type HeroSection = {
   badgeText?: string;
   title?: string;
   subtitle?: string;
-  primaryButton?: {
-    text?: string;
-    linkType?: "page" | "url";
-    page?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "page";
-    };
-    url?: string;
-    icon?:
-      | "Calendar"
-      | "ArrowRight"
-      | "ChevronRight"
-      | "Check"
-      | "User"
-      | "Mail"
-      | "Phone"
-      | "MapPin"
-      | "Star"
-      | "Heart";
-  };
-  secondaryButton?: {
-    text?: string;
-    linkType?: "page" | "url";
-    page?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "page";
-    };
-    url?: string;
-    icon?:
-      | "Calendar"
-      | "ArrowRight"
-      | "ChevronRight"
-      | "Check"
-      | "User"
-      | "Mail"
-      | "Phone"
-      | "MapPin"
-      | "Star"
-      | "Heart";
-  };
+  primaryButton?: PrimaryButton;
+  secondaryButton?: SecondaryButton;
   cards?: Array<
     {
       _key: string;
@@ -243,12 +314,7 @@ export type ContentDisplayBlockCompact = {
   _type: "contentDisplayBlockCompact";
   badge?: string;
   image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -257,30 +323,7 @@ export type ContentDisplayBlockCompact = {
   };
   title?: string;
   description?: string;
-  link?: {
-    linkType?: "page" | "url";
-    page?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "page";
-    };
-    url?: string;
-    anchor?: string;
-    label?: string;
-    icon?:
-      | "Calendar"
-      | "ArrowRight"
-      | "ChevronRight"
-      | "Check"
-      | "User"
-      | "Mail"
-      | "Phone"
-      | "MapPin"
-      | "Star"
-      | "Heart"
-      | "Instagram";
-  };
+  link?: ContentDisplayBlockCompactLink;
   reverse?: boolean;
   color?: "primary" | "tertiary";
 };
@@ -319,12 +362,7 @@ export type ContentDisplayBlock = {
   _type: "contentDisplayBlock";
   badge?: string;
   image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -333,30 +371,7 @@ export type ContentDisplayBlock = {
   };
   name?: string;
   description?: string;
-  link?: {
-    linkType?: "page" | "url";
-    page?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "page";
-    };
-    url?: string;
-    anchor?: string;
-    label?: string;
-    icon?:
-      | "Calendar"
-      | "ArrowRight"
-      | "ChevronRight"
-      | "Check"
-      | "User"
-      | "Mail"
-      | "Phone"
-      | "MapPin"
-      | "Star"
-      | "Heart"
-      | "Instagram";
-  };
+  link?: ContentDisplayBlockLink;
   topics?: Array<string>;
   socialLinks?: Array<{
     id?: string;
@@ -387,21 +402,7 @@ export type Cta = {
   _type: "cta";
   title: string;
   subtitle?: string;
-  button?: {
-    text: string;
-    link: string;
-    icon?:
-      | "Calendar"
-      | "ArrowRight"
-      | "ChevronRight"
-      | "Check"
-      | "User"
-      | "Mail"
-      | "Phone"
-      | "MapPin"
-      | "Star"
-      | "Heart";
-  };
+  button?: CtaButton;
 };
 
 export type Stepper = {
@@ -438,12 +439,7 @@ export type MediaCard = {
   title: string;
   description?: string;
   image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -453,25 +449,22 @@ export type MediaCard = {
   link?: string;
 };
 
+export type SanityFileAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+};
+
 export type VideoSection = {
   _type: "videoSection";
   video: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-    };
+    asset?: SanityFileAssetReference;
     media?: unknown;
     _type: "file";
   };
   mobileVideo?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-    };
+    asset?: SanityFileAssetReference;
     media?: unknown;
     _type: "file";
   };
@@ -486,12 +479,7 @@ export type Quote = {
 export type HeroSectionCarousel = {
   _type: "heroSectionCarousel";
   pictures?: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -501,46 +489,22 @@ export type HeroSectionCarousel = {
   title?: string;
   subtitle?: string;
   badgeText?: string;
-  button?: {
-    text?: string;
-    linkType?: "page" | "url";
-    page?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "page";
-    };
-    url?: string;
-    icon?:
-      | "Calendar"
-      | "ArrowRight"
-      | "ChevronRight"
-      | "Check"
-      | "User"
-      | "Mail"
-      | "Phone"
-      | "MapPin"
-      | "Star"
-      | "Heart";
-  };
+  button?: Button;
+};
+
+export type PostReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "post";
 };
 
 export type Link = {
   _type: "link";
   linkType?: "href" | "page" | "post";
   href?: string;
-  page?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "page";
-  };
-  post?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "post";
-  };
+  page?: PageReference;
+  post?: PostReference;
   openInNewTab?: boolean;
 };
 
@@ -572,18 +536,8 @@ export type BlockContent = Array<
       markDefs?: Array<{
         linkType?: "href" | "page" | "post";
         href?: string;
-        page?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "page";
-        };
-        post?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "post";
-        };
+        page?: PageReference;
+        post?: PostReference;
         openInNewTab?: boolean;
         _type: "link";
         _key: string;
@@ -593,12 +547,7 @@ export type BlockContent = Array<
       _key: string;
     }
   | {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
+      asset?: SanityImageAssetReference;
       media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
@@ -625,12 +574,7 @@ export type LegalDocument = {
     | "Pobytov\xE9 slu\u017Eby"
     | "Dal\u0161\xED dokumenty";
   file: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-    };
+    asset?: SanityFileAssetReference;
     media?: unknown;
     _type: "file";
   };
@@ -646,6 +590,13 @@ export type Faq = {
   answer: string;
 };
 
+export type ProductReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "product";
+};
+
 export type Product = {
   _id: string;
   _type: "product";
@@ -653,14 +604,14 @@ export type Product = {
   _updatedAt: string;
   _rev: string;
   title: string;
-  category: "Ebooky" | "Video kurzy";
+  category:
+    | "Ebooky"
+    | "Audionahr\xE1vky"
+    | "Video kurzy"
+    | "Ebook + Audio"
+    | "Bal\xED\u010Dky";
   image: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -670,15 +621,26 @@ export type Product = {
   price: number;
   description: string;
   ebookFile?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-    };
+    asset?: SanityFileAssetReference;
     media?: unknown;
     _type: "file";
   };
+  audioFile?: {
+    asset?: SanityFileAssetReference;
+    media?: unknown;
+    _type: "file";
+  };
+  videoFile?: {
+    asset?: SanityFileAssetReference;
+    media?: unknown;
+    _type: "file";
+  };
+  originalPrice?: number;
+  bundleItems?: Array<
+    {
+      _key: string;
+    } & ProductReference
+  >;
   featured?: boolean;
 };
 
@@ -809,12 +771,7 @@ export type Post = {
   content?: BlockContent;
   readTime?: number;
   coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -822,12 +779,7 @@ export type Post = {
     _type: "image";
   };
   date?: string;
-  author: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "person";
-  };
+  author: PersonReference;
 };
 
 export type Person = {
@@ -842,12 +794,7 @@ export type Person = {
   topics: Array<string>;
   description: string;
   mainImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -855,12 +802,7 @@ export type Person = {
     _type: "image";
   };
   picture: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -868,21 +810,11 @@ export type Person = {
     _type: "image";
   };
   video: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-    };
+    asset?: SanityFileAssetReference;
     media?: unknown;
     description?: string;
     thumbnailImage?: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
+      asset?: SanityImageAssetReference;
       media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
@@ -944,12 +876,7 @@ export type Settings = {
     _key: string;
   }>;
   ogImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -992,6 +919,7 @@ export type SanityImageMetadata = {
   palette?: SanityImagePalette;
   lqip?: string;
   blurHash?: string;
+  thumbHash?: string;
   hasAlpha?: boolean;
   isOpaque?: boolean;
 };
@@ -1007,14 +935,14 @@ export type SanityFileAsset = {
   title?: string;
   description?: string;
   altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
+  sha1hash: string;
+  extension: string;
+  mimeType: string;
+  size: number;
+  assetId: string;
   uploadId?: string;
-  path?: string;
-  url?: string;
+  path: string;
+  url: string;
   source?: SanityAssetSourceData;
 };
 
@@ -1036,14 +964,14 @@ export type SanityImageAsset = {
   title?: string;
   description?: string;
   altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
+  sha1hash: string;
+  extension: string;
+  mimeType: string;
+  size: number;
+  assetId: string;
   uploadId?: string;
-  path?: string;
-  url?: string;
+  path: string;
+  url: string;
   metadata?: SanityImageMetadata;
   source?: SanityAssetSourceData;
 };
@@ -1056,6 +984,13 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | PageReference
+  | Button
+  | ContentDisplayBlockLink
+  | CtaButton
+  | ContentDisplayBlockCompactLink
+  | PrimaryButton
+  | SecondaryButton
   | LegalDocumentsSection
   | CheckoutSuccess
   | Cart
@@ -1065,8 +1000,10 @@ export type AllSanitySchemaTypes =
   | PostShowcase
   | CalendarSection
   | ProductShowcase
+  | SanityImageAssetReference
   | MasonryGallery
   | ServiceCardBlock
+  | PersonReference
   | TherapistSection
   | HeroSectionCard
   | HeroSection
@@ -1078,15 +1015,18 @@ export type AllSanitySchemaTypes =
   | Step
   | MediaCardsCarousel
   | MediaCard
+  | SanityFileAssetReference
   | VideoSection
   | Quote
   | HeroSectionCarousel
+  | PostReference
   | Link
   | CallToAction
   | InfoSection
   | BlockContent
   | LegalDocument
   | Faq
+  | ProductReference
   | Product
   | SanityImageCrop
   | SanityImageHotspot
@@ -1104,15 +1044,7 @@ export type AllSanitySchemaTypes =
   | SanityImageAsset
   | Geopoint;
 
-export declare const internalGroqTypeReferenceTo: unique symbol;
-
-type ArrayOf<T> = Array<
-  T & {
-    _key: string;
-  }
->;
-
-// Source: sanity/queries/faqs.ts
+// Source: ../nextjs-app/sanity/queries/faqs.ts
 // Variable: allFaqsQuery
 // Query: *[_type == "faq"] | order(order asc, question asc) {     _id,  question,  answer,  category,  order,  _createdAt,  _updatedAt  }
 export type AllFaqsQueryResult = Array<{
@@ -1125,7 +1057,7 @@ export type AllFaqsQueryResult = Array<{
   _updatedAt: string;
 }>;
 
-// Source: sanity/queries/legal.ts
+// Source: ../nextjs-app/sanity/queries/legal.ts
 // Variable: allLegalDocumentsQuery
 // Query: *[_type == "legalDocument"] | order(title asc) {    _id,title,description,category,    file{      asset->{_id,url,assetId,originalFilename,extension,size}    },    _createdAt,_updatedAt,_rev  }
 export type AllLegalDocumentsQueryResult = Array<{
@@ -1142,11 +1074,11 @@ export type AllLegalDocumentsQueryResult = Array<{
   file: {
     asset: {
       _id: string;
-      url: string | null;
-      assetId: string | null;
+      url: string;
+      assetId: string;
       originalFilename: string | null;
-      extension: string | null;
-      size: number | null;
+      extension: string;
+      size: number;
     } | null;
   };
   _createdAt: string;
@@ -1154,7 +1086,7 @@ export type AllLegalDocumentsQueryResult = Array<{
   _rev: string;
 }>;
 
-// Source: sanity/queries/legal.ts
+// Source: ../nextjs-app/sanity/queries/legal.ts
 // Variable: gdprQuery
 // Query: *[_type == "legalDocument" && tag == "gdpr-consent"][0]{    _id,title,description,category,    file{      asset->{_id,url,assetId,originalFilename,extension,size}    },    _createdAt,_updatedAt,_type,_rev  }
 export type GdprQueryResult = {
@@ -1171,11 +1103,11 @@ export type GdprQueryResult = {
   file: {
     asset: {
       _id: string;
-      url: string | null;
-      assetId: string | null;
+      url: string;
+      assetId: string;
       originalFilename: string | null;
-      extension: string | null;
-      size: number | null;
+      extension: string;
+      size: number;
     } | null;
   };
   _createdAt: string;
@@ -1184,7 +1116,7 @@ export type GdprQueryResult = {
   _rev: string;
 } | null;
 
-// Source: sanity/queries/legal.ts
+// Source: ../nextjs-app/sanity/queries/legal.ts
 // Variable: termsAndConditionsQuery
 // Query: *[_type == "legalDocument" && tag == "TandC"][0]{    _id,title,description,category,    file{      asset->{_id,url,assetId,originalFilename,extension,size}    },    _createdAt,_updatedAt,_type,_rev  }
 export type TermsAndConditionsQueryResult = {
@@ -1201,11 +1133,11 @@ export type TermsAndConditionsQueryResult = {
   file: {
     asset: {
       _id: string;
-      url: string | null;
-      assetId: string | null;
+      url: string;
+      assetId: string;
       originalFilename: string | null;
-      extension: string | null;
-      size: number | null;
+      extension: string;
+      size: number;
     } | null;
   };
   _createdAt: string;
@@ -1214,9 +1146,9 @@ export type TermsAndConditionsQueryResult = {
   _rev: string;
 } | null;
 
-// Source: sanity/queries/pages.ts
+// Source: ../nextjs-app/sanity/queries/pages.ts
 // Variable: getPageQuery
-// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {   link {    ...,      _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }  } },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{ ...,   _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  } }        }      },      _type == "videoSection" => {        ...,        video{          asset->        },        mobileVideo{          asset->        }      },      _type == "contentDisplayBlock" => {        ...,        image,        link{          ...,          page->{            slug          }        }      },      _type == "therapistSection" => {        ...,        therapist->      },      _type == "serviceCardBlock" => {        ...,        image { asset, alt, _type },        content      },      _type == "masonryGallery" => {        ...,        images[] { asset, alt, _type, _key }      },      _type == "productShowcase" => {        ...,        "featuredProduct": *[_type == "product" && featured == true][0]{   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  ebookFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  _createdAt,  _updatedAt,  _rev,  _type },        "products": *[_type == "product"] | order(name asc) {   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  ebookFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  _createdAt,  _updatedAt,  _rev,  _type }      },      _type == "postShowcase" => {        ...,        "firstPost": *[_type == "post"] | order(date desc)[0]{   _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},  },        "posts": *[_type == "post"] | order(date desc) {   _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},  }      },      _type == "faqCardsGrid" => {        ...,        "faqs": *[_type == "faq"] | order(order asc, question asc) {   _id,  question,  answer,  category,  order,  _createdAt,  _updatedAt }       },      _type == "faqAccordion" => {        ...,        "faqs": *[_type == "faq"] | order(order asc, question asc) {   _id,  question,  answer,  category,  order,  _createdAt,  _updatedAt }       },      _type == "checkoutSuccess" => {        ...      },      _type == "legalDocumentsSection" => {        ...,        "legalDocuments": *[_type == "legalDocument"] | order(title asc) {          _id,          title,          description,          category,          file {            asset->{              _id,              url,              assetId,              originalFilename,              extension,              size            }          },          _createdAt,          _updatedAt,          _rev        }      }    },  }
+// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {   link {    ...,      _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }  } },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{ ...,   _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  } }        }      },      _type == "videoSection" => {        ...,        video{          asset->        },        mobileVideo{          asset->        }      },      _type == "contentDisplayBlock" => {        ...,        image,        link{          ...,          page->{            slug          }        }      },      _type == "therapistSection" => {        ...,        therapist->      },      _type == "serviceCardBlock" => {        ...,        image { asset, alt, _type },        content      },      _type == "masonryGallery" => {        ...,        images[] { asset, alt, _type, _key }      },      _type == "productShowcase" => {        ...,        "featuredProduct": *[_type == "product" && featured == true][0]{   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  ebookFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  audioFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  videoFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  originalPrice,  bundleItems[]->{    _id,    title,    category,    price,    ebookFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    },    audioFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    },    videoFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    }  },  _createdAt,  _updatedAt,  _rev,  _type },        "products": *[_type == "product"] | order(name asc) {   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  ebookFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  audioFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  videoFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  originalPrice,  bundleItems[]->{    _id,    title,    category,    price,    ebookFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    },    audioFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    },    videoFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    }  },  _createdAt,  _updatedAt,  _rev,  _type }      },      _type == "postShowcase" => {        ...,        "firstPost": *[_type == "post"] | order(date desc)[0]{   _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},  },        "posts": *[_type == "post"] | order(date desc) {   _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},  }      },      _type == "faqCardsGrid" => {        ...,        "faqs": *[_type == "faq"] | order(order asc, question asc) {   _id,  question,  answer,  category,  order,  _createdAt,  _updatedAt }       },      _type == "faqAccordion" => {        ...,        "faqs": *[_type == "faq"] | order(order asc, question asc) {   _id,  question,  answer,  category,  order,  _createdAt,  _updatedAt }       },      _type == "checkoutSuccess" => {        ...      },      _type == "legalDocumentsSection" => {        ...,        "legalDocuments": *[_type == "legalDocument"] | order(title asc) {          _id,          title,          description,          category,          file {            asset->{              _id,              url,              assetId,              originalFilename,              extension,              size            }          },          _createdAt,          _updatedAt,          _rev        }      }    },  }
 export type GetPageQueryResult = {
   _id: string;
   _type: "page";
@@ -1321,12 +1253,7 @@ export type GetPageQueryResult = {
         _type: "contentDisplayBlock";
         badge?: string;
         image: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
+          asset?: SanityImageAssetReference;
           media?: unknown;
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
@@ -1386,12 +1313,7 @@ export type GetPageQueryResult = {
         _type: "contentDisplayBlockCompact";
         badge?: string;
         image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
+          asset?: SanityImageAssetReference;
           media?: unknown;
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
@@ -1400,30 +1322,7 @@ export type GetPageQueryResult = {
         };
         title?: string;
         description?: string;
-        link?: {
-          linkType?: "page" | "url";
-          page?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "page";
-          };
-          url?: string;
-          anchor?: string;
-          label?: string;
-          icon?:
-            | "ArrowRight"
-            | "Calendar"
-            | "Check"
-            | "ChevronRight"
-            | "Heart"
-            | "Instagram"
-            | "Mail"
-            | "MapPin"
-            | "Phone"
-            | "Star"
-            | "User";
-        };
+        link?: ContentDisplayBlockCompactLink;
         reverse?: boolean;
         color?: "primary" | "tertiary";
       }
@@ -1432,21 +1331,7 @@ export type GetPageQueryResult = {
         _type: "cta";
         title: string;
         subtitle?: string;
-        button?: {
-          text: string;
-          link: string;
-          icon?:
-            | "ArrowRight"
-            | "Calendar"
-            | "Check"
-            | "ChevronRight"
-            | "Heart"
-            | "Mail"
-            | "MapPin"
-            | "Phone"
-            | "Star"
-            | "User";
-        };
+        button?: CtaButton;
       }
     | {
         _key: string;
@@ -1483,50 +1368,8 @@ export type GetPageQueryResult = {
         badgeText?: string;
         title?: string;
         subtitle?: string;
-        primaryButton?: {
-          text?: string;
-          linkType?: "page" | "url";
-          page?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "page";
-          };
-          url?: string;
-          icon?:
-            | "ArrowRight"
-            | "Calendar"
-            | "Check"
-            | "ChevronRight"
-            | "Heart"
-            | "Mail"
-            | "MapPin"
-            | "Phone"
-            | "Star"
-            | "User";
-        };
-        secondaryButton?: {
-          text?: string;
-          linkType?: "page" | "url";
-          page?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "page";
-          };
-          url?: string;
-          icon?:
-            | "ArrowRight"
-            | "Calendar"
-            | "Check"
-            | "ChevronRight"
-            | "Heart"
-            | "Mail"
-            | "MapPin"
-            | "Phone"
-            | "Star"
-            | "User";
-        };
+        primaryButton?: PrimaryButton;
+        secondaryButton?: SecondaryButton;
         cards?: Array<
           {
             _key: string;
@@ -1537,12 +1380,7 @@ export type GetPageQueryResult = {
         _key: string;
         _type: "heroSectionCarousel";
         pictures?: Array<{
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
+          asset?: SanityImageAssetReference;
           media?: unknown;
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
@@ -1552,28 +1390,7 @@ export type GetPageQueryResult = {
         title?: string;
         subtitle?: string;
         badgeText?: string;
-        button?: {
-          text?: string;
-          linkType?: "page" | "url";
-          page?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "page";
-          };
-          url?: string;
-          icon?:
-            | "ArrowRight"
-            | "Calendar"
-            | "Check"
-            | "ChevronRight"
-            | "Heart"
-            | "Mail"
-            | "MapPin"
-            | "Phone"
-            | "Star"
-            | "User";
-        };
+        button?: Button;
       }
     | {
         _key: string;
@@ -1612,12 +1429,7 @@ export type GetPageQueryResult = {
               _key: string;
             }
           | {
-              asset?: {
-                _ref: string;
-                _type: "reference";
-                _weak?: boolean;
-                [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-              };
+              asset?: SanityImageAssetReference;
               media?: unknown;
               hotspot?: SanityImageHotspot;
               crop?: SanityImageCrop;
@@ -1653,11 +1465,11 @@ export type GetPageQueryResult = {
           file: {
             asset: {
               _id: string;
-              url: string | null;
-              assetId: string | null;
+              url: string;
+              assetId: string;
               originalFilename: string | null;
-              extension: string | null;
-              size: number | null;
+              extension: string;
+              size: number;
             } | null;
           };
           _createdAt: string;
@@ -1672,12 +1484,7 @@ export type GetPageQueryResult = {
         heading: string;
         description?: string;
         images: Array<{
-          asset: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          } | null;
+          asset: SanityImageAssetReference | null;
           alt: string;
           _type: "image";
           _key: string;
@@ -1717,12 +1524,7 @@ export type GetPageQueryResult = {
           content: BlockContent | null;
           readTime: number | null;
           coverImage: {
-            asset?: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-            };
+            asset?: SanityImageAssetReference;
             media?: unknown;
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
@@ -1734,12 +1536,7 @@ export type GetPageQueryResult = {
             name: string;
             specialization: string;
             picture: {
-              asset?: {
-                _ref: string;
-                _type: "reference";
-                _weak?: boolean;
-                [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-              };
+              asset?: SanityImageAssetReference;
               media?: unknown;
               hotspot?: SanityImageHotspot;
               crop?: SanityImageCrop;
@@ -1766,12 +1563,7 @@ export type GetPageQueryResult = {
           content: BlockContent | null;
           readTime: number | null;
           coverImage: {
-            asset?: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-            };
+            asset?: SanityImageAssetReference;
             media?: unknown;
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
@@ -1783,12 +1575,7 @@ export type GetPageQueryResult = {
             name: string;
             specialization: string;
             picture: {
-              asset?: {
-                _ref: string;
-                _type: "reference";
-                _weak?: boolean;
-                [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-              };
+              asset?: SanityImageAssetReference;
               media?: unknown;
               hotspot?: SanityImageHotspot;
               crop?: SanityImageCrop;
@@ -1810,26 +1597,78 @@ export type GetPageQueryResult = {
           price: number;
           discount: null;
           image: {
-            asset: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-            } | null;
+            asset: SanityImageAssetReference | null;
             alt: string | null;
             _type: "image";
           };
           description: string;
           featured: true;
-          category: "Ebooky" | "Video kurzy";
+          category:
+            | "Audionahr\xE1vky"
+            | "Bal\xED\u010Dky"
+            | "Ebook + Audio"
+            | "Ebooky"
+            | "Video kurzy";
           ebookFile: {
             asset: {
               _id: string;
-              url: string | null;
+              url: string;
               originalFilename: string | null;
-              mimeType: string | null;
+              mimeType: string;
             } | null;
           } | null;
+          audioFile: {
+            asset: {
+              _id: string;
+              url: string;
+              originalFilename: string | null;
+              mimeType: string;
+            } | null;
+          } | null;
+          videoFile: {
+            asset: {
+              _id: string;
+              url: string;
+              originalFilename: string | null;
+              mimeType: string;
+            } | null;
+          } | null;
+          originalPrice: number | null;
+          bundleItems: Array<{
+            _id: string;
+            title: string;
+            category:
+              | "Audionahr\xE1vky"
+              | "Bal\xED\u010Dky"
+              | "Ebook + Audio"
+              | "Ebooky"
+              | "Video kurzy";
+            price: number;
+            ebookFile: {
+              asset: {
+                _id: string;
+                url: string;
+                originalFilename: string | null;
+                mimeType: string;
+              } | null;
+            } | null;
+            audioFile: {
+              asset: {
+                _id: string;
+                url: string;
+                originalFilename: string | null;
+                mimeType: string;
+              } | null;
+            } | null;
+            videoFile: {
+              asset: {
+                _id: string;
+                url: string;
+                originalFilename: string | null;
+                mimeType: string;
+              } | null;
+            } | null;
+          }> | null;
           _createdAt: string;
           _updatedAt: string;
           _rev: string;
@@ -1841,26 +1680,78 @@ export type GetPageQueryResult = {
           price: number;
           discount: null;
           image: {
-            asset: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-            } | null;
+            asset: SanityImageAssetReference | null;
             alt: string | null;
             _type: "image";
           };
           description: string;
           featured: boolean | null;
-          category: "Ebooky" | "Video kurzy";
+          category:
+            | "Audionahr\xE1vky"
+            | "Bal\xED\u010Dky"
+            | "Ebook + Audio"
+            | "Ebooky"
+            | "Video kurzy";
           ebookFile: {
             asset: {
               _id: string;
-              url: string | null;
+              url: string;
               originalFilename: string | null;
-              mimeType: string | null;
+              mimeType: string;
             } | null;
           } | null;
+          audioFile: {
+            asset: {
+              _id: string;
+              url: string;
+              originalFilename: string | null;
+              mimeType: string;
+            } | null;
+          } | null;
+          videoFile: {
+            asset: {
+              _id: string;
+              url: string;
+              originalFilename: string | null;
+              mimeType: string;
+            } | null;
+          } | null;
+          originalPrice: number | null;
+          bundleItems: Array<{
+            _id: string;
+            title: string;
+            category:
+              | "Audionahr\xE1vky"
+              | "Bal\xED\u010Dky"
+              | "Ebook + Audio"
+              | "Ebooky"
+              | "Video kurzy";
+            price: number;
+            ebookFile: {
+              asset: {
+                _id: string;
+                url: string;
+                originalFilename: string | null;
+                mimeType: string;
+              } | null;
+            } | null;
+            audioFile: {
+              asset: {
+                _id: string;
+                url: string;
+                originalFilename: string | null;
+                mimeType: string;
+              } | null;
+            } | null;
+            videoFile: {
+              asset: {
+                _id: string;
+                url: string;
+                originalFilename: string | null;
+                mimeType: string;
+              } | null;
+            } | null;
+          }> | null;
           _createdAt: string;
           _updatedAt: string;
           _rev: string;
@@ -1880,12 +1771,7 @@ export type GetPageQueryResult = {
         title: string;
         content: BlockContent;
         image: {
-          asset: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          } | null;
+          asset: SanityImageAssetReference | null;
           alt: string | null;
           _type: "image";
         };
@@ -1928,12 +1814,7 @@ export type GetPageQueryResult = {
           topics: Array<string>;
           description: string;
           mainImage: {
-            asset?: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-            };
+            asset?: SanityImageAssetReference;
             media?: unknown;
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
@@ -1941,12 +1822,7 @@ export type GetPageQueryResult = {
             _type: "image";
           };
           picture: {
-            asset?: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-            };
+            asset?: SanityImageAssetReference;
             media?: unknown;
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
@@ -1954,21 +1830,11 @@ export type GetPageQueryResult = {
             _type: "image";
           };
           video: {
-            asset?: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-            };
+            asset?: SanityFileAssetReference;
             media?: unknown;
             description?: string;
             thumbnailImage?: {
-              asset?: {
-                _ref: string;
-                _type: "reference";
-                _weak?: boolean;
-                [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-              };
+              asset?: SanityImageAssetReference;
               media?: unknown;
               hotspot?: SanityImageHotspot;
               crop?: SanityImageCrop;
@@ -2025,14 +1891,14 @@ export type GetPageQueryResult = {
             title?: string;
             description?: string;
             altText?: string;
-            sha1hash?: string;
-            extension?: string;
-            mimeType?: string;
-            size?: number;
-            assetId?: string;
+            sha1hash: string;
+            extension: string;
+            mimeType: string;
+            size: number;
+            assetId: string;
             uploadId?: string;
-            path?: string;
-            url?: string;
+            path: string;
+            url: string;
             source?: SanityAssetSourceData;
           } | null;
         };
@@ -2048,14 +1914,14 @@ export type GetPageQueryResult = {
             title?: string;
             description?: string;
             altText?: string;
-            sha1hash?: string;
-            extension?: string;
-            mimeType?: string;
-            size?: number;
-            assetId?: string;
+            sha1hash: string;
+            extension: string;
+            mimeType: string;
+            size: number;
+            assetId: string;
             uploadId?: string;
-            path?: string;
-            url?: string;
+            path: string;
+            url: string;
             source?: SanityAssetSourceData;
           } | null;
         } | null;
@@ -2063,14 +1929,14 @@ export type GetPageQueryResult = {
   > | null;
 } | null;
 
-// Source: sanity/queries/pages.ts
+// Source: ../nextjs-app/sanity/queries/pages.ts
 // Variable: pagesSlugs
 // Query: *[_type == "page" && defined(slug.current)]  {"slug": slug.current}
 export type PagesSlugsResult = Array<{
   slug: string;
 }>;
 
-// Source: sanity/queries/pages.ts
+// Source: ../nextjs-app/sanity/queries/pages.ts
 // Variable: sitemapData
 // Query: *[_type == "page" || _type == "post" && defined(slug.current)]  | order(_type asc) {    "slug": slug.current,    _type,    _updatedAt  }
 export type SitemapDataResult = Array<
@@ -2086,7 +1952,7 @@ export type SitemapDataResult = Array<
     }
 >;
 
-// Source: sanity/queries/pages.ts
+// Source: ../nextjs-app/sanity/queries/pages.ts
 // Variable: settingsQuery
 // Query: *[_type == "settings"][0]
 export type SettingsQueryResult = {
@@ -2115,12 +1981,7 @@ export type SettingsQueryResult = {
     _key: string;
   }>;
   ogImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -2130,7 +1991,7 @@ export type SettingsQueryResult = {
   };
 } | null;
 
-// Source: sanity/queries/people.ts
+// Source: ../nextjs-app/sanity/queries/people.ts
 // Variable: personQuery
 // Query: *[_type == "person" && slug.current == $slug][0]{      _id,  name,  slug,  specialization,  description,  topics,  mainImage {   asset,  alt,  _type },  picture {   asset,  alt,  _type },  certifications,  biography,  extraBlock,    video {      asset->{_id,url,assetId,originalFilename,extension,size},      thumbnailImage {   asset,  alt,  _type }    },    _createdAt,_updatedAt,_type,_rev  }
 export type PersonQueryResult = {
@@ -2141,22 +2002,12 @@ export type PersonQueryResult = {
   description: string;
   topics: Array<string>;
   mainImage: {
-    asset: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    } | null;
+    asset: SanityImageAssetReference | null;
     alt: string | null;
     _type: "image";
   };
   picture: {
-    asset: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    } | null;
+    asset: SanityImageAssetReference | null;
     alt: string | null;
     _type: "image";
   };
@@ -2188,19 +2039,14 @@ export type PersonQueryResult = {
   video: {
     asset: {
       _id: string;
-      url: string | null;
-      assetId: string | null;
+      url: string;
+      assetId: string;
       originalFilename: string | null;
-      extension: string | null;
-      size: number | null;
+      extension: string;
+      size: number;
     } | null;
     thumbnailImage: {
-      asset: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      } | null;
+      asset: SanityImageAssetReference | null;
       alt: string | null;
       _type: "image";
     } | null;
@@ -2211,7 +2057,7 @@ export type PersonQueryResult = {
   _rev: string;
 } | null;
 
-// Source: sanity/queries/people.ts
+// Source: ../nextjs-app/sanity/queries/people.ts
 // Variable: allPersonsQuery
 // Query: *[_type == "person"] | order(name asc) {   _id,  name,  slug,  specialization,  description,  topics,  mainImage {   asset,  alt,  _type },  picture {   asset,  alt,  _type },  certifications,  biography,  extraBlock }
 export type AllPersonsQueryResult = Array<{
@@ -2222,22 +2068,12 @@ export type AllPersonsQueryResult = Array<{
   description: string;
   topics: Array<string>;
   mainImage: {
-    asset: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    } | null;
+    asset: SanityImageAssetReference | null;
     alt: string | null;
     _type: "image";
   };
   picture: {
-    asset: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    } | null;
+    asset: SanityImageAssetReference | null;
     alt: string | null;
     _type: "image";
   };
@@ -2268,7 +2104,7 @@ export type AllPersonsQueryResult = Array<{
   } | null;
 }>;
 
-// Source: sanity/queries/posts.ts
+// Source: ../nextjs-app/sanity/queries/posts.ts
 // Variable: allPostsQuery
 // Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc){  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},}
 export type AllPostsQueryResult = Array<{
@@ -2288,12 +2124,7 @@ export type AllPostsQueryResult = Array<{
   content: BlockContent | null;
   readTime: number | null;
   coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -2305,12 +2136,7 @@ export type AllPostsQueryResult = Array<{
     name: string;
     specialization: string;
     picture: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
+      asset?: SanityImageAssetReference;
       media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
@@ -2321,7 +2147,7 @@ export type AllPostsQueryResult = Array<{
   };
 }>;
 
-// Source: sanity/queries/posts.ts
+// Source: ../nextjs-app/sanity/queries/posts.ts
 // Variable: firstPostQuery
 // Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc)[0]{  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},}
 export type FirstPostQueryResult = {
@@ -2341,12 +2167,7 @@ export type FirstPostQueryResult = {
   content: BlockContent | null;
   readTime: number | null;
   coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -2358,12 +2179,7 @@ export type FirstPostQueryResult = {
     name: string;
     specialization: string;
     picture: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
+      asset?: SanityImageAssetReference;
       media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
@@ -2374,7 +2190,7 @@ export type FirstPostQueryResult = {
   };
 } | null;
 
-// Source: sanity/queries/posts.ts
+// Source: ../nextjs-app/sanity/queries/posts.ts
 // Variable: morePostsQuery
 // Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc)[0...$limit]{  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},}
 export type MorePostsQueryResult = Array<{
@@ -2394,12 +2210,7 @@ export type MorePostsQueryResult = Array<{
   content: BlockContent | null;
   readTime: number | null;
   coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -2411,12 +2222,7 @@ export type MorePostsQueryResult = Array<{
     name: string;
     specialization: string;
     picture: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
+      asset?: SanityImageAssetReference;
       media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
@@ -2427,7 +2233,7 @@ export type MorePostsQueryResult = Array<{
   };
 }>;
 
-// Source: sanity/queries/posts.ts
+// Source: ../nextjs-app/sanity/queries/posts.ts
 // Variable: postQuery
 // Query: *[_type == "post" && slug.current == $slug][0]{content[]{...,markDefs[]{...,  _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }}},  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},}
 export type PostQueryResult = {
@@ -2447,12 +2253,7 @@ export type PostQueryResult = {
   tags: null;
   readTime: number | null;
   coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
@@ -2464,12 +2265,7 @@ export type PostQueryResult = {
     name: string;
     specialization: string;
     picture: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
+      asset?: SanityImageAssetReference;
       media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
@@ -2480,77 +2276,181 @@ export type PostQueryResult = {
   };
 } | null;
 
-// Source: sanity/queries/posts.ts
+// Source: ../nextjs-app/sanity/queries/posts.ts
 // Variable: postPagesSlugs
 // Query: *[_type == "post" && defined(slug.current)]{"slug": slug.current}
 export type PostPagesSlugsResult = Array<{
   slug: string;
 }>;
 
-// Source: sanity/queries/products.ts
+// Source: ../nextjs-app/sanity/queries/products.ts
 // Variable: allProductsQuery
-// Query: *[_type == "product"] | order(name asc) {   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  ebookFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  _createdAt,  _updatedAt,  _rev,  _type }
+// Query: *[_type == "product"] | order(name asc) {   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  ebookFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  audioFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  videoFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  originalPrice,  bundleItems[]->{    _id,    title,    category,    price,    ebookFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    },    audioFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    },    videoFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    }  },  _createdAt,  _updatedAt,  _rev,  _type }
 export type AllProductsQueryResult = Array<{
   _id: string;
   title: string;
   price: number;
   discount: null;
   image: {
-    asset: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    } | null;
+    asset: SanityImageAssetReference | null;
     alt: string | null;
     _type: "image";
   };
   description: string;
   featured: boolean | null;
-  category: "Ebooky" | "Video kurzy";
+  category:
+    | "Audionahr\xE1vky"
+    | "Bal\xED\u010Dky"
+    | "Ebook + Audio"
+    | "Ebooky"
+    | "Video kurzy";
   ebookFile: {
     asset: {
       _id: string;
-      url: string | null;
+      url: string;
       originalFilename: string | null;
-      mimeType: string | null;
+      mimeType: string;
     } | null;
   } | null;
+  audioFile: {
+    asset: {
+      _id: string;
+      url: string;
+      originalFilename: string | null;
+      mimeType: string;
+    } | null;
+  } | null;
+  videoFile: {
+    asset: {
+      _id: string;
+      url: string;
+      originalFilename: string | null;
+      mimeType: string;
+    } | null;
+  } | null;
+  originalPrice: number | null;
+  bundleItems: Array<{
+    _id: string;
+    title: string;
+    category:
+      | "Audionahr\xE1vky"
+      | "Bal\xED\u010Dky"
+      | "Ebook + Audio"
+      | "Ebooky"
+      | "Video kurzy";
+    price: number;
+    ebookFile: {
+      asset: {
+        _id: string;
+        url: string;
+        originalFilename: string | null;
+        mimeType: string;
+      } | null;
+    } | null;
+    audioFile: {
+      asset: {
+        _id: string;
+        url: string;
+        originalFilename: string | null;
+        mimeType: string;
+      } | null;
+    } | null;
+    videoFile: {
+      asset: {
+        _id: string;
+        url: string;
+        originalFilename: string | null;
+        mimeType: string;
+      } | null;
+    } | null;
+  }> | null;
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   _type: "product";
 }>;
 
-// Source: sanity/queries/products.ts
+// Source: ../nextjs-app/sanity/queries/products.ts
 // Variable: featuredProductQuery
-// Query: *[_type == "product" && featured == true][0]{   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  ebookFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  _createdAt,  _updatedAt,  _rev,  _type }
+// Query: *[_type == "product" && featured == true][0]{   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  ebookFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  audioFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  videoFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  originalPrice,  bundleItems[]->{    _id,    title,    category,    price,    ebookFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    },    audioFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    },    videoFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    }  },  _createdAt,  _updatedAt,  _rev,  _type }
 export type FeaturedProductQueryResult = {
   _id: string;
   title: string;
   price: number;
   discount: null;
   image: {
-    asset: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    } | null;
+    asset: SanityImageAssetReference | null;
     alt: string | null;
     _type: "image";
   };
   description: string;
   featured: true;
-  category: "Ebooky" | "Video kurzy";
+  category:
+    | "Audionahr\xE1vky"
+    | "Bal\xED\u010Dky"
+    | "Ebook + Audio"
+    | "Ebooky"
+    | "Video kurzy";
   ebookFile: {
     asset: {
       _id: string;
-      url: string | null;
+      url: string;
       originalFilename: string | null;
-      mimeType: string | null;
+      mimeType: string;
     } | null;
   } | null;
+  audioFile: {
+    asset: {
+      _id: string;
+      url: string;
+      originalFilename: string | null;
+      mimeType: string;
+    } | null;
+  } | null;
+  videoFile: {
+    asset: {
+      _id: string;
+      url: string;
+      originalFilename: string | null;
+      mimeType: string;
+    } | null;
+  } | null;
+  originalPrice: number | null;
+  bundleItems: Array<{
+    _id: string;
+    title: string;
+    category:
+      | "Audionahr\xE1vky"
+      | "Bal\xED\u010Dky"
+      | "Ebook + Audio"
+      | "Ebooky"
+      | "Video kurzy";
+    price: number;
+    ebookFile: {
+      asset: {
+        _id: string;
+        url: string;
+        originalFilename: string | null;
+        mimeType: string;
+      } | null;
+    } | null;
+    audioFile: {
+      asset: {
+        _id: string;
+        url: string;
+        originalFilename: string | null;
+        mimeType: string;
+      } | null;
+    } | null;
+    videoFile: {
+      asset: {
+        _id: string;
+        url: string;
+        originalFilename: string | null;
+        mimeType: string;
+      } | null;
+    } | null;
+  }> | null;
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -2565,7 +2465,7 @@ declare module "@sanity/client" {
     '\n  *[_type == "legalDocument"] | order(title asc) {\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_rev\n  }\n': AllLegalDocumentsQueryResult;
     '\n  *[_type == "legalDocument" && tag == "gdpr-consent"][0]{\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n': GdprQueryResult;
     '\n  *[_type == "legalDocument" && tag == "TandC"][0]{\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n': TermsAndConditionsQueryResult;
-    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "callToAction" => { \n  link {\n    ...,\n    \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n  }\n },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{ ..., \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n }\n        }\n      },\n      _type == "videoSection" => {\n        ...,\n        video{\n          asset->\n        },\n        mobileVideo{\n          asset->\n        }\n      },\n      _type == "contentDisplayBlock" => {\n        ...,\n        image,\n        link{\n          ...,\n          page->{\n            slug\n          }\n        }\n      },\n      _type == "therapistSection" => {\n        ...,\n        therapist->\n      },\n      _type == "serviceCardBlock" => {\n        ...,\n        image { asset, alt, _type },\n        content\n      },\n      _type == "masonryGallery" => {\n        ...,\n        images[] { asset, alt, _type, _key }\n      },\n      _type == "productShowcase" => {\n        ...,\n        "featuredProduct": *[_type == "product" && featured == true][0]{ \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  ebookFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n },\n        "products": *[_type == "product"] | order(name asc) { \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  ebookFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }\n      },\n      _type == "postShowcase" => {\n        ...,\n        "firstPost": *[_type == "post"] | order(date desc)[0]{ \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n  },\n        "posts": *[_type == "post"] | order(date desc) { \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n  }\n      },\n      _type == "faqCardsGrid" => {\n        ...,\n        "faqs": *[_type == "faq"] | order(order asc, question asc) { \n  _id,\n  question,\n  answer,\n  category,\n  order,\n  _createdAt,\n  _updatedAt\n } \n      },\n      _type == "faqAccordion" => {\n        ...,\n        "faqs": *[_type == "faq"] | order(order asc, question asc) { \n  _id,\n  question,\n  answer,\n  category,\n  order,\n  _createdAt,\n  _updatedAt\n } \n      },\n      _type == "checkoutSuccess" => {\n        ...\n      },\n      _type == "legalDocumentsSection" => {\n        ...,\n        "legalDocuments": *[_type == "legalDocument"] | order(title asc) {\n          _id,\n          title,\n          description,\n          category,\n          file {\n            asset->{\n              _id,\n              url,\n              assetId,\n              originalFilename,\n              extension,\n              size\n            }\n          },\n          _createdAt,\n          _updatedAt,\n          _rev\n        }\n      }\n    },\n  }\n': GetPageQueryResult;
+    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "callToAction" => { \n  link {\n    ...,\n    \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n  }\n },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{ ..., \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n }\n        }\n      },\n      _type == "videoSection" => {\n        ...,\n        video{\n          asset->\n        },\n        mobileVideo{\n          asset->\n        }\n      },\n      _type == "contentDisplayBlock" => {\n        ...,\n        image,\n        link{\n          ...,\n          page->{\n            slug\n          }\n        }\n      },\n      _type == "therapistSection" => {\n        ...,\n        therapist->\n      },\n      _type == "serviceCardBlock" => {\n        ...,\n        image { asset, alt, _type },\n        content\n      },\n      _type == "masonryGallery" => {\n        ...,\n        images[] { asset, alt, _type, _key }\n      },\n      _type == "productShowcase" => {\n        ...,\n        "featuredProduct": *[_type == "product" && featured == true][0]{ \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  ebookFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  audioFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  videoFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price,\n    ebookFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    },\n    audioFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    },\n    videoFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    }\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n },\n        "products": *[_type == "product"] | order(name asc) { \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  ebookFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  audioFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  videoFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price,\n    ebookFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    },\n    audioFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    },\n    videoFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    }\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }\n      },\n      _type == "postShowcase" => {\n        ...,\n        "firstPost": *[_type == "post"] | order(date desc)[0]{ \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n  },\n        "posts": *[_type == "post"] | order(date desc) { \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n  }\n      },\n      _type == "faqCardsGrid" => {\n        ...,\n        "faqs": *[_type == "faq"] | order(order asc, question asc) { \n  _id,\n  question,\n  answer,\n  category,\n  order,\n  _createdAt,\n  _updatedAt\n } \n      },\n      _type == "faqAccordion" => {\n        ...,\n        "faqs": *[_type == "faq"] | order(order asc, question asc) { \n  _id,\n  question,\n  answer,\n  category,\n  order,\n  _createdAt,\n  _updatedAt\n } \n      },\n      _type == "checkoutSuccess" => {\n        ...\n      },\n      _type == "legalDocumentsSection" => {\n        ...,\n        "legalDocuments": *[_type == "legalDocument"] | order(title asc) {\n          _id,\n          title,\n          description,\n          category,\n          file {\n            asset->{\n              _id,\n              url,\n              assetId,\n              originalFilename,\n              extension,\n              size\n            }\n          },\n          _createdAt,\n          _updatedAt,\n          _rev\n        }\n      }\n    },\n  }\n': GetPageQueryResult;
     '\n  *[_type == "page" && defined(slug.current)]\n  {"slug": slug.current}\n': PagesSlugsResult;
     '\n  *[_type == "page" || _type == "post" && defined(slug.current)]\n  | order(_type asc) {\n    "slug": slug.current,\n    _type,\n    _updatedAt\n  }\n': SitemapDataResult;
     '*[_type == "settings"][0]': SettingsQueryResult;
@@ -2576,7 +2476,7 @@ declare module "@sanity/client" {
     '*[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc)[0...$limit]{\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n}': MorePostsQueryResult;
     '*[_type == "post" && slug.current == $slug][0]{content[]{...,markDefs[]{...,\n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n}},\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n}': PostQueryResult;
     '*[_type == "post" && defined(slug.current)]{"slug": slug.current}': PostPagesSlugsResult;
-    '*[_type == "product"] | order(name asc) { \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  ebookFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }': AllProductsQueryResult;
-    '*[_type == "product" && featured == true][0]{ \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  ebookFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }': FeaturedProductQueryResult;
+    '*[_type == "product"] | order(name asc) { \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  ebookFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  audioFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  videoFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price,\n    ebookFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    },\n    audioFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    },\n    videoFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    }\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }': AllProductsQueryResult;
+    '*[_type == "product" && featured == true][0]{ \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  ebookFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  audioFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  videoFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price,\n    ebookFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    },\n    audioFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    },\n    videoFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    }\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }': FeaturedProductQueryResult;
   }
 }

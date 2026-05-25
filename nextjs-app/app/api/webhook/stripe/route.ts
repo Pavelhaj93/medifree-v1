@@ -7,9 +7,72 @@ import nodemailer from "nodemailer";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
+type FileAsset = {
+  _id: string;
+  url: string | null;
+  originalFilename: string | null;
+  mimeType: string | null;
+};
+
+type SanityProduct = {
+  _id: string;
+  title: string;
+  category: string;
+  ebookFile?: { asset?: FileAsset } | null;
+  audioFile?: { asset?: FileAsset } | null;
+  videoFile?: { asset?: FileAsset } | null;
+  bundleItems?: Array<{
+    _id: string;
+    title: string;
+    category: string;
+    ebookFile?: { asset?: FileAsset } | null;
+    audioFile?: { asset?: FileAsset } | null;
+    videoFile?: { asset?: FileAsset } | null;
+  }> | null;
+};
+
+type DeliveryFile = { label: string; url: string };
+
+function getDeliveryFiles(product: SanityProduct): DeliveryFile[] {
+  const files: DeliveryFile[] = [];
+
+  const addFile = (
+    file: { asset?: FileAsset } | null | undefined,
+    label: string,
+  ) => {
+    if (file?.asset?.url) {
+      files.push({ label, url: file.asset.url });
+    }
+  };
+
+  switch (product.category) {
+    case "Ebooky":
+      addFile(product.ebookFile, `📖 ${product.title} (PDF)`);
+      break;
+    case "Audionahrávky":
+      addFile(product.audioFile, `🎧 ${product.title}`);
+      break;
+    case "Video kurzy":
+      addFile(product.videoFile, `🎬 ${product.title}`);
+      break;
+    case "Ebook + Audio":
+      addFile(product.ebookFile, `📖 ${product.title} (PDF)`);
+      addFile(product.audioFile, `🎧 ${product.title} (audio)`);
+      break;
+    case "Balíčky":
+      for (const item of product.bundleItems ?? []) {
+        addFile(item.ebookFile, `📖 ${item.title} (PDF)`);
+        addFile(item.audioFile, `🎧 ${item.title} (audio)`);
+        addFile(item.videoFile, `🎬 ${item.title} (video)`);
+      }
+      break;
+  }
+
+  return files;
+}
+
 export async function POST(req: NextRequest) {
   try {
-    // Check if webhook secret is configured
     if (!webhookSecret) {
       console.error(
         "STRIPE_WEBHOOK_SECRET is not configured in environment variables",
@@ -43,7 +106,6 @@ export async function POST(req: NextRequest) {
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
 
-      // Get customer email
       const customerEmail = session.customer_details?.email;
 
       if (!customerEmail) {
@@ -54,46 +116,40 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      // Get line items to know what products were purchased
       const lineItems = await stripe.checkout.sessions.listLineItems(
         session.id,
-        {
-          expand: ["data.price.product"],
-        },
+        { expand: ["data.price.product"] },
       );
 
-      // Process each purchased item
       for (const item of lineItems.data) {
         const productName = (item.price?.product as Stripe.Product)?.name;
 
         if (productName) {
-          // Find the product in Sanity by title
-          const product = await client.fetch(
+          const product: SanityProduct | null = await client.fetch(
             `
             *[_type == "product" && title == $title][0]{
               _id,
               title,
               category,
-              ebookFile {
-                asset->{
-                  _id,
-                  url,
-                  originalFilename,
-                  mimeType
-                }
+              ebookFile { asset->{ _id, url, originalFilename, mimeType } },
+              audioFile { asset->{ _id, url, originalFilename, mimeType } },
+              videoFile { asset->{ _id, url, originalFilename, mimeType } },
+              bundleItems[]->{
+                _id, title, category,
+                ebookFile { asset->{ _id, url, originalFilename, mimeType } },
+                audioFile { asset->{ _id, url, originalFilename, mimeType } },
+                videoFile { asset->{ _id, url, originalFilename, mimeType } }
               }
             }
           `,
             { title: productName },
           );
 
-          if (
-            product &&
-            product.category === "Ebooky" &&
-            product.ebookFile?.asset
-          ) {
-            // Send email with ebook link
-            await sendEbookEmail(customerEmail, product);
+          if (product) {
+            const deliveryFiles = getDeliveryFiles(product);
+            if (deliveryFiles.length > 0) {
+              await sendDeliveryEmail(customerEmail, product.title, deliveryFiles);
+            }
           }
         }
       }
@@ -109,9 +165,12 @@ export async function POST(req: NextRequest) {
   }
 }
 
-async function sendEbookEmail(email: string, product: any) {
+async function sendDeliveryEmail(
+  email: string,
+  productTitle: string,
+  files: DeliveryFile[],
+) {
   try {
-    // Check if Gmail credentials are configured
     if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
       console.error(
         "Gmail credentials not configured. Missing GMAIL_USER or GMAIL_APP_PASSWORD",
@@ -123,7 +182,6 @@ async function sendEbookEmail(email: string, product: any) {
     console.log("Gmail user configured:", !!process.env.GMAIL_USER);
     console.log("Gmail password configured:", !!process.env.GMAIL_APP_PASSWORD);
 
-    // Configure transporter using Gmail (same as contact route)
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -132,24 +190,28 @@ async function sendEbookEmail(email: string, product: any) {
       },
     });
 
-    // Verify the connection
     await transporter.verify();
     console.log("Gmail connection verified successfully");
 
-    // Send the email with ebook
+    const fileListHtml = files
+      .map(
+        (f) =>
+          `<li style="margin: 8px 0;"><a href="${f.url}" style="color: #007cba; text-decoration: none;">${f.label}</a></li>`,
+      )
+      .join("");
+
     await transporter.sendMail({
       from: process.env.GMAIL_USER,
       to: email,
-      subject: `Váš ebook: ${product.title}`,
+      subject: `Váš nákup: ${productTitle}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2>Děkujeme za nákup!</h2>
-          <p>Váš ebook <strong>${product.title}</strong> je připraven ke stažení.</p>
-          <p>Odkaz ke stažení najdete níže:</p>
-          <a href="${product.ebookFile.asset.url}" 
-             style="background-color: #007cba; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block; margin: 16px 0;">
-            Stáhnout ebook
-          </a>
+          <p>Váš produkt <strong>${productTitle}</strong> je připraven ke stažení.</p>
+          <p>Zde jsou vaše soubory ke stažení:</p>
+          <ul style="list-style: none; padding: 0;">
+            ${fileListHtml}
+          </ul>
           <hr style="margin: 24px 0; border: none; height: 1px; background-color: #eee;">
           <p style="color: #666; font-size: 14px;">
             S pozdravem,<br>
@@ -161,10 +223,10 @@ async function sendEbookEmail(email: string, product: any) {
     });
 
     console.log(
-      `Ebook email sent successfully to ${email} for product ${product.title}`,
+      `Delivery email sent successfully to ${email} for product ${productTitle}`,
     );
   } catch (error) {
-    console.error("Failed to send ebook email:", error);
+    console.error("Failed to send delivery email:", error);
     throw error;
   }
 }

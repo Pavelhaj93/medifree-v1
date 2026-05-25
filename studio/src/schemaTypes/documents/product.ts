@@ -21,7 +21,10 @@ export const product = defineType({
       options: {
         list: [
           {title: 'Ebooky', value: 'Ebooky'},
+          {title: 'Audionahrávky', value: 'Audionahrávky'},
           {title: 'Video kurzy', value: 'Video kurzy'},
+          {title: 'Ebook + Audio', value: 'Ebook + Audio'},
+          {title: 'Balíčky', value: 'Balíčky'},
         ],
       },
     }),
@@ -72,7 +75,51 @@ export const product = defineType({
       options: {
         accept: '.pdf,.epub,.mobi',
       },
-      hidden: ({document}) => document?.category !== 'Ebooky',
+      hidden: ({document}) =>
+        document?.category !== 'Ebooky' && document?.category !== 'Ebook + Audio',
+    }),
+    defineField({
+      name: 'audioFile',
+      title: 'Audio súbor',
+      type: 'file',
+      description: 'Upload the audio file that will be sent to customers after purchase',
+      options: {
+        accept: 'audio/*',
+      },
+      hidden: ({document}) =>
+        document?.category !== 'Audionahrávky' && document?.category !== 'Ebook + Audio',
+    }),
+    defineField({
+      name: 'videoFile',
+      title: 'Video súbor',
+      type: 'file',
+      description: 'Upload the video file that will be sent to customers after purchase',
+      options: {
+        accept: 'video/*',
+      },
+      hidden: ({document}) => document?.category !== 'Video kurzy',
+    }),
+    defineField({
+      name: 'originalPrice',
+      title: 'Původní cena bez slevy',
+      type: 'number',
+      description: 'Full price before bundle discount — used to display savings',
+      hidden: ({document}) => document?.category !== 'Balíčky',
+    }),
+    defineField({
+      name: 'bundleItems',
+      title: 'Produkty v balíčku',
+      type: 'array',
+      description: 'Select the individual products included in this bundle (min. 2)',
+      of: [{type: 'reference', to: [{type: 'product'}]}],
+      hidden: ({document}) => document?.category !== 'Balíčky',
+      validation: (Rule) =>
+        Rule.custom((items, ctx) => {
+          if (ctx.document?.category === 'Balíčky' && (!items || (items as unknown[]).length < 2)) {
+            return 'Balíček musí obsahovat alespoň 2 produkty'
+          }
+          return true
+        }),
     }),
     defineField({
       name: 'featured',

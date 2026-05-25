@@ -6,7 +6,6 @@ import { urlForImage } from "@/sanity/lib/utils";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 console.log("Stripe initialized:", !!stripe);
-console.log(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(req: NextRequest) {
   try {
@@ -61,7 +60,7 @@ export async function POST(req: NextRequest) {
     console.error(err);
     return NextResponse.json(
       { error: "Stripe checkout failed" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
