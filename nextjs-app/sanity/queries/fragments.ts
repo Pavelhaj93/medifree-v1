@@ -36,6 +36,53 @@ export const baseProductFields = /* groq */ `
       mimeType
     }
   },
+  audioFile {
+    asset->{
+      _id,
+      url,
+      originalFilename,
+      mimeType
+    }
+  },
+  videoFile {
+    asset->{
+      _id,
+      url,
+      originalFilename,
+      mimeType
+    }
+  },
+  originalPrice,
+  bundleItems[]->{
+    _id,
+    title,
+    category,
+    price,
+    ebookFile {
+      asset->{
+        _id,
+        url,
+        originalFilename,
+        mimeType
+      }
+    },
+    audioFile {
+      asset->{
+        _id,
+        url,
+        originalFilename,
+        mimeType
+      }
+    },
+    videoFile {
+      asset->{
+        _id,
+        url,
+        originalFilename,
+        mimeType
+      }
+    }
+  },
   _createdAt,
   _updatedAt,
   _rev,

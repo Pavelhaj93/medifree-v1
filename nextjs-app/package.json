@@ -2,7 +2,6 @@
   "name": "nextjs-app",
   "private": true,
   "scripts": {
-    "predev": "npm run typegen",
     "dev": "next --turbo",
     "prebuild": "npm run typegen",
     "build": "next build",
