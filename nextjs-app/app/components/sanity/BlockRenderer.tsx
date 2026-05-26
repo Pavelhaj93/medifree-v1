@@ -21,6 +21,7 @@ import FaqAccordion from "./FaqAccordion";
 import CartPage from "./CartPage";
 import CheckoutSuccess from "./CheckoutSuccess";
 import LegalDocumentsSection from "./LegalDocumentsSection";
+import TestimonialsSection from "./TestimonialsSection";
 import { createElement } from "react";
 
 type BlocksType = {
@@ -62,6 +63,7 @@ const Blocks: BlocksType = {
   cart: CartPage,
   checkoutSuccess: CheckoutSuccess,
   legalDocumentsSection: LegalDocumentsSection,
+  testimonialsSection: TestimonialsSection,
 };
 
 /**

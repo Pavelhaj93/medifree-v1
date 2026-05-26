@@ -31,6 +31,7 @@ import {
   cart,
   checkoutSuccess,
   legalDocumentsSection,
+  testimonialsSection,
 } from './objects'
 import {contentDisplayBlockCompact} from './objects/contentDisplayBlockCompact'
 import {heroSection} from './objects/heroSection'
@@ -79,4 +80,5 @@ export const schemaTypes = [
   cart,
   checkoutSuccess,
   legalDocumentsSection,
+  testimonialsSection,
 ]

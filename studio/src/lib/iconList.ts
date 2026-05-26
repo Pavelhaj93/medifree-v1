@@ -13,4 +13,6 @@ export const iconList = [
   {title: 'Award', value: 'Award'},
   {title: 'Brain', value: 'Brain'},
   {title: 'Book Open', value: 'BookOpen'},
+  {title: 'Facebook', value: 'Facebook'},
+  {title: 'WhatsApp', value: 'MessageCircle'},
 ]

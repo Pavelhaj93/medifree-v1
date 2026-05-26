@@ -5,6 +5,8 @@ import {
   MapPin,
   Clock,
   Instagram,
+  Facebook,
+  MessageCircle,
   Briefcase,
   CalendarClock,
 } from "lucide-react";
@@ -68,6 +70,10 @@ export default function ContactSection({
     instagramLink1Url = "https://www.instagram.com/medifreecz",
     instagramLink2Text = "@michaela_medifree",
     instagramLink2Url = "https://www.instagram.com/michaela_medifree",
+    whatsappLabel = "WhatsApp komunita",
+    whatsappUrl,
+    facebookLabel = "Facebook komunita",
+    facebookUrl,
     workingHoursLabel = "Pracovní doba",
     workingHoursText = "Dle domluvy",
     bookButtonLabel = "Rezervovat konzultaci",
@@ -277,6 +283,44 @@ export default function ContactSection({
                   </div>
                 </div>
               </div>
+
+              {whatsappUrl && (
+                <div className="flex items-start gap-4">
+                  <div className="bg-gray-100 p-3 rounded-full">
+                    <MessageCircle className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium">{whatsappLabel}</h4>
+                    <Link
+                      href={whatsappUrl}
+                      className="text-primary hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Připojit se
+                    </Link>
+                  </div>
+                </div>
+              )}
+
+              {facebookUrl && (
+                <div className="flex items-start gap-4">
+                  <div className="bg-gray-100 p-3 rounded-full">
+                    <Facebook className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium">{facebookLabel}</h4>
+                    <Link
+                      href={facebookUrl}
+                      className="text-primary hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Sledovat
+                    </Link>
+                  </div>
+                </div>
+              )}
 
               <div className="flex items-start gap-4">
                 <div className="bg-gray-100 p-3 rounded-full">

@@ -132,6 +132,17 @@ export type SecondaryButton = {
     | "Heart";
 };
 
+export type TestimonialsSection = {
+  _type: "testimonialsSection";
+  title?: string;
+  testimonials?: Array<{
+    name: string;
+    role?: string;
+    text: string;
+    _key: string;
+  }>;
+};
+
 export type LegalDocumentsSection = {
   _type: "legalDocumentsSection";
   companyName: string;
@@ -353,6 +364,10 @@ export type ContactSection = {
   instagramLink1Url: string;
   instagramLink2Text: string;
   instagramLink2Url: string;
+  whatsappLabel?: string;
+  whatsappUrl?: string;
+  facebookLabel?: string;
+  facebookUrl?: string;
   workingHoursLabel: string;
   workingHoursText: string;
   bookButtonLabel?: string;
@@ -390,7 +405,9 @@ export type ContentDisplayBlock = {
       | "Instagram"
       | "Award"
       | "Brain"
-      | "BookOpen";
+      | "BookOpen"
+      | "Facebook"
+      | "MessageCircle";
     _type: "socialLink";
     _key: string;
   }>;
@@ -743,6 +760,9 @@ export type Page = {
     | ({
         _key: string;
       } & LegalDocumentsSection)
+    | ({
+        _key: string;
+      } & TestimonialsSection)
   >;
 };
 
@@ -839,7 +859,9 @@ export type Person = {
       | "Instagram"
       | "Award"
       | "Brain"
-      | "BookOpen";
+      | "BookOpen"
+      | "Facebook"
+      | "MessageCircle";
     _type: "certificationItem";
     _key: string;
   }>;
@@ -991,6 +1013,7 @@ export type AllSanitySchemaTypes =
   | ContentDisplayBlockCompactLink
   | PrimaryButton
   | SecondaryButton
+  | TestimonialsSection
   | LegalDocumentsSection
   | CheckoutSuccess
   | Cart
@@ -1244,6 +1267,10 @@ export type GetPageQueryResult = {
         instagramLink1Url: string;
         instagramLink2Text: string;
         instagramLink2Url: string;
+        whatsappLabel?: string;
+        whatsappUrl?: string;
+        facebookLabel?: string;
+        facebookUrl?: string;
         workingHoursLabel: string;
         workingHoursText: string;
         bookButtonLabel?: string;
@@ -1295,10 +1322,12 @@ export type GetPageQueryResult = {
             | "Calendar"
             | "Check"
             | "ChevronRight"
+            | "Facebook"
             | "Heart"
             | "Instagram"
             | "Mail"
             | "MapPin"
+            | "MessageCircle"
             | "Phone"
             | "Star"
             | "User";
@@ -1795,6 +1824,17 @@ export type GetPageQueryResult = {
       }
     | {
         _key: string;
+        _type: "testimonialsSection";
+        title?: string;
+        testimonials?: Array<{
+          name: string;
+          role?: string;
+          text: string;
+          _key: string;
+        }>;
+      }
+    | {
+        _key: string;
         _type: "textBlock";
         title?: string;
         body?: BlockContent;
@@ -1853,10 +1893,12 @@ export type GetPageQueryResult = {
               | "Calendar"
               | "Check"
               | "ChevronRight"
+              | "Facebook"
               | "Heart"
               | "Instagram"
               | "Mail"
               | "MapPin"
+              | "MessageCircle"
               | "Phone"
               | "Star"
               | "User";
@@ -2021,10 +2063,12 @@ export type PersonQueryResult = {
       | "Calendar"
       | "Check"
       | "ChevronRight"
+      | "Facebook"
       | "Heart"
       | "Instagram"
       | "Mail"
       | "MapPin"
+      | "MessageCircle"
       | "Phone"
       | "Star"
       | "User";
@@ -2087,10 +2131,12 @@ export type AllPersonsQueryResult = Array<{
       | "Calendar"
       | "Check"
       | "ChevronRight"
+      | "Facebook"
       | "Heart"
       | "Instagram"
       | "Mail"
       | "MapPin"
+      | "MessageCircle"
       | "Phone"
       | "Star"
       | "User";
