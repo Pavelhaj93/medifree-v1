@@ -176,6 +176,28 @@ export const contactSection = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'whatsappLabel',
+      title: 'WhatsApp Label',
+      type: 'string',
+      initialValue: 'WhatsApp komunita',
+    }),
+    defineField({
+      name: 'whatsappUrl',
+      title: 'WhatsApp URL',
+      type: 'url',
+    }),
+    defineField({
+      name: 'facebookLabel',
+      title: 'Facebook Label',
+      type: 'string',
+      initialValue: 'Facebook komunita',
+    }),
+    defineField({
+      name: 'facebookUrl',
+      title: 'Facebook URL',
+      type: 'url',
+    }),
+    defineField({
       name: 'workingHoursLabel',
       title: 'Working Hours Label',
       type: 'string',

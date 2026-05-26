@@ -74,6 +74,7 @@ export const page = defineType({
         {type: 'cart'},
         {type: 'checkoutSuccess'},
         {type: 'legalDocumentsSection'},
+        {type: 'testimonialsSection'},
       ],
       options: {
         insertMenu: {
