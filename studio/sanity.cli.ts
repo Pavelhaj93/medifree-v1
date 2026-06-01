@@ -18,6 +18,7 @@ export default defineCliConfig({
   studioHost: process.env.SANITY_STUDIO_STUDIO_HOST || '', // Visit https://www.sanity.io/docs/environment-variables to learn more about using environment variables for local & production.
   deployment: {
     autoUpdates: true,
+    appId: 'hb3cd2oo8wyxf6ui0y5bnwx0',
   },
   typegen: {
     path: '../nextjs-app/sanity/**/*.{ts,tsx,js,jsx}',
