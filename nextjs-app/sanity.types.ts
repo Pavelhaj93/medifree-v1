@@ -76,26 +76,6 @@ export type CtaButton = {
     | "Heart";
 };
 
-export type ContentDisplayBlockCompactLink = {
-  linkType?: "page" | "url";
-  page?: PageReference;
-  url?: string;
-  anchor?: string;
-  label?: string;
-  icon?:
-    | "Calendar"
-    | "ArrowRight"
-    | "ChevronRight"
-    | "Check"
-    | "User"
-    | "Mail"
-    | "Phone"
-    | "MapPin"
-    | "Star"
-    | "Heart"
-    | "Instagram";
-};
-
 export type PrimaryButton = {
   text?: string;
   linkType?: "page" | "url";
@@ -334,7 +314,28 @@ export type ContentDisplayBlockCompact = {
   };
   title?: string;
   description?: string;
-  link?: ContentDisplayBlockCompactLink;
+  links?: Array<{
+    linkType?: "page" | "url";
+    page?: PageReference;
+    url?: string;
+    anchor?: string;
+    label?: string;
+    icon?:
+      | "Calendar"
+      | "ArrowRight"
+      | "ChevronRight"
+      | "Check"
+      | "User"
+      | "Mail"
+      | "Phone"
+      | "MapPin"
+      | "Star"
+      | "Heart"
+      | "Instagram"
+      | "Facebook"
+      | "MessageCircle";
+    _key: string;
+  }>;
   reverse?: boolean;
   color?: "primary" | "tertiary";
 };
@@ -1010,7 +1011,6 @@ export type AllSanitySchemaTypes =
   | Button
   | ContentDisplayBlockLink
   | CtaButton
-  | ContentDisplayBlockCompactLink
   | PrimaryButton
   | SecondaryButton
   | TestimonialsSection
@@ -1351,7 +1351,28 @@ export type GetPageQueryResult = {
         };
         title?: string;
         description?: string;
-        link?: ContentDisplayBlockCompactLink;
+        links?: Array<{
+          linkType?: "page" | "url";
+          page?: PageReference;
+          url?: string;
+          anchor?: string;
+          label?: string;
+          icon?:
+            | "ArrowRight"
+            | "Calendar"
+            | "Check"
+            | "ChevronRight"
+            | "Facebook"
+            | "Heart"
+            | "Instagram"
+            | "Mail"
+            | "MapPin"
+            | "MessageCircle"
+            | "Phone"
+            | "Star"
+            | "User";
+          _key: string;
+        }>;
         reverse?: boolean;
         color?: "primary" | "tertiary";
       }
