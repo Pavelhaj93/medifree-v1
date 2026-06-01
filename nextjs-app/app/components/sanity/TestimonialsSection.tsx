@@ -10,6 +10,38 @@ type TestimonialsSectionBlock = {
   testimonials?: Testimonial[];
 };
 
+function StarRating() {
+  return (
+    <div className="flex gap-0.5 mb-4">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <svg
+          key={i}
+          className="w-5 h-5 text-yellow-400"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      ))}
+    </div>
+  );
+}
+
+function TestimonialCard({ t }: { t: Testimonial }) {
+  return (
+    <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6 md:p-8 flex flex-col min-w-[500px] max-w-[500px] shrink-0">
+      <StarRating />
+      <p className="text-gray-600 leading-relaxed italic">
+        &ldquo;{t.text}&rdquo;{" "}
+        <span className="not-italic text-gray-500 text-sm">
+          &mdash; <strong className="text-gray-800">{t.name}</strong>
+          {t.role && <span>, {t.role}</span>}
+        </span>
+      </p>
+    </div>
+  );
+}
+
 export default function TestimonialsSection({
   block,
 }: {
@@ -19,42 +51,25 @@ export default function TestimonialsSection({
 
   if (!testimonials.length) return null;
 
+  const doubled = [...testimonials, ...testimonials];
+
   return (
-    <section className="py-16 md:py-24 bg-linear-to-br from-blue-50 via-white to-green-50">
-      <div className="container mx-auto px-4 md:px-10">
+    <section className="py-16 md:py-24 bg-gray-50 overflow-hidden">
+      <div className="container mx-auto px-4 md:px-10 mb-12 text-center">
+        <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary border border-primary/30 rounded-full px-4 py-1 mb-4">
+          Reference
+        </span>
         {title && (
-          <h2 className="text-2xl md:text-3xl font-medium text-center mb-12">
+          <h2 className="text-2xl md:text-3xl font-medium text-gray-900">
             {title}
           </h2>
         )}
-        <div className="columns-1 md:columns-2 gap-6 space-y-6">
-          {testimonials.map((t, i) => (
-            <div
-              key={t._key ?? i}
-              className="break-inside-avoid bg-white/80 backdrop-blur-sm rounded-2xl shadow-md border border-white/50 p-6 md:p-8 relative"
-            >
-              <div className="absolute -top-3 -left-3 w-8 h-8 bg-linear-to-br from-blue-500 to-green-500 rounded-full flex items-center justify-center shadow">
-                <svg
-                  className="w-4 h-4 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-10zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" />
-                </svg>
-              </div>
-              <p className="text-gray-700 leading-relaxed mb-4 pt-2">
-                {t.text}
-              </p>
-              <div className="flex items-center gap-2 mt-auto">
-                <div className="w-8 h-8 rounded-full bg-linear-to-br from-blue-400 to-green-400 flex items-center justify-center text-white text-sm font-semibold shrink-0">
-                  {t.name.charAt(0).toUpperCase()}
-                </div>
-                <div>
-                  <p className="font-medium text-sm">{t.name}</p>
-                  {t.role && <p className="text-xs text-gray-500">{t.role}</p>}
-                </div>
-              </div>
-            </div>
+      </div>
+
+      <div className="relative">
+        <div className="flex gap-6 animate-marquee w-max">
+          {doubled.map((t, i) => (
+            <TestimonialCard key={`${t._key ?? t.name}-${i}`} t={t} />
           ))}
         </div>
       </div>
