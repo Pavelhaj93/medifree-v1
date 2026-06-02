@@ -8,6 +8,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/app/components/ui/Carousel";
 import { Badge } from "@/app/components/ui/Badge";
 
@@ -32,7 +33,19 @@ export default function MediaCardsCarousel({
 }) {
   const [current, setCurrent] = React.useState(0);
   const [count] = React.useState(block.cards.length);
-  const carouselRef = React.useRef<any>(null);
+  const [api, setApi] = React.useState<CarouselApi>();
+  const [paused, setPaused] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!api) return;
+    api.on("select", () => setCurrent(api!.selectedScrollSnap()));
+  }, [api]);
+
+  React.useEffect(() => {
+    if (!api || paused) return;
+    const id = setInterval(() => api!.scrollNext(), 3000);
+    return () => clearInterval(id);
+  }, [api, paused]);
 
   return (
     <section className="bg-gray-50 py-8 md:py-16">
@@ -53,9 +66,11 @@ export default function MediaCardsCarousel({
           )}
         </div>
         <Carousel
-          ref={carouselRef}
+          setApi={setApi}
           className="w-full"
           opts={{ align: "start", loop: true }}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
         >
           <CarouselContent className="-ml-3 md:-ml-4">
             {block.cards.map((item, idx) => (
@@ -114,8 +129,8 @@ export default function MediaCardsCarousel({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden md:flex -left-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-lg transition-all duration-300" />
-          <CarouselNext className="hidden md:flex -right-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-lg transition-all duration-300" />
+          <CarouselPrevious className="hidden xl:flex -left-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-lg transition-all duration-300" />
+          <CarouselNext className="hidden xl:flex -right-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-lg transition-all duration-300" />
         </Carousel>
         {/* Carousel Indicators */}
         <div className="flex justify-center mt-6 gap-2">
