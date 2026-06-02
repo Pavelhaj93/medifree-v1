@@ -29,7 +29,7 @@ function StarRating() {
 
 function TestimonialCard({ t }: { t: Testimonial }) {
   return (
-    <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6 md:p-8 flex flex-col min-w-[500px] max-w-[500px] shrink-0">
+    <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6 md:p-8 flex flex-col min-w-125 max-w-125 shrink-0">
       <StarRating />
       <p className="text-gray-600 leading-relaxed italic">
         &ldquo;{t.text}&rdquo;{" "}
