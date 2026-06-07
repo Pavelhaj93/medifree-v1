@@ -15,9 +15,9 @@ const links = [
   { href: "/o-nas", label: "O nás" },
   { href: "/nase-sluzby", label: "Služby" },
   { href: "/e-shop", label: "E-shop" },
+  { href: "/ke-stazeni", label: "Ke stažení" },
   { href: "/clanky", label: "Články" },
-  { href: "/akce-a-novinky", label: "Akce a Novinky" },
-  { href: "/casto-kladene-otazky", label: "FAQ" },
+  { href: "/akce-a-novinky", label: "Novinky" },
   { href: "/kontakt", label: "Kontakt" },
 ];
 
@@ -54,7 +54,7 @@ export default function Header() {
       <div className="container mx-auto">
         <div className="flex justify-between items-center md:px-10 h-24">
           {/* Logo */}
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <Link
               href="/"
               className="flex items-center focus-visible:outline-primary rounded-2xl"
@@ -76,7 +76,7 @@ export default function Header() {
                 href={link.href}
                 className={cn(
                   "text-lg focus-visible:outline-primary px-2 rounded-full",
-                  linkClass(link.href)
+                  linkClass(link.href),
                 )}
               >
                 {link.label}

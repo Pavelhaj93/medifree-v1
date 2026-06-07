@@ -75,6 +75,7 @@ export const page = defineType({
         {type: 'checkoutSuccess'},
         {type: 'legalDocumentsSection'},
         {type: 'testimonialsSection'},
+        {type: 'freeResourcesSection'},
       ],
       options: {
         insertMenu: {
@@ -120,6 +121,7 @@ export const page = defineType({
                 'productShowcase',
                 'postShowcase',
                 'therapistSection',
+                'freeResourcesSection',
               ],
             },
           ],
