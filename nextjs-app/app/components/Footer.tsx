@@ -19,6 +19,12 @@ export default function Footer() {
             <div className="flex items-center">
               <nav className="space-x-6">
                 <Link
+                  href="/casto-kladene-otazky"
+                  className="text-gray-700 hover:text-secondary transition-colors cursor-pointer"
+                >
+                  Časté dotazy
+                </Link>
+                <Link
                   href="/ochrana-osobnich-udaju"
                   className="text-gray-700 hover:text-secondary transition-colors mb-2 cursor-pointer"
                 >

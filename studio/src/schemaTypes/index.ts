@@ -1,4 +1,5 @@
 import {person} from './documents/person'
+import {freeResource} from './documents/freeResource'
 import {page} from './documents/page'
 import {post} from './documents/post'
 import {callToAction} from './objects/callToAction'
@@ -32,6 +33,7 @@ import {
   checkoutSuccess,
   legalDocumentsSection,
   testimonialsSection,
+  freeResourcesSection,
 } from './objects'
 import {contentDisplayBlockCompact} from './objects/contentDisplayBlockCompact'
 import {heroSection} from './objects/heroSection'
@@ -50,6 +52,7 @@ export const schemaTypes = [
   product,
   faq,
   legalDocument,
+  freeResource,
   // Objects
   blockContent,
   infoSection,
@@ -81,4 +84,5 @@ export const schemaTypes = [
   checkoutSuccess,
   legalDocumentsSection,
   testimonialsSection,
+  freeResourcesSection,
 ]

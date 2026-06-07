@@ -6,6 +6,7 @@ import {
   postFields,
 } from "./fragments";
 import { faqFields } from "./faqs";
+import { freeResourceFields } from "./freeResources";
 
 export const getPageQuery = defineQuery(`
   *[_type == 'page' && slug.current == $slug][0]{
@@ -76,6 +77,10 @@ export const getPageQuery = defineQuery(`
       },
       _type == "checkoutSuccess" => {
         ...
+      },
+      _type == "freeResourcesSection" => {
+        ...,
+        "freeResources": *[_type == "freeResource"] | order(publishedAt desc) { ${freeResourceFields} }
       },
       _type == "legalDocumentsSection" => {
         ...,
