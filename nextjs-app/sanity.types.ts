@@ -132,6 +132,12 @@ export type SecondaryButton = {
     | "Heart";
 };
 
+export type FreeResourcesSection = {
+  _type: "freeResourcesSection";
+  heading?: string;
+  subheading?: string;
+};
+
 export type TestimonialsSection = {
   _type: "testimonialsSection";
   title?: string;
@@ -161,6 +167,10 @@ export type CheckoutSuccess = {
   successDescription: string;
   deliveryTitle: string;
   deliveryDescription: string;
+  physicalDeliveryTitle?: string;
+  physicalDeliveryDescription?: string;
+  voucherDeliveryTitle?: string;
+  voucherDeliveryDescription?: string;
   orderNumberLabel: string;
   continueShoppingText: string;
   homeButtonText: string;
@@ -180,7 +190,11 @@ export type Cart = {
   continueShoppingText: string;
   orderSummaryTitle: string;
   subtotalLabel: string;
-  taxLabel: string;
+  taxLabel?: string;
+  shippingLabel?: string;
+  deliveryTitle?: string;
+  pickPointButtonText?: string;
+  pickPointRequiredText?: string;
   totalLabel: string;
   emailLabel: string;
   emailPlaceholder: string;
@@ -574,6 +588,55 @@ export type BlockContent = Array<
     }
 >;
 
+export type FreeResource = {
+  _id: string;
+  _type: "freeResource";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  category: "video" | "audio" | "dokument";
+  description?: string;
+  thumbnail?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  file?: {
+    asset?: SanityFileAssetReference;
+    media?: unknown;
+    _type: "file";
+  };
+  embedUrl?: string;
+  publishedAt?: string;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+};
+
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
+};
+
 export type LegalDocument = {
   _id: string;
   _type: "legalDocument";
@@ -614,6 +677,72 @@ export type ProductReference = {
   [internalGroqTypeReferenceTo]?: "product";
 };
 
+export type OrderReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "order";
+};
+
+export type Voucher = {
+  _id: string;
+  _type: "voucher";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  code?: string;
+  status?: "valid" | "redeemed";
+  validUntil?: string;
+  redeemedAt?: string;
+  title?: string;
+  product?: ProductReference;
+  dedication?: string;
+  buyerName?: string;
+  buyerEmail?: string;
+  order?: OrderReference;
+  purchasedAt?: string;
+  livemode?: boolean;
+  note?: string;
+};
+
+export type Order = {
+  _id: string;
+  _type: "order";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  orderNumber?: string;
+  status?: "new" | "shipped" | "completed" | "cancelled";
+  createdAt?: string;
+  shippedAt?: string;
+  customer?: {
+    name?: string;
+    email?: string;
+    phone?: string;
+  };
+  shipping?: {
+    method?: string;
+    price?: number;
+    packetaPointId?: string;
+    packetaPointName?: string;
+    packetaPointAddress?: string;
+  };
+  items?: Array<{
+    product?: ProductReference;
+    title?: string;
+    kind?: "digital" | "physical" | "voucher";
+    quantity?: number;
+    unitPrice?: number;
+    _type: "orderItem";
+    _key: string;
+  }>;
+  total?: number;
+  note?: string;
+  stripeSessionId?: string;
+  livemode?: boolean;
+  emailsSentAt?: string;
+};
+
 export type Product = {
   _id: string;
   _type: "product";
@@ -621,12 +750,15 @@ export type Product = {
   _updatedAt: string;
   _rev: string;
   title: string;
+  slug?: Slug;
   category:
     | "Ebooky"
     | "Audionahr\xE1vky"
     | "Video kurzy"
     | "Ebook + Audio"
-    | "Bal\xED\u010Dky";
+    | "Bal\xED\u010Dky"
+    | "Fyzick\xE9 produkty"
+    | "D\xE1rkov\xE9 poukazy";
   image: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -637,6 +769,17 @@ export type Product = {
   };
   price: number;
   description: string;
+  isAvailable?: boolean;
+  gallery?: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }>;
+  body?: BlockContent;
   ebookFile?: {
     asset?: SanityFileAssetReference;
     media?: unknown;
@@ -658,23 +801,21 @@ export type Product = {
       _key: string;
     } & ProductReference
   >;
+  voucherValidityMonths?: number;
+  voucherIncludes?: string;
+  voucherBackground?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  voucherGuides?: Array<
+    {
+      _key: string;
+    } & ProductReference
+  >;
   featured?: boolean;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x: number;
-  y: number;
-  height: number;
-  width: number;
 };
 
 export type Page = {
@@ -763,13 +904,10 @@ export type Page = {
     | ({
         _key: string;
       } & TestimonialsSection)
+    | ({
+        _key: string;
+      } & FreeResourcesSection)
   >;
-};
-
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
 };
 
 export type Post = {
@@ -906,6 +1044,12 @@ export type Settings = {
     metadataBase?: string;
     _type: "image";
   };
+  shop?: {
+    dispatchTime?: string;
+    packetaLabel?: string;
+    packetaPrice?: number;
+    voucherRedeemInfo?: string;
+  };
 };
 
 export type SanityImagePaletteSwatch = {
@@ -1013,6 +1157,7 @@ export type AllSanitySchemaTypes =
   | ContentDisplayBlockCompactLink
   | PrimaryButton
   | SecondaryButton
+  | FreeResourcesSection
   | TestimonialsSection
   | LegalDocumentsSection
   | CheckoutSuccess
@@ -1047,14 +1192,18 @@ export type AllSanitySchemaTypes =
   | CallToAction
   | InfoSection
   | BlockContent
+  | FreeResource
+  | SanityImageCrop
+  | SanityImageHotspot
+  | Slug
   | LegalDocument
   | Faq
   | ProductReference
+  | OrderReference
+  | Voucher
+  | Order
   | Product
-  | SanityImageCrop
-  | SanityImageHotspot
   | Page
-  | Slug
   | Post
   | Person
   | Settings
@@ -1078,6 +1227,33 @@ export type AllFaqsQueryResult = Array<{
   order: null;
   _createdAt: string;
   _updatedAt: string;
+}>;
+
+// Source: ../nextjs-app/sanity/queries/freeResources.ts
+// Variable: allFreeResourcesQuery
+// Query: *[_type == "freeResource"] | order(publishedAt desc) {   _id,  title,  "slug": slug.current,  category,  description,  thumbnail { asset, alt, _type },  file {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  embedUrl,  publishedAt,  _createdAt }
+export type AllFreeResourcesQueryResult = Array<{
+  _id: string;
+  title: string;
+  slug: string;
+  category: "audio" | "dokument" | "video";
+  description: string | null;
+  thumbnail: {
+    asset: SanityImageAssetReference | null;
+    alt: string | null;
+    _type: "image";
+  } | null;
+  file: {
+    asset: {
+      _id: string;
+      url: string;
+      originalFilename: string | null;
+      mimeType: string;
+    } | null;
+  } | null;
+  embedUrl: string | null;
+  publishedAt: string | null;
+  _createdAt: string;
 }>;
 
 // Source: ../nextjs-app/sanity/queries/legal.ts
@@ -1171,7 +1347,7 @@ export type TermsAndConditionsQueryResult = {
 
 // Source: ../nextjs-app/sanity/queries/pages.ts
 // Variable: getPageQuery
-// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {   link {    ...,      _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }  } },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{ ...,   _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  } }        }      },      _type == "videoSection" => {        ...,        video{          asset->        },        mobileVideo{          asset->        }      },      _type == "contentDisplayBlock" => {        ...,        image,        link{          ...,          page->{            slug          }        }      },      _type == "therapistSection" => {        ...,        therapist->      },      _type == "serviceCardBlock" => {        ...,        image { asset, alt, _type },        content      },      _type == "masonryGallery" => {        ...,        images[] { asset, alt, _type, _key }      },      _type == "productShowcase" => {        ...,        "featuredProduct": *[_type == "product" && featured == true][0]{   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  ebookFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  audioFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  videoFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  originalPrice,  bundleItems[]->{    _id,    title,    category,    price,    ebookFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    },    audioFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    },    videoFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    }  },  _createdAt,  _updatedAt,  _rev,  _type },        "products": *[_type == "product"] | order(name asc) {   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  ebookFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  audioFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  videoFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  originalPrice,  bundleItems[]->{    _id,    title,    category,    price,    ebookFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    },    audioFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    },    videoFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    }  },  _createdAt,  _updatedAt,  _rev,  _type }      },      _type == "postShowcase" => {        ...,        "firstPost": *[_type == "post"] | order(date desc)[0]{   _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},  },        "posts": *[_type == "post"] | order(date desc) {   _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},  }      },      _type == "faqCardsGrid" => {        ...,        "faqs": *[_type == "faq"] | order(order asc, question asc) {   _id,  question,  answer,  category,  order,  _createdAt,  _updatedAt }       },      _type == "faqAccordion" => {        ...,        "faqs": *[_type == "faq"] | order(order asc, question asc) {   _id,  question,  answer,  category,  order,  _createdAt,  _updatedAt }       },      _type == "checkoutSuccess" => {        ...      },      _type == "legalDocumentsSection" => {        ...,        "legalDocuments": *[_type == "legalDocument"] | order(title asc) {          _id,          title,          description,          category,          file {            asset->{              _id,              url,              assetId,              originalFilename,              extension,              size            }          },          _createdAt,          _updatedAt,          _rev        }      }    },  }
+// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {   link {    ...,      _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }  } },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{ ...,   _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  } }        }      },      _type == "videoSection" => {        ...,        video{          asset->        },        mobileVideo{          asset->        }      },      _type == "contentDisplayBlock" => {        ...,        image,        link{          ...,          page->{            slug          }        }      },      _type == "therapistSection" => {        ...,        therapist->      },      _type == "serviceCardBlock" => {        ...,        image { asset, alt, _type },        content      },      _type == "masonryGallery" => {        ...,        images[] { asset, alt, _type, _key }      },      _type == "productShowcase" => {        ...,        "featuredProduct": *[_type == "product" && featured == true][0]{   _id,  title,  "slug": slug.current,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  isAvailable,  originalPrice,  bundleItems[]->{    _id,    title,    category,    price  },  _createdAt,  _updatedAt,  _rev,  _type },        "products": *[_type == "product"] | order(name asc) {   _id,  title,  "slug": slug.current,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  isAvailable,  originalPrice,  bundleItems[]->{    _id,    title,    category,    price  },  _createdAt,  _updatedAt,  _rev,  _type }      },      _type == "postShowcase" => {        ...,        "firstPost": *[_type == "post"] | order(date desc)[0]{   _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},  },        "posts": *[_type == "post"] | order(date desc) {   _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},  }      },      _type == "faqCardsGrid" => {        ...,        "faqs": *[_type == "faq"] | order(order asc, question asc) {   _id,  question,  answer,  category,  order,  _createdAt,  _updatedAt }       },      _type == "faqAccordion" => {        ...,        "faqs": *[_type == "faq"] | order(order asc, question asc) {   _id,  question,  answer,  category,  order,  _createdAt,  _updatedAt }       },      _type == "checkoutSuccess" => {        ...      },      _type == "cart" => {        ...,        "shop": *[_type == "settings"][0].shop{ dispatchTime, packetaLabel, packetaPrice, voucherRedeemInfo }      },      _type == "freeResourcesSection" => {        ...,        "freeResources": *[_type == "freeResource"] | order(publishedAt desc) {   _id,  title,  "slug": slug.current,  category,  description,  thumbnail { asset, alt, _type },  file {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  embedUrl,  publishedAt,  _createdAt }      },      _type == "legalDocumentsSection" => {        ...,        "legalDocuments": *[_type == "legalDocument"] | order(title asc) {          _id,          title,          description,          category,          file {            asset->{              _id,              url,              assetId,              originalFilename,              extension,              size            }          },          _createdAt,          _updatedAt,          _rev        }      }    },  }
 export type GetPageQueryResult = {
   _id: string;
   _type: "page";
@@ -1215,7 +1391,11 @@ export type GetPageQueryResult = {
         continueShoppingText: string;
         orderSummaryTitle: string;
         subtotalLabel: string;
-        taxLabel: string;
+        taxLabel?: string;
+        shippingLabel?: string;
+        deliveryTitle?: string;
+        pickPointButtonText?: string;
+        pickPointRequiredText?: string;
         totalLabel: string;
         emailLabel: string;
         emailPlaceholder: string;
@@ -1227,6 +1407,12 @@ export type GetPageQueryResult = {
         faqButtonText: string;
         checkingOutText: string;
         termsText: BlockContent;
+        shop: {
+          dispatchTime: string | null;
+          packetaLabel: string | null;
+          packetaPrice: number | null;
+          voucherRedeemInfo: string | null;
+        } | null;
       }
     | {
         _key: string;
@@ -1235,6 +1421,10 @@ export type GetPageQueryResult = {
         successDescription: string;
         deliveryTitle: string;
         deliveryDescription: string;
+        physicalDeliveryTitle?: string;
+        physicalDeliveryDescription?: string;
+        voucherDeliveryTitle?: string;
+        voucherDeliveryDescription?: string;
         orderNumberLabel: string;
         continueShoppingText: string;
         homeButtonText: string;
@@ -1389,6 +1579,35 @@ export type GetPageQueryResult = {
           order: null;
           _createdAt: string;
           _updatedAt: string;
+        }>;
+      }
+    | {
+        _key: string;
+        _type: "freeResourcesSection";
+        heading?: string;
+        subheading?: string;
+        freeResources: Array<{
+          _id: string;
+          title: string;
+          slug: string;
+          category: "audio" | "dokument" | "video";
+          description: string | null;
+          thumbnail: {
+            asset: SanityImageAssetReference | null;
+            alt: string | null;
+            _type: "image";
+          } | null;
+          file: {
+            asset: {
+              _id: string;
+              url: string;
+              originalFilename: string | null;
+              mimeType: string;
+            } | null;
+          } | null;
+          embedUrl: string | null;
+          publishedAt: string | null;
+          _createdAt: string;
         }>;
       }
     | {
@@ -1623,6 +1842,7 @@ export type GetPageQueryResult = {
         featuredProduct: {
           _id: string;
           title: string;
+          slug: string | null;
           price: number;
           discount: null;
           image: {
@@ -1635,33 +1855,12 @@ export type GetPageQueryResult = {
           category:
             | "Audionahr\xE1vky"
             | "Bal\xED\u010Dky"
+            | "D\xE1rkov\xE9 poukazy"
             | "Ebook + Audio"
             | "Ebooky"
+            | "Fyzick\xE9 produkty"
             | "Video kurzy";
-          ebookFile: {
-            asset: {
-              _id: string;
-              url: string;
-              originalFilename: string | null;
-              mimeType: string;
-            } | null;
-          } | null;
-          audioFile: {
-            asset: {
-              _id: string;
-              url: string;
-              originalFilename: string | null;
-              mimeType: string;
-            } | null;
-          } | null;
-          videoFile: {
-            asset: {
-              _id: string;
-              url: string;
-              originalFilename: string | null;
-              mimeType: string;
-            } | null;
-          } | null;
+          isAvailable: boolean | null;
           originalPrice: number | null;
           bundleItems: Array<{
             _id: string;
@@ -1669,34 +1868,12 @@ export type GetPageQueryResult = {
             category:
               | "Audionahr\xE1vky"
               | "Bal\xED\u010Dky"
+              | "D\xE1rkov\xE9 poukazy"
               | "Ebook + Audio"
               | "Ebooky"
+              | "Fyzick\xE9 produkty"
               | "Video kurzy";
             price: number;
-            ebookFile: {
-              asset: {
-                _id: string;
-                url: string;
-                originalFilename: string | null;
-                mimeType: string;
-              } | null;
-            } | null;
-            audioFile: {
-              asset: {
-                _id: string;
-                url: string;
-                originalFilename: string | null;
-                mimeType: string;
-              } | null;
-            } | null;
-            videoFile: {
-              asset: {
-                _id: string;
-                url: string;
-                originalFilename: string | null;
-                mimeType: string;
-              } | null;
-            } | null;
           }> | null;
           _createdAt: string;
           _updatedAt: string;
@@ -1706,6 +1883,7 @@ export type GetPageQueryResult = {
         products: Array<{
           _id: string;
           title: string;
+          slug: string | null;
           price: number;
           discount: null;
           image: {
@@ -1718,33 +1896,12 @@ export type GetPageQueryResult = {
           category:
             | "Audionahr\xE1vky"
             | "Bal\xED\u010Dky"
+            | "D\xE1rkov\xE9 poukazy"
             | "Ebook + Audio"
             | "Ebooky"
+            | "Fyzick\xE9 produkty"
             | "Video kurzy";
-          ebookFile: {
-            asset: {
-              _id: string;
-              url: string;
-              originalFilename: string | null;
-              mimeType: string;
-            } | null;
-          } | null;
-          audioFile: {
-            asset: {
-              _id: string;
-              url: string;
-              originalFilename: string | null;
-              mimeType: string;
-            } | null;
-          } | null;
-          videoFile: {
-            asset: {
-              _id: string;
-              url: string;
-              originalFilename: string | null;
-              mimeType: string;
-            } | null;
-          } | null;
+          isAvailable: boolean | null;
           originalPrice: number | null;
           bundleItems: Array<{
             _id: string;
@@ -1752,34 +1909,12 @@ export type GetPageQueryResult = {
             category:
               | "Audionahr\xE1vky"
               | "Bal\xED\u010Dky"
+              | "D\xE1rkov\xE9 poukazy"
               | "Ebook + Audio"
               | "Ebooky"
+              | "Fyzick\xE9 produkty"
               | "Video kurzy";
             price: number;
-            ebookFile: {
-              asset: {
-                _id: string;
-                url: string;
-                originalFilename: string | null;
-                mimeType: string;
-              } | null;
-            } | null;
-            audioFile: {
-              asset: {
-                _id: string;
-                url: string;
-                originalFilename: string | null;
-                mimeType: string;
-              } | null;
-            } | null;
-            videoFile: {
-              asset: {
-                _id: string;
-                url: string;
-                originalFilename: string | null;
-                mimeType: string;
-              } | null;
-            } | null;
           }> | null;
           _createdAt: string;
           _updatedAt: string;
@@ -2030,6 +2165,12 @@ export type SettingsQueryResult = {
     alt?: string;
     metadataBase?: string;
     _type: "image";
+  };
+  shop?: {
+    dispatchTime?: string;
+    packetaLabel?: string;
+    packetaPrice?: number;
+    voucherRedeemInfo?: string;
   };
 } | null;
 
@@ -2331,10 +2472,11 @@ export type PostPagesSlugsResult = Array<{
 
 // Source: ../nextjs-app/sanity/queries/products.ts
 // Variable: allProductsQuery
-// Query: *[_type == "product"] | order(name asc) {   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  ebookFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  audioFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  videoFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  originalPrice,  bundleItems[]->{    _id,    title,    category,    price,    ebookFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    },    audioFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    },    videoFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    }  },  _createdAt,  _updatedAt,  _rev,  _type }
+// Query: *[_type == "product"] | order(name asc) {   _id,  title,  "slug": slug.current,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  isAvailable,  originalPrice,  bundleItems[]->{    _id,    title,    category,    price  },  _createdAt,  _updatedAt,  _rev,  _type }
 export type AllProductsQueryResult = Array<{
   _id: string;
   title: string;
+  slug: string | null;
   price: number;
   discount: null;
   image: {
@@ -2347,33 +2489,12 @@ export type AllProductsQueryResult = Array<{
   category:
     | "Audionahr\xE1vky"
     | "Bal\xED\u010Dky"
+    | "D\xE1rkov\xE9 poukazy"
     | "Ebook + Audio"
     | "Ebooky"
+    | "Fyzick\xE9 produkty"
     | "Video kurzy";
-  ebookFile: {
-    asset: {
-      _id: string;
-      url: string;
-      originalFilename: string | null;
-      mimeType: string;
-    } | null;
-  } | null;
-  audioFile: {
-    asset: {
-      _id: string;
-      url: string;
-      originalFilename: string | null;
-      mimeType: string;
-    } | null;
-  } | null;
-  videoFile: {
-    asset: {
-      _id: string;
-      url: string;
-      originalFilename: string | null;
-      mimeType: string;
-    } | null;
-  } | null;
+  isAvailable: boolean | null;
   originalPrice: number | null;
   bundleItems: Array<{
     _id: string;
@@ -2381,34 +2502,12 @@ export type AllProductsQueryResult = Array<{
     category:
       | "Audionahr\xE1vky"
       | "Bal\xED\u010Dky"
+      | "D\xE1rkov\xE9 poukazy"
       | "Ebook + Audio"
       | "Ebooky"
+      | "Fyzick\xE9 produkty"
       | "Video kurzy";
     price: number;
-    ebookFile: {
-      asset: {
-        _id: string;
-        url: string;
-        originalFilename: string | null;
-        mimeType: string;
-      } | null;
-    } | null;
-    audioFile: {
-      asset: {
-        _id: string;
-        url: string;
-        originalFilename: string | null;
-        mimeType: string;
-      } | null;
-    } | null;
-    videoFile: {
-      asset: {
-        _id: string;
-        url: string;
-        originalFilename: string | null;
-        mimeType: string;
-      } | null;
-    } | null;
   }> | null;
   _createdAt: string;
   _updatedAt: string;
@@ -2418,10 +2517,11 @@ export type AllProductsQueryResult = Array<{
 
 // Source: ../nextjs-app/sanity/queries/products.ts
 // Variable: featuredProductQuery
-// Query: *[_type == "product" && featured == true][0]{   _id,  title,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  ebookFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  audioFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  videoFile {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  originalPrice,  bundleItems[]->{    _id,    title,    category,    price,    ebookFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    },    audioFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    },    videoFile {      asset->{        _id,        url,        originalFilename,        mimeType      }    }  },  _createdAt,  _updatedAt,  _rev,  _type }
+// Query: *[_type == "product" && featured == true][0]{   _id,  title,  "slug": slug.current,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  isAvailable,  originalPrice,  bundleItems[]->{    _id,    title,    category,    price  },  _createdAt,  _updatedAt,  _rev,  _type }
 export type FeaturedProductQueryResult = {
   _id: string;
   title: string;
+  slug: string | null;
   price: number;
   discount: null;
   image: {
@@ -2434,33 +2534,12 @@ export type FeaturedProductQueryResult = {
   category:
     | "Audionahr\xE1vky"
     | "Bal\xED\u010Dky"
+    | "D\xE1rkov\xE9 poukazy"
     | "Ebook + Audio"
     | "Ebooky"
+    | "Fyzick\xE9 produkty"
     | "Video kurzy";
-  ebookFile: {
-    asset: {
-      _id: string;
-      url: string;
-      originalFilename: string | null;
-      mimeType: string;
-    } | null;
-  } | null;
-  audioFile: {
-    asset: {
-      _id: string;
-      url: string;
-      originalFilename: string | null;
-      mimeType: string;
-    } | null;
-  } | null;
-  videoFile: {
-    asset: {
-      _id: string;
-      url: string;
-      originalFilename: string | null;
-      mimeType: string;
-    } | null;
-  } | null;
+  isAvailable: boolean | null;
   originalPrice: number | null;
   bundleItems: Array<{
     _id: string;
@@ -2468,34 +2547,12 @@ export type FeaturedProductQueryResult = {
     category:
       | "Audionahr\xE1vky"
       | "Bal\xED\u010Dky"
+      | "D\xE1rkov\xE9 poukazy"
       | "Ebook + Audio"
       | "Ebooky"
+      | "Fyzick\xE9 produkty"
       | "Video kurzy";
     price: number;
-    ebookFile: {
-      asset: {
-        _id: string;
-        url: string;
-        originalFilename: string | null;
-        mimeType: string;
-      } | null;
-    } | null;
-    audioFile: {
-      asset: {
-        _id: string;
-        url: string;
-        originalFilename: string | null;
-        mimeType: string;
-      } | null;
-    } | null;
-    videoFile: {
-      asset: {
-        _id: string;
-        url: string;
-        originalFilename: string | null;
-        mimeType: string;
-      } | null;
-    } | null;
   }> | null;
   _createdAt: string;
   _updatedAt: string;
@@ -2503,15 +2560,209 @@ export type FeaturedProductQueryResult = {
   _type: "product";
 } | null;
 
+// Source: ../nextjs-app/sanity/queries/shop.ts
+// Variable: shopSettingsQuery
+// Query: *[_type == "settings"][0].shop{ dispatchTime, packetaLabel, packetaPrice, voucherRedeemInfo }
+export type ShopSettingsQueryResult = {
+  dispatchTime: string | null;
+  packetaLabel: string | null;
+  packetaPrice: number | null;
+  voucherRedeemInfo: string | null;
+} | null;
+
+// Source: ../nextjs-app/sanity/queries/shop.ts
+// Variable: productBySlugQuery
+// Query: *[_type == "product" && slug.current == $slug][0]{      _id,  title,  "slug": slug.current,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  isAvailable,  originalPrice,  bundleItems[]->{    _id,    title,    category,    price  },  _createdAt,  _updatedAt,  _rev,  _type,    gallery[]{ asset, alt, _type, _key },    body,    voucherIncludes,    voucherValidityMonths  }
+export type ProductBySlugQueryResult = {
+  _id: string;
+  title: string;
+  slug: string | null;
+  price: number;
+  discount: null;
+  image: {
+    asset: SanityImageAssetReference | null;
+    alt: string | null;
+    _type: "image";
+  };
+  description: string;
+  featured: boolean | null;
+  category:
+    | "Audionahr\xE1vky"
+    | "Bal\xED\u010Dky"
+    | "D\xE1rkov\xE9 poukazy"
+    | "Ebook + Audio"
+    | "Ebooky"
+    | "Fyzick\xE9 produkty"
+    | "Video kurzy";
+  isAvailable: boolean | null;
+  originalPrice: number | null;
+  bundleItems: Array<{
+    _id: string;
+    title: string;
+    category:
+      | "Audionahr\xE1vky"
+      | "Bal\xED\u010Dky"
+      | "D\xE1rkov\xE9 poukazy"
+      | "Ebook + Audio"
+      | "Ebooky"
+      | "Fyzick\xE9 produkty"
+      | "Video kurzy";
+    price: number;
+  }> | null;
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  _type: "product";
+  gallery: Array<{
+    asset: SanityImageAssetReference | null;
+    alt: string | null;
+    _type: "image";
+    _key: string;
+  }> | null;
+  body: BlockContent | null;
+  voucherIncludes: string | null;
+  voucherValidityMonths: number | null;
+} | null;
+
+// Source: ../nextjs-app/sanity/queries/shop.ts
+// Variable: productSlugsQuery
+// Query: *[_type == "product" && defined(slug.current)]{ "slug": slug.current }
+export type ProductSlugsQueryResult = Array<{
+  slug: string;
+}>;
+
+// Source: ../nextjs-app/sanity/queries/shop.ts
+// Variable: checkoutProductsQuery
+// Query: *[_type == "product" && _id in $ids]{    _id,    title,    category,    price,    isAvailable,    image  }
+export type CheckoutProductsQueryResult = Array<{
+  _id: string;
+  title: string;
+  category:
+    | "Audionahr\xE1vky"
+    | "Bal\xED\u010Dky"
+    | "D\xE1rkov\xE9 poukazy"
+    | "Ebook + Audio"
+    | "Ebooky"
+    | "Fyzick\xE9 produkty"
+    | "Video kurzy";
+  price: number;
+  isAvailable: boolean | null;
+  image: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+}>;
+
+// Source: ../nextjs-app/sanity/queries/shop.ts
+// Variable: fulfillmentProductsQuery
+// Query: *[_type == "product" && _id in $ids]{    _id,    title,    category,    ebookFile { asset->{ url } },    audioFile { asset->{ url } },    videoFile { asset->{ url } },    bundleItems[]->{      _id, title, category,      ebookFile { asset->{ url } },      audioFile { asset->{ url } },      videoFile { asset->{ url } }    },    voucherValidityMonths,    voucherIncludes,    "voucherBackgroundUrl": voucherBackground.asset->url,    voucherGuides[]->{      _id, title, category,      ebookFile { asset->{ url } },      audioFile { asset->{ url } },      videoFile { asset->{ url } }    }  }
+export type FulfillmentProductsQueryResult = Array<{
+  _id: string;
+  title: string;
+  category:
+    | "Audionahr\xE1vky"
+    | "Bal\xED\u010Dky"
+    | "D\xE1rkov\xE9 poukazy"
+    | "Ebook + Audio"
+    | "Ebooky"
+    | "Fyzick\xE9 produkty"
+    | "Video kurzy";
+  ebookFile: {
+    asset: {
+      url: string;
+    } | null;
+  } | null;
+  audioFile: {
+    asset: {
+      url: string;
+    } | null;
+  } | null;
+  videoFile: {
+    asset: {
+      url: string;
+    } | null;
+  } | null;
+  bundleItems: Array<{
+    _id: string;
+    title: string;
+    category:
+      | "Audionahr\xE1vky"
+      | "Bal\xED\u010Dky"
+      | "D\xE1rkov\xE9 poukazy"
+      | "Ebook + Audio"
+      | "Ebooky"
+      | "Fyzick\xE9 produkty"
+      | "Video kurzy";
+    ebookFile: {
+      asset: {
+        url: string;
+      } | null;
+    } | null;
+    audioFile: {
+      asset: {
+        url: string;
+      } | null;
+    } | null;
+    videoFile: {
+      asset: {
+        url: string;
+      } | null;
+    } | null;
+  }> | null;
+  voucherValidityMonths: number | null;
+  voucherIncludes: string | null;
+  voucherBackgroundUrl: string | null;
+  voucherGuides: Array<{
+    _id: string;
+    title: string;
+    category:
+      | "Audionahr\xE1vky"
+      | "Bal\xED\u010Dky"
+      | "D\xE1rkov\xE9 poukazy"
+      | "Ebook + Audio"
+      | "Ebooky"
+      | "Fyzick\xE9 produkty"
+      | "Video kurzy";
+    ebookFile: {
+      asset: {
+        url: string;
+      } | null;
+    } | null;
+    audioFile: {
+      asset: {
+        url: string;
+      } | null;
+    } | null;
+    videoFile: {
+      asset: {
+        url: string;
+      } | null;
+    } | null;
+  }> | null;
+}>;
+
+// Source: ../nextjs-app/sanity/queries/shop.ts
+// Variable: shopLegalDocumentsQuery
+// Query: *[_type == "legalDocument" && category in ["Obchodní podmínky", "E-shop"] && defined(file.asset)]{    title,    "url": file.asset->url  }
+export type ShopLegalDocumentsQueryResult = Array<{
+  title: string;
+  url: string | null;
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '\n  *[_type == "faq"] | order(order asc, question asc) {\n   \n  _id,\n  question,\n  answer,\n  category,\n  order,\n  _createdAt,\n  _updatedAt\n\n  }\n': AllFaqsQueryResult;
+    '*[_type == "freeResource"] | order(publishedAt desc) { \n  _id,\n  title,\n  "slug": slug.current,\n  category,\n  description,\n  thumbnail { asset, alt, _type },\n  file {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  embedUrl,\n  publishedAt,\n  _createdAt\n }': AllFreeResourcesQueryResult;
     '\n  *[_type == "legalDocument"] | order(title asc) {\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_rev\n  }\n': AllLegalDocumentsQueryResult;
     '\n  *[_type == "legalDocument" && tag == "gdpr-consent"][0]{\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n': GdprQueryResult;
     '\n  *[_type == "legalDocument" && tag == "TandC"][0]{\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n': TermsAndConditionsQueryResult;
-    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "callToAction" => { \n  link {\n    ...,\n    \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n  }\n },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{ ..., \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n }\n        }\n      },\n      _type == "videoSection" => {\n        ...,\n        video{\n          asset->\n        },\n        mobileVideo{\n          asset->\n        }\n      },\n      _type == "contentDisplayBlock" => {\n        ...,\n        image,\n        link{\n          ...,\n          page->{\n            slug\n          }\n        }\n      },\n      _type == "therapistSection" => {\n        ...,\n        therapist->\n      },\n      _type == "serviceCardBlock" => {\n        ...,\n        image { asset, alt, _type },\n        content\n      },\n      _type == "masonryGallery" => {\n        ...,\n        images[] { asset, alt, _type, _key }\n      },\n      _type == "productShowcase" => {\n        ...,\n        "featuredProduct": *[_type == "product" && featured == true][0]{ \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  ebookFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  audioFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  videoFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price,\n    ebookFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    },\n    audioFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    },\n    videoFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    }\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n },\n        "products": *[_type == "product"] | order(name asc) { \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  ebookFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  audioFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  videoFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price,\n    ebookFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    },\n    audioFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    },\n    videoFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    }\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }\n      },\n      _type == "postShowcase" => {\n        ...,\n        "firstPost": *[_type == "post"] | order(date desc)[0]{ \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n  },\n        "posts": *[_type == "post"] | order(date desc) { \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n  }\n      },\n      _type == "faqCardsGrid" => {\n        ...,\n        "faqs": *[_type == "faq"] | order(order asc, question asc) { \n  _id,\n  question,\n  answer,\n  category,\n  order,\n  _createdAt,\n  _updatedAt\n } \n      },\n      _type == "faqAccordion" => {\n        ...,\n        "faqs": *[_type == "faq"] | order(order asc, question asc) { \n  _id,\n  question,\n  answer,\n  category,\n  order,\n  _createdAt,\n  _updatedAt\n } \n      },\n      _type == "checkoutSuccess" => {\n        ...\n      },\n      _type == "legalDocumentsSection" => {\n        ...,\n        "legalDocuments": *[_type == "legalDocument"] | order(title asc) {\n          _id,\n          title,\n          description,\n          category,\n          file {\n            asset->{\n              _id,\n              url,\n              assetId,\n              originalFilename,\n              extension,\n              size\n            }\n          },\n          _createdAt,\n          _updatedAt,\n          _rev\n        }\n      }\n    },\n  }\n': GetPageQueryResult;
+    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "callToAction" => { \n  link {\n    ...,\n    \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n  }\n },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{ ..., \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n }\n        }\n      },\n      _type == "videoSection" => {\n        ...,\n        video{\n          asset->\n        },\n        mobileVideo{\n          asset->\n        }\n      },\n      _type == "contentDisplayBlock" => {\n        ...,\n        image,\n        link{\n          ...,\n          page->{\n            slug\n          }\n        }\n      },\n      _type == "therapistSection" => {\n        ...,\n        therapist->\n      },\n      _type == "serviceCardBlock" => {\n        ...,\n        image { asset, alt, _type },\n        content\n      },\n      _type == "masonryGallery" => {\n        ...,\n        images[] { asset, alt, _type, _key }\n      },\n      _type == "productShowcase" => {\n        ...,\n        "featuredProduct": *[_type == "product" && featured == true][0]{ \n  _id,\n  title,\n  "slug": slug.current,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  isAvailable,\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n },\n        "products": *[_type == "product"] | order(name asc) { \n  _id,\n  title,\n  "slug": slug.current,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  isAvailable,\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }\n      },\n      _type == "postShowcase" => {\n        ...,\n        "firstPost": *[_type == "post"] | order(date desc)[0]{ \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n  },\n        "posts": *[_type == "post"] | order(date desc) { \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n  }\n      },\n      _type == "faqCardsGrid" => {\n        ...,\n        "faqs": *[_type == "faq"] | order(order asc, question asc) { \n  _id,\n  question,\n  answer,\n  category,\n  order,\n  _createdAt,\n  _updatedAt\n } \n      },\n      _type == "faqAccordion" => {\n        ...,\n        "faqs": *[_type == "faq"] | order(order asc, question asc) { \n  _id,\n  question,\n  answer,\n  category,\n  order,\n  _createdAt,\n  _updatedAt\n } \n      },\n      _type == "checkoutSuccess" => {\n        ...\n      },\n      _type == "cart" => {\n        ...,\n        "shop": *[_type == "settings"][0].shop{ dispatchTime, packetaLabel, packetaPrice, voucherRedeemInfo }\n      },\n      _type == "freeResourcesSection" => {\n        ...,\n        "freeResources": *[_type == "freeResource"] | order(publishedAt desc) { \n  _id,\n  title,\n  "slug": slug.current,\n  category,\n  description,\n  thumbnail { asset, alt, _type },\n  file {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  embedUrl,\n  publishedAt,\n  _createdAt\n }\n      },\n      _type == "legalDocumentsSection" => {\n        ...,\n        "legalDocuments": *[_type == "legalDocument"] | order(title asc) {\n          _id,\n          title,\n          description,\n          category,\n          file {\n            asset->{\n              _id,\n              url,\n              assetId,\n              originalFilename,\n              extension,\n              size\n            }\n          },\n          _createdAt,\n          _updatedAt,\n          _rev\n        }\n      }\n    },\n  }\n': GetPageQueryResult;
     '\n  *[_type == "page" && defined(slug.current)]\n  {"slug": slug.current}\n': PagesSlugsResult;
     '\n  *[_type == "page" || _type == "post" && defined(slug.current)]\n  | order(_type asc) {\n    "slug": slug.current,\n    _type,\n    _updatedAt\n  }\n': SitemapDataResult;
     '*[_type == "settings"][0]': SettingsQueryResult;
@@ -2522,7 +2773,13 @@ declare module "@sanity/client" {
     '*[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc)[0...$limit]{\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n}': MorePostsQueryResult;
     '*[_type == "post" && slug.current == $slug][0]{content[]{...,markDefs[]{...,\n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n}},\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n}': PostQueryResult;
     '*[_type == "post" && defined(slug.current)]{"slug": slug.current}': PostPagesSlugsResult;
-    '*[_type == "product"] | order(name asc) { \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  ebookFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  audioFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  videoFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price,\n    ebookFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    },\n    audioFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    },\n    videoFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    }\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }': AllProductsQueryResult;
-    '*[_type == "product" && featured == true][0]{ \n  _id,\n  title,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  ebookFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  audioFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  videoFile {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price,\n    ebookFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    },\n    audioFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    },\n    videoFile {\n      asset->{\n        _id,\n        url,\n        originalFilename,\n        mimeType\n      }\n    }\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }': FeaturedProductQueryResult;
+    '*[_type == "product"] | order(name asc) { \n  _id,\n  title,\n  "slug": slug.current,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  isAvailable,\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }': AllProductsQueryResult;
+    '*[_type == "product" && featured == true][0]{ \n  _id,\n  title,\n  "slug": slug.current,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  isAvailable,\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }': FeaturedProductQueryResult;
+    '\n  *[_type == "settings"][0].shop{ dispatchTime, packetaLabel, packetaPrice, voucherRedeemInfo }\n': ShopSettingsQueryResult;
+    '\n  *[_type == "product" && slug.current == $slug][0]{\n    \n  _id,\n  title,\n  "slug": slug.current,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  isAvailable,\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n,\n    gallery[]{ asset, alt, _type, _key },\n    body,\n    voucherIncludes,\n    voucherValidityMonths\n  }\n': ProductBySlugQueryResult;
+    '\n  *[_type == "product" && defined(slug.current)]{ "slug": slug.current }\n': ProductSlugsQueryResult;
+    '\n  *[_type == "product" && _id in $ids]{\n    _id,\n    title,\n    category,\n    price,\n    isAvailable,\n    image\n  }\n': CheckoutProductsQueryResult;
+    '\n  *[_type == "product" && _id in $ids]{\n    _id,\n    title,\n    category,\n    ebookFile { asset->{ url } },\n    audioFile { asset->{ url } },\n    videoFile { asset->{ url } },\n    bundleItems[]->{\n      _id, title, category,\n      ebookFile { asset->{ url } },\n      audioFile { asset->{ url } },\n      videoFile { asset->{ url } }\n    },\n    voucherValidityMonths,\n    voucherIncludes,\n    "voucherBackgroundUrl": voucherBackground.asset->url,\n    voucherGuides[]->{\n      _id, title, category,\n      ebookFile { asset->{ url } },\n      audioFile { asset->{ url } },\n      videoFile { asset->{ url } }\n    }\n  }\n': FulfillmentProductsQueryResult;
+    '\n  *[_type == "legalDocument" && category in ["Obchodn\xED podm\xEDnky", "E-shop"] && defined(file.asset)]{\n    title,\n    "url": file.asset->url\n  }\n': ShopLegalDocumentsQueryResult;
   }
 }

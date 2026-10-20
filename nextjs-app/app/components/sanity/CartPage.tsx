@@ -4,8 +4,13 @@ import { Badge } from "@/app/components/ui/Badge";
 import { Button } from "@/app/components/ui/Button";
 import { Cart as CartProps } from "@/sanity.types";
 import CartClient from "../sections/kosik/CartClient";
+import type { ShopSettingsQueryResult } from "@/sanity.types";
 
-export default async function Cart({ block }: { block: CartProps }) {
+export default function Cart({
+  block,
+}: {
+  block: CartProps & { shop?: ShopSettingsQueryResult };
+}) {
   const {
     badgeText,
     contactButtonText,
@@ -13,6 +18,7 @@ export default async function Cart({ block }: { block: CartProps }) {
     pageTitle,
     supportDescription,
     supportTitle,
+    shop,
     ...rest
   } = block ?? {};
   return (
@@ -27,7 +33,7 @@ export default async function Cart({ block }: { block: CartProps }) {
             {pageTitle}
           </h1>
 
-          <CartClient rest={rest} />
+          <CartClient rest={rest} shop={shop} />
 
           {/* Customer Support */}
           <div className="mt-16 max-w-3xl mx-auto text-center">

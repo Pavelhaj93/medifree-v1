@@ -22,66 +22,20 @@ export const postFields = /* groq */ `
 export const baseProductFields = /* groq */ `
   _id,
   title,
+  "slug": slug.current,
   price,
   discount,
   image { ${imageAssetFields} },
   description,
   featured,
   category,
-  ebookFile {
-    asset->{
-      _id,
-      url,
-      originalFilename,
-      mimeType
-    }
-  },
-  audioFile {
-    asset->{
-      _id,
-      url,
-      originalFilename,
-      mimeType
-    }
-  },
-  videoFile {
-    asset->{
-      _id,
-      url,
-      originalFilename,
-      mimeType
-    }
-  },
+  isAvailable,
   originalPrice,
   bundleItems[]->{
     _id,
     title,
     category,
-    price,
-    ebookFile {
-      asset->{
-        _id,
-        url,
-        originalFilename,
-        mimeType
-      }
-    },
-    audioFile {
-      asset->{
-        _id,
-        url,
-        originalFilename,
-        mimeType
-      }
-    },
-    videoFile {
-      asset->{
-        _id,
-        url,
-        originalFilename,
-        mimeType
-      }
-    }
+    price
   },
   _createdAt,
   _updatedAt,

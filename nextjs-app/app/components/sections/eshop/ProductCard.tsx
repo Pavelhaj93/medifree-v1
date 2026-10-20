@@ -1,5 +1,6 @@
 import { Badge } from "@/app/components/ui/Badge";
-import { Product } from "@/sanity.types";
+import { AllProductsQueryResult } from "@/sanity.types";
+import Link from "next/link";
 import { urlForImage } from "@/sanity/lib/utils";
 import Image from "next/image";
 import AddToCartButton from "../../others/AddToCartButton";
@@ -10,17 +11,21 @@ const CATEGORY_BADGE: Record<string, { label: string; variant: "primary" | "tert
   "Video kurzy": { label: "Video", variant: "tertiary" },
   "Ebook + Audio": { label: "Ebook + Audio", variant: "tertiary" },
   Balíčky: { label: "Balíček", variant: "primary" },
+  "Fyzické produkty": { label: "Produkt", variant: "primary" },
+  "Dárkové poukazy": { label: "Dárkový poukaz", variant: "primary" },
 };
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = ({ product }: { product: AllProductsQueryResult[number] }) => {
   const categoryBadge = CATEGORY_BADGE[product?.category ?? ""];
   const isBundle = product?.category === "Balíčky";
-  const bundleCount = (product as any)?.bundleItems?.length ?? 0;
-  const originalPrice = (product as any)?.originalPrice as number | undefined;
+  const bundleCount = product?.bundleItems?.length ?? 0;
+  const originalPrice = product?.originalPrice;
+  const href = product?.slug ? `/e-shop/${product.slug}` : null;
+  const unavailable = product?.category === "Fyzické produkty" && product?.isAvailable === false;
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col h-full">
-      <div className="relative h-50">
+      <MaybeLink href={href} className="relative h-50 block" ariaLabel={product?.title ?? undefined}>
         <Image
           src={
             urlForImage(product?.image)
@@ -47,9 +52,22 @@ const ProductCard = ({ product }: { product: Product }) => {
             {categoryBadge.label}
           </Badge>
         )}
-      </div>
+        {unavailable && (
+          <Badge size="sm" variant="default" className="absolute bottom-2 left-2 bg-white/90">
+            Momentálně nedostupné
+          </Badge>
+        )}
+      </MaybeLink>
       <div className="p-6 flex flex-col grow">
-        <h3 className="font-medium text-lg mb-2">{product?.title}</h3>
+        <h3 className="font-medium text-lg mb-2">
+          {href ? (
+            <Link href={href} className="hover:text-primary focus-visible:outline-primary">
+              {product?.title}
+            </Link>
+          ) : (
+            product?.title
+          )}
+        </h3>
         {isBundle && bundleCount > 0 && (
           <p className="text-sm text-gray-500 mb-2">
             Obsahuje {bundleCount} {bundleCount === 1 ? "produkt" : bundleCount < 5 ? "produkty" : "produktů"}
@@ -73,5 +91,24 @@ const ProductCard = ({ product }: { product: Product }) => {
     </div>
   );
 };
+
+function MaybeLink({
+  href,
+  className,
+  ariaLabel,
+  children,
+}: {
+  href: string | null;
+  className: string;
+  ariaLabel?: string;
+  children: React.ReactNode;
+}) {
+  if (!href) return <div className={className}>{children}</div>;
+  return (
+    <Link href={href} className={className} aria-label={ariaLabel} tabIndex={-1}>
+      {children}
+    </Link>
+  );
+}
 
 export default ProductCard;

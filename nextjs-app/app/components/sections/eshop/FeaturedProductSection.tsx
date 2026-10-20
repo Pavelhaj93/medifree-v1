@@ -2,14 +2,13 @@
 
 import { Badge } from "@/app/components/ui/Badge";
 import { Button } from "@/app/components/ui/Button";
-import { useCart } from "@/app/context/cartContext";
+import AddToCartButton from "../../others/AddToCartButton";
+import Link from "next/link";
 import {
   FeaturedProductQueryResult,
-  Product,
   ProductShowcase,
 } from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
-import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 
 export default function FeaturedProductSection({
@@ -21,7 +20,6 @@ export default function FeaturedProductSection({
   bestSellerBadgeText?: ProductShowcase["bestSellerBadgeText"];
   recommendedBadgeText?: ProductShowcase["recommendedBadgeText"];
 }) {
-  const { addItem, itemExists } = useCart();
   if (!featuredProduct) return null;
 
   return (
@@ -73,23 +71,18 @@ export default function FeaturedProductSection({
                   )}
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button
-                    variant={
-                      itemExists(featuredProduct.title)
-                        ? "secondary"
-                        : "primary"
-                    }
+                  <AddToCartButton
+                    product={featuredProduct}
+                    size="default"
                     className="rounded-full"
-                    onClick={() =>
-                      addItem(featuredProduct as unknown as Product)
-                    }
-                    disabled={itemExists(featuredProduct.title)}
-                  >
-                    <ShoppingCart className="mr-2 h-2 w-2" />
-                    {itemExists(featuredProduct.title)
-                      ? "V košíku"
-                      : "Přidat do košíku"}
-                  </Button>
+                  />
+                  {featuredProduct.slug && (
+                    <Link href={`/e-shop/${featuredProduct.slug}`}>
+                      <Button variant="outline" className="rounded-full w-full sm:w-auto">
+                        Detail produktu
+                      </Button>
+                    </Link>
+                  )}
                   {/* TODO: přidat stahnout ukazku */}
                   {/* <Button variant="outline" className="">
                     <Download className="mr-2 h-4 w-4" /> Stáhnout ukázku

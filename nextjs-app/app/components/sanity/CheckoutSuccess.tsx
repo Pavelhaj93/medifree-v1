@@ -2,7 +2,8 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useCart } from "@/app/context/cartContext";
-import { CheckCircle, Download, ArrowRight, Home } from "lucide-react";
+import { CheckCircle, Download, ArrowRight, Home, Gift, Truck } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/app/components/ui/Button";
 import Link from "next/link";
 import OrderDetails from "../sections/kosik/OrderDetails";
@@ -12,6 +13,10 @@ type CheckoutSuccessBlockProps = {
   successDescription?: string;
   deliveryTitle?: string;
   deliveryDescription?: string;
+  physicalDeliveryTitle?: string;
+  physicalDeliveryDescription?: string;
+  voucherDeliveryTitle?: string;
+  voucherDeliveryDescription?: string;
   orderNumberLabel?: string;
   continueShoppingText?: string;
   homeButtonText?: string;
@@ -29,6 +34,10 @@ export default function CheckoutSuccess({
     successDescription = "Děkujeme za váš nákup. Vaše objednávka byla úspěšně zpracována.",
     deliveryTitle = "Doručení ebooků",
     deliveryDescription = "Zakoupené ebooky vám byly odeslány na váš email. Pokud email nevidíte, zkontrolujte složku spam.",
+    physicalDeliveryTitle = "Doručení zásilky",
+    physicalDeliveryDescription = "Potvrzení objednávky jsme vám poslali e-mailem. Jakmile zásilku předáme Zásilkovně, přijde vám od ní e-mail se sledováním zásilky.",
+    voucherDeliveryTitle = "Dárkový poukaz",
+    voucherDeliveryDescription = "Dárkový poukaz s unikátním kódem vám přišel e-mailem jako PDF. Můžete ho vytisknout nebo poslat obdarovanému.",
     orderNumberLabel = "Číslo objednávky:",
     continueShoppingText = "Pokračovat v nákupu",
     homeButtonText = "Zpět na hlavní stránku",
@@ -61,14 +70,15 @@ export default function CheckoutSuccess({
 
         <p className="text-gray-600 mb-6">{successDescription}</p>
 
-        {/* Ebook Delivery Info */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-          <div className="flex items-center justify-center mb-2">
-            <Download className="w-5 h-5 text-blue-600 mr-2" />
-            <span className="font-medium text-blue-900">{deliveryTitle}</span>
-          </div>
-          <p className="text-sm text-blue-800">{deliveryDescription}</p>
-        </div>
+        <Suspense>
+          <DeliveryInfo
+            boxes={{
+              digital: { title: deliveryTitle, description: deliveryDescription },
+              physical: { title: physicalDeliveryTitle, description: physicalDeliveryDescription },
+              voucher: { title: voucherDeliveryTitle, description: voucherDeliveryDescription },
+            }}
+          />
+        </Suspense>
 
         <Suspense>
           <OrderDetails orderNumberLabel={orderNumberLabel} />
@@ -102,5 +112,33 @@ export default function CheckoutSuccess({
         </div>
       </div>
     </div>
+  );
+}
+
+type Box = { title: string; description: string };
+const ICONS = { digital: Download, physical: Truck, voucher: Gift };
+
+// `types` comes from the Stripe success URL (e.g. "digital,physical"); old links have none.
+function DeliveryInfo({ boxes }: { boxes: Record<"digital" | "physical" | "voucher", Box> }) {
+  const params = useSearchParams();
+  const types = (params.get("types") ?? "digital")
+    .split(",")
+    .filter((t): t is keyof typeof boxes => t in boxes);
+
+  return (
+    <>
+      {(types.length ? types : (["digital"] as const)).map((type) => {
+        const Icon = ICONS[type];
+        return (
+          <div key={type} className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4 last:mb-6">
+            <div className="flex items-center justify-center mb-2">
+              <Icon className="w-5 h-5 text-blue-600 mr-2" />
+              <span className="font-medium text-blue-900">{boxes[type].title}</span>
+            </div>
+            <p className="text-sm text-blue-800">{boxes[type].description}</p>
+          </div>
+        );
+      })}
+    </>
   );
 }

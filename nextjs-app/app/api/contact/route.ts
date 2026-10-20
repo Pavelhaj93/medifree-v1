@@ -1,4 +1,5 @@
-import nodemailer from "nodemailer";
+import { sendMail } from "@/app/lib/email";
+import { escapeHtml, escapeMultiline } from "@/app/lib/html";
 
 export async function POST(req: Request) {
   try {
@@ -8,27 +9,17 @@ export async function POST(req: Request) {
       return new Response("Missing fields", { status: 400 });
     }
 
-    // Configure transporter using Gmail
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD,
-      },
-    });
-
-    // Send the email
-    await transporter.sendMail({
-      from: "Medifree Website",
+    await sendMail({
       to: "info@medifree.cz",
+      replyTo: String(email),
       subject: "Nová zpráva z webu Medifree",
       text: `Od: ${name} (${email})\n\n${message}`,
       html: `
         <h2>Nová zpráva z webu Medifree</h2>
-        <p><strong>Jméno:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Jméno:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
         <p><strong>Zpráva:</strong></p>
-        <p>${message}</p>
+        <p>${escapeMultiline(message)}</p>
       `,
     });
 

@@ -78,6 +78,10 @@ export const getPageQuery = defineQuery(`
       _type == "checkoutSuccess" => {
         ...
       },
+      _type == "cart" => {
+        ...,
+        "shop": *[_type == "settings"][0].shop{ dispatchTime, packetaLabel, packetaPrice, voucherRedeemInfo }
+      },
       _type == "freeResourcesSection" => {
         ...,
         "freeResources": *[_type == "freeResource"] | order(publishedAt desc) { ${freeResourceFields} }

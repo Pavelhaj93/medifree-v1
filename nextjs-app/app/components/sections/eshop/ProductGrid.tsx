@@ -2,7 +2,7 @@
 
 import { Button } from "@/app/components/ui/Button";
 import ProductCard from "./ProductCard";
-import { AllProductsQueryResult, Product } from "@/sanity.types";
+import { AllProductsQueryResult } from "@/sanity.types";
 import { useState } from "react";
 
 const PAGE_SIZE = 6;
@@ -55,7 +55,7 @@ export default function ProductGridSection({
         <div className="grid md:grid-cols-3 gap-6 opacity-0 animate-fade-in animation-delay-400">
           {visibleProducts?.map((product) => {
             return (
-              <ProductCard key={product._id} product={product as unknown as Product} />
+              <ProductCard key={product._id} product={product} />
             );
           })}
         </div>

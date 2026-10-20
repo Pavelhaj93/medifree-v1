@@ -1,66 +1,161 @@
 import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
-import { Product } from "@/sanity.types";
+import { z } from "zod";
 import { urlForImage } from "@/sanity/lib/utils";
+import { serverClient } from "@/sanity/lib/writeClient";
+import { checkoutProductsQuery, shopSettingsQuery } from "@/sanity/queries/shop";
+import type { CheckoutProductsQueryResult, ShopSettingsQueryResult } from "@/sanity.types";
+import {
+  buildCheckoutLines,
+  CheckoutError,
+  summarizeLines,
+  toMinorUnits,
+} from "@/app/lib/shop/pricing";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
-console.log("Stripe initialized:", !!stripe);
+const requestSchema = z.preprocess(
+  // Accept the pre-2026-10 payload ({ items: Product[], customerEmail }) from carts still open in a browser.
+  (raw) => {
+    if (!raw || typeof raw !== "object") return raw;
+    const body = raw as Record<string, unknown>;
+    const items = Array.isArray(body.items)
+      ? body.items.map((i: Record<string, unknown>) => ({
+          id: i?.id ?? i?._id,
+          quantity: i?.quantity ?? 1,
+        }))
+      : body.items;
+    return { ...body, email: body.email ?? body.customerEmail, items };
+  },
+  z.object({
+    email: z.email(),
+    items: z
+      .array(z.object({ id: z.string().min(1), quantity: z.number().int().min(1).max(50) }))
+      .min(1)
+      .max(50),
+    packetaPoint: z
+      .object({
+        id: z.string().min(1).max(50),
+        name: z.string().max(300),
+        address: z.string().max(450),
+      })
+      .nullish(),
+  }),
+);
+
+function errorResponse(message: string, status = 400, invalidIds?: string[]) {
+  return NextResponse.json({ error: message, invalidIds }, { status });
+}
 
 export async function POST(req: NextRequest) {
+  const parsed = requestSchema.safeParse(await req.json().catch(() => null));
+  if (!parsed.success) {
+    return errorResponse("Zkontrolujte prosím e-mail a obsah košíku.");
+  }
+  const { email, items, packetaPoint } = parsed.data;
+
+  // Same host the customer is on: production, a Vercel preview or localhost.
+  const baseUrl = req.nextUrl.origin;
+
   try {
-    const {
-      items,
-      customerEmail,
-    }: {
-      items: (Product & { quantity: number })[];
-      customerEmail?: string;
-    } = await req.json();
+    const [products, shop] = await Promise.all([
+      serverClient.fetch<CheckoutProductsQueryResult>(checkoutProductsQuery, {
+        ids: items.map((i) => i.id),
+      }),
+      serverClient.fetch<ShopSettingsQueryResult>(shopSettingsQuery),
+    ]);
+    const lines = buildCheckoutLines(items, products);
+    const summary = summarizeLines(lines);
+    const imageById = new Map(products.map((p) => [p._id, p.image]));
 
-    // Get the base URL from the request
-    const baseUrl =
-      process.env.NODE_ENV === "production"
-        ? "https://www.medifree.cz"
-        : `${req.nextUrl.protocol}//${req.nextUrl.host}`;
+    if (summary.hasPhysical && !packetaPoint) {
+      return errorResponse("Pro dokončení objednávky vyberte výdejní místo Zásilkovny.");
+    }
+    if (summary.hasPhysical && shop?.packetaPrice == null) {
+      console.error("Shipping price is not set in Sanity (Settings → E-shop)");
+      return errorResponse("Doprava teď nejde objednat. Kontaktujte nás prosím na info@medifree.cz.");
+    }
 
+    const shippingLabel = shop?.packetaLabel || "Zásilkovna – výdejní místo nebo Z-BOX";
     const params: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: ["card"],
       mode: "payment",
-      success_url: `${baseUrl}/uspech?session_id={CHECKOUT_SESSION_ID}`,
+      locale: "cs",
+      success_url: `${baseUrl}/uspech?session_id={CHECKOUT_SESSION_ID}&types=${summary.kinds.join(",")}`,
       cancel_url: `${baseUrl}/kosik`,
-      customer_email: customerEmail,
+      customer_email: email,
       billing_address_collection: "required",
-      // enable automatic invoice creation
-      invoice_creation: {
-        enabled: true,
-      },
-      line_items: items.map((item) => ({
-        price_data: {
-          currency: "czk",
-          product_data: {
-            name: item.title,
-            // @ts-ignore
-            images: [urlForImage(item.image).url()!],
-            metadata: {
-              product_id: item._id,
-              category: item.category,
+      invoice_creation: { enabled: true },
+      line_items: lines.map((line) => {
+        const imageUrl = urlForImage(imageById.get(line.productId))?.width(600).url();
+        return {
+          quantity: line.quantity,
+          price_data: {
+            currency: "czk",
+            unit_amount: toMinorUnits(line.unitPrice),
+            product_data: {
+              name: line.title,
+              images: imageUrl ? [imageUrl] : undefined,
+              metadata: { product_id: line.productId, kind: line.kind },
             },
           },
-          unit_amount: item.price * 100,
+        };
+      }),
+      metadata: {
+        kinds: summary.kinds.join(","),
+        ...(summary.hasPhysical && packetaPoint
+          ? {
+              shipping_label: shippingLabel,
+              packeta_point_id: packetaPoint.id,
+              packeta_point_name: packetaPoint.name,
+              packeta_point_address: packetaPoint.address,
+            }
+          : {}),
+      },
+      custom_text: {
+        submit: {
+          message: "Odesláním objednávky souhlasíte s obchodními podmínkami Medifree.",
         },
-        quantity: 1,
-      })),
+      },
     };
 
-    const session: Stripe.Checkout.Session =
-      await stripe.checkout.sessions.create(params);
+    if (summary.hasPhysical) {
+      params.phone_number_collection = { enabled: true };
+      params.shipping_options = [
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            display_name: shippingLabel,
+            fixed_amount: { amount: toMinorUnits(shop?.packetaPrice ?? 0), currency: "czk" }, // checked above
+          },
+        },
+      ];
+    }
 
+    if (summary.hasVoucher) {
+      params.custom_fields = [
+        {
+          key: "dedication",
+          label: { type: "custom", custom: "Věnování na poukaz (nepovinné)" },
+          type: "text",
+          optional: true,
+          text: { maximum_length: 255 },
+        },
+      ];
+    }
+
+    // Requires the terms-of-service URL to be set in Stripe Dashboard → Settings → Public details.
+    if (process.env.STRIPE_TERMS_CONSENT === "true") {
+      params.consent_collection = { terms_of_service: "required" };
+    }
+
+    const session = await stripe.checkout.sessions.create(params);
     return NextResponse.json({ url: session.url });
   } catch (err) {
-    console.error(err);
-    return NextResponse.json(
-      { error: "Stripe checkout failed" },
-      { status: 500 },
-    );
+    if (err instanceof CheckoutError) {
+      return errorResponse(err.message, 400, err.invalidIds);
+    }
+    console.error("Stripe checkout failed:", err);
+    return errorResponse("Nastala chyba při přesměrování na platbu. Zkuste to prosím znovu.", 500);
   }
 }

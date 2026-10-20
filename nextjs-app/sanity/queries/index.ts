@@ -4,3 +4,4 @@ export * from "./posts";
 export * from "./people";
 export * from "./products";
 export * from "./legal";
+export * from "./shop";
