@@ -38,6 +38,34 @@ export const checkoutSuccess = defineType({
       validation: (Rule) => Rule.required(),
     }),
 
+    // Physical goods + voucher delivery info (shown based on what was in the order)
+    defineField({
+      name: 'physicalDeliveryTitle',
+      title: 'Physical Delivery Title',
+      type: 'string',
+      initialValue: 'Doručení zásilky',
+    }),
+    defineField({
+      name: 'physicalDeliveryDescription',
+      title: 'Physical Delivery Description',
+      type: 'text',
+      initialValue:
+        'Potvrzení objednávky jsme vám poslali e-mailem. Jakmile zásilku předáme Zásilkovně, přijde vám od ní e-mail se sledováním zásilky.',
+    }),
+    defineField({
+      name: 'voucherDeliveryTitle',
+      title: 'Voucher Delivery Title',
+      type: 'string',
+      initialValue: 'Dárkový poukaz',
+    }),
+    defineField({
+      name: 'voucherDeliveryDescription',
+      title: 'Voucher Delivery Description',
+      type: 'text',
+      initialValue:
+        'Dárkový poukaz s unikátním kódem vám přišel e-mailem jako PDF. Můžete ho vytisknout nebo poslat obdarovanému.',
+    }),
+
     // Order Details
     defineField({
       name: 'orderNumberLabel',

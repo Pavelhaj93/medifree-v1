@@ -8,6 +8,8 @@ import {settings} from './singletons/settings'
 import {link} from './objects/link'
 import {blockContent} from './objects/blockContent'
 import {product} from './documents/product'
+import {order} from './documents/order'
+import {voucher} from './documents/voucher'
 import {faq} from './documents/faq'
 import {legalDocument} from './documents/legalDocument'
 import {quote} from './objects/quote'
@@ -50,6 +52,8 @@ export const schemaTypes = [
   person,
   post,
   product,
+  order,
+  voucher,
   faq,
   legalDocument,
   freeResource,

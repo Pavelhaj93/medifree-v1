@@ -92,6 +92,43 @@ export const settings = defineType({
         }),
       ],
     }),
+    defineField({
+      name: 'shop',
+      title: 'E-shop',
+      type: 'object',
+      options: {collapsible: true, collapsed: false},
+      fields: [
+        defineField({
+          name: 'dispatchTime',
+          title: 'Lhůta odeslání fyzického zboží',
+          type: 'string',
+          initialValue: 'Odesíláme do 10 pracovních dnů',
+          description: 'Zobrazí se na detailu produktu, v košíku a v potvrzení objednávky.',
+        }),
+        defineField({
+          name: 'packetaLabel',
+          title: 'Název dopravy',
+          type: 'string',
+          initialValue: 'Zásilkovna – výdejní místo nebo Z-BOX',
+        }),
+        defineField({
+          name: 'packetaPrice',
+          title: 'Cena dopravy Zásilkovnou (Kč)',
+          type: 'number',
+          initialValue: 89,
+          validation: (rule) => rule.min(0),
+        }),
+        defineField({
+          name: 'voucherRedeemInfo',
+          title: 'Jak uplatnit dárkový poukaz',
+          type: 'text',
+          rows: 3,
+          initialValue:
+            'Poukaz uplatníte tak, že nás kontaktujete na info@medifree.cz nebo přes rezervaci na webu a sdělíte kód z poukazu.',
+          description: 'Text do e-mailu s poukazem.',
+        }),
+      ],
+    }),
   ],
   preview: {
     prepare() {

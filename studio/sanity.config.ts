@@ -8,6 +8,7 @@ import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './src/schemaTypes'
 import {structure} from './src/structure'
+import {shopDocumentActions} from './src/actions/shopActions'
 import {unsplashImageAsset} from 'sanity-plugin-asset-source-unsplash'
 import {
   presentationTool,
@@ -37,6 +38,8 @@ function resolveHref(documentType?: string, slug?: string): string | undefined {
       return slug ? `/clanky/${slug}` : undefined
     case 'page':
       return slug ? `/${slug}` : undefined
+    case 'product':
+      return slug ? `/e-shop/${slug}` : undefined
     default:
       console.warn('Invalid document type:', documentType)
       return undefined
@@ -68,6 +71,10 @@ export default defineConfig({
             filter: `_type == "page" && slug.current == $slug || _id == $slug`,
           },
           {
+            route: '/e-shop/:slug',
+            filter: `_type == "product" && slug.current == $slug || _id == $slug`,
+          },
+          {
             route: '/posts/:slug',
             filter: `_type == "post" && slug.current == $slug || _id == $slug`,
           },
@@ -91,6 +98,17 @@ export default defineConfig({
                   href: resolveHref('page', doc?.slug)!,
                 },
               ],
+            }),
+          }),
+          product: defineLocations({
+            select: {
+              title: 'title',
+              slug: 'slug.current',
+            },
+            resolve: (doc) => ({
+              locations: doc?.slug
+                ? [{title: doc?.title || 'Untitled', href: resolveHref('product', doc.slug)!}]
+                : [],
             }),
           }),
           post: defineLocations({
@@ -121,6 +139,11 @@ export default defineConfig({
     unsplashImageAsset(),
     visionTool(),
   ],
+
+  // "Označit jako odesláno" (orders) and "Označit jako uplatněný" (vouchers)
+  document: {
+    actions: shopDocumentActions,
+  },
 
   // Schema configuration, imported from ./src/schemaTypes/index.ts
   schema: {

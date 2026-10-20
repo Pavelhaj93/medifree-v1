@@ -88,7 +88,32 @@ export const cart = defineType({
       title: 'Tax Label',
       type: 'string',
       initialValue: 'DPH (21%)',
-      validation: (Rule) => Rule.required(),
+      description: 'Nepoužívá se – Medifree není plátce DPH.',
+      hidden: true,
+    }),
+    defineField({
+      name: 'shippingLabel',
+      title: 'Shipping Label',
+      type: 'string',
+      initialValue: 'Doprava',
+    }),
+    defineField({
+      name: 'deliveryTitle',
+      title: 'Delivery Section Title',
+      type: 'string',
+      initialValue: 'Doprava',
+    }),
+    defineField({
+      name: 'pickPointButtonText',
+      title: 'Pick Pickup Point Button',
+      type: 'string',
+      initialValue: 'Vybrat výdejní místo',
+    }),
+    defineField({
+      name: 'pickPointRequiredText',
+      title: 'Pickup Point Required Message',
+      type: 'string',
+      initialValue: 'Pro dokončení objednávky vyberte výdejní místo Zásilkovny.',
     }),
     defineField({
       name: 'totalLabel',
