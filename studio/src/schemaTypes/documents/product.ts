@@ -11,7 +11,7 @@ const isCategory = (document: DocWithCategory, ...categories: string[]) =>
 
 export const product = defineType({
   name: 'product',
-  title: 'Product',
+  title: 'Produkt',
   type: 'document',
   icon: BasketIcon,
   groups: [
@@ -23,7 +23,7 @@ export const product = defineType({
   fields: [
     defineField({
       name: 'title',
-      title: 'Title',
+      title: 'Název',
       type: 'string',
       group: 'main',
       validation: (Rule) => Rule.required(),
@@ -45,7 +45,7 @@ export const product = defineType({
     }),
     defineField({
       name: 'category',
-      title: 'Category',
+      title: 'Kategorie',
       type: 'string',
       group: 'main',
       validation: (Rule) => Rule.required(),
@@ -63,15 +63,15 @@ export const product = defineType({
     }),
     defineField({
       name: 'image',
-      title: 'Image',
+      title: 'Hlavní obrázek',
       type: 'image',
       group: 'main',
       fields: [
         defineField({
           name: 'alt',
           type: 'string',
-          title: 'Alternative text',
-          description: 'Important for SEO and accessibility.',
+          title: 'Alternativní text',
+          description: 'Krátký popis obrázku – důležité pro SEO a přístupnost.',
         }),
       ],
       options: {
@@ -81,7 +81,7 @@ export const product = defineType({
     }),
     defineField({
       name: 'price',
-      title: 'Base price',
+      title: 'Cena (Kč)',
       type: 'number',
       group: 'main',
       description: 'Cena v Kč (Medifree není plátce DPH).',
@@ -89,7 +89,7 @@ export const product = defineType({
     }),
     defineField({
       name: 'description',
-      title: 'Description',
+      title: 'Krátký popis',
       type: 'text',
       group: 'main',
       description: 'Krátký popis na kartičce v e-shopu.',
@@ -114,7 +114,7 @@ export const product = defineType({
         defineArrayMember({
           type: 'image',
           options: {hotspot: true},
-          fields: [defineField({name: 'alt', type: 'string', title: 'Alternative text'})],
+          fields: [defineField({name: 'alt', type: 'string', title: 'Alternativní text'})],
         }),
       ],
     }),
@@ -127,11 +127,11 @@ export const product = defineType({
     }),
     defineField({
       name: 'ebookFile',
-      title: 'Ebook File',
+      title: 'Soubor e-booku',
       type: 'file',
       group: 'files',
       description:
-        'Upload the ebook file (PDF, EPUB, etc.) that will be sent to customers after purchase',
+        'Soubor (PDF, EPUB…), který zákazník dostane e-mailem po zaplacení.',
       options: {
         accept: '.pdf,.epub,.mobi',
       },
@@ -140,10 +140,10 @@ export const product = defineType({
     }),
     defineField({
       name: 'audioFile',
-      title: 'Audio súbor',
+      title: 'Audio soubor',
       type: 'file',
       group: 'files',
-      description: 'Upload the audio file that will be sent to customers after purchase',
+      description: 'Audio, které zákazník dostane e-mailem po zaplacení.',
       options: {
         accept: 'audio/*',
       },
@@ -152,10 +152,10 @@ export const product = defineType({
     }),
     defineField({
       name: 'videoFile',
-      title: 'Video súbor',
+      title: 'Video soubor',
       type: 'file',
       group: 'files',
-      description: 'Upload the video file that will be sent to customers after purchase',
+      description: 'Video, které zákazník dostane e-mailem po zaplacení.',
       options: {
         accept: 'video/*',
       },
@@ -166,7 +166,7 @@ export const product = defineType({
       title: 'Původní cena bez slevy',
       type: 'number',
       group: 'main',
-      description: 'Full price before bundle discount — used to display savings',
+      description: 'Cena bez slevy – na webu se zobrazí jako přeškrtnutá.',
       hidden: ({document}) => document?.category !== 'Balíčky',
     }),
     defineField({
@@ -174,7 +174,7 @@ export const product = defineType({
       title: 'Produkty v balíčku',
       type: 'array',
       group: 'main',
-      description: 'Select the individual products included in this bundle (min. 2)',
+      description: 'Produkty, které balíček obsahuje (alespoň 2).',
       of: [{type: 'reference', to: [{type: 'product'}]}],
       hidden: ({document}) => document?.category !== 'Balíčky',
       validation: (Rule) =>
@@ -235,7 +235,8 @@ export const product = defineType({
     }),
     defineField({
       name: 'featured',
-      title: 'Featured',
+      title: 'Doporučený produkt',
+      description: 'Zobrazí se zvýrazněně nad seznamem produktů. Doporučený může být jen jeden.',
       type: 'boolean',
       group: 'main',
       initialValue: false,
@@ -252,7 +253,7 @@ export const product = defineType({
           )
 
           if (otherFeatured) {
-            return 'Only one product can be featured at a time. Unfeature the other product first.'
+            return 'Doporučený může být jen jeden produkt. Nejdřív to vypněte u druhého.'
           }
           return true
         }),
