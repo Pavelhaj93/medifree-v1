@@ -5,6 +5,7 @@ import { formatCzechDate, voucherCode, voucherValidUntil } from "./vouchers";
 import { customerOrderEmail, adminOrderEmail, type OrderEmailData } from "./emails";
 import { getDeliveryFiles, uniqueFiles } from "./delivery";
 import { reconcileCart } from "./cart";
+import { groupVariants, pricePer100g } from "./variants";
 import { escapeHtml } from "@/app/lib/html";
 
 const products = [
@@ -175,5 +176,29 @@ describe("reconcileCart", () => {
   it("reports no change when the cart already matches Sanity", () => {
     const synced = reconcileCart(cart, products).items;
     expect(reconcileCart(synced, products).changed).toBe(false);
+  });
+});
+
+describe("groupVariants", () => {
+  const list = [
+    { _id: "ebook", price: 290, variantGroup: null },
+    { _id: "choco", price: 1190, variantGroup: "Protein", isAvailable: false },
+    { _id: "vanilla", price: 1190, variantGroup: "Protein" },
+    { _id: "glasses", price: 690 },
+    { _id: "plain", price: 1090, variantGroup: "Protein" },
+  ];
+
+  it("shows each flavor group once, represented by its cheapest available flavor", () => {
+    const entries = groupVariants(list);
+    expect(entries.map((e) => [e.product._id, e.variantCount, e.minPrice])).toEqual([
+      ["ebook", 1, 290],
+      ["plain", 3, 1090],
+      ["glasses", 1, 690],
+    ]);
+  });
+
+  it("computes price per 100 g", () => {
+    expect(pricePer100g(1190, 1000)).toBe(119);
+    expect(pricePer100g(1190, null)).toBeNull();
   });
 });

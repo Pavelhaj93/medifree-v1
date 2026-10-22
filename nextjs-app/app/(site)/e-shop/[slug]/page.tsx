@@ -7,9 +7,14 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { productBySlugQuery, productSlugsQuery, shopSettingsQuery } from "@/sanity/queries";
 import { resolveOpenGraphImage, urlForImage } from "@/sanity/lib/utils";
 import { Badge } from "@/app/components/ui/Badge";
-import CustomPortableText from "@/app/components/sanity/PortableText";
 import ProductGallery from "@/app/components/sections/eshop/ProductGallery";
 import ProductPurchase from "@/app/components/sections/eshop/ProductPurchase";
+import VariantSwitcher from "@/app/components/sections/eshop/VariantSwitcher";
+import ProductHighlights from "@/app/components/sections/eshop/ProductHighlights";
+import ProductInfoTabs, { type FoodInfo } from "@/app/components/sections/eshop/ProductInfoTabs";
+import { pricePer100g } from "@/app/lib/shop/variants";
+
+const czechOrder = new Intl.Collator("cs");
 import { formatPrice, productKind } from "@/app/lib/shop/kinds";
 
 type Props = {
@@ -66,11 +71,18 @@ export default async function ProductPage(props: Props) {
     .map((line: string) => line.replace(/^[-•+*]\s*/, "").trim())
     .filter(Boolean);
 
+  const per100g = pricePer100g(product.price, product.netWeight);
+  const keyFacts = [
+    product.netWeight ? `${product.netWeight.toLocaleString("cs-CZ")} g` : null,
+    product.servings ? `${product.servings} porcí` : null,
+    per100g ? `${formatPrice(per100g)} / 100 g` : null,
+  ].filter(Boolean);
+
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.medifree.cz";
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: product.title,
+    name: product.variantLabel ? `${product.title} – ${product.variantLabel}` : product.title,
     description: product.description,
     image: images.map((img) => urlForImage(img)?.width(1200).url()).filter(Boolean),
     brand: { "@type": "Brand", name: "Medifree" },
@@ -109,7 +121,7 @@ export default async function ProductPage(props: Props) {
             )}
             <h1 className="text-3xl md:text-4xl font-medium mb-4 text-balance">{product.title}</h1>
 
-            <div className="flex items-baseline gap-3 mb-6">
+            <div className={`flex items-baseline gap-3 ${keyFacts.length ? "mb-2" : "mb-6"}`}>
               <span className="text-3xl font-bold">{formatPrice(product.price ?? 0)}</span>
               {product.originalPrice != null && (
                 <span className="text-lg text-gray-400 line-through">
@@ -117,6 +129,9 @@ export default async function ProductPage(props: Props) {
                 </span>
               )}
             </div>
+            {keyFacts.length > 0 && (
+              <p className="text-sm text-gray-600 mb-6">{keyFacts.join(" · ")}</p>
+            )}
 
             {kind === "physical" && (
               <p className="text-sm mb-6 flex items-center gap-2">
@@ -155,19 +170,25 @@ export default async function ProductPage(props: Props) {
               </p>
             )}
 
+            <VariantSwitcher
+              variants={[...(product.variants ?? [])].sort((a, b) =>
+                czechOrder.compare(a.variantLabel ?? "", b.variantLabel ?? ""),
+              )}
+              currentId={product._id}
+            />
+
             <div className="mt-2">
               <ProductPurchase product={product} />
             </div>
           </div>
         </div>
 
-        {product.body && product.body.length > 0 && (
-          <div className="mt-8 bg-white rounded-2xl shadow-md p-6 lg:p-10">
-            <div className="prose max-w-3xl">
-              <CustomPortableText value={product.body as PortableTextBlock[]} />
-            </div>
-          </div>
-        )}
+        <ProductHighlights forWhom={product.forWhom} benefits={product.benefits} />
+
+        <ProductInfoTabs
+          body={product.body as PortableTextBlock[] | null}
+          foodInfo={product.foodInfo as FoodInfo}
+        />
       </div>
     </div>
   );

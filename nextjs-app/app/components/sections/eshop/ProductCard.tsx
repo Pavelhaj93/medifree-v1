@@ -4,6 +4,8 @@ import Link from "next/link";
 import { urlForImage } from "@/sanity/lib/utils";
 import Image from "next/image";
 import AddToCartButton from "../../others/AddToCartButton";
+import { Button } from "../../ui/Button";
+import { formatPrice } from "@/app/lib/shop/kinds";
 
 const CATEGORY_BADGE: Record<string, { label: string; variant: "primary" | "tertiary" | "default" | "success" }> = {
   Ebooky: { label: "Ebook", variant: "tertiary" },
@@ -15,7 +17,20 @@ const CATEGORY_BADGE: Record<string, { label: string; variant: "primary" | "tert
   "Dárkové poukazy": { label: "Dárkový poukaz", variant: "primary" },
 };
 
-const ProductCard = ({ product }: { product: AllProductsQueryResult[number] }) => {
+const pluralFlavors = (n: number) => (n < 5 ? `${n} příchutě` : `${n} příchutí`);
+
+const ProductCard = ({
+  product,
+  variantCount = 1,
+  minPrice,
+}: {
+  product: AllProductsQueryResult[number];
+  /** Number of flavors when the card stands for a whole flavor group. */
+  variantCount?: number;
+  minPrice?: number | null;
+}) => {
+  const isGroup = variantCount > 1;
+  const title = isGroup ? (product?.variantGroup ?? product?.title) : product?.title;
   const categoryBadge = CATEGORY_BADGE[product?.category ?? ""];
   const isBundle = product?.category === "Balíčky";
   const bundleCount = product?.bundleItems?.length ?? 0;
@@ -25,7 +40,7 @@ const ProductCard = ({ product }: { product: AllProductsQueryResult[number] }) =
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col h-full">
-      <MaybeLink href={href} className="relative h-50 block" ariaLabel={product?.title ?? undefined}>
+      <MaybeLink href={href} className="relative h-50 block" ariaLabel={title ?? undefined}>
         <Image
           src={
             urlForImage(product?.image)
@@ -52,7 +67,12 @@ const ProductCard = ({ product }: { product: AllProductsQueryResult[number] }) =
             {categoryBadge.label}
           </Badge>
         )}
-        {unavailable && (
+        {isGroup && (
+          <Badge size="sm" variant="primary" className="absolute bottom-2 right-2">
+            {pluralFlavors(variantCount)}
+          </Badge>
+        )}
+        {unavailable && !isGroup && (
           <Badge size="sm" variant="default" className="absolute bottom-2 left-2 bg-white/90">
             Momentálně nedostupné
           </Badge>
@@ -62,10 +82,10 @@ const ProductCard = ({ product }: { product: AllProductsQueryResult[number] }) =
         <h3 className="font-medium text-lg mb-2">
           {href ? (
             <Link href={href} className="hover:text-primary focus-visible:outline-primary">
-              {product?.title}
+              {title}
             </Link>
           ) : (
-            product?.title
+            title
           )}
         </h3>
         {isBundle && bundleCount > 0 && (
@@ -83,9 +103,19 @@ const ProductCard = ({ product }: { product: AllProductsQueryResult[number] }) =
                 {originalPrice} Kč
               </span>
             )}
-            <span className="text-xl font-bold">{product?.price} Kč</span>
+            <span className="text-xl font-bold">
+              {isGroup ? `od ${formatPrice(minPrice ?? product?.price ?? 0)}` : formatPrice(product?.price ?? 0)}
+            </span>
           </div>
-          <AddToCartButton product={product} />
+          {isGroup && href ? (
+            <Link href={href}>
+              <Button size="sm" className="rounded-full min-h-11 px-4">
+                Vybrat příchuť
+              </Button>
+            </Link>
+          ) : (
+            <AddToCartButton product={product} />
+          )}
         </div>
       </div>
     </div>

@@ -30,6 +30,8 @@ export const baseProductFields = /* groq */ `
   featured,
   category,
   isAvailable,
+  variantGroup,
+  variantLabel,
   originalPrice,
   bundleItems[]->{
     _id,

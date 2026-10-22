@@ -57,6 +57,16 @@ async function run() {
   tx.createIfNotExists({_id: 'siteSettings', _type: 'settings', title: 'Medifree'})
   tx.patch('siteSettings', (p) =>
     p.setIfMissing({
+      company: {
+        name: 'Medifree s.r.o.',
+        address: 'Na Kotli 1176/29, 500 09 Hradec Králové',
+        ico: '23153041',
+        email: 'info@medifree.cz',
+      },
+    }),
+  )
+  tx.patch('siteSettings', (p) =>
+    p.setIfMissing({
       shop: {
         dispatchTime: 'Odesíláme do 10 pracovních dnů',
         packetaLabel: 'Zásilkovna – výdejní místo nebo Z-BOX',
@@ -81,6 +91,16 @@ async function run() {
     body: [
       block('Balíček obsahuje senzor na 14 dní a tištěného průvodce, jak z naměřených dat vyčíst co nejvíc.', 'b1'),
       block('Testovací produkt pro lokální ověření e-shopu – ne pro prodej.', 'b2'),
+    ],
+    forWhom: [
+      'Lidem, kteří chtějí poprvé vyzkoušet kontinuální monitoraci glykémie',
+      'Každému, kdo chce zjistit, jak na něj působí konkrétní jídla a pohyb',
+      'Klientům, kteří se připravují na individuální konzultaci',
+    ],
+    benefits: [
+      'Senzor na 14 dní nepřetržitého měření',
+      'Průvodce: jak senzor nasadit a jak číst naměřená data',
+      'Tipy, jak upravit jídelníček podle vlastních výsledků',
     ],
   })
 
@@ -128,8 +148,86 @@ async function run() {
     voucherGuides: [{_type: 'reference', _ref: cgmGuide._id, _key: 'guide1'}],
   })
 
+  // Protein in 4 flavors (one sold out) – shows the flavor switcher and food information.
+  const nutritionRow = (label: string, per100: string, perServing: string, i: number) => ({
+    _type: 'nutritionRow',
+    _key: `n${i}`,
+    label,
+    per100,
+    perServing,
+  })
+  const strongBlock = (parts: [string, boolean][], key: string) => ({
+    _type: 'block',
+    _key: key,
+    style: 'normal',
+    markDefs: [],
+    children: parts.map(([text, bold], i) => ({_type: 'span', _key: `${key}${i}`, text, marks: bold ? ['strong'] : []})),
+  })
+  const flavors = [
+    {id: 'choco', label: 'Čokoláda', price: 1190, available: true, extra: 'kakao 8 %'},
+    {id: 'vanilla', label: 'Vanilka', price: 1190, available: true, extra: 'vanilkové aroma'},
+    {id: 'caramel', label: 'Slaný karamel', price: 1190, available: false, extra: 'karamelové aroma, sůl'},
+    {id: 'plain', label: 'Bez příchutě', price: 1090, available: true, extra: ''},
+  ]
+  flavors.forEach((f, i) => {
+    tx.createOrReplace({
+      _id: `seed-protein-${f.id}`,
+      _type: 'product',
+      title: `Syrovátkový protein – ${f.label} (TEST)`,
+      slug: {_type: 'slug', current: `test-syrovatkovy-protein-${f.id}`},
+      category: 'Fyzické produkty',
+      price: f.price,
+      isAvailable: f.available,
+      description:
+        'Kvalitní syrovátkový protein s vysokým obsahem bílkovin a nízkým obsahem cukru. Ukázkový produkt – údaje jsou smyšlené.',
+      image: image(img(i)),
+      variantGroup: 'Syrovátkový protein (TEST)',
+      variantLabel: f.label,
+      netWeight: 1000,
+      servings: 33,
+      forWhom: [
+        'Lidem, kteří chtějí doplnit bílkoviny k vyváženému jídelníčku',
+        'Sportovcům a aktivním lidem po tréninku',
+        'Těm, kdo hlídají glykémii a chtějí svačinu s minimem cukru',
+      ],
+      benefits: ['75 g bílkovin ve 100 g', 'Jen 5 g cukru ve 100 g', 'Snadná příprava do vody nebo mléka'],
+      body: [block('Protein vyráběný z kvalitní syrovátky. Ukázkový text popisu pro testování e-shopu.', 'pb1')],
+      foodInfo: {
+        enabled: true,
+        isSupplement: true,
+        ingredients: [
+          strongBlock(
+            [
+              ['syrovátkový proteinový koncentrát (z ', false],
+              ['mléka', true],
+              [`) 85 %${f.extra ? `, ${f.extra}` : ''}, sladidlo: sukralóza, emulgátor: `, false],
+              ['sójový', true],
+              [' lecitin', false],
+            ],
+            'ing',
+          ),
+        ],
+        allergens: 'Alergeny: mléko, sója. Může obsahovat stopy lepku.',
+        servingSize: '30 g',
+        nutrition: [
+          nutritionRow('Energetická hodnota', '1 600 kJ / 380 kcal', '480 kJ / 114 kcal', 0),
+          nutritionRow('Tuky', '6 g', '1,8 g', 1),
+          nutritionRow('z toho nasycené mastné kyseliny', '3,5 g', '1,1 g', 2),
+          nutritionRow('Sacharidy', '7 g', '2,1 g', 3),
+          nutritionRow('z toho cukry', '5 g', '1,5 g', 4),
+          nutritionRow('Bílkoviny', '75 g', '22,5 g', 5),
+          nutritionRow('Sůl', '0,4 g', '0,12 g', 6),
+        ],
+        usage: '30 g (2 odměrky) rozmíchejte ve 250 ml vody nebo mléka. 1–2 porce denně.',
+        storage: 'Skladujte v suchu při teplotě do 25 °C, chraňte před přímým slunečním světlem.',
+        producer: 'Ukázkový výrobce s.r.o., Testovací 1, 110 00 Praha',
+        origin: 'Česká republika',
+      },
+    })
+  })
+
   await tx.commit()
-  console.log(`Seeded "${DATASET}": shop settings + 3 physical products + 1 voucher (guide: ${cgmGuide.title}).`)
+  console.log(`Seeded "${DATASET}": shop + company settings, 3 physical products, protein in 4 flavors, 1 voucher (guide: ${cgmGuide.title}).`)
 }
 
 run().catch((err) => {

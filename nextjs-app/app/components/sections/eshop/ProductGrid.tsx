@@ -4,8 +4,9 @@ import { Button } from "@/app/components/ui/Button";
 import ProductCard from "./ProductCard";
 import { AllProductsQueryResult } from "@/sanity.types";
 import { useState } from "react";
+import { groupVariants } from "@/app/lib/shop/variants";
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 24;
 
 export default function ProductGridSection({
   products,
@@ -17,9 +18,9 @@ export default function ProductGridSection({
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
-  const filtered = activeFilter
-    ? products?.filter((p) => p.category === activeFilter)
-    : products;
+  const filtered = groupVariants(
+    (activeFilter ? products?.filter((p) => p.category === activeFilter) : products) ?? [],
+  );
 
   const visibleProducts = filtered?.slice(0, visibleCount);
 
@@ -36,6 +37,7 @@ export default function ProductGridSection({
           <div className="flex gap-2 overflow-x-auto py-2 pr-1">
             <Button
               variant={activeFilter === null ? "primary" : "outline"}
+              className="min-h-11 shrink-0"
               onClick={() => handleFilter(null)}
             >
               Vše
@@ -44,6 +46,7 @@ export default function ProductGridSection({
               <Button
                 key={cat}
                 variant={activeFilter === cat ? "primary" : "outline"}
+                className="min-h-11 shrink-0"
                 onClick={() => handleFilter(cat)}
               >
                 {cat}
@@ -55,7 +58,12 @@ export default function ProductGridSection({
         <div className="grid md:grid-cols-3 gap-6 opacity-0 animate-fade-in animation-delay-400">
           {visibleProducts?.map((product) => {
             return (
-              <ProductCard key={product._id} product={product} />
+              <ProductCard
+                key={product.product._id}
+                product={product.product}
+                variantCount={product.variantCount}
+                minPrice={product.minPrice}
+              />
             );
           })}
         </div>

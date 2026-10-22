@@ -11,8 +11,22 @@ export const productBySlugQuery = defineQuery(`
     gallery[]{ asset, alt, _type, _key },
     body,
     voucherIncludes,
-    voucherValidityMonths
+    voucherValidityMonths,
+    forWhom,
+    benefits,
+    netWeight,
+    servings,
+    foodInfo,
+    "variants": select(
+      defined(variantGroup) => *[_type == "product" && variantGroup == ^.variantGroup && defined(slug.current)]
+        | order(variantLabel asc){ _id, variantLabel, "slug": slug.current, isAvailable, price },
+      []
+    )
   }
+`);
+
+export const companyQuery = defineQuery(`
+  *[_type == "settings"][0].company{ name, address, ico, email, registry }
 `);
 
 export const productSlugsQuery = defineQuery(`

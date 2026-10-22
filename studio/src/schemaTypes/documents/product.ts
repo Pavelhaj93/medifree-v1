@@ -19,6 +19,8 @@ export const product = defineType({
     {name: 'detail', title: 'Detail produktu'},
     {name: 'files', title: 'Soubory'},
     {name: 'voucher', title: 'Dárkový poukaz'},
+    {name: 'variant', title: 'Příchuť / varianta'},
+    {name: 'food', title: 'Potravina'},
   ],
   fields: [
     defineField({
@@ -124,6 +126,175 @@ export const product = defineType({
       type: 'blockContent',
       group: 'detail',
       description: 'Text na detailu produktu (složení, použití, co balíček obsahuje…).',
+    }),
+    defineField({
+      name: 'forWhom',
+      title: 'Pro koho to je',
+      type: 'array',
+      group: 'detail',
+      description: 'Krátké odrážky – komu produkt pomůže (např. „Lidem, kteří začínají se senzorem“).',
+      of: [defineArrayMember({type: 'string'})],
+    }),
+    defineField({
+      name: 'benefits',
+      title: 'Co získáte',
+      type: 'array',
+      group: 'detail',
+      description: 'Krátké odrážky – konkrétní přínosy nebo obsah balení.',
+      of: [defineArrayMember({type: 'string'})],
+    }),
+    defineField({
+      name: 'variantGroup',
+      title: 'Skupina příchutí',
+      type: 'string',
+      group: 'variant',
+      description:
+        'Stejný text u všech příchutí jednoho produktu (např. „Syrovátkový protein“). Na detailu se pak zobrazí přepínač příchutí a v e-shopu jedna karta.',
+      hidden: ({document}) => !isCategory(document as DocWithCategory, PHYSICAL),
+    }),
+    defineField({
+      name: 'variantLabel',
+      title: 'Název příchutě / varianty',
+      type: 'string',
+      group: 'variant',
+      description: 'Např. „Čokoláda“, „Vanilka“, „Bez příchutě“.',
+      hidden: ({document}) => !isCategory(document as DocWithCategory, PHYSICAL),
+      validation: (Rule) =>
+        Rule.custom((value, ctx) =>
+          (ctx.document as {variantGroup?: string})?.variantGroup && !value
+            ? 'Vyplňte název příchutě, když je produkt ve skupině'
+            : true,
+        ),
+    }),
+    defineField({
+      name: 'netWeight',
+      title: 'Čisté množství (g)',
+      type: 'number',
+      group: 'variant',
+      description: 'Pro výpočet ceny za 100 g.',
+      hidden: ({document}) => !isCategory(document as DocWithCategory, PHYSICAL),
+    }),
+    defineField({
+      name: 'servings',
+      title: 'Počet porcí v balení',
+      type: 'number',
+      group: 'variant',
+      hidden: ({document}) => !isCategory(document as DocWithCategory, PHYSICAL),
+    }),
+    defineField({
+      name: 'foodInfo',
+      title: 'Informace o potravině',
+      type: 'object',
+      group: 'food',
+      description:
+        'Povinné údaje u potravin a doplňků stravy – musí být na webu před nákupem. Opište z etikety od výrobce.',
+      hidden: ({document}) => !isCategory(document as DocWithCategory, PHYSICAL),
+      options: {collapsible: true, collapsed: false},
+      fields: [
+        defineField({
+          name: 'enabled',
+          title: 'Produkt je potravina nebo doplněk stravy',
+          type: 'boolean',
+          initialValue: false,
+        }),
+        defineField({
+          name: 'isSupplement',
+          title: 'Doplněk stravy',
+          type: 'boolean',
+          initialValue: false,
+          description: 'Na webu se doplní povinná upozornění pro doplňky stravy.',
+          hidden: ({parent}) => !parent?.enabled,
+        }),
+        defineField({
+          name: 'ingredients',
+          title: 'Složení',
+          type: 'array',
+          description: 'Alergeny označte tučně (Ctrl/Cmd + B).',
+          of: [
+            defineArrayMember({
+              type: 'block',
+              styles: [{title: 'Odstavec', value: 'normal'}],
+              lists: [],
+              marks: {decorators: [{title: 'Tučně', value: 'strong'}], annotations: []},
+            }),
+          ],
+          hidden: ({parent}) => !parent?.enabled,
+        }),
+        defineField({
+          name: 'allergens',
+          title: 'Alergeny (souhrn)',
+          type: 'string',
+          description: 'Např. „Alergeny: mléko. Může obsahovat stopy sóji.“',
+          hidden: ({parent}) => !parent?.enabled,
+        }),
+        defineField({
+          name: 'servingSize',
+          title: 'Velikost porce',
+          type: 'string',
+          description: 'Např. „30 g“.',
+          hidden: ({parent}) => !parent?.enabled,
+        }),
+        defineField({
+          name: 'nutrition',
+          title: 'Nutriční hodnoty',
+          type: 'array',
+          hidden: ({parent}) => !parent?.enabled,
+          initialValue: [
+            'Energetická hodnota',
+            'Tuky',
+            'z toho nasycené mastné kyseliny',
+            'Sacharidy',
+            'z toho cukry',
+            'Bílkoviny',
+            'Sůl',
+          ].map((label, i) => ({_type: 'nutritionRow', _key: `row${i}`, label})),
+          of: [
+            defineArrayMember({
+              type: 'object',
+              name: 'nutritionRow',
+              title: 'Řádek',
+              fields: [
+                defineField({name: 'label', title: 'Položka', type: 'string'}),
+                defineField({name: 'per100', title: 'Na 100 g', type: 'string', description: 'Např. „1 600 kJ / 380 kcal“ nebo „75 g“.'}),
+                defineField({name: 'perServing', title: 'Na porci', type: 'string'}),
+              ],
+              preview: {
+                select: {title: 'label', per100: 'per100', perServing: 'perServing'},
+                prepare: ({title, per100, perServing}) => ({
+                  title,
+                  subtitle: [per100, perServing].filter(Boolean).join(' · '),
+                }),
+              },
+            }),
+          ],
+        }),
+        defineField({
+          name: 'usage',
+          title: 'Doporučené dávkování a příprava',
+          type: 'text',
+          rows: 3,
+          hidden: ({parent}) => !parent?.enabled,
+        }),
+        defineField({
+          name: 'storage',
+          title: 'Skladování',
+          type: 'string',
+          hidden: ({parent}) => !parent?.enabled,
+        }),
+        defineField({
+          name: 'producer',
+          title: 'Výrobce / distributor a adresa',
+          type: 'text',
+          rows: 2,
+          hidden: ({parent}) => !parent?.enabled,
+        }),
+        defineField({
+          name: 'origin',
+          title: 'Země původu',
+          type: 'string',
+          hidden: ({parent}) => !parent?.enabled,
+        }),
+      ],
     }),
     defineField({
       name: 'ebookFile',
