@@ -108,6 +108,13 @@ export const settings = defineType({
         }),
         defineField({name: 'ico', title: 'IČO', type: 'string', initialValue: '23153041'}),
         defineField({name: 'email', title: 'E-mail', type: 'string', initialValue: 'info@medifree.cz'}),
+        defineField({name: 'phone', title: 'Telefon', type: 'string', description: 'Nepovinné.'}),
+        defineField({
+          name: 'instagram',
+          title: 'Instagram (odkaz)',
+          type: 'url',
+          initialValue: 'https://www.instagram.com/medifreecz',
+        }),
         defineField({
           name: 'registry',
           title: 'Zápis v rejstříku',

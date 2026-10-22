@@ -106,11 +106,12 @@ export default function Header() {
             <BookButton className="mr-2 md:mr-10" />
             <Link
               href="/kosik"
-              className="relative mr-2 p-1 cursor-pointer rounded-full hover:bg-gray-100"
+              aria-label={itemCount > 0 ? `Košík, ${itemCount} ks` : "Košík"}
+              className="relative inline-flex h-11 w-11 items-center justify-center cursor-pointer rounded-full hover:bg-gray-100 focus-visible:outline-primary"
             >
-              <ShoppingCart className="h-5 w-5" />
+              <ShoppingCart className="h-6 w-6" />
               {itemCount > 0 && (
-                <span className="absolute -top-2 -right-3 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute top-0 right-0 bg-primary text-white text-xs rounded-full min-w-5 h-5 px-1 flex items-center justify-center">
                   {itemCount}
                 </span>
               )}
@@ -118,8 +119,9 @@ export default function Header() {
             <button
               type="button"
               onClick={toggleMenu}
-              aria-label="Toggle menu"
-              className="p-1 cursor-pointer rounded-full hover:bg-gray-100"
+              aria-label={isMenuOpen ? "Zavřít menu" : "Otevřít menu"}
+              aria-expanded={isMenuOpen}
+              className="inline-flex h-11 w-11 items-center justify-center cursor-pointer rounded-full hover:bg-gray-100"
             >
               {isMenuOpen ? (
                 <X className="h-6 w-6" />
