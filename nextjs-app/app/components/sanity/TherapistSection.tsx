@@ -93,7 +93,7 @@ export default function TherapistCard({
                 <Badge key={topic} variant={colorVariant}>
                   <span
                     className={`w-2 h-2 rounded-full inline-block mr-2 ${
-                      isPink ? "bg-tertiary" : "bg-primary"
+                      isPink ? "bg-[#171717]" : "bg-primary"
                     }`}
                   />
                   {topic}
@@ -140,7 +140,7 @@ export default function TherapistCard({
                     >
                       <Stethoscope
                         className={`h-6 w-6 ${
-                          isPink ? "text-white" : "text-secondary"
+                          isPink ? "text-[#171717]" : "text-secondary"
                         }`}
                       />
                     </div>
