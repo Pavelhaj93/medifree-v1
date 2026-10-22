@@ -10,22 +10,22 @@ export default function HeroSection({ block }: { block: HeroSectionProps }) {
 
   return (
     <section
-      className={`relative overflow-hidden bg-linear-to-br from-blue-50 via-white to-green-50 py-8 md:py-16`}
+      className={`relative overflow-hidden bg-linear-to-br from-secondary/25 via-white to-tertiary/10 py-8 md:py-16`}
     >
-      ]{/* Background decorative elements */}
+      {/* Background decorative elements */}
       <div className="absolute container mx-auto px-4 md:px-10 text-center inset-0 overflow-hidden">
         {/* Floating geometric shapes */}
-        <div className="absolute top-20 left-10 w-32 h-32 bg-blue-100 rounded-full opacity-30 animate-pulse"></div>
+        <div className="absolute top-20 left-10 w-32 h-32 bg-secondary rounded-full opacity-30 animate-pulse"></div>
         <div
-          className="absolute top-40 right-20 w-24 h-24 bg-green-100 rounded-2xl opacity-40 rotate-45 animate-pulse"
+          className="absolute top-40 right-20 w-24 h-24 bg-tertiary/30 rounded-2xl opacity-40 rotate-45 animate-pulse"
           style={{ animationDelay: "1s" }}
         ></div>
         <div
-          className="absolute bottom-32 left-1/4 w-16 h-16 bg-blue-200 rounded-full opacity-50 animate-pulse"
+          className="absolute bottom-32 left-1/4 w-16 h-16 bg-secondary rounded-full opacity-50 animate-pulse"
           style={{ animationDelay: "2s" }}
         ></div>
         <div
-          className="absolute bottom-20 right-10 w-20 h-20 bg-green-200 rounded-2xl opacity-30 rotate-12 animate-pulse"
+          className="absolute bottom-20 right-10 w-20 h-20 bg-tertiary/40 rounded-2xl opacity-30 rotate-12 animate-pulse"
           style={{ animationDelay: "1.5s" }}
         ></div>
 
@@ -50,7 +50,7 @@ export default function HeroSection({ block }: { block: HeroSectionProps }) {
             </h1>
           )}
           {/* Subtle underline decoration */}
-          <div className="w-24 h-1 bg-linear-to-r from-blue-500 to-green-500 mx-auto rounded-full animate-pulse"></div>
+          <div className="w-24 h-1 bg-linear-to-r from-primary to-secondary mx-auto rounded-full animate-pulse"></div>
         </div>
 
         {/* Description with better typography */}

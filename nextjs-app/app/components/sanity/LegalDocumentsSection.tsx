@@ -66,7 +66,7 @@ export default function LegalDocumentsSection({
           <DocumentCategoriesMap legalDocuments={legalDocuments} />
 
           {/* Important Notice */}
-          <div className="bg-blue-50 border-l-4 border-blue-400 p-6 rounded-r-lg">
+          <div className="bg-secondary/25 border-l-4 border-primary p-6 rounded-r-lg">
             <h3 className="font-medium text-lg mb-2">{noticeTitle}</h3>
             <ul className="text-sm text-gray-700 space-y-1">
               {noticeItems.map((item, index) => (

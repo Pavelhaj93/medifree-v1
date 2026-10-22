@@ -5,18 +5,18 @@ export type QuoteBlock = {
 
 export default function Quote({ block }: { block: QuoteBlock }) {
   return (
-    <section className="py-16 md:py-24 bg-linear-to-br from-blue-50 via-white to-green-50">
+    <section className="py-16 md:py-24 bg-linear-to-br from-secondary/25 via-white to-tertiary/10">
       <div className="container mx-auto px-4 md:px-10">
         <div className="relative max-w-5xl mx-auto">
           {/* Background decorative elements */}
-          <div className="absolute -top-6 -left-6 w-12 h-12 bg-blue-100 rounded-full opacity-60"></div>
-          <div className="absolute -bottom-4 -right-4 w-8 h-8 bg-green-100 rounded-full opacity-80"></div>
-          <div className="absolute top-1/2 -left-8 w-6 h-6 bg-blue-200 rounded-full opacity-40"></div>
+          <div className="absolute -top-6 -left-6 w-12 h-12 bg-secondary rounded-full opacity-60"></div>
+          <div className="absolute -bottom-4 -right-4 w-8 h-8 bg-tertiary/30 rounded-full opacity-80"></div>
+          <div className="absolute top-1/2 -left-8 w-6 h-6 bg-secondary rounded-full opacity-60"></div>
 
           {/* Main quote box */}
           <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/50 p-8 md:p-12 lg:p-16">
             {/* Quote marks */}
-            <div className="absolute -top-4 -left-4 w-16 h-16 bg-linear-to-br from-blue-500 to-green-500 rounded-full flex items-center justify-center shadow-lg">
+            <div className="absolute -top-4 -left-4 w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-lg">
               <svg
                 className="w-8 h-8 text-white"
                 fill="currentColor"
@@ -34,7 +34,7 @@ export default function Quote({ block }: { block: QuoteBlock }) {
             {/* Attribution */}
             {block.attribution && (
               <div className="text-center">
-                <div className="inline-flex items-center justify-center px-6 py-2 bg-linear-to-r from-blue-500 to-green-500 rounded-full">
+                <div className="inline-flex items-center justify-center px-6 py-2 bg-primary rounded-full">
                   <span className="text-white font-medium text-sm tracking-wide">
                     {block.attribution}
                   </span>
@@ -47,9 +47,9 @@ export default function Quote({ block }: { block: QuoteBlock }) {
           </div>
 
           {/* Additional floating elements */}
-          <div className="absolute top-4 right-8 w-3 h-3 bg-blue-300 rounded-full opacity-60 animate-pulse"></div>
+          <div className="absolute top-4 right-8 w-3 h-3 bg-secondary rounded-full opacity-90 animate-pulse"></div>
           <div
-            className="absolute bottom-8 left-12 w-4 h-4 bg-green-300 rounded-full opacity-50 animate-pulse"
+            className="absolute bottom-8 left-12 w-4 h-4 bg-tertiary rounded-full opacity-50 animate-pulse"
             style={{ animationDelay: "1s" }}
           ></div>
         </div>
