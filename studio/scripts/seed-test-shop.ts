@@ -148,6 +148,7 @@ async function run() {
       'Vstupní konzultace',
       'Komunikace během funkce senzoru s úpravou režimu',
       'Zhodnocení a doporučení laboratorního vyšetření',
+      'Úprava životního stylu na míru – doporučení stravy, pohybového režimu, metod snížení stresu a toxické zátěže prostředí',
       'Vytvoření dlouhodobého plánu',
       'Přístup k našim průvodcům na e-shopu',
     ].join('\n'),

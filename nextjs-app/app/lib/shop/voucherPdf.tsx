@@ -67,6 +67,16 @@ const s = StyleSheet.create({
   footer: { marginTop: 10, fontSize: 7.5, color: MUTED },
 });
 
+// Long contents plus a long dedication (Stripe allows 255 chars) would push the code row off the panel.
+const dense = StyleSheet.create({
+  header: { marginBottom: 6 },
+  title: { fontSize: 13.5, marginBottom: 6 },
+  bulletRow: { marginBottom: 1.5 },
+  bulletText: { fontSize: 7.5, lineHeight: 1.3 },
+  dedication: { marginTop: 7, padding: 6, fontSize: 8.5, lineHeight: 1.3 },
+});
+const DENSE_FROM_CHARS = 380;
+
 export type VoucherPdfData = {
   code: string;
   title: string;
@@ -82,6 +92,8 @@ function VoucherDocument(v: VoucherPdfData) {
     .map((line) => line.replace(/^[-•+*]\s*/, "").trim())
     .filter(Boolean)
     .slice(0, 9);
+  const isDense = includes.join("").length + (v.dedication?.length ?? 0) > DENSE_FROM_CHARS;
+  const d = (key: keyof typeof dense) => (isDense ? [s[key], dense[key]] : s[key]);
 
   return (
     <Document title={`Dárkový poukaz ${v.code}`} author="Medifree">
@@ -98,22 +110,22 @@ function VoucherDocument(v: VoucherPdfData) {
         )}
 
         <View style={s.panel}>
-          <View style={s.header}>
+          <View style={d("header")}>
             <Text style={s.label}>DÁRKOVÝ POUKAZ</Text>
             {/* eslint-disable-next-line jsx-a11y/alt-text */}
             <Image src={path.join(ASSETS, "voucher-logo.png")} style={s.logo} />
           </View>
 
-          <Text style={s.title}>{v.title}</Text>
+          <Text style={d("title")}>{v.title}</Text>
 
           {includes.map((line, i) => (
-            <View key={i} style={s.bulletRow}>
+            <View key={i} style={d("bulletRow")}>
               <Text style={s.bulletDot}>•</Text>
-              <Text style={s.bulletText}>{line}</Text>
+              <Text style={d("bulletText")}>{line}</Text>
             </View>
           ))}
 
-          {v.dedication ? <Text style={s.dedication}>„{v.dedication}“</Text> : null}
+          {v.dedication ? <Text style={d("dedication")}>„{v.dedication}“</Text> : null}
 
           <View style={s.bottom}>
             <View>
