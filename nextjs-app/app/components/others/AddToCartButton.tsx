@@ -11,9 +11,11 @@ type Props = {
   quantity?: number;
   size?: "sm" | "default" | "lg";
   className?: string;
+  /** Called after a successful add; when set, the button shows no toast (the caller confirms inline). */
+  onAdded?: (added: number) => void;
 };
 
-const AddToCartButton = ({ product, quantity = 1, size = "sm", className }: Props) => {
+const AddToCartButton = ({ product, quantity = 1, size = "sm", className, onAdded }: Props) => {
   const { addItem, isInCart } = useCart();
 
   if (!product) {
@@ -39,9 +41,10 @@ const AddToCartButton = ({ product, quantity = 1, size = "sm", className }: Prop
           toast.warning(`V košíku už máte maximum (${max} ks).`);
         } else if (added < quantity) {
           toast.warning(`Do košíku jsme přidali ${added} ks – víc než ${max} ks najednou objednat nejde.`);
-        } else {
+        } else if (!onAdded) {
           toast.success(`${product.title ?? "Produkt"} je v košíku`);
         }
+        if (added > 0) onAdded?.(added);
       }}
     >
       <ShoppingCart className="mr-2 h-2 w-2" />

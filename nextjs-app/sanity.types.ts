@@ -769,7 +769,8 @@ export type Product = {
   };
   price: number;
   description: string;
-  isAvailable?: boolean;
+  stockStatus?: "in" | "low" | "out";
+  label?: string;
   gallery?: Array<{
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -780,10 +781,33 @@ export type Product = {
     _key: string;
   }>;
   body?: BlockContent;
-  forWhom?: Array<string>;
-  benefits?: Array<string>;
+  forWhom?: Array<{
+    title?: string;
+    text?: string;
+    _type: "audience";
+    _key: string;
+  }>;
+  notSuitableFor?: string;
+  benefits?: Array<{
+    highlight?: string;
+    title?: string;
+    text?: string;
+    _type: "benefit";
+    _key: string;
+  }>;
   variantGroup?: string;
   variantLabel?: string;
+  packLabel?: string;
+  variantColor?:
+    | "#6b4423"
+    | "#f3dc8a"
+    | "#c98a3b"
+    | "#e46b7a"
+    | "#f5e27a"
+    | "#efe7da"
+    | "#a8c686"
+    | "#8a5a3c"
+    | "#ffffff";
   netWeight?: number;
   servings?: number;
   foodInfo?: {
@@ -815,6 +839,7 @@ export type Product = {
     usage?: string;
     storage?: string;
     producer?: string;
+    bestBefore?: string;
     origin?: string;
   };
   ebookFile?: {
@@ -1086,6 +1111,8 @@ export type Settings = {
     address?: string;
     ico?: string;
     email?: string;
+    phone?: string;
+    instagram?: string;
     registry?: string;
   };
   shop?: {
@@ -1391,7 +1418,7 @@ export type TermsAndConditionsQueryResult = {
 
 // Source: ../nextjs-app/sanity/queries/pages.ts
 // Variable: getPageQuery
-// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {   link {    ...,      _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }  } },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{ ...,   _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  } }        }      },      _type == "videoSection" => {        ...,        video{          asset->        },        mobileVideo{          asset->        }      },      _type == "contentDisplayBlock" => {        ...,        image,        link{          ...,          page->{            slug          }        }      },      _type == "therapistSection" => {        ...,        therapist->      },      _type == "serviceCardBlock" => {        ...,        image { asset, alt, _type },        content      },      _type == "masonryGallery" => {        ...,        images[] { asset, alt, _type, _key }      },      _type == "productShowcase" => {        ...,        "featuredProduct": *[_type == "product" && featured == true][0]{   _id,  title,  "slug": slug.current,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  isAvailable,  variantGroup,  variantLabel,  originalPrice,  bundleItems[]->{    _id,    title,    category,    price  },  _createdAt,  _updatedAt,  _rev,  _type },        "products": *[_type == "product"] | order(name asc) {   _id,  title,  "slug": slug.current,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  isAvailable,  variantGroup,  variantLabel,  originalPrice,  bundleItems[]->{    _id,    title,    category,    price  },  _createdAt,  _updatedAt,  _rev,  _type }      },      _type == "postShowcase" => {        ...,        "firstPost": *[_type == "post"] | order(date desc)[0]{   _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},  },        "posts": *[_type == "post"] | order(date desc) {   _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},  }      },      _type == "faqCardsGrid" => {        ...,        "faqs": *[_type == "faq"] | order(order asc, question asc) {   _id,  question,  answer,  category,  order,  _createdAt,  _updatedAt }       },      _type == "faqAccordion" => {        ...,        "faqs": *[_type == "faq"] | order(order asc, question asc) {   _id,  question,  answer,  category,  order,  _createdAt,  _updatedAt }       },      _type == "checkoutSuccess" => {        ...      },      _type == "cart" => {        ...,        "shop": *[_type == "settings"][0].shop{ dispatchTime, packetaLabel, packetaPrice, voucherRedeemInfo }      },      _type == "freeResourcesSection" => {        ...,        "freeResources": *[_type == "freeResource"] | order(publishedAt desc) {   _id,  title,  "slug": slug.current,  category,  description,  thumbnail { asset, alt, _type },  file {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  embedUrl,  publishedAt,  _createdAt }      },      _type == "legalDocumentsSection" => {        ...,        "legalDocuments": *[_type == "legalDocument"] | order(title asc) {          _id,          title,          description,          category,          file {            asset->{              _id,              url,              assetId,              originalFilename,              extension,              size            }          },          _createdAt,          _updatedAt,          _rev        }      }    },  }
+// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {   link {    ...,      _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }  } },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{ ...,   _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  } }        }      },      _type == "videoSection" => {        ...,        video{          asset->        },        mobileVideo{          asset->        }      },      _type == "contentDisplayBlock" => {        ...,        image,        link{          ...,          page->{            slug          }        }      },      _type == "therapistSection" => {        ...,        therapist->      },      _type == "serviceCardBlock" => {        ...,        image { asset, alt, _type },        content      },      _type == "masonryGallery" => {        ...,        images[] { asset, alt, _type, _key }      },      _type == "productShowcase" => {        ...,        "featuredProduct": *[_type == "product" && featured == true][0]{   _id,  title,  "slug": slug.current,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  "isAvailable": coalesce(stockStatus, "in") != "out",  "stockStatus": coalesce(stockStatus, "in"),  label,  variantGroup,  variantLabel,  variantColor,  packLabel,  originalPrice,  bundleItems[]->{    _id,    title,    category,    price  },  _createdAt,  _updatedAt,  _rev,  _type },        "products": *[_type == "product"] | order(name asc) {   _id,  title,  "slug": slug.current,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  "isAvailable": coalesce(stockStatus, "in") != "out",  "stockStatus": coalesce(stockStatus, "in"),  label,  variantGroup,  variantLabel,  variantColor,  packLabel,  originalPrice,  bundleItems[]->{    _id,    title,    category,    price  },  _createdAt,  _updatedAt,  _rev,  _type }      },      _type == "postShowcase" => {        ...,        "firstPost": *[_type == "post"] | order(date desc)[0]{   _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},  },        "posts": *[_type == "post"] | order(date desc) {   _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  description,  category,  tags,  content,  readTime,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{name, specialization, picture, slug},  }      },      _type == "faqCardsGrid" => {        ...,        "faqs": *[_type == "faq"] | order(order asc, question asc) {   _id,  question,  answer,  category,  order,  _createdAt,  _updatedAt }       },      _type == "faqAccordion" => {        ...,        "faqs": *[_type == "faq"] | order(order asc, question asc) {   _id,  question,  answer,  category,  order,  _createdAt,  _updatedAt }       },      _type == "checkoutSuccess" => {        ...      },      _type == "cart" => {        ...,        "shop": *[_type == "settings"][0].shop{ dispatchTime, packetaLabel, packetaPrice, voucherRedeemInfo }      },      _type == "freeResourcesSection" => {        ...,        "freeResources": *[_type == "freeResource"] | order(publishedAt desc) {   _id,  title,  "slug": slug.current,  category,  description,  thumbnail { asset, alt, _type },  file {    asset->{      _id,      url,      originalFilename,      mimeType    }  },  embedUrl,  publishedAt,  _createdAt }      },      _type == "legalDocumentsSection" => {        ...,        "legalDocuments": *[_type == "legalDocument"] | order(title asc) {          _id,          title,          description,          category,          file {            asset->{              _id,              url,              assetId,              originalFilename,              extension,              size            }          },          _createdAt,          _updatedAt,          _rev        }      }    },  }
 export type GetPageQueryResult = {
   _id: string;
   _type: "page";
@@ -1904,9 +1931,23 @@ export type GetPageQueryResult = {
             | "Ebooky"
             | "Fyzick\xE9 produkty"
             | "Video kurzy";
-          isAvailable: boolean | null;
+          isAvailable: false | true;
+          stockStatus: "in" | "low" | "out";
+          label: string | null;
           variantGroup: string | null;
           variantLabel: string | null;
+          variantColor:
+            | "#6b4423"
+            | "#8a5a3c"
+            | "#a8c686"
+            | "#c98a3b"
+            | "#e46b7a"
+            | "#efe7da"
+            | "#f3dc8a"
+            | "#f5e27a"
+            | "#ffffff"
+            | null;
+          packLabel: string | null;
           originalPrice: number | null;
           bundleItems: Array<{
             _id: string;
@@ -1947,9 +1988,23 @@ export type GetPageQueryResult = {
             | "Ebooky"
             | "Fyzick\xE9 produkty"
             | "Video kurzy";
-          isAvailable: boolean | null;
+          isAvailable: false | true;
+          stockStatus: "in" | "low" | "out";
+          label: string | null;
           variantGroup: string | null;
           variantLabel: string | null;
+          variantColor:
+            | "#6b4423"
+            | "#8a5a3c"
+            | "#a8c686"
+            | "#c98a3b"
+            | "#e46b7a"
+            | "#efe7da"
+            | "#f3dc8a"
+            | "#f5e27a"
+            | "#ffffff"
+            | null;
+          packLabel: string | null;
           originalPrice: number | null;
           bundleItems: Array<{
             _id: string;
@@ -2219,6 +2274,8 @@ export type SettingsQueryResult = {
     address?: string;
     ico?: string;
     email?: string;
+    phone?: string;
+    instagram?: string;
     registry?: string;
   };
   shop?: {
@@ -2527,7 +2584,7 @@ export type PostPagesSlugsResult = Array<{
 
 // Source: ../nextjs-app/sanity/queries/products.ts
 // Variable: allProductsQuery
-// Query: *[_type == "product"] | order(name asc) {   _id,  title,  "slug": slug.current,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  isAvailable,  variantGroup,  variantLabel,  originalPrice,  bundleItems[]->{    _id,    title,    category,    price  },  _createdAt,  _updatedAt,  _rev,  _type }
+// Query: *[_type == "product"] | order(name asc) {   _id,  title,  "slug": slug.current,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  "isAvailable": coalesce(stockStatus, "in") != "out",  "stockStatus": coalesce(stockStatus, "in"),  label,  variantGroup,  variantLabel,  variantColor,  packLabel,  originalPrice,  bundleItems[]->{    _id,    title,    category,    price  },  _createdAt,  _updatedAt,  _rev,  _type }
 export type AllProductsQueryResult = Array<{
   _id: string;
   title: string;
@@ -2549,9 +2606,23 @@ export type AllProductsQueryResult = Array<{
     | "Ebooky"
     | "Fyzick\xE9 produkty"
     | "Video kurzy";
-  isAvailable: boolean | null;
+  isAvailable: false | true;
+  stockStatus: "in" | "low" | "out";
+  label: string | null;
   variantGroup: string | null;
   variantLabel: string | null;
+  variantColor:
+    | "#6b4423"
+    | "#8a5a3c"
+    | "#a8c686"
+    | "#c98a3b"
+    | "#e46b7a"
+    | "#efe7da"
+    | "#f3dc8a"
+    | "#f5e27a"
+    | "#ffffff"
+    | null;
+  packLabel: string | null;
   originalPrice: number | null;
   bundleItems: Array<{
     _id: string;
@@ -2574,7 +2645,7 @@ export type AllProductsQueryResult = Array<{
 
 // Source: ../nextjs-app/sanity/queries/products.ts
 // Variable: featuredProductQuery
-// Query: *[_type == "product" && featured == true][0]{   _id,  title,  "slug": slug.current,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  isAvailable,  variantGroup,  variantLabel,  originalPrice,  bundleItems[]->{    _id,    title,    category,    price  },  _createdAt,  _updatedAt,  _rev,  _type }
+// Query: *[_type == "product" && featured == true][0]{   _id,  title,  "slug": slug.current,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  "isAvailable": coalesce(stockStatus, "in") != "out",  "stockStatus": coalesce(stockStatus, "in"),  label,  variantGroup,  variantLabel,  variantColor,  packLabel,  originalPrice,  bundleItems[]->{    _id,    title,    category,    price  },  _createdAt,  _updatedAt,  _rev,  _type }
 export type FeaturedProductQueryResult = {
   _id: string;
   title: string;
@@ -2596,9 +2667,23 @@ export type FeaturedProductQueryResult = {
     | "Ebooky"
     | "Fyzick\xE9 produkty"
     | "Video kurzy";
-  isAvailable: boolean | null;
+  isAvailable: false | true;
+  stockStatus: "in" | "low" | "out";
+  label: string | null;
   variantGroup: string | null;
   variantLabel: string | null;
+  variantColor:
+    | "#6b4423"
+    | "#8a5a3c"
+    | "#a8c686"
+    | "#c98a3b"
+    | "#e46b7a"
+    | "#efe7da"
+    | "#f3dc8a"
+    | "#f5e27a"
+    | "#ffffff"
+    | null;
+  packLabel: string | null;
   originalPrice: number | null;
   bundleItems: Array<{
     _id: string;
@@ -2631,7 +2716,7 @@ export type ShopSettingsQueryResult = {
 
 // Source: ../nextjs-app/sanity/queries/shop.ts
 // Variable: productBySlugQuery
-// Query: *[_type == "product" && slug.current == $slug][0]{      _id,  title,  "slug": slug.current,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  isAvailable,  variantGroup,  variantLabel,  originalPrice,  bundleItems[]->{    _id,    title,    category,    price  },  _createdAt,  _updatedAt,  _rev,  _type,    gallery[]{ asset, alt, _type, _key },    body,    voucherIncludes,    voucherValidityMonths,    forWhom,    benefits,    netWeight,    servings,    foodInfo,    "variants": select(      defined(variantGroup) => *[_type == "product" && variantGroup == ^.variantGroup && defined(slug.current)]        | order(variantLabel asc){ _id, variantLabel, "slug": slug.current, isAvailable, price },      []    )  }
+// Query: *[_type == "product" && slug.current == $slug][0]{      _id,  title,  "slug": slug.current,  price,  discount,  image {   asset,  alt,  _type },  description,  featured,  category,  "isAvailable": coalesce(stockStatus, "in") != "out",  "stockStatus": coalesce(stockStatus, "in"),  label,  variantGroup,  variantLabel,  variantColor,  packLabel,  originalPrice,  bundleItems[]->{    _id,    title,    category,    price  },  _createdAt,  _updatedAt,  _rev,  _type,    gallery[]{ asset, alt, _type, _key },    body,    voucherIncludes,    voucherValidityMonths,    forWhom,    notSuitableFor,    benefits,    netWeight,    servings,    foodInfo,    "variants": select(      defined(variantGroup) => *[_type == "product" && variantGroup == ^.variantGroup && defined(slug.current)]        | order(variantLabel asc){ _id, variantLabel, variantColor, packLabel, "slug": slug.current, "isAvailable": coalesce(stockStatus, "in") != "out", price },      []    )  }
 export type ProductBySlugQueryResult = {
   _id: string;
   title: string;
@@ -2653,9 +2738,23 @@ export type ProductBySlugQueryResult = {
     | "Ebooky"
     | "Fyzick\xE9 produkty"
     | "Video kurzy";
-  isAvailable: boolean | null;
+  isAvailable: false | true;
+  stockStatus: "in" | "low" | "out";
+  label: string | null;
   variantGroup: string | null;
   variantLabel: string | null;
+  variantColor:
+    | "#6b4423"
+    | "#8a5a3c"
+    | "#a8c686"
+    | "#c98a3b"
+    | "#e46b7a"
+    | "#efe7da"
+    | "#f3dc8a"
+    | "#f5e27a"
+    | "#ffffff"
+    | null;
+  packLabel: string | null;
   originalPrice: number | null;
   bundleItems: Array<{
     _id: string;
@@ -2683,8 +2782,20 @@ export type ProductBySlugQueryResult = {
   body: BlockContent | null;
   voucherIncludes: string | null;
   voucherValidityMonths: number | null;
-  forWhom: Array<string> | null;
-  benefits: Array<string> | null;
+  forWhom: Array<{
+    title?: string;
+    text?: string;
+    _type: "audience";
+    _key: string;
+  }> | null;
+  notSuitableFor: string | null;
+  benefits: Array<{
+    highlight?: string;
+    title?: string;
+    text?: string;
+    _type: "benefit";
+    _key: string;
+  }> | null;
   netWeight: number | null;
   servings: number | null;
   foodInfo: {
@@ -2716,14 +2827,27 @@ export type ProductBySlugQueryResult = {
     usage?: string;
     storage?: string;
     producer?: string;
+    bestBefore?: string;
     origin?: string;
   } | null;
   variants:
     | Array<{
         _id: string;
         variantLabel: string | null;
+        variantColor:
+          | "#6b4423"
+          | "#8a5a3c"
+          | "#a8c686"
+          | "#c98a3b"
+          | "#e46b7a"
+          | "#efe7da"
+          | "#f3dc8a"
+          | "#f5e27a"
+          | "#ffffff"
+          | null;
+        packLabel: string | null;
         slug: string | null;
-        isAvailable: boolean | null;
+        isAvailable: false | true;
         price: number;
       }>
     | Array<never>;
@@ -2731,12 +2855,14 @@ export type ProductBySlugQueryResult = {
 
 // Source: ../nextjs-app/sanity/queries/shop.ts
 // Variable: companyQuery
-// Query: *[_type == "settings"][0].company{ name, address, ico, email, registry }
+// Query: *[_type == "settings"][0].company{ name, address, ico, email, phone, instagram, registry }
 export type CompanyQueryResult = {
   name: string | null;
   address: string | null;
   ico: string | null;
   email: string | null;
+  phone: string | null;
+  instagram: string | null;
   registry: string | null;
 } | null;
 
@@ -2749,7 +2875,7 @@ export type ProductSlugsQueryResult = Array<{
 
 // Source: ../nextjs-app/sanity/queries/shop.ts
 // Variable: checkoutProductsQuery
-// Query: *[_type == "product" && _id in $ids]{    _id,    title,    category,    price,    isAvailable,    image  }
+// Query: *[_type == "product" && _id in $ids]{    _id,    title,    category,    price,    "isAvailable": coalesce(stockStatus, "in") != "out",    image  }
 export type CheckoutProductsQueryResult = Array<{
   _id: string;
   title: string;
@@ -2762,7 +2888,7 @@ export type CheckoutProductsQueryResult = Array<{
     | "Fyzick\xE9 produkty"
     | "Video kurzy";
   price: number;
-  isAvailable: boolean | null;
+  isAvailable: false | true;
   image: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -2878,7 +3004,7 @@ declare module "@sanity/client" {
     '\n  *[_type == "legalDocument"] | order(title asc) {\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_rev\n  }\n': AllLegalDocumentsQueryResult;
     '\n  *[_type == "legalDocument" && tag == "gdpr-consent"][0]{\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n': GdprQueryResult;
     '\n  *[_type == "legalDocument" && tag == "TandC"][0]{\n    _id,title,description,category,\n    file{\n      asset->{_id,url,assetId,originalFilename,extension,size}\n    },\n    _createdAt,_updatedAt,_type,_rev\n  }\n': TermsAndConditionsQueryResult;
-    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "callToAction" => { \n  link {\n    ...,\n    \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n  }\n },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{ ..., \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n }\n        }\n      },\n      _type == "videoSection" => {\n        ...,\n        video{\n          asset->\n        },\n        mobileVideo{\n          asset->\n        }\n      },\n      _type == "contentDisplayBlock" => {\n        ...,\n        image,\n        link{\n          ...,\n          page->{\n            slug\n          }\n        }\n      },\n      _type == "therapistSection" => {\n        ...,\n        therapist->\n      },\n      _type == "serviceCardBlock" => {\n        ...,\n        image { asset, alt, _type },\n        content\n      },\n      _type == "masonryGallery" => {\n        ...,\n        images[] { asset, alt, _type, _key }\n      },\n      _type == "productShowcase" => {\n        ...,\n        "featuredProduct": *[_type == "product" && featured == true][0]{ \n  _id,\n  title,\n  "slug": slug.current,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  isAvailable,\n  variantGroup,\n  variantLabel,\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n },\n        "products": *[_type == "product"] | order(name asc) { \n  _id,\n  title,\n  "slug": slug.current,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  isAvailable,\n  variantGroup,\n  variantLabel,\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }\n      },\n      _type == "postShowcase" => {\n        ...,\n        "firstPost": *[_type == "post"] | order(date desc)[0]{ \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n  },\n        "posts": *[_type == "post"] | order(date desc) { \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n  }\n      },\n      _type == "faqCardsGrid" => {\n        ...,\n        "faqs": *[_type == "faq"] | order(order asc, question asc) { \n  _id,\n  question,\n  answer,\n  category,\n  order,\n  _createdAt,\n  _updatedAt\n } \n      },\n      _type == "faqAccordion" => {\n        ...,\n        "faqs": *[_type == "faq"] | order(order asc, question asc) { \n  _id,\n  question,\n  answer,\n  category,\n  order,\n  _createdAt,\n  _updatedAt\n } \n      },\n      _type == "checkoutSuccess" => {\n        ...\n      },\n      _type == "cart" => {\n        ...,\n        "shop": *[_type == "settings"][0].shop{ dispatchTime, packetaLabel, packetaPrice, voucherRedeemInfo }\n      },\n      _type == "freeResourcesSection" => {\n        ...,\n        "freeResources": *[_type == "freeResource"] | order(publishedAt desc) { \n  _id,\n  title,\n  "slug": slug.current,\n  category,\n  description,\n  thumbnail { asset, alt, _type },\n  file {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  embedUrl,\n  publishedAt,\n  _createdAt\n }\n      },\n      _type == "legalDocumentsSection" => {\n        ...,\n        "legalDocuments": *[_type == "legalDocument"] | order(title asc) {\n          _id,\n          title,\n          description,\n          category,\n          file {\n            asset->{\n              _id,\n              url,\n              assetId,\n              originalFilename,\n              extension,\n              size\n            }\n          },\n          _createdAt,\n          _updatedAt,\n          _rev\n        }\n      }\n    },\n  }\n': GetPageQueryResult;
+    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "callToAction" => { \n  link {\n    ...,\n    \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n  }\n },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{ ..., \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n }\n        }\n      },\n      _type == "videoSection" => {\n        ...,\n        video{\n          asset->\n        },\n        mobileVideo{\n          asset->\n        }\n      },\n      _type == "contentDisplayBlock" => {\n        ...,\n        image,\n        link{\n          ...,\n          page->{\n            slug\n          }\n        }\n      },\n      _type == "therapistSection" => {\n        ...,\n        therapist->\n      },\n      _type == "serviceCardBlock" => {\n        ...,\n        image { asset, alt, _type },\n        content\n      },\n      _type == "masonryGallery" => {\n        ...,\n        images[] { asset, alt, _type, _key }\n      },\n      _type == "productShowcase" => {\n        ...,\n        "featuredProduct": *[_type == "product" && featured == true][0]{ \n  _id,\n  title,\n  "slug": slug.current,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  "isAvailable": coalesce(stockStatus, "in") != "out",\n  "stockStatus": coalesce(stockStatus, "in"),\n  label,\n  variantGroup,\n  variantLabel,\n  variantColor,\n  packLabel,\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n },\n        "products": *[_type == "product"] | order(name asc) { \n  _id,\n  title,\n  "slug": slug.current,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  "isAvailable": coalesce(stockStatus, "in") != "out",\n  "stockStatus": coalesce(stockStatus, "in"),\n  label,\n  variantGroup,\n  variantLabel,\n  variantColor,\n  packLabel,\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }\n      },\n      _type == "postShowcase" => {\n        ...,\n        "firstPost": *[_type == "post"] | order(date desc)[0]{ \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n  },\n        "posts": *[_type == "post"] | order(date desc) { \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n  }\n      },\n      _type == "faqCardsGrid" => {\n        ...,\n        "faqs": *[_type == "faq"] | order(order asc, question asc) { \n  _id,\n  question,\n  answer,\n  category,\n  order,\n  _createdAt,\n  _updatedAt\n } \n      },\n      _type == "faqAccordion" => {\n        ...,\n        "faqs": *[_type == "faq"] | order(order asc, question asc) { \n  _id,\n  question,\n  answer,\n  category,\n  order,\n  _createdAt,\n  _updatedAt\n } \n      },\n      _type == "checkoutSuccess" => {\n        ...\n      },\n      _type == "cart" => {\n        ...,\n        "shop": *[_type == "settings"][0].shop{ dispatchTime, packetaLabel, packetaPrice, voucherRedeemInfo }\n      },\n      _type == "freeResourcesSection" => {\n        ...,\n        "freeResources": *[_type == "freeResource"] | order(publishedAt desc) { \n  _id,\n  title,\n  "slug": slug.current,\n  category,\n  description,\n  thumbnail { asset, alt, _type },\n  file {\n    asset->{\n      _id,\n      url,\n      originalFilename,\n      mimeType\n    }\n  },\n  embedUrl,\n  publishedAt,\n  _createdAt\n }\n      },\n      _type == "legalDocumentsSection" => {\n        ...,\n        "legalDocuments": *[_type == "legalDocument"] | order(title asc) {\n          _id,\n          title,\n          description,\n          category,\n          file {\n            asset->{\n              _id,\n              url,\n              assetId,\n              originalFilename,\n              extension,\n              size\n            }\n          },\n          _createdAt,\n          _updatedAt,\n          _rev\n        }\n      }\n    },\n  }\n': GetPageQueryResult;
     '\n  *[_type == "page" && defined(slug.current)]\n  {"slug": slug.current}\n': PagesSlugsResult;
     '\n  *[_type == "page" || _type == "post" && defined(slug.current)]\n  | order(_type asc) {\n    "slug": slug.current,\n    _type,\n    _updatedAt\n  }\n': SitemapDataResult;
     '*[_type == "settings"][0]': SettingsQueryResult;
@@ -2889,13 +3015,13 @@ declare module "@sanity/client" {
     '*[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc)[0...$limit]{\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n}': MorePostsQueryResult;
     '*[_type == "post" && slug.current == $slug][0]{content[]{...,markDefs[]{...,\n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n}},\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  description,\n  category,\n  tags,\n  content,\n  readTime,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{name, specialization, picture, slug},\n}': PostQueryResult;
     '*[_type == "post" && defined(slug.current)]{"slug": slug.current}': PostPagesSlugsResult;
-    '*[_type == "product"] | order(name asc) { \n  _id,\n  title,\n  "slug": slug.current,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  isAvailable,\n  variantGroup,\n  variantLabel,\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }': AllProductsQueryResult;
-    '*[_type == "product" && featured == true][0]{ \n  _id,\n  title,\n  "slug": slug.current,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  isAvailable,\n  variantGroup,\n  variantLabel,\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }': FeaturedProductQueryResult;
+    '*[_type == "product"] | order(name asc) { \n  _id,\n  title,\n  "slug": slug.current,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  "isAvailable": coalesce(stockStatus, "in") != "out",\n  "stockStatus": coalesce(stockStatus, "in"),\n  label,\n  variantGroup,\n  variantLabel,\n  variantColor,\n  packLabel,\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }': AllProductsQueryResult;
+    '*[_type == "product" && featured == true][0]{ \n  _id,\n  title,\n  "slug": slug.current,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  "isAvailable": coalesce(stockStatus, "in") != "out",\n  "stockStatus": coalesce(stockStatus, "in"),\n  label,\n  variantGroup,\n  variantLabel,\n  variantColor,\n  packLabel,\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n }': FeaturedProductQueryResult;
     '\n  *[_type == "settings"][0].shop{ dispatchTime, packetaLabel, packetaPrice, voucherRedeemInfo }\n': ShopSettingsQueryResult;
-    '\n  *[_type == "product" && slug.current == $slug][0]{\n    \n  _id,\n  title,\n  "slug": slug.current,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  isAvailable,\n  variantGroup,\n  variantLabel,\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n,\n    gallery[]{ asset, alt, _type, _key },\n    body,\n    voucherIncludes,\n    voucherValidityMonths,\n    forWhom,\n    benefits,\n    netWeight,\n    servings,\n    foodInfo,\n    "variants": select(\n      defined(variantGroup) => *[_type == "product" && variantGroup == ^.variantGroup && defined(slug.current)]\n        | order(variantLabel asc){ _id, variantLabel, "slug": slug.current, isAvailable, price },\n      []\n    )\n  }\n': ProductBySlugQueryResult;
-    '\n  *[_type == "settings"][0].company{ name, address, ico, email, registry }\n': CompanyQueryResult;
+    '\n  *[_type == "product" && slug.current == $slug][0]{\n    \n  _id,\n  title,\n  "slug": slug.current,\n  price,\n  discount,\n  image { \n  asset,\n  alt,\n  _type\n },\n  description,\n  featured,\n  category,\n  "isAvailable": coalesce(stockStatus, "in") != "out",\n  "stockStatus": coalesce(stockStatus, "in"),\n  label,\n  variantGroup,\n  variantLabel,\n  variantColor,\n  packLabel,\n  originalPrice,\n  bundleItems[]->{\n    _id,\n    title,\n    category,\n    price\n  },\n  _createdAt,\n  _updatedAt,\n  _rev,\n  _type\n,\n    gallery[]{ asset, alt, _type, _key },\n    body,\n    voucherIncludes,\n    voucherValidityMonths,\n    forWhom,\n    notSuitableFor,\n    benefits,\n    netWeight,\n    servings,\n    foodInfo,\n    "variants": select(\n      defined(variantGroup) => *[_type == "product" && variantGroup == ^.variantGroup && defined(slug.current)]\n        | order(variantLabel asc){ _id, variantLabel, variantColor, packLabel, "slug": slug.current, "isAvailable": coalesce(stockStatus, "in") != "out", price },\n      []\n    )\n  }\n': ProductBySlugQueryResult;
+    '\n  *[_type == "settings"][0].company{ name, address, ico, email, phone, instagram, registry }\n': CompanyQueryResult;
     '\n  *[_type == "product" && defined(slug.current)]{ "slug": slug.current }\n': ProductSlugsQueryResult;
-    '\n  *[_type == "product" && _id in $ids]{\n    _id,\n    title,\n    category,\n    price,\n    isAvailable,\n    image\n  }\n': CheckoutProductsQueryResult;
+    '\n  *[_type == "product" && _id in $ids]{\n    _id,\n    title,\n    category,\n    price,\n    "isAvailable": coalesce(stockStatus, "in") != "out",\n    image\n  }\n': CheckoutProductsQueryResult;
     '\n  *[_type == "product" && _id in $ids]{\n    _id,\n    title,\n    category,\n    ebookFile { asset->{ url } },\n    audioFile { asset->{ url } },\n    videoFile { asset->{ url } },\n    bundleItems[]->{\n      _id, title, category,\n      ebookFile { asset->{ url } },\n      audioFile { asset->{ url } },\n      videoFile { asset->{ url } }\n    },\n    voucherValidityMonths,\n    voucherIncludes,\n    "voucherBackgroundUrl": voucherBackground.asset->url,\n    voucherGuides[]->{\n      _id, title, category,\n      ebookFile { asset->{ url } },\n      audioFile { asset->{ url } },\n      videoFile { asset->{ url } }\n    }\n  }\n': FulfillmentProductsQueryResult;
     '\n  *[_type == "legalDocument" && category in ["Obchodn\xED podm\xEDnky", "E-shop"] && defined(file.asset)]{\n    title,\n    "url": file.asset->url\n  }\n': ShopLegalDocumentsQueryResult;
   }

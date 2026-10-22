@@ -13,20 +13,21 @@ export const productBySlugQuery = defineQuery(`
     voucherIncludes,
     voucherValidityMonths,
     forWhom,
+    notSuitableFor,
     benefits,
     netWeight,
     servings,
     foodInfo,
     "variants": select(
       defined(variantGroup) => *[_type == "product" && variantGroup == ^.variantGroup && defined(slug.current)]
-        | order(variantLabel asc){ _id, variantLabel, "slug": slug.current, isAvailable, price },
+        | order(variantLabel asc){ _id, variantLabel, variantColor, packLabel, "slug": slug.current, "isAvailable": coalesce(stockStatus, "in") != "out", price },
       []
     )
   }
 `);
 
 export const companyQuery = defineQuery(`
-  *[_type == "settings"][0].company{ name, address, ico, email, registry }
+  *[_type == "settings"][0].company{ name, address, ico, email, phone, instagram, registry }
 `);
 
 export const productSlugsQuery = defineQuery(`
@@ -40,7 +41,7 @@ export const checkoutProductsQuery = defineQuery(`
     title,
     category,
     price,
-    isAvailable,
+    "isAvailable": coalesce(stockStatus, "in") != "out",
     image
   }
 `);

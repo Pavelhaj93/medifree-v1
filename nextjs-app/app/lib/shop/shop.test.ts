@@ -5,7 +5,7 @@ import { formatCzechDate, voucherCode, voucherValidUntil } from "./vouchers";
 import { customerOrderEmail, adminOrderEmail, type OrderEmailData } from "./emails";
 import { getDeliveryFiles, uniqueFiles } from "./delivery";
 import { reconcileCart } from "./cart";
-import { groupVariants, pricePer100g } from "./variants";
+import { groupVariants, packGrams, pricePer100g } from "./variants";
 import { escapeHtml } from "@/app/lib/html";
 
 const products = [
@@ -195,6 +195,20 @@ describe("groupVariants", () => {
       ["plain", 3, 1090],
       ["glasses", 1, 690],
     ]);
+  });
+
+  it("counts flavors, not flavor × pack products", () => {
+    const packs = [
+      { _id: "c1", price: 1190, variantGroup: "P", variantLabel: "Čokoláda" },
+      { _id: "c5", price: 690, variantGroup: "P", variantLabel: "Čokoláda" },
+      { _id: "v1", price: 1190, variantGroup: "P", variantLabel: "Vanilka" },
+    ];
+    const [entry] = groupVariants(packs);
+    expect([entry.product._id, entry.variantCount, entry.minPrice, entry.members.length]).toEqual(["c5", 2, 690, 3]);
+  });
+
+  it("sorts packs by size", () => {
+    expect(["1 kg", "500 g", "2,5 kg"].sort((a, b) => packGrams(a) - packGrams(b))).toEqual(["500 g", "1 kg", "2,5 kg"]);
   });
 
   it("computes price per 100 g", () => {

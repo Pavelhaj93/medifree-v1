@@ -6,6 +6,8 @@ import Image from "next/image";
 import AddToCartButton from "../../others/AddToCartButton";
 import { Button } from "../../ui/Button";
 import { formatPrice } from "@/app/lib/shop/kinds";
+import { ArrowRight } from "lucide-react";
+import { packGrams } from "@/app/lib/shop/variants";
 
 const CATEGORY_BADGE: Record<string, { label: string; variant: "primary" | "tertiary" | "default" | "success" }> = {
   Ebooky: { label: "Ebook", variant: "tertiary" },
@@ -19,19 +21,32 @@ const CATEGORY_BADGE: Record<string, { label: string; variant: "primary" | "tert
 
 const pluralFlavors = (n: number) => (n < 5 ? `${n} příchutě` : `${n} příchutí`);
 
+type ListProduct = AllProductsQueryResult[number];
+
 const ProductCard = ({
   product,
+  members = [],
   variantCount = 1,
   minPrice,
 }: {
-  product: AllProductsQueryResult[number];
-  /** Number of flavors when the card stands for a whole flavor group. */
+  product: ListProduct;
+  /** All flavor × pack products when the card stands for a whole flavor group. */
+  members?: ListProduct[];
+  /** Number of flavors in the group. */
   variantCount?: number;
   minPrice?: number | null;
 }) => {
-  const isGroup = variantCount > 1;
+  const isGroup = members.length > 1;
   const title = isGroup ? (product?.variantGroup ?? product?.title) : product?.title;
-  const categoryBadge = CATEGORY_BADGE[product?.category ?? ""];
+  const flavorDots = Array.from(
+    new Map(members.map((m) => [m.variantLabel ?? m._id, m.variantColor])).entries(),
+  ).filter(([, color]) => color);
+  const packs = Array.from(new Set(members.map((m) => m.packLabel).filter(Boolean))).sort(
+    (a, b) => packGrams(a) - packGrams(b),
+  );
+  const categoryBadge = product?.label
+    ? { label: product.label, variant: "primary" as const }
+    : CATEGORY_BADGE[product?.category ?? ""];
   const isBundle = product?.category === "Balíčky";
   const bundleCount = product?.bundleItems?.length ?? 0;
   const originalPrice = product?.originalPrice;
@@ -67,11 +82,6 @@ const ProductCard = ({
             {categoryBadge.label}
           </Badge>
         )}
-        {isGroup && (
-          <Badge size="sm" variant="primary" className="absolute bottom-2 right-2">
-            {pluralFlavors(variantCount)}
-          </Badge>
-        )}
         {unavailable && !isGroup && (
           <Badge size="sm" variant="default" className="absolute bottom-2 left-2 bg-white/90">
             Momentálně nedostupné
@@ -88,6 +98,23 @@ const ProductCard = ({
             title
           )}
         </h3>
+        {isGroup && (
+          <div className="mb-2 flex flex-wrap items-center gap-2 text-sm text-gray-600">
+            {flavorDots.length > 0 && (
+              <span className="flex gap-1" aria-hidden>
+                {flavorDots.map(([name, color]) => (
+                  <span
+                    key={name}
+                    title={name}
+                    className="h-3 w-3 rounded-full shadow-[inset_0_0_0_1px_rgba(0,0,0,0.2)]"
+                    style={{ background: color ?? undefined }}
+                  />
+                ))}
+              </span>
+            )}
+            <span>{[pluralFlavors(variantCount), packs.join(" / ")].filter(Boolean).join(" · ")}</span>
+          </div>
+        )}
         {isBundle && bundleCount > 0 && (
           <p className="text-sm text-gray-500 mb-2">
             Obsahuje {bundleCount} {bundleCount === 1 ? "produkt" : bundleCount < 5 ? "produkty" : "produktů"}
@@ -103,14 +130,20 @@ const ProductCard = ({
                 {originalPrice} Kč
               </span>
             )}
-            <span className="text-xl font-bold">
-              {isGroup ? `od ${formatPrice(minPrice ?? product?.price ?? 0)}` : formatPrice(product?.price ?? 0)}
-            </span>
+            {isGroup ? (
+              <span className="flex items-baseline gap-1.5">
+                <span className="text-sm text-gray-600">od</span>
+                <span className="text-xl font-bold">{formatPrice(minPrice ?? product?.price ?? 0)}</span>
+              </span>
+            ) : (
+              <span className="text-xl font-bold">{formatPrice(product?.price ?? 0)}</span>
+            )}
           </div>
           {isGroup && href ? (
             <Link href={href}>
               <Button size="sm" className="rounded-full min-h-11 px-4">
                 Vybrat příchuť
+                <ArrowRight className="h-3.5 w-3.5" aria-hidden />
               </Button>
             </Link>
           ) : (

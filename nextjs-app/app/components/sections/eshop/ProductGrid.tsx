@@ -6,7 +6,7 @@ import { AllProductsQueryResult } from "@/sanity.types";
 import { useState } from "react";
 import { groupVariants } from "@/app/lib/shop/variants";
 
-const PAGE_SIZE = 24;
+const PAGE_SIZE = 12;
 
 export default function ProductGridSection({
   products,
@@ -61,6 +61,7 @@ export default function ProductGridSection({
               <ProductCard
                 key={product.product._id}
                 product={product.product}
+                members={product.members}
                 variantCount={product.variantCount}
                 minPrice={product.minPrice}
               />

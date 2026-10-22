@@ -98,13 +98,29 @@ export const product = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'isAvailable',
-      title: 'Skladem',
-      type: 'boolean',
+      name: 'stockStatus',
+      title: 'Stav skladu',
+      type: 'string',
       group: 'main',
-      initialValue: true,
-      description: 'Vypněte, pokud produkt momentálně nejde objednat.',
+      initialValue: 'in',
+      options: {
+        list: [
+          {title: 'Skladem', value: 'in'},
+          {title: 'Poslední kusy', value: 'low'},
+          {title: 'Vyprodáno', value: 'out'},
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      description: 'Zobrazí se na webu jako semafor. Vyprodané zboží nejde objednat.',
       hidden: ({document}) => !isCategory(document as DocWithCategory, PHYSICAL),
+    }),
+    defineField({
+      name: 'label',
+      title: 'Štítek kategorie',
+      type: 'string',
+      group: 'main',
+      description: 'Krátký štítek na detailu a kartě, např. „Sportovní výživa“. Prázdné = podle kategorie.',
     }),
     defineField({
       name: 'gallery',
@@ -132,16 +148,49 @@ export const product = defineType({
       title: 'Pro koho to je',
       type: 'array',
       group: 'detail',
-      description: 'Krátké odrážky – komu produkt pomůže (např. „Lidem, kteří začínají se senzorem“).',
-      of: [defineArrayMember({type: 'string'})],
+      description: 'Komu produkt pomůže – tučný titulek a krátké vysvětlení.',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'audience',
+          title: 'Pro koho',
+          fields: [
+            defineField({name: 'title', title: 'Titulek (tučně)', type: 'string', description: 'Např. „Sportujícím“'}),
+            defineField({name: 'text', title: 'Vysvětlení', type: 'string', description: 'Např. „jako doplnění bílkovin po tréninku“'}),
+          ],
+          preview: {select: {title: 'title', subtitle: 'text'}},
+        }),
+      ],
+    }),
+    defineField({
+      name: 'notSuitableFor',
+      title: 'Není vhodné',
+      type: 'string',
+      group: 'detail',
+      description: 'Např. „při alergii na mléčnou bílkovinu. Při onemocnění ledvin se poraďte s lékařem.“',
     }),
     defineField({
       name: 'benefits',
       title: 'Co získáte',
       type: 'array',
       group: 'detail',
-      description: 'Krátké odrážky – konkrétní přínosy nebo obsah balení.',
-      of: [defineArrayMember({type: 'string'})],
+      description: 'Dlaždice s výrazným číslem nebo slovem nahoře.',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'benefit',
+          title: 'Přínos',
+          fields: [
+            defineField({name: 'highlight', title: 'Výrazný údaj', type: 'string', description: 'Např. „22 g“ nebo „14 dní“'}),
+            defineField({name: 'title', title: 'Titulek', type: 'string', description: 'Např. „bílkovin v porci“'}),
+            defineField({name: 'text', title: 'Popis', type: 'string'}),
+          ],
+          preview: {
+            select: {highlight: 'highlight', title: 'title', subtitle: 'text'},
+            prepare: ({highlight, title, subtitle}) => ({title: [highlight, title].filter(Boolean).join(' '), subtitle}),
+          },
+        }),
+      ],
     }),
     defineField({
       name: 'variantGroup',
@@ -165,6 +214,35 @@ export const product = defineType({
             ? 'Vyplňte název příchutě, když je produkt ve skupině'
             : true,
         ),
+    }),
+    defineField({
+      name: 'packLabel',
+      title: 'Balení',
+      type: 'string',
+      group: 'variant',
+      description: 'Např. „500 g“ nebo „1 kg“. Každá kombinace příchuť × balení je samostatný produkt ve stejné skupině.',
+      hidden: ({document}) => !isCategory(document as DocWithCategory, PHYSICAL),
+    }),
+    defineField({
+      name: 'variantColor',
+      title: 'Barva příchutě',
+      type: 'string',
+      group: 'variant',
+      description: 'Barevná tečka u příchutě na webu.',
+      options: {
+        list: [
+          {title: 'Čokoládová', value: '#6b4423'},
+          {title: 'Vanilková', value: '#f3dc8a'},
+          {title: 'Karamelová', value: '#c98a3b'},
+          {title: 'Jahodová', value: '#e46b7a'},
+          {title: 'Banánová', value: '#f5e27a'},
+          {title: 'Kokosová', value: '#efe7da'},
+          {title: 'Pistáciová', value: '#a8c686'},
+          {title: 'Kávová', value: '#8a5a3c'},
+          {title: 'Bílá / bez příchutě', value: '#ffffff'},
+        ],
+      },
+      hidden: ({document}) => !isCategory(document as DocWithCategory, PHYSICAL),
     }),
     defineField({
       name: 'netWeight',
@@ -286,6 +364,13 @@ export const product = defineType({
           title: 'Výrobce / distributor a adresa',
           type: 'text',
           rows: 2,
+          hidden: ({parent}) => !parent?.enabled,
+        }),
+        defineField({
+          name: 'bestBefore',
+          title: 'Minimální trvanlivost',
+          type: 'string',
+          description: 'Např. „Uvedena na spodní straně balení.“',
           hidden: ({parent}) => !parent?.enabled,
         }),
         defineField({

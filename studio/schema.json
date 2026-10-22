@@ -4517,10 +4517,31 @@
         },
         "optional": false
       },
-      "isAvailable": {
+      "stockStatus": {
         "type": "objectAttribute",
         "value": {
-          "type": "boolean"
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "in"
+            },
+            {
+              "type": "string",
+              "value": "low"
+            },
+            {
+              "type": "string",
+              "value": "out"
+            }
+          ]
+        },
+        "optional": true
+      },
+      "label": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
         },
         "optional": true
       },
@@ -4605,8 +4626,49 @@
         "value": {
           "type": "array",
           "of": {
-            "type": "string"
+            "type": "object",
+            "attributes": {
+              "title": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "text": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "_type": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string",
+                  "value": "audience"
+                }
+              }
+            },
+            "rest": {
+              "type": "object",
+              "attributes": {
+                "_key": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
+        },
+        "optional": true
+      },
+      "notSuitableFor": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
         },
         "optional": true
       },
@@ -4615,7 +4677,48 @@
         "value": {
           "type": "array",
           "of": {
-            "type": "string"
+            "type": "object",
+            "attributes": {
+              "highlight": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "title": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "text": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "_type": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string",
+                  "value": "benefit"
+                }
+              }
+            },
+            "rest": {
+              "type": "object",
+              "attributes": {
+                "_key": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         },
         "optional": true
@@ -4631,6 +4734,58 @@
         "type": "objectAttribute",
         "value": {
           "type": "string"
+        },
+        "optional": true
+      },
+      "packLabel": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "variantColor": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "#6b4423"
+            },
+            {
+              "type": "string",
+              "value": "#f3dc8a"
+            },
+            {
+              "type": "string",
+              "value": "#c98a3b"
+            },
+            {
+              "type": "string",
+              "value": "#e46b7a"
+            },
+            {
+              "type": "string",
+              "value": "#f5e27a"
+            },
+            {
+              "type": "string",
+              "value": "#efe7da"
+            },
+            {
+              "type": "string",
+              "value": "#a8c686"
+            },
+            {
+              "type": "string",
+              "value": "#8a5a3c"
+            },
+            {
+              "type": "string",
+              "value": "#ffffff"
+            }
+          ]
         },
         "optional": true
       },
@@ -4859,6 +5014,13 @@
               "optional": true
             },
             "producer": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
+            },
+            "bestBefore": {
               "type": "objectAttribute",
               "value": {
                 "type": "string"
@@ -6424,6 +6586,20 @@
               "optional": true
             },
             "email": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
+            },
+            "phone": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
+            },
+            "instagram": {
               "type": "objectAttribute",
               "value": {
                 "type": "string"
