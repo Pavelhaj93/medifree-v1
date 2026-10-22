@@ -29,6 +29,23 @@ const image = (ref: string, key?: string) => ({
   asset: {_type: 'reference', _ref: ref},
 })
 
+const styled = (style: string, text: string, key: string, listItem?: 'bullet') => ({
+  ...block(text, key),
+  style,
+  ...(listItem ? {listItem, level: 1} : {}),
+})
+
+// Free Unsplash photos (Unsplash License) for the demo protein. Sanity dedupes identical uploads.
+async function uploadUnsplash(id: string) {
+  const res = await fetch(`https://unsplash.com/photos/${id}/download?force=true&w=1600`)
+  if (!res.ok) throw new Error(`Unsplash ${id}: HTTP ${res.status}`)
+  const asset = await client.assets.upload('image', Buffer.from(await res.arrayBuffer()), {
+    filename: `unsplash-${id}.jpg`,
+    source: {name: 'unsplash', id, url: `https://unsplash.com/photos/${id}`},
+  })
+  return asset._id
+}
+
 async function run() {
   if (!DATASET) throw new Error('Pass the target dataset: -- --dataset <name>')
   if (DATASET === LIVE_DATASET && !remove) {
@@ -171,16 +188,50 @@ async function run() {
     children: parts.map(([text, bold], i) => ({_type: 'span', _key: `${key}${i}`, text, marks: bold ? ['strong'] : []})),
   })
   const flavors = [
-    {id: 'choco', label: 'Čokoláda', color: '#6b4423', stock: ['in', 'in'], extra: 'kakao 8 %'},
-    {id: 'vanilla', label: 'Vanilka', color: '#f3dc8a', stock: ['in', 'low'], extra: 'vanilkové aroma'},
-    {id: 'caramel', label: 'Slaný karamel', color: '#c98a3b', stock: ['out', 'out'], extra: 'karamelové aroma, sůl'},
-    {id: 'plain', label: 'Bez příchutě', color: '#ffffff', stock: ['in', 'in'], extra: ''},
+    {id: 'choco', label: 'Čokoláda', color: '#6b4423', stock: ['in', 'in'], extra: 'kakao 8 %', photo: 'R23MqZKCBcM'},
+    {id: 'vanilla', label: 'Vanilka', color: '#f3dc8a', stock: ['in', 'low'], extra: 'vanilkové aroma', photo: '4CzpHxVzTFA'},
+    {id: 'caramel', label: 'Slaný karamel', color: '#c98a3b', stock: ['out', 'out'], extra: 'karamelové aroma, sůl', photo: 'h2fn-gkM60A'},
+    {id: 'plain', label: 'Bez příchutě', color: '#ffffff', stock: ['in', 'in'], extra: '', photo: 'Q3s_6CRpEU4'},
+  ]
+  const flavorPhoto = Object.fromEntries(
+    await Promise.all(flavors.map(async (f) => [f.id, await uploadUnsplash(f.photo)] as const)),
+  )
+  const galleryPhotos = [
+    {id: 'wxtscG-05wo', alt: 'Odměrka proteinu na dřevěném stole'},
+    {id: '__QqvTI5Edc', alt: 'Proteinový nápoj v ruce, vedle činky'},
+    {id: 'ixYNwpnRsGU', alt: 'Příprava proteinového nápoje v šejkru'},
+    {id: 'UNs7kXHGIe0', alt: 'Lžičky s proteinem v různých příchutích'},
+  ]
+  const gallery = await Promise.all(
+    galleryPhotos.map(async (p, i) => ({...image(await uploadUnsplash(p.id), `g${i}`), alt: p.alt})),
+  )
+  const proteinBody = [
+    styled('h3', 'Proč syrovátkový protein', 'pb1'),
+    block(
+      'Syrovátka je nejlépe prozkoumaný zdroj bílkovin. Tělo ji rychle vstřebá a obsahuje všech 9 esenciálních aminokyselin včetně leucinu, který spouští stavbu svalové hmoty. Jedna porce dodá 22 g bílkovin a jen 1,5 g cukru, takže glykémii téměř nerozhoupe.',
+      'pb2',
+    ),
+    styled('h3', 'Kdy ho použít', 'pb3'),
+    styled('normal', 'Do 2 hodin po tréninku na podporu regenerace svalů.', 'pb4', 'bullet'),
+    styled('normal', 'Ke snídani, když nestíháte nebo máte málo bílkovin.', 'pb5', 'bullet'),
+    styled('normal', 'Jako sytá svačina, která vás udrží do dalšího jídla bez výkyvů cukru.', 'pb6', 'bullet'),
+    styled('normal', 'Do kaše, jogurtu nebo palačinek místo části mouky.', 'pb7', 'bullet'),
+    styled('h3', 'Jak vybíráme', 'pb8'),
+    block(
+      'Doporučujeme jen produkty, které sami používáme s klienty při monitoraci glykémie. U proteinu jsme hlídali krátké složení bez plnidel a přidaného cukru, dobrou rozpustnost a chuť, která nepřebije jídlo, do kterého ho přidáte.',
+      'pb9',
+    ),
+    styled('h3', 'Tip od nás', 'pb10'),
+    block(
+      'Při nošení senzoru si vyzkoušejte, jak na vás působí stejná snídaně s proteinem a bez něj. Rozdíl v křivce glykémie bývá vidět na první pohled.',
+      'pb11',
+    ),
   ]
   const packs = [
     {id: '500', label: '500 g', grams: 500, servings: 16, price: 690},
     {id: '1000', label: '1 kg', grams: 1000, servings: 33, price: 1190},
   ]
-  flavors.forEach((f, i) => {
+  flavors.forEach((f) => {
     packs.forEach((pack, j) => {
       tx.createOrReplace({
         _id: `seed-protein-${f.id}-${pack.id}`,
@@ -192,8 +243,9 @@ async function run() {
         price: f.id === 'plain' ? pack.price - 100 : pack.price,
         stockStatus: f.stock[j],
         description:
-          'Čistý syrovátkový koncentrát s 22 g bílkovin v porci, který doplní snídani nebo jídlo po tréninku. Ukázkový produkt – údaje jsou smyšlené.',
-        image: image(img(i)),
+          'Čistý syrovátkový koncentrát s 22 g bílkovin a jen 1,5 g cukru v porci. Doplní snídani, svačinu i jídlo po tréninku, snadno se rozmíchá ve vodě i v mléce a nerozhodí glykémii.',
+        image: image(flavorPhoto[f.id]),
+        gallery,
         variantGroup: 'Syrovátkový protein (TEST)',
         variantLabel: f.label,
         variantColor: f.color,
@@ -213,7 +265,7 @@ async function run() {
           {_key: 'b3', _type: 'benefit', highlight: `${pack.servings}`, title: 'porcí v balení', text: 'Při 1 porci denně vystačí na dlouho.'},
           {_key: 'b4', _type: 'benefit', highlight: '0', title: 'přidaného cukru', text: 'Bez plnidel a přidaného cukru.'},
         ],
-        body: [block('Protein vyráběný z kvalitní syrovátky. Ukázkový text popisu pro testování e-shopu.', 'pb1')],
+        body: proteinBody,
         foodInfo: {
           enabled: true,
           isSupplement: true,
