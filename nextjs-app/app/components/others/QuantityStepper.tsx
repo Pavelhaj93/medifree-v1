@@ -14,7 +14,7 @@ export default function QuantityStepper({ value, max, onChange, label = "Počet 
     <div className="inline-flex items-center border border-gray-200 rounded-full bg-white" role="group" aria-label={label}>
       <button
         type="button"
-        className="p-2 hover:bg-gray-100 rounded-l-full cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+        className="inline-flex h-11 w-11 items-center justify-center hover:bg-gray-100 rounded-l-full cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
         onClick={() => onChange(value - 1)}
         disabled={value <= 1}
         aria-label="Odebrat kus"
@@ -26,7 +26,7 @@ export default function QuantityStepper({ value, max, onChange, label = "Počet 
       </span>
       <button
         type="button"
-        className="p-2 hover:bg-gray-100 rounded-r-full cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+        className="inline-flex h-11 w-11 items-center justify-center hover:bg-gray-100 rounded-r-full cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
         onClick={() => onChange(value + 1)}
         disabled={value >= max}
         aria-label="Přidat kus"

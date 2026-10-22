@@ -242,7 +242,7 @@ const CartClient = ({
                         />
                       )}
                       <button
-                        className="text-gray-400 hover:text-red-500 flex items-center cursor-pointer"
+                        className="text-gray-500 hover:text-red-600 flex items-center min-h-11 px-2 cursor-pointer"
                         type="button"
                         onClick={() => removeItem(item.id)}
                       >
@@ -346,7 +346,7 @@ const CartClient = ({
             )}
 
             <Button
-              className="w-full"
+              className="w-full min-h-11"
               onClick={handleCheckout}
               disabled={
                 isCheckingOut ||

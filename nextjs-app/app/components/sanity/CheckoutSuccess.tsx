@@ -105,7 +105,7 @@ export default function CheckoutSuccess({
         <div className="mt-8 pt-6 border-t border-gray-200">
           <p className="text-sm text-gray-500">
             {supportText}{" "}
-            <Link href="/kontakt" className="text-blue-600 hover:text-blue-500">
+            <Link href="/kontakt" className="text-primary underline-offset-4 hover:underline">
               {contactLinkText}
             </Link>
           </p>
@@ -130,12 +130,12 @@ function DeliveryInfo({ boxes }: { boxes: Record<"digital" | "physical" | "vouch
       {(types.length ? types : (["digital"] as const)).map((type) => {
         const Icon = ICONS[type];
         return (
-          <div key={type} className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4 last:mb-6">
+          <div key={type} className="bg-secondary/30 border border-secondary rounded-lg p-4 mb-4 last:mb-6">
             <div className="flex items-center justify-center mb-2">
-              <Icon className="w-5 h-5 text-blue-600 mr-2" />
-              <span className="font-medium text-blue-900">{boxes[type].title}</span>
+              <Icon className="w-5 h-5 text-primary mr-2" />
+              <span className="font-medium text-primary">{boxes[type].title}</span>
             </div>
-            <p className="text-sm text-blue-800">{boxes[type].description}</p>
+            <p className="text-sm text-gray-800">{boxes[type].description}</p>
           </div>
         );
       })}

@@ -79,7 +79,7 @@ export default function PacketaPointPicker({ value, onChange, buttonText }: Prop
           <Button
             type="button"
             variant="outline"
-            className="w-full"
+            className="w-full min-h-11"
             onClick={() =>
               onChange({ id: "TEST-0000", name: "Testovací Z-BOX (jen test)", address: "Testovací 1, 110 00 Praha" })
             }
@@ -129,7 +129,7 @@ export default function PacketaPointPicker({ value, onChange, buttonText }: Prop
       <Button
         type="button"
         variant={value ? "outline" : "primary"}
-        className="w-full"
+        className="w-full min-h-11"
         onClick={open}
         disabled={loading}
       >

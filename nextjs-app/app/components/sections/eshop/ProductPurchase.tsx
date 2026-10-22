@@ -24,10 +24,10 @@ export default function ProductPurchase({ product }: Props) {
       {max > 1 && !unavailable && (
         <QuantityStepper value={quantity} max={max} onChange={setQuantity} />
       )}
-      <AddToCartButton product={product} quantity={quantity} size="lg" className="rounded-full" />
+      <AddToCartButton product={product} quantity={quantity} size="lg" className="rounded-full min-h-11" />
       {isInCart(product._id) && (
         <Link href="/kosik">
-          <Button variant="outline" size="lg" className="rounded-full w-full sm:w-auto">
+          <Button variant="outline" size="lg" className="rounded-full min-h-11 w-full sm:w-auto">
             Přejít do košíku
           </Button>
         </Link>

@@ -93,6 +93,30 @@ export const settings = defineType({
       ],
     }),
     defineField({
+      name: 'company',
+      title: 'Firma (patička webu)',
+      type: 'object',
+      description: 'Údaje o provozovateli – podnikatel je musí mít na webu uvedené.',
+      options: {collapsible: true, collapsed: false},
+      fields: [
+        defineField({name: 'name', title: 'Název firmy', type: 'string', initialValue: 'Medifree s.r.o.'}),
+        defineField({
+          name: 'address',
+          title: 'Sídlo',
+          type: 'string',
+          initialValue: 'Na Kotli 1176/29, 500 09 Hradec Králové',
+        }),
+        defineField({name: 'ico', title: 'IČO', type: 'string', initialValue: '23153041'}),
+        defineField({name: 'email', title: 'E-mail', type: 'string', initialValue: 'info@medifree.cz'}),
+        defineField({
+          name: 'registry',
+          title: 'Zápis v rejstříku',
+          type: 'string',
+          description: 'Např. „Spisová značka C 12345 vedená u Krajského soudu v Hradci Králové“.',
+        }),
+      ],
+    }),
+    defineField({
       name: 'shop',
       title: 'E-shop',
       type: 'object',

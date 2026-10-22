@@ -31,7 +31,7 @@ const AddToCartButton = ({ product, quantity = 1, size = "sm", className }: Prop
     <Button
       size={size}
       variant={alreadyBought || unavailable ? "secondary" : "primary"}
-      className={className ?? "rounded-full"}
+      className={className ?? "rounded-full min-h-11 px-4"}
       disabled={alreadyBought || unavailable}
       onClick={() => {
         const { added, max } = addItem(product, quantity);
