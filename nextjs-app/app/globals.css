@@ -13,6 +13,8 @@
   --color-primary: #034c4c;
   --color-secondary: #b4e8ed;
   --color-tertiary: #f09fa6;
+  /* Text, dots and icons on tertiary: 5.04:1 on #f09fa6 (WCAG AA) */
+  --color-on-tertiary: #404040;
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;

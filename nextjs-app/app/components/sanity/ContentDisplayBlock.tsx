@@ -155,7 +155,7 @@ export default function ContentDisplayBlock({
                 <Badge key={item} variant={color} className="uppercase">
                   <span
                     className={`w-2 h-2 ${
-                      color === "tertiary" ? "bg-[#171717]" : "bg-primary"
+                      color === "tertiary" ? "bg-on-tertiary" : "bg-primary"
                     } rounded-full inline-block mr-2`}
                   />
                   {item}

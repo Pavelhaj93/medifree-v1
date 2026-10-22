@@ -82,7 +82,7 @@ export default function ContentDisplayBlockCompact({
                       }
                       className={`${
                         color === "tertiary"
-                          ? "bg-tertiary hover:bg-tertiary/90 text-[#171717]"
+                          ? "bg-tertiary hover:bg-tertiary/90 text-on-tertiary"
                           : "bg-primary hover:bg-primary/90 text-white"
                       } rounded-full px-5 py-2.5 flex items-center transition`}
                     >
