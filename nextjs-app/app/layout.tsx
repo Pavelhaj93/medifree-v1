@@ -82,7 +82,7 @@ export default async function RootLayout({
       <body className={`${satoshi.className}`}>
         <section className="bg-white min-h-screen text-black">
           {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
-          <Toaster />
+          <Toaster toastOptions={{ classNames: { actionButton: "!bg-primary !text-white !rounded-full !px-3" } }} />
           {isDraftMode && (
             <>
               <DraftModeToast />

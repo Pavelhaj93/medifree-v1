@@ -197,7 +197,7 @@ export default async function ProductPage(props: Props) {
 
             <VariantSwitcher variants={product.variants ?? []} current={product} />
 
-            <ProductPurchase product={product} variantName={variantName} />
+            <ProductPurchase product={product} />
 
             {food?.isSupplement && (
               <p className="mt-6 flex gap-2.5 rounded-xl bg-secondary/30 px-4 py-3 text-sm leading-relaxed text-gray-700">
