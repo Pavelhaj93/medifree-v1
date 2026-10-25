@@ -10,7 +10,7 @@
     "prebuild": "npm run extract-types",
     "build": "sanity build",
     "deploy": "SANITY_STUDIO_DATASET=test sanity deploy",
-    "deploy:preview": "SANITY_STUDIO_APP_ID=j5x3d1067t90dssmw07ek4ja SANITY_STUDIO_DATASET=production sanity deploy",
+    "deploy:preview": "SANITY_STUDIO_APP_ID=j5x3d1067t90dssmw07ek4ja SANITY_STUDIO_DATASET=production SANITY_STUDIO_PREVIEW_URL=https://medifree-v1-nextjs-app-git-feat-esh-20ebb6-pavelhaj93s-projects.vercel.app sanity deploy",
     "extract-types": "sanity schema extract --enforce-required-fields",
     "typegen": "sanity typegen generate"
   },
