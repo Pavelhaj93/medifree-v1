@@ -1,6 +1,7 @@
 import {BasketIcon, CogIcon, PackageIcon, TagIcon} from '@sanity/icons'
 import type {StructureBuilder, StructureResolver} from 'sanity/structure'
 import pluralize from 'pluralize-esm'
+import {PRODUCT_CATEGORIES} from '../schemaTypes/templates'
 
 /**
  * Structure builder is useful whenever you want to control how documents are grouped and
@@ -9,7 +10,7 @@ import pluralize from 'pluralize-esm'
  */
 
 const DISABLED_TYPES = ['settings', 'assist.instruction.context']
-const SHOP_TYPES = ['product', 'order', 'voucher']
+const SHOP_TYPES = ['product', 'material', 'order', 'voucher']
 
 const filteredList = (
   S: StructureBuilder,
@@ -18,17 +19,58 @@ const filteredList = (
   schemaType: string,
   filter: string,
   orderField: string,
+  options: {
+    params?: Record<string, string>
+    direction?: 'asc' | 'desc'
+    templates?: ReturnType<StructureBuilder['initialValueTemplateItem']>[]
+  } = {},
 ) =>
   S.listItem()
     .id(id)
     .title(title)
     .schemaType(schemaType)
-    .child(
-      S.documentTypeList(schemaType)
+    .child(() => {
+      let list = S.documentTypeList(schemaType)
         .title(title)
         .filter(filter)
+        .params(options.params ?? {})
         .apiVersion('2024-10-28')
-        .defaultOrdering([{field: orderField, direction: 'desc'}]),
+        .defaultOrdering([{field: orderField, direction: options.direction ?? 'desc'}])
+      if (options.templates) list = list.initialValueTemplates(options.templates)
+      return list
+    })
+
+const products = (S: StructureBuilder) =>
+  S.listItem()
+    .id('products')
+    .title('Produkty')
+    .icon(BasketIcon)
+    .child(
+      S.list()
+        .title('Produkty')
+        .items([
+          S.documentTypeListItem('product').title('Všechny produkty'),
+          S.divider(),
+          ...PRODUCT_CATEGORIES.map((category, i) =>
+            filteredList(
+              S,
+              `products-category-${i}`,
+              category,
+              'product',
+              '_type == "product" && category == $category',
+              'title',
+              {
+                params: {category},
+                direction: 'asc',
+                templates: [S.initialValueTemplateItem('product-by-category', {category})],
+              },
+            ),
+          ),
+          S.divider(),
+          filteredList(S, 'products-uncategorized', 'Bez kategorie', 'product', '_type == "product" && !defined(category)', 'title', {
+            direction: 'asc',
+          }),
+        ]),
     )
 
 const shop = (S: StructureBuilder) =>
@@ -40,7 +82,8 @@ const shop = (S: StructureBuilder) =>
       S.list()
         .title('E-shop')
         .items([
-          S.documentTypeListItem('product').title('Produkty'),
+          products(S),
+          S.documentTypeListItem('material').title('Materiály po zaplacení'),
           S.listItem()
             .id('orders')
             .title('Objednávky')

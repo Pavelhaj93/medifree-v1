@@ -11,6 +11,7 @@ import {
   summarizeLines,
   toMinorUnits,
 } from "@/app/lib/shop/pricing";
+import { deliveryOption } from "@/app/lib/shop/shipping";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -33,6 +34,7 @@ const requestSchema = z.preprocess(
       .array(z.object({ id: z.string().min(1), quantity: z.number().int().min(1).max(50) }))
       .min(1)
       .max(50),
+    delivery: z.enum(["packeta", "pickup"]).default("packeta"),
     packetaPoint: z
       .object({
         id: z.string().min(1).max(50),
@@ -52,7 +54,7 @@ export async function POST(req: NextRequest) {
   if (!parsed.success) {
     return errorResponse("Zkontrolujte prosím e-mail a obsah košíku.");
   }
-  const { email, items, packetaPoint } = parsed.data;
+  const { email, items, delivery, packetaPoint } = parsed.data;
 
   // Same host the customer is on: production, a Vercel preview or localhost.
   const baseUrl = req.nextUrl.origin;
@@ -68,20 +70,25 @@ export async function POST(req: NextRequest) {
     const summary = summarizeLines(lines);
     const imageById = new Map(products.map((p) => [p._id, p.image]));
 
-    if (summary.hasPhysical && !packetaPoint) {
+    const shipping = summary.hasPhysical ? deliveryOption(shop, delivery) : undefined;
+    if (summary.hasPhysical && !shipping) {
+      return errorResponse("Osobní odběr teď nenabízíme. Vyberte prosím doručení Zásilkovnou.");
+    }
+    if (shipping?.type === "packeta" && !packetaPoint) {
       return errorResponse("Pro dokončení objednávky vyberte výdejní místo Zásilkovny.");
     }
-    if (summary.hasPhysical && shop?.packetaPrice == null) {
+    if (shipping && shipping.price == null) {
       console.error("Shipping price is not set in Sanity (Settings → E-shop)");
       return errorResponse("Doprava teď nejde objednat. Kontaktujte nás prosím na info@medifree.cz.");
     }
 
-    const shippingLabel = shop?.packetaLabel || "Zásilkovna – výdejní místo nebo Z-BOX";
     const params: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: ["card"],
       mode: "payment",
       locale: "cs",
-      success_url: `${baseUrl}/uspech?session_id={CHECKOUT_SESSION_ID}&types=${summary.kinds.join(",")}`,
+      success_url: `${baseUrl}/uspech?session_id={CHECKOUT_SESSION_ID}&types=${summary.kinds.join(",")}${
+        shipping?.type === "pickup" ? "&delivery=pickup" : ""
+      }`,
       cancel_url: `${baseUrl}/kosik`,
       customer_email: email,
       billing_address_collection: "required",
@@ -103,14 +110,15 @@ export async function POST(req: NextRequest) {
       }),
       metadata: {
         kinds: summary.kinds.join(","),
-        ...(summary.hasPhysical && packetaPoint
+        ...(shipping ? { shipping_type: shipping.type, shipping_label: shipping.label } : {}),
+        ...(shipping?.type === "packeta" && packetaPoint
           ? {
-              shipping_label: shippingLabel,
               packeta_point_id: packetaPoint.id,
               packeta_point_name: packetaPoint.name,
               packeta_point_address: packetaPoint.address,
             }
           : {}),
+        ...(shipping?.type === "pickup" ? { pickup_address: shipping.address ?? "" } : {}),
       },
       custom_text: {
         submit: {
@@ -119,14 +127,14 @@ export async function POST(req: NextRequest) {
       },
     };
 
-    if (summary.hasPhysical) {
+    if (shipping) {
       params.phone_number_collection = { enabled: true };
       params.shipping_options = [
         {
           shipping_rate_data: {
             type: "fixed_amount",
-            display_name: shippingLabel,
-            fixed_amount: { amount: toMinorUnits(shop?.packetaPrice ?? 0), currency: "czk" }, // checked above
+            display_name: shipping.label,
+            fixed_amount: { amount: toMinorUnits(shipping.price ?? 0), currency: "czk" }, // checked above
           },
         },
       ];

@@ -80,7 +80,7 @@ export const getPageQuery = defineQuery(`
       },
       _type == "cart" => {
         ...,
-        "shop": *[_type == "settings"][0].shop{ dispatchTime, packetaLabel, packetaPrice, voucherRedeemInfo }
+        "shop": *[_type == "settings"][0].shop{ dispatchTime, packetaLabel, packetaPrice, voucherRedeemInfo, pickupEnabled, pickupLabel, pickupAddress, pickupInfo }
       },
       _type == "freeResourcesSection" => {
         ...,

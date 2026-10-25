@@ -137,6 +137,44 @@ export const product = defineType({
       ],
     }),
     defineField({
+      name: 'trailer',
+      title: 'Ukázka (video)',
+      type: 'object',
+      group: 'detail',
+      description:
+        'Trailer nebo ukázka k produktu. Na detailu produktu se zobrazí v galerii hned za hlavním obrázkem. Vložte odkaz na YouTube/Vimeo, nebo nahrajte video.',
+      options: {collapsible: true, collapsed: false},
+      fields: [
+        defineField({
+          name: 'url',
+          title: 'Odkaz na YouTube nebo Vimeo',
+          type: 'url',
+          description: 'Stačí zkopírovat adresu videa z prohlížeče. U YouTube může být video i „neveřejné“.',
+          validation: (rule) =>
+            rule.uri({scheme: ['https']}).custom((url) =>
+              !url || /(youtube\.com|youtu\.be|vimeo\.com)\//.test(url)
+                ? true
+                : 'Podporujeme odkazy z YouTube a Vimeo. Jiné video nahrajte jako soubor.',
+            ),
+        }),
+        defineField({
+          name: 'file',
+          title: 'Nebo nahrané video',
+          type: 'file',
+          description: 'Použije se, jen když není vyplněný odkaz. Ideálně MP4 do 100 MB.',
+          options: {accept: 'video/mp4,video/webm,video/quicktime'},
+        }),
+        defineField({
+          name: 'poster',
+          title: 'Náhledový obrázek',
+          type: 'image',
+          description:
+            'Nepovinné. Bez něj se u YouTube použije náhled z YouTube, jinak hlavní obrázek produktu.',
+          options: {hotspot: true},
+        }),
+      ],
+    }),
+    defineField({
       name: 'body',
       title: 'Podrobný popis',
       type: 'blockContent',
@@ -416,6 +454,16 @@ export const product = defineType({
         accept: 'video/*',
       },
       hidden: ({document}) => document?.category !== 'Video kurzy',
+    }),
+    defineField({
+      name: 'materials',
+      title: 'Materiály po zaplacení',
+      type: 'array',
+      group: 'files',
+      description:
+        'Videa, PDF a další soubory, které zákazník dostane e-mailem po zaplacení – libovolný počet. Materiály se spravují v E-shop → Materiály po zaplacení a stejný materiál můžete přidat k více produktům. U balíčku dostane zákazník i materiály všech produktů v balíčku.',
+      of: [defineArrayMember({type: 'reference', to: [{type: 'material'}]})],
+      validation: (rule) => rule.unique(),
     }),
     defineField({
       name: 'originalPrice',

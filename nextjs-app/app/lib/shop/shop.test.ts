@@ -6,6 +6,9 @@ import { customerOrderEmail, adminOrderEmail, type OrderEmailData } from "./emai
 import { getDeliveryFiles, uniqueFiles } from "./delivery";
 import { reconcileCart } from "./cart";
 import { groupVariants, packGrams, pricePer100g } from "./variants";
+import { estimateLines, splitLongWord, VOUCHER_LEVELS, voucherLayout } from "./voucherLayout";
+import { deliveryOptions } from "./shipping";
+import { parseVideoUrl } from "@/app/lib/video";
 import { escapeHtml } from "@/app/lib/html";
 
 const products = [
@@ -116,6 +119,63 @@ describe("delivery files", () => {
     expect(files).toHaveLength(2);
     expect(uniqueFiles(files)).toHaveLength(1);
   });
+
+  it("adds any number of materials, from the product and from bundle items", () => {
+    const files = getDeliveryFiles({
+      title: "Balíček",
+      category: "Balíčky",
+      materials: [
+        { title: "Úvodní video", url: "https://cdn/intro.mp4", mimeType: "video/mp4" },
+        { title: "Lekce na Vimeu", url: "https://vimeo.com/123456/abcdef" },
+        null,
+        { title: "Bez souboru", url: null },
+      ],
+      bundleItems: [
+        {
+          title: "A",
+          category: "Ebooky",
+          ebookFile: { asset: { url: "https://x/a.pdf" } },
+          materials: [{ title: "Pracovní list", url: "https://cdn/list.pdf", mimeType: "application/pdf" }],
+        },
+      ],
+    });
+    expect(files.map((f) => f.label)).toEqual([
+      "📖 A (PDF)",
+      "📖 Pracovní list",
+      "🎬 Úvodní video",
+      "🎬 Lekce na Vimeu",
+    ]);
+  });
+
+  it("delivers materials of physical products too", () => {
+    const files = getDeliveryFiles({
+      title: "Senzor",
+      category: "Fyzické produkty",
+      materials: [{ title: "Návod", url: "https://cdn/navod.mp4", mimeType: "video/mp4" }],
+    });
+    expect(files).toEqual([{ label: "🎬 Návod", url: "https://cdn/navod.mp4" }]);
+  });
+});
+
+describe("parseVideoUrl", () => {
+  it("embeds YouTube and Vimeo links", () => {
+    for (const url of [
+      "https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=10s",
+      "https://youtu.be/dQw4w9WgXcQ",
+      "https://youtube.com/shorts/dQw4w9WgXcQ",
+    ]) {
+      expect(parseVideoUrl(url)?.embedUrl).toBe("https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0");
+    }
+    expect(parseVideoUrl("https://vimeo.com/123456/abcdef")?.embedUrl).toBe(
+      "https://player.vimeo.com/video/123456?autoplay=1&h=abcdef",
+    );
+  });
+
+  it("rejects other links", () => {
+    expect(parseVideoUrl("https://example.com/video.mp4")).toBeNull();
+    expect(parseVideoUrl("not a url")).toBeNull();
+    expect(parseVideoUrl("https://www.youtube.com/watch?v=short")).toBeNull();
+  });
 });
 
 describe("emails", () => {
@@ -150,6 +210,40 @@ describe("emails", () => {
     expect(mail.html).toContain(escapeHtml("Jana <script>"));
     expect(mail.html).toContain("ID místa");
     expect(mail.subject).toContain("zboží k odeslání");
+  });
+
+  it("describes personal pickup instead of Zásilkovna", () => {
+    const pickup: OrderEmailData = {
+      ...data,
+      shipping: {
+        type: "pickup",
+        label: "Osobní odběr – Krkonoše",
+        price: 0,
+        pointId: "",
+        pointName: "",
+        pointAddress: "Čistá v Krkonoších e. č. 52, 543 44 Černý Důl",
+        info: "Vyzvednutí je po domluvě.",
+      },
+    };
+    const customer = customerOrderEmail(pickup);
+    expect(customer.html).toContain("Čistá v Krkonoších e. č. 52");
+    expect(customer.html).toContain("Vyzvednutí je po domluvě.");
+    expect(customer.html).not.toContain("Zásilkovně");
+    const admin = adminOrderEmail(pickup);
+    expect(admin.subject).toContain("osobní odběr");
+    expect(admin.html).not.toContain("ID místa");
+  });
+});
+
+describe("deliveryOptions", () => {
+  it("offers pickup only when it is enabled and has an address", () => {
+    expect(deliveryOptions({ packetaPrice: 89 }).map((o) => o.type)).toEqual(["packeta"]);
+    expect(deliveryOptions({ packetaPrice: 89, pickupEnabled: true }).map((o) => o.type)).toEqual(["packeta"]);
+    const options = deliveryOptions({ packetaPrice: 89, pickupEnabled: true, pickupAddress: "Černý Důl" });
+    expect(options.map((o) => [o.type, o.price])).toEqual([
+      ["packeta", 89],
+      ["pickup", 0],
+    ]);
   });
 });
 
@@ -214,5 +308,51 @@ describe("groupVariants", () => {
   it("computes price per 100 g", () => {
     expect(pricePer100g(1190, 1000)).toBe(119);
     expect(pricePer100g(1190, null)).toBeNull();
+  });
+});
+
+describe("voucherLayout", () => {
+  const title = "Dárkový poukaz – konzultace během monitorace glykémie";
+  const includes = [
+    "Vstupní konzultace",
+    "Komunikace během funkce senzoru s úpravou režimu",
+    "Zhodnocení a doporučení laboratorního vyšetření",
+    "Úprava životního stylu na míru – doporučení stravy, pohybového režimu, metod snížení stresu a toxické zátěže prostředí",
+    "Vytvoření dlouhodobého plánu",
+    "Přístup k našim průvodcům na e-shopu",
+  ].join("\n");
+
+  it("uses the largest type when there is room", () => {
+    expect(voucherLayout({ title, includes }).level).toBe(VOUCHER_LEVELS[0]);
+  });
+
+  it("shrinks the type for a maximum-length dedication but keeps it whole", () => {
+    const layout = voucherLayout({ title, includes, dedication: "a".repeat(10) + " slovo".repeat(41) });
+    expect(layout.level).not.toBe(VOUCHER_LEVELS[0]);
+    expect(layout.dedicationMaxLines).toBeUndefined();
+  });
+
+  it("collapses line breaks in the dedication", () => {
+    expect(voucherLayout({ title, dedication: "Milá Jano,\n\n\n\nTvoje rodina " }).dedication).toBe(
+      "Milá Jano, Tvoje rodina",
+    );
+    expect(voucherLayout({ title, dedication: "   " }).dedication).toBeNull();
+  });
+
+  it("caps the dedication only when nothing else fits", () => {
+    const huge = Array.from({ length: 9 }, () => "dlouhá položka ".repeat(30)).join("\n");
+    const layout = voucherLayout({ title, includes: huge, dedication: "slovo ".repeat(42) });
+    expect(layout.level).toBe(VOUCHER_LEVELS[VOUCHER_LEVELS.length - 1]);
+    expect(layout.dedicationMaxLines).toBeGreaterThanOrEqual(2);
+  });
+
+  it("estimates wrapped lines, long words included", () => {
+    expect(estimateLines("krátký text", 10, 280)).toBe(1);
+    expect(estimateLines("x".repeat(120), 10, 280)).toBe(3);
+  });
+
+  it("splits only very long words", () => {
+    expect(splitLongWord("nejlepšímu")).toEqual(["nejlepšímu"]);
+    expect(splitLongWord("x".repeat(25))).toEqual(["x".repeat(10), "x".repeat(10), "x".repeat(5)]);
   });
 });

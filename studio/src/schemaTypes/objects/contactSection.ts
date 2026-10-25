@@ -109,7 +109,7 @@ export const contactSection = defineType({
       name: 'companyText',
       title: 'Company Text',
       type: 'string',
-      initialValue: 'Medifree s.r.o. - Na Kotli 1176/29, 500 09 Hradec Králové',
+      initialValue: 'Medifree s.r.o. - Čistá v Krkonoších e. č. 52, 543 44 Černý Důl',
       validation: (Rule) => Rule.required(),
     }),
     defineField({

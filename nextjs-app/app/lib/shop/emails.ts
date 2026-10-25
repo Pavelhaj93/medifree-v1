@@ -1,6 +1,7 @@
 import { escapeHtml, escapeMultiline } from "@/app/lib/html";
 import { formatPrice, type ProductKind } from "./kinds";
 import type { DeliveryFile } from "./delivery";
+import type { DeliveryType } from "./shipping";
 import { formatCzechDate } from "./vouchers";
 
 export type OrderEmailData = {
@@ -8,11 +9,16 @@ export type OrderEmailData = {
   customer: { name?: string | null; email: string; phone?: string | null };
   lines: { title: string; kind: ProductKind; quantity: number; unitPrice: number }[];
   shipping?: {
+    /** Missing on orders created before personal pickup existed: those are Zásilkovna. */
+    type?: DeliveryType;
     label: string;
     price: number;
     pointName: string;
+    /** Zásilkovna point address, or the pickup address. */
     pointAddress: string;
     pointId: string;
+    /** How personal pickup works (Settings → E-shop). */
+    info?: string | null;
   } | null;
   total: number;
   dispatchTime?: string | null;
@@ -98,7 +104,7 @@ export function customerOrderEmail(data: OrderEmailData) {
     parts.push(
       section(
         "Ke stažení",
-        `<p style="margin:0 0 8px;">Vaše soubory jsou připravené ke stažení:</p>${downloadsList(data.downloads)}`,
+        `<p style="margin:0 0 8px;">Vaše soubory a videa jsou připravené – stačí kliknout na odkaz:</p>${downloadsList(data.downloads)}`,
       ),
     );
   }
@@ -116,7 +122,16 @@ export function customerOrderEmail(data: OrderEmailData) {
     );
   }
 
-  if (hasPhysical && data.shipping) {
+  if (hasPhysical && data.shipping?.type === "pickup") {
+    parts.push(
+      section(
+        "Osobní odběr",
+        `<p style="margin:0;">${escapeHtml(data.shipping.label)}<br>
+          <strong>${escapeHtml(data.shipping.pointAddress)}</strong></p>
+        ${data.shipping.info ? `<p style="margin:8px 0 0;">${escapeMultiline(data.shipping.info)}</p>` : ""}`,
+      ),
+    );
+  } else if (hasPhysical && data.shipping) {
     parts.push(
       section(
         "Doručení",
@@ -158,7 +173,15 @@ export function adminOrderEmail(data: OrderEmailData) {
     section("Položky", itemsTable(data)),
   ];
 
-  if (data.shipping) {
+  if (data.shipping?.type === "pickup") {
+    parts.push(
+      section(
+        "Osobní odběr – připravit k vyzvednutí",
+        `<p style="margin:0;">Zákazník si zboží vyzvedne osobně (${escapeHtml(data.shipping.pointAddress)}).
+          Až bude objednávka připravená, domluvte s ním termín – e-mailem nebo na telefonu výše.</p>`,
+      ),
+    );
+  } else if (data.shipping) {
     parts.push(
       section(
         "Zásilkovna – údaje pro podání zásilky",
@@ -179,7 +202,7 @@ export function adminOrderEmail(data: OrderEmailData) {
   }
 
   const what = [
-    data.shipping ? "zboží k odeslání" : null,
+    data.shipping ? (data.shipping.type === "pickup" ? "osobní odběr" : "zboží k odeslání") : null,
     data.vouchers.length ? "dárkový poukaz" : null,
   ]
     .filter(Boolean)

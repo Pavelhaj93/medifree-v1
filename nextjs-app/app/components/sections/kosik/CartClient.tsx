@@ -15,10 +15,12 @@ import { PortableTextBlock } from "next-sanity";
 import QuantityStepper from "../../others/QuantityStepper";
 import PacketaPointPicker from "./PacketaPointPicker";
 import { formatPrice, MAX_QUANTITY } from "@/app/lib/shop/kinds";
+import { deliveryOptions, type DeliveryType } from "@/app/lib/shop/shipping";
+import { cn } from "@/app/lib/utils";
 
 const KIND_LABEL = {
   digital: "Ke stažení e-mailem",
-  physical: "Doručení Zásilkovnou",
+  physical: "Zásilkovnou nebo osobní odběr",
   voucher: "Dárkový poukaz e-mailem (PDF)",
 } as const;
 
@@ -113,10 +115,13 @@ const CartClient = ({
     return () => window.removeEventListener("pageshow", reset);
   }, []);
 
-  const shippingNotConfigured = hasPhysical && shop?.packetaPrice == null;
-  const shippingPrice = hasPhysical ? (shop?.packetaPrice ?? 0) : 0;
+  const options = deliveryOptions(shop);
+  const [deliveryType, setDeliveryType] = useState<DeliveryType>("packeta");
+  const delivery = options.find((o) => o.type === deliveryType) ?? options[0];
+  const shippingNotConfigured = hasPhysical && delivery.price == null;
+  const shippingPrice = hasPhysical ? (delivery.price ?? 0) : 0;
   const grandTotal = total + shippingPrice;
-  const missingPoint = hasPhysical && !packetaPoint;
+  const missingPoint = hasPhysical && delivery.type === "packeta" && !packetaPoint;
   const unavailableItems = items.filter((i) => i.unavailable);
 
   const handleCheckout = async () => {
@@ -137,7 +142,8 @@ const CartClient = ({
         body: JSON.stringify({
           email: customerEmail,
           items: items.map((i) => ({ id: i.id, quantity: i.quantity })),
-          packetaPoint: hasPhysical ? packetaPoint : null,
+          delivery: delivery.type,
+          packetaPoint: hasPhysical && delivery.type === "packeta" ? packetaPoint : null,
         }),
       });
       const data = await res.json();
@@ -273,31 +279,59 @@ const CartClient = ({
           </div>
 
           {hasPhysical && (
-            <div className="p-6 border-b space-y-3">
-              <h3 className="font-medium flex items-center gap-2">
+            <fieldset className="p-6 border-b space-y-3">
+              <legend className="sr-only">{deliveryTitle}</legend>
+              <h3 className="font-medium flex items-center gap-2" aria-hidden="true">
                 <Truck className="h-4 w-4 text-primary" />
                 {deliveryTitle}
               </h3>
-              <div className="flex justify-between text-sm">
-                <span>{shop?.packetaLabel ?? "Zásilkovna"}</span>
-                {!shippingNotConfigured && (
-                  <span className="whitespace-nowrap">{formatPrice(shippingPrice)}</span>
-                )}
-              </div>
+              {options.map((option) => (
+                <label
+                  key={option.type}
+                  className={cn(
+                    "flex min-h-11 cursor-pointer items-start gap-3 rounded-lg border p-3 text-sm transition-colors",
+                    option.type === delivery.type ? "border-primary bg-secondary/20" : "border-gray-200 hover:border-gray-300",
+                  )}
+                >
+                  <input
+                    type="radio"
+                    name="delivery"
+                    value={option.type}
+                    checked={option.type === delivery.type}
+                    onChange={() => setDeliveryType(option.type)}
+                    className="mt-0.5 accent-primary"
+                  />
+                  <span className="flex-1">
+                    <span className="flex justify-between gap-3">
+                      <span className="font-medium">{option.label}</span>
+                      {option.price != null && (
+                        <span className="whitespace-nowrap">
+                          {option.price === 0 ? "zdarma" : formatPrice(option.price)}
+                        </span>
+                      )}
+                    </span>
+                    {option.address && <span className="mt-1 block text-gray-600">{option.address}</span>}
+                  </span>
+                </label>
+              ))}
               {shippingNotConfigured && (
                 <p className="text-sm text-red-600">
                   Doprava teď nejde objednat. Kontaktujte nás prosím na info@medifree.cz.
                 </p>
               )}
-              {shop?.dispatchTime && (
-                <p className="text-xs text-gray-500">{shop.dispatchTime}</p>
+              {delivery.type === "pickup" ? (
+                delivery.info && <p className="text-xs text-gray-600">{delivery.info}</p>
+              ) : (
+                <>
+                  {shop?.dispatchTime && <p className="text-xs text-gray-500">{shop.dispatchTime}</p>}
+                  <PacketaPointPicker
+                    value={packetaPoint}
+                    onChange={setPacketaPoint}
+                    buttonText={pickPointButtonText}
+                  />
+                </>
               )}
-              <PacketaPointPicker
-                value={packetaPoint}
-                onChange={setPacketaPoint}
-                buttonText={pickPointButtonText}
-              />
-            </div>
+            </fieldset>
           )}
 
           <div className="p-6 space-y-4">

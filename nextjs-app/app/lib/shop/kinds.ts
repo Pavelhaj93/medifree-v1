@@ -3,6 +3,17 @@ export type ProductKind = "digital" | "physical" | "voucher";
 export const PHYSICAL_CATEGORY = "Fyzické produkty";
 export const VOUCHER_CATEGORY = "Dárkové poukazy";
 
+// Same order as the category list in the Studio product schema.
+export const PRODUCT_CATEGORIES = [
+  "Ebooky",
+  "Audionahrávky",
+  "Video kurzy",
+  "Ebook + Audio",
+  "Balíčky",
+  PHYSICAL_CATEGORY,
+  VOUCHER_CATEGORY,
+];
+
 export function productKind(category?: string | null): ProductKind {
   if (category === PHYSICAL_CATEGORY) return "physical";
   if (category === VOUCHER_CATEGORY) return "voucher";

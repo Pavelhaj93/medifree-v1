@@ -8,6 +8,7 @@ import {settings} from './singletons/settings'
 import {link} from './objects/link'
 import {blockContent} from './objects/blockContent'
 import {product} from './documents/product'
+import {material} from './documents/material'
 import {order} from './documents/order'
 import {voucher} from './documents/voucher'
 import {faq} from './documents/faq'
@@ -52,6 +53,7 @@ export const schemaTypes = [
   person,
   post,
   product,
+  material,
   order,
   voucher,
   faq,

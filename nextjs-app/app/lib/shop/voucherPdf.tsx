@@ -12,6 +12,7 @@ import {
   renderToBuffer,
 } from "@react-pdf/renderer";
 import { formatCzechDate } from "./vouchers";
+import { BULLET_INDENT, CONTENT_HEIGHT, splitLongWord, voucherLayout } from "./voucherLayout";
 
 const ASSETS = path.join(process.cwd(), "assets");
 
@@ -22,8 +23,8 @@ Font.register({
     { src: path.join(ASSETS, "fonts/Satoshi-Bold.ttf"), fontWeight: 700 },
   ],
 });
-// Czech words must never be split with a hyphen on the voucher.
-Font.registerHyphenationCallback((word) => [word]);
+// Czech words are never hyphenated; only a very long word without spaces (e.g. in a dedication) is split.
+Font.registerHyphenationCallback(splitLongWord);
 
 const TEAL = "#034c4c";
 const AQUA = "#b4e8ed";
@@ -39,6 +40,8 @@ const s = StyleSheet.create({
   band: { position: "absolute", top: 0, left: 0, bottom: 0, width: 220, backgroundColor: TEAL, overflow: "hidden" },
   circle: { position: "absolute", borderRadius: 999, backgroundColor: AQUA, opacity: 0.18 },
   bandTitle: { position: "absolute", left: 28, bottom: 34, color: "#ffffff", fontSize: 30, fontWeight: 700, lineHeight: 1.05 },
+  // The code row and the footer are pinned to the bottom of the panel; everything above them lives in
+  // a fixed-height content box, so no amount of text can push the code or the date off the voucher.
   panel: {
     position: "absolute",
     top: 22,
@@ -48,34 +51,26 @@ const s = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 14,
     padding: 24,
-    display: "flex",
-    flexDirection: "column",
   },
   header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 12 },
   logo: { width: 46, height: 46 },
   label: { fontSize: 8, letterSpacing: 2, color: TEAL, fontWeight: 700 },
-  title: { fontSize: 15, fontWeight: 700, color: TEAL, lineHeight: 1.25, marginBottom: 8 },
-  bulletRow: { flexDirection: "row", marginBottom: 2.5 },
-  bulletDot: { width: 10, fontSize: 9, color: TEAL },
-  bulletText: { flex: 1, fontSize: 8.5, lineHeight: 1.35 },
-  dedication: { marginTop: 10, backgroundColor: AQUA_SOFT, borderRadius: 8, padding: 8, fontSize: 9.5, lineHeight: 1.35 },
-  bottom: { marginTop: "auto", flexDirection: "row", alignItems: "flex-end", justifyContent: "space-between", paddingTop: 10 },
+  content: { height: CONTENT_HEIGHT, overflow: "hidden" },
+  // flexShrink 0: the fixed-height box must clip what does not fit, not squash rows into each other.
+  title: { fontWeight: 700, color: TEAL, flexShrink: 0 },
+  bulletRow: { flexDirection: "row", flexShrink: 0 },
+  bulletDot: { width: BULLET_INDENT, color: TEAL },
+  bulletText: { flex: 1 },
+  dedication: { backgroundColor: AQUA_SOFT, borderRadius: 8, flexShrink: 0 },
+  bottom: { position: "absolute", left: 24, right: 24, bottom: 41, flexDirection: "row", alignItems: "flex-end" },
+  codeBox: { flexGrow: 1, flexShrink: 1 },
+  validityBox: { width: 92, flexShrink: 0, alignItems: "flex-end" },
   codeLabel: { fontSize: 7.5, letterSpacing: 1.5, color: MUTED, marginBottom: 3 },
   code: { fontSize: 19, fontWeight: 700, letterSpacing: 2, color: TEAL },
   validity: { fontSize: 9, color: MUTED, textAlign: "right" },
   validityDate: { fontSize: 11, fontWeight: 700, color: "#1b2b2b", textAlign: "right" },
-  footer: { marginTop: 10, fontSize: 7.5, color: MUTED },
+  footer: { position: "absolute", left: 24, right: 24, bottom: 22, fontSize: 7.5, color: MUTED },
 });
-
-// Long contents plus a long dedication (Stripe allows 255 chars) would push the code row off the panel.
-const dense = StyleSheet.create({
-  header: { marginBottom: 6 },
-  title: { fontSize: 13.5, marginBottom: 6 },
-  bulletRow: { marginBottom: 1.5 },
-  bulletText: { fontSize: 7.5, lineHeight: 1.3 },
-  dedication: { marginTop: 7, padding: 6, fontSize: 8.5, lineHeight: 1.3 },
-});
-const DENSE_FROM_CHARS = 380;
 
 export type VoucherPdfData = {
   code: string;
@@ -87,13 +82,7 @@ export type VoucherPdfData = {
 };
 
 function VoucherDocument(v: VoucherPdfData) {
-  const includes = (v.includes ?? "")
-    .split(/\r?\n/)
-    .map((line) => line.replace(/^[-•+*]\s*/, "").trim())
-    .filter(Boolean)
-    .slice(0, 9);
-  const isDense = includes.join("").length + (v.dedication?.length ?? 0) > DENSE_FROM_CHARS;
-  const d = (key: keyof typeof dense) => (isDense ? [s[key], dense[key]] : s[key]);
+  const { level: l, includes, dedication, dedicationMaxLines } = voucherLayout(v);
 
   return (
     <Document title={`Dárkový poukaz ${v.code}`} author="Medifree">
@@ -110,29 +99,50 @@ function VoucherDocument(v: VoucherPdfData) {
         )}
 
         <View style={s.panel}>
-          <View style={d("header")}>
+          <View style={s.header}>
             <Text style={s.label}>DÁRKOVÝ POUKAZ</Text>
             {/* eslint-disable-next-line jsx-a11y/alt-text */}
             <Image src={path.join(ASSETS, "voucher-logo.png")} style={s.logo} />
           </View>
 
-          <Text style={d("title")}>{v.title}</Text>
+          <View style={s.content}>
+            <Text
+              style={[s.title, { fontSize: l.title, lineHeight: l.titleLineHeight, marginBottom: l.titleGap }]}
+            >
+              {v.title}
+            </Text>
 
-          {includes.map((line, i) => (
-            <View key={i} style={d("bulletRow")}>
-              <Text style={s.bulletDot}>•</Text>
-              <Text style={d("bulletText")}>{line}</Text>
-            </View>
-          ))}
+            {includes.map((line, i) => (
+              <View key={i} style={[s.bulletRow, { marginBottom: l.bulletGap }]}>
+                <Text style={[s.bulletDot, { fontSize: l.bullet, lineHeight: l.bulletLineHeight }]}>•</Text>
+                <Text style={[s.bulletText, { fontSize: l.bullet, lineHeight: l.bulletLineHeight }]}>{line}</Text>
+              </View>
+            ))}
 
-          {v.dedication ? <Text style={d("dedication")}>„{v.dedication}“</Text> : null}
+            {dedication ? (
+              <Text
+                style={[
+                  s.dedication,
+                  {
+                    marginTop: l.dedicationGap,
+                    padding: l.dedicationPadding,
+                    fontSize: l.dedication,
+                    lineHeight: l.dedicationLineHeight,
+                  },
+                  dedicationMaxLines ? { maxLines: dedicationMaxLines, textOverflow: "ellipsis" } : {},
+                ]}
+              >
+                „{dedication}“
+              </Text>
+            ) : null}
+          </View>
 
           <View style={s.bottom}>
-            <View>
+            <View style={s.codeBox}>
               <Text style={s.codeLabel}>KÓD POUKAZU</Text>
               <Text style={s.code}>{v.code}</Text>
             </View>
-            <View>
+            <View style={s.validityBox}>
               <Text style={s.validity}>Platný do</Text>
               <Text style={s.validityDate}>{formatCzechDate(v.validUntil)}</Text>
             </View>

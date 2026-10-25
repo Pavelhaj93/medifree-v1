@@ -2,13 +2,17 @@ import { defineQuery } from "next-sanity";
 import { baseProductFields } from "./fragments";
 
 export const shopSettingsQuery = defineQuery(`
-  *[_type == "settings"][0].shop{ dispatchTime, packetaLabel, packetaPrice, voucherRedeemInfo }
+  *[_type == "settings"][0].shop{
+    dispatchTime, packetaLabel, packetaPrice, voucherRedeemInfo,
+    pickupEnabled, pickupLabel, pickupAddress, pickupInfo
+  }
 `);
 
 export const productBySlugQuery = defineQuery(`
   *[_type == "product" && slug.current == $slug][0]{
     ${baseProductFields},
     gallery[]{ asset, alt, _type, _key },
+    trailer{ url, "fileUrl": file.asset->url, poster{ asset, alt, _type } },
     body,
     voucherIncludes,
     voucherValidityMonths,
@@ -55,11 +59,13 @@ export const fulfillmentProductsQuery = defineQuery(`
     ebookFile { asset->{ url } },
     audioFile { asset->{ url } },
     videoFile { asset->{ url } },
+    materials[]->{ title, "url": coalesce(file.asset->url, url), "mimeType": file.asset->mimeType },
     bundleItems[]->{
       _id, title, category,
       ebookFile { asset->{ url } },
       audioFile { asset->{ url } },
-      videoFile { asset->{ url } }
+      videoFile { asset->{ url } },
+      materials[]->{ title, "url": coalesce(file.asset->url, url), "mimeType": file.asset->mimeType }
     },
     voucherValidityMonths,
     voucherIncludes,
@@ -68,7 +74,8 @@ export const fulfillmentProductsQuery = defineQuery(`
       _id, title, category,
       ebookFile { asset->{ url } },
       audioFile { asset->{ url } },
-      videoFile { asset->{ url } }
+      videoFile { asset->{ url } },
+      materials[]->{ title, "url": coalesce(file.asset->url, url), "mimeType": file.asset->mimeType }
     }
   }
 `);

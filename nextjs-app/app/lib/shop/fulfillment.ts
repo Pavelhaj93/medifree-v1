@@ -14,7 +14,7 @@ import type {
   ShopSettingsQueryResult,
 } from "@/sanity.types";
 import { sendMail, shopAdminEmail } from "@/app/lib/email";
-import { getDeliveryFiles, uniqueFiles, type DeliveryFile } from "./delivery";
+import { getDeliveryFiles, getMaterialFiles, uniqueFiles, type DeliveryFile } from "./delivery";
 import { adminOrderEmail, customerOrderEmail, type OrderEmailData } from "./emails";
 import { productKind, type ProductKind } from "./kinds";
 import { renderVoucherPdf } from "./voucherPdf";
@@ -86,13 +86,20 @@ export async function fulfillCheckoutSession(stripe: Stripe, sessionId: string) 
   };
   const hasPhysical = lines.some((l) => l.kind === "physical");
   const meta = session.metadata ?? {};
-  const shipping = hasPhysical
+  const isPickup = meta.shipping_type === "pickup";
+  const shipping: OrderEmailData["shipping"] = hasPhysical
     ? {
-        label: meta.shipping_label || settings?.packetaLabel || "Zásilkovna",
+        type: isPickup ? "pickup" : "packeta",
+        label:
+          meta.shipping_label ||
+          (isPickup ? settings?.pickupLabel || "Osobní odběr" : settings?.packetaLabel || "Zásilkovna"),
         price: (session.shipping_cost?.amount_total ?? 0) / 100,
         pointId: meta.packeta_point_id ?? "",
         pointName: meta.packeta_point_name ?? "",
-        pointAddress: meta.packeta_point_address ?? "",
+        pointAddress: isPickup
+          ? meta.pickup_address || settings?.pickupAddress || ""
+          : (meta.packeta_point_address ?? ""),
+        info: isPickup ? settings?.pickupInfo : null,
       }
     : null;
   const total = (session.amount_total ?? 0) / 100;
@@ -109,13 +116,16 @@ export async function fulfillCheckoutSession(stripe: Stripe, sessionId: string) 
     stripeSessionId: session.id,
     customer,
     shipping: shipping
-      ? {
-          method: shipping.label,
-          price: shipping.price,
-          packetaPointId: shipping.pointId,
-          packetaPointName: shipping.pointName,
-          packetaPointAddress: shipping.pointAddress,
-        }
+      ? shipping.type === "pickup"
+        ? { type: "pickup", method: shipping.label, price: shipping.price, pickupAddress: shipping.pointAddress }
+        : {
+            type: "packeta",
+            method: shipping.label,
+            price: shipping.price,
+            packetaPointId: shipping.pointId,
+            packetaPointName: shipping.pointName,
+            packetaPointAddress: shipping.pointAddress,
+          }
       : undefined,
     items: lines.map((l) => ({
       _key: l.key,
@@ -140,12 +150,14 @@ export async function fulfillCheckoutSession(stripe: Stripe, sessionId: string) 
   for (const [lineIndex, line] of lines.entries()) {
     const product = line.productId ? productById.get(line.productId) : undefined;
 
-    if (line.kind === "digital" && product) {
+    // Digital files plus the material library, which any product (physical too) can carry.
+    if (line.kind !== "voucher" && product) {
       downloads.push(...getDeliveryFiles(product));
     }
 
     if (line.kind !== "voucher") continue;
 
+    downloads.push(...getMaterialFiles(product?.materials));
     for (const guide of product?.voucherGuides ?? []) {
       downloads.push(...getDeliveryFiles(guide));
     }

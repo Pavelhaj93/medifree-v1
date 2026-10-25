@@ -119,8 +119,20 @@ type Box = { title: string; description: string };
 const ICONS = { digital: Download, physical: Truck, voucher: Gift };
 
 // `types` comes from the Stripe success URL (e.g. "digital,physical"); old links have none.
-function DeliveryInfo({ boxes }: { boxes: Record<"digital" | "physical" | "voucher", Box> }) {
+function DeliveryInfo({ boxes: blockBoxes }: { boxes: Record<"digital" | "physical" | "voucher", Box> }) {
   const params = useSearchParams();
+  // Personal pickup (`delivery=pickup`) replaces the Zásilkovna text of the physical box.
+  const boxes =
+    params.get("delivery") === "pickup"
+      ? {
+          ...blockBoxes,
+          physical: {
+            title: "Osobní odběr",
+            description:
+              "Potvrzení objednávky jsme vám poslali e-mailem i s adresou. Až bude objednávka připravená k vyzvednutí, ozveme se vám.",
+          },
+        }
+      : blockBoxes;
   const types = (params.get("types") ?? "digital")
     .split(",")
     .filter((t): t is keyof typeof boxes => t in boxes);

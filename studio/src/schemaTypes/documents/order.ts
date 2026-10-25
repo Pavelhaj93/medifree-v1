@@ -60,11 +60,43 @@ export const order = defineType({
       readOnly: true,
       hidden: ({document}) => !(document?.shipping as {method?: string} | undefined)?.method,
       fields: [
+        defineField({
+          name: 'type',
+          title: 'Typ',
+          type: 'string',
+          options: {
+            list: [
+              {title: 'Zásilkovna', value: 'packeta'},
+              {title: 'Osobní odběr', value: 'pickup'},
+            ],
+          },
+        }),
         defineField({name: 'method', title: 'Způsob', type: 'string'}),
         defineField({name: 'price', title: 'Cena (Kč)', type: 'number'}),
-        defineField({name: 'packetaPointId', title: 'ID výdejního místa', type: 'string'}),
-        defineField({name: 'packetaPointName', title: 'Výdejní místo', type: 'string'}),
-        defineField({name: 'packetaPointAddress', title: 'Adresa výdejního místa', type: 'string'}),
+        defineField({
+          name: 'pickupAddress',
+          title: 'Adresa osobního odběru',
+          type: 'string',
+          hidden: ({parent}) => parent?.type !== 'pickup',
+        }),
+        defineField({
+          name: 'packetaPointId',
+          title: 'ID výdejního místa',
+          type: 'string',
+          hidden: ({parent}) => parent?.type === 'pickup',
+        }),
+        defineField({
+          name: 'packetaPointName',
+          title: 'Výdejní místo',
+          type: 'string',
+          hidden: ({parent}) => parent?.type === 'pickup',
+        }),
+        defineField({
+          name: 'packetaPointAddress',
+          title: 'Adresa výdejního místa',
+          type: 'string',
+          hidden: ({parent}) => parent?.type === 'pickup',
+        }),
       ],
     }),
     defineField({

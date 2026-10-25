@@ -60,7 +60,7 @@ export default function ContactSection({
     infoTitle = "Kontaktní informace",
     infoDescription = "Jsme tu pro vás. Neváhejte nás kontaktovat s jakýmikoli dotazy. Naš tým je připraven vám pomoci.",
     companyLabel = "Firma",
-    companyText = "Medifree s.r.o. - Na Kotli 1176/29, 500 09 Hradec Králové",
+    companyText = "Medifree s.r.o. - Čistá v Krkonoších e. č. 52, 543 44 Černý Důl",
     vatLabel = "IČO",
     vatNumber = "23153041",
     emailContactLabel = "Email",

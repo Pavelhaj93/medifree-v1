@@ -17,7 +17,7 @@ export const legalDocumentsSection = defineType({
       name: 'companyDetails',
       title: 'Company Details',
       type: 'string',
-      initialValue: 'IČO: 23153041 • Na Kotli 1176/29, Hradec Králové',
+      initialValue: 'IČO: 23153041 • Čistá v Krkonoších e. č. 52, 543 44 Černý Důl',
       validation: (Rule) => Rule.required(),
     }),
     defineField({

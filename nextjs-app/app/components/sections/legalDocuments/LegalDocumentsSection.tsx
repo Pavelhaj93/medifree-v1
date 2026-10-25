@@ -21,7 +21,7 @@ export default function LegalDocumentsSection({
 }) {
   const {
     companyName = "Medifree s.r.o.",
-    companyDetails = "IČO: 23153041 • Na Kotli 1176/29, Hradec Králové",
+    companyDetails = "IČO: 23153041 • Čistá v Krkonoších e. č. 52, 543 44 Černý Důl",
     companyEmail = "info@medifree.cz",
     noticeTitle = "Důležité informace",
     noticeItems = [

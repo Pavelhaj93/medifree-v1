@@ -7,6 +7,7 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './src/schemaTypes'
+import {productByCategory} from './src/schemaTypes/templates'
 import {structure} from './src/structure'
 import {shopDocumentActions} from './src/actions/shopActions'
 import {unsplashImageAsset} from 'sanity-plugin-asset-source-unsplash'
@@ -148,5 +149,6 @@ export default defineConfig({
   // Schema configuration, imported from ./src/schemaTypes/index.ts
   schema: {
     types: schemaTypes,
+    templates: (prev) => [...prev, productByCategory],
   },
 })

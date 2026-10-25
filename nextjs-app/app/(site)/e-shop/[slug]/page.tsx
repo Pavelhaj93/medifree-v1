@@ -135,7 +135,7 @@ export default async function ProductPage(props: Props) {
         </Link>
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-14 bg-white rounded-2xl shadow-md p-4 sm:p-6 lg:p-10">
-          <ProductGallery images={images} title={product.title ?? ""} />
+          <ProductGallery images={images} title={product.title ?? ""} trailer={product.trailer} />
 
           <div className="flex flex-col min-w-0">
             {badge && (
