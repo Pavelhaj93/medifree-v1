@@ -62,10 +62,10 @@ function ProductGrid({
   return (
     <section className="py-8 md:py-16" id="products">
       <div className="container mx-auto px-4 md:px-10 ">
-        <div className="flex justify-between flex-col md:flex-row md:items-center gap-4 mb-6 md:mb-12 opacity-0 animate-fade-in">
+        <div className="flex flex-col gap-4 mb-6 md:mb-12 opacity-0 animate-fade-in">
           <h2 className="text-2xl font-medium">Oblíbené položky</h2>
-          {/* px-1/-mx-1: the outline buttons draw their border outside the box, overflow-x-auto would clip it */}
-          <div className="-mx-1 flex gap-2 overflow-x-auto px-1 py-2">
+          {/* Wraps instead of scrolling sideways: up to 8 category names don't fit one row. */}
+          <div className="flex flex-wrap gap-2">
             <Button
               variant={activeFilter === null ? "primary" : "outline"}
               className="min-h-11 shrink-0"

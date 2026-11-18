@@ -129,8 +129,8 @@ export default function MediaCardsCarousel({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden xl:flex -left-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-lg transition-all duration-300" />
-          <CarouselNext className="hidden xl:flex -right-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-lg transition-all duration-300" />
+          <CarouselPrevious className="hidden min-[1360px]:flex -left-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-lg transition-all duration-300" />
+          <CarouselNext className="hidden min-[1360px]:flex -right-12 bg-white border-gray-200 hover:bg-primary hover:text-white hover:border-primary shadow-lg transition-all duration-300" />
         </Carousel>
         {/* Carousel Indicators */}
         <div className="flex justify-center mt-6 gap-2">
