@@ -6,6 +6,7 @@ import { AllProductsQueryResult } from "@/sanity.types";
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { groupVariants } from "@/app/lib/shop/variants";
+import { SHOP_CATEGORIES } from "@/app/lib/shop/kinds";
 
 const PAGE_SIZE = 12;
 // The header's e-shop menu links to /e-shop?kategorie=<category>.
@@ -23,7 +24,7 @@ export default function ProductGridSection({ products }: ProductGridProps) {
 
 function ProductGridFromUrl({ products }: ProductGridProps) {
   const fromUrl = useSearchParams().get(CATEGORY_PARAM);
-  const activeFilter = products?.some((p) => p.category === fromUrl) ? fromUrl : null;
+  const activeFilter = products?.some((p) => p.shopCategory === fromUrl) ? fromUrl : null;
 
   // replaceState updates useSearchParams without a server round trip.
   const onFilter = (cat: string | null) => {
@@ -41,12 +42,14 @@ function ProductGrid({
   activeFilter,
   onFilter,
 }: ProductGridProps & { activeFilter: string | null; onFilter?: (cat: string | null) => void }) {
-  const categories = Array.from(new Set(products?.map((p) => p.category)));
+  const categories = SHOP_CATEGORIES.map((c) => c.value).filter((c) =>
+    products?.some((p) => p.shopCategory === c),
+  );
 
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const filtered = groupVariants(
-    (activeFilter ? products?.filter((p) => p.category === activeFilter) : products) ?? [],
+    (activeFilter ? products?.filter((p) => p.shopCategory === activeFilter) : products) ?? [],
   );
 
   const visibleProducts = filtered?.slice(0, visibleCount);

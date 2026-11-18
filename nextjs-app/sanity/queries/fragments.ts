@@ -19,6 +19,18 @@ export const postFields = /* groq */ `
   "author": author->{name, specialization, picture, slug},
 `;
 
+// E-shop category the customer sees (menu, filter). Products without one fall back by product type,
+// so products saved before the field existed still land in a sensible category.
+// Keep in sync with SHOP_CATEGORIES in app/lib/shop/kinds.ts and studio/src/schemaTypes/templates.ts.
+export const shopCategoryField = /* groq */ `
+  "shopCategory": coalesce(shopCategory, select(
+    category in ["Ebooky", "Audionahrávky", "Video kurzy", "Ebook + Audio"] => "Digitální obsah",
+    category == "Balíčky" => "Výhodné balíčky",
+    category == "Dárkové poukazy" => "Dárkové poukazy",
+    "Ostatní"
+  ))
+`;
+
 export const baseProductFields = /* groq */ `
   _id,
   title,
@@ -29,6 +41,7 @@ export const baseProductFields = /* groq */ `
   description,
   featured,
   category,
+  ${shopCategoryField},
   "isAvailable": coalesce(stockStatus, "in") != "out",
   "stockStatus": coalesce(stockStatus, "in"),
   label,

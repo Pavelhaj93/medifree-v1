@@ -1,7 +1,7 @@
 import {BasketIcon, CogIcon, PackageIcon, TagIcon} from '@sanity/icons'
 import type {StructureBuilder, StructureResolver} from 'sanity/structure'
 import pluralize from 'pluralize-esm'
-import {PRODUCT_CATEGORIES} from '../schemaTypes/templates'
+import {SHOP_CATEGORIES, SHOP_CATEGORY_EXPR} from '../schemaTypes/templates'
 
 /**
  * Structure builder is useful whenever you want to control how documents are grouped and
@@ -51,23 +51,23 @@ const products = (S: StructureBuilder) =>
         .items([
           S.documentTypeListItem('product').title('Všechny produkty'),
           S.divider(),
-          ...PRODUCT_CATEGORIES.map((category, i) =>
+          ...SHOP_CATEGORIES.map((shopCategory, i) =>
             filteredList(
               S,
               `products-category-${i}`,
-              category,
+              shopCategory,
               'product',
-              '_type == "product" && category == $category',
+              `_type == "product" && ${SHOP_CATEGORY_EXPR} == $shopCategory`,
               'title',
               {
-                params: {category},
+                params: {shopCategory},
                 direction: 'asc',
-                templates: [S.initialValueTemplateItem('product-by-category', {category})],
+                templates: [S.initialValueTemplateItem('product-by-category', {shopCategory})],
               },
             ),
           ),
           S.divider(),
-          filteredList(S, 'products-uncategorized', 'Bez kategorie', 'product', '_type == "product" && !defined(category)', 'title', {
+          filteredList(S, 'products-uncategorized', 'Bez typu produktu', 'product', '_type == "product" && !defined(category)', 'title', {
             direction: 'asc',
           }),
         ]),

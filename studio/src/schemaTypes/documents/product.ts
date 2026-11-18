@@ -1,5 +1,6 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {BasketIcon} from '@sanity/icons'
+import {SHOP_CATEGORIES} from '../templates'
 
 const DIGITAL_FILE_CATEGORIES = ['Ebooky', 'Audionahrávky', 'Video kurzy', 'Ebook + Audio']
 const PHYSICAL = 'Fyzické produkty'
@@ -46,10 +47,21 @@ export const product = defineType({
         }),
     }),
     defineField({
-      name: 'category',
-      title: 'Kategorie',
+      name: 'shopCategory',
+      title: 'Kategorie v e-shopu',
       type: 'string',
       group: 'main',
+      description: 'Kde produkt zákazník najde v menu a ve filtru e-shopu.',
+      validation: (Rule) => Rule.required(),
+      options: {list: SHOP_CATEGORIES.map((c) => ({title: c, value: c}))},
+    }),
+    defineField({
+      name: 'category',
+      title: 'Typ produktu',
+      type: 'string',
+      group: 'main',
+      description:
+        'Určuje, co zákazník dostane: soubory e-mailem (e-book, audio, video), balíček produktů, zboží poštou nebo dárkový poukaz. Podle typu se níže ukážou správná pole.',
       validation: (Rule) => Rule.required(),
       options: {
         list: [
@@ -564,9 +576,10 @@ export const product = defineType({
     }),
   ],
   preview: {
-    select: {title: 'title', category: 'category', price: 'price', media: 'image'},
-    prepare({title, category, price, media}) {
-      return {title, subtitle: [category, price != null ? `${price} Kč` : null].filter(Boolean).join(' · '), media}
+    select: {title: 'title', shopCategory: 'shopCategory', category: 'category', price: 'price', media: 'image'},
+    prepare({title, shopCategory, category, price, media}) {
+      const where = shopCategory ? `${shopCategory} (${category ?? '?'})` : category
+      return {title, subtitle: [where, price != null ? `${price} Kč` : null].filter(Boolean).join(' · '), media}
     },
   },
 })

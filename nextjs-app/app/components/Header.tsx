@@ -2,20 +2,8 @@ import type { HeaderNavQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/live";
 import { urlForImage } from "@/sanity/lib/utils";
 import { headerNavQuery } from "@/sanity/queries/navigation";
-import {
-  PHYSICAL_CATEGORY,
-  PRODUCT_CATEGORIES,
-  VOUCHER_CATEGORY,
-  formatPrice,
-  productKind,
-} from "../lib/shop/kinds";
+import { SHOP_CATEGORIES, formatPrice, productKind } from "../lib/shop/kinds";
 import HeaderNav, { type HeaderNavData } from "./HeaderNav";
-
-const CATEGORY_HINT = {
-  digital: "Ke stažení ihned po zaplacení",
-  physical: "Zásilkovnou nebo osobní odběr zdarma",
-  voucher: "PDF poukaz e-mailem",
-};
 
 function servicePrice(price: number | null, priceType: string | null) {
   if (price == null) return priceType ?? "";
@@ -29,7 +17,9 @@ export default async function Header() {
     stega: false,
   });
 
-  const categories = PRODUCT_CATEGORIES.filter((c) => data?.categories?.includes(c as never));
+  const products = data?.products ?? [];
+  const categories = SHOP_CATEGORIES.filter((c) => products.some((p) => p.shopCategory === c.value));
+  const sellsGoods = products.some((p) => productKind(p.category) !== "digital");
   const featured = data?.featuredProduct;
   const post = data?.latestPost;
 
@@ -44,11 +34,11 @@ export default async function Header() {
       imageUrl: urlForImage(s.image)?.width(560).height(256).fit("crop").url(),
     })),
     categories: categories.map((c) => ({
-      label: c,
-      hint: CATEGORY_HINT[productKind(c)],
-      href: `/e-shop?kategorie=${encodeURIComponent(c)}#products`,
+      label: c.value,
+      hint: c.hint,
+      href: `/e-shop?kategorie=${encodeURIComponent(c.value)}#products`,
     })),
-    shopNote: categories.some((c) => c === PHYSICAL_CATEGORY || c === VOUCHER_CATEGORY)
+    shopNote: sellsGoods
       ? "Digitální produkty ihned e-mailem · fyzické zboží Zásilkovnou nebo osobně"
       : "Digitální produkty ihned e-mailem",
     featured: featured

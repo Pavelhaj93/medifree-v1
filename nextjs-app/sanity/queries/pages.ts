@@ -75,11 +75,16 @@ export const getPageQuery = defineQuery(`
         ...,
         "faqs": *[_type == "faq"] | order(order asc, question asc) { ${faqFields} } 
       },
+      _type == "contactSection" => {
+        ...,
+        termsText[]{ ..., markDefs[]{ ..., ${linkReference} } }
+      },
       _type == "checkoutSuccess" => {
         ...
       },
       _type == "cart" => {
         ...,
+        termsText[]{ ..., markDefs[]{ ..., ${linkReference} } },
         "shop": *[_type == "settings"][0].shop{ dispatchTime, packetaLabel, packetaPrice, voucherRedeemInfo, pickupEnabled, pickupLabel, pickupAddress, pickupInfo }
       },
       _type == "freeResourcesSection" => {

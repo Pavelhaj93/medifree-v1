@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import {
   ArrowRight,
-  Bell,
   BookOpen,
   ChevronDown,
   Download,
@@ -47,21 +46,21 @@ type GroupKey = "serv" | "shop" | "por";
 const NAV: ({ key: GroupKey; label: string } | { href: string; label: string })[] = [
   { key: "serv", label: "Služby" },
   { key: "shop", label: "E-shop" },
-  { key: "por", label: "Poradna" },
+  { key: "por", label: "Zdarma" },
+  { href: "/akce-a-novinky", label: "Události" },
   { href: "/o-nas", label: "O nás" },
   { href: "/kontakt", label: "Kontakt" },
 ];
 
-const PORADNA = [
+const ZDARMA = [
   { href: "/clanky", label: "Články", description: "Praktické rady o glykémii, výživě a spánku.", Icon: BookOpen },
-  { href: "/ke-stazeni", label: "Ke stažení zdarma", description: "Videa, nahrávky a PDF materiály.", Icon: Download },
-  { href: "/akce-a-novinky", label: "Novinky", description: "Co je u nás nového – akce, termíny, změny.", Icon: Bell },
+  { href: "/ke-stazeni", label: "Ke stažení", description: "Videa, nahrávky a PDF materiály.", Icon: Download },
 ];
 
 const GROUP_PATHS: Record<GroupKey, string[]> = {
   serv: ["/nase-sluzby"],
   shop: ["/e-shop"],
-  por: ["/clanky", "/ke-stazeni", "/akce-a-novinky"],
+  por: ["/clanky", "/ke-stazeni"],
 };
 
 const matches = (pathname: string, path: string) => pathname === path || pathname.startsWith(`${path}/`);
@@ -130,7 +129,7 @@ export default function HeaderNav({ nav }: { nav: HeaderNavData }) {
       { label: "Všechny služby a ceník", href: "/nase-sluzby" },
     ],
     shop: [...nav.categories, { label: "Celý e-shop", href: "/e-shop" }],
-    por: PORADNA,
+    por: ZDARMA,
   };
 
   return (
@@ -251,7 +250,7 @@ export default function HeaderNav({ nav }: { nav: HeaderNavData }) {
               >
                 {open === "serv" && <ServicesPanel nav={nav} />}
                 {open === "shop" && <ShopPanel nav={nav} />}
-                {open === "por" && <PoradnaPanel nav={nav} />}
+                {open === "por" && <ZdarmaPanel nav={nav} />}
               </div>
             </div>
           </div>
@@ -377,12 +376,14 @@ function ServicesPanel({ nav }: { nav: HeaderNavData }) {
       </div>
       <div className="flex items-center justify-between gap-4 border-t border-gray-200 pt-4 text-[15px]">
         <PanelFooterLink href="/nase-sluzby">Všechny služby a ceník</PanelFooterLink>
-        <span className="text-gray-600">
-          Nevíte, kterou zvolit?{" "}
-          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline">
-            Rezervujte úvodní konzultaci
-          </a>
-        </span>
+        <a
+          href={BOOKING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn("font-medium text-primary underline hover:no-underline", focusRing)}
+        >
+          Úvodní konzultace zdarma
+        </a>
       </div>
     </>
   );
@@ -447,10 +448,10 @@ function ShopPanel({ nav }: { nav: HeaderNavData }) {
   );
 }
 
-function PoradnaPanel({ nav }: { nav: HeaderNavData }) {
+function ZdarmaPanel({ nav }: { nav: HeaderNavData }) {
   return (
-    <div className={cn("grid gap-4", nav.latestPost ? "grid-cols-[repeat(3,minmax(0,1fr))_380px]" : "grid-cols-3")}>
-      {PORADNA.map(({ href, label, description, Icon }) => (
+    <div className={cn("grid gap-4", nav.latestPost ? "grid-cols-[repeat(2,minmax(0,1fr))_380px]" : "grid-cols-2")}>
+      {ZDARMA.map(({ href, label, description, Icon }) => (
         <Link
           key={href}
           href={href}

@@ -4555,6 +4555,47 @@
         },
         "optional": true
       },
+      "shopCategory": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "Výhodné balíčky"
+            },
+            {
+              "type": "string",
+              "value": "Diagnostika"
+            },
+            {
+              "type": "string",
+              "value": "Doplňky stravy"
+            },
+            {
+              "type": "string",
+              "value": "Spánek a cirkadiánní rytmus"
+            },
+            {
+              "type": "string",
+              "value": "Non-toxic"
+            },
+            {
+              "type": "string",
+              "value": "Dárkové poukazy"
+            },
+            {
+              "type": "string",
+              "value": "Ostatní"
+            },
+            {
+              "type": "string",
+              "value": "Digitální obsah"
+            }
+          ]
+        },
+        "optional": false
+      },
       "category": {
         "type": "objectAttribute",
         "value": {
